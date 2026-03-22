@@ -1,3 +1,4 @@
+// fonction en js
 document.addEventListener('DOMContentLoaded', async () => {
     const liste = document.querySelector('.produits-grid');
 
