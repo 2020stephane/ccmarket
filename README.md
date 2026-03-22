@@ -1,13 +1,13 @@
 <p align="center">
+  <img src="img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
+</p>
+<p align="center">
   <img src="img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 
-# 🚀 CAMPING-CAR MARKET
 
-> Une phrase courte et percutante qui décrit l'utilité principale de ton projet.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/ton-pseudo/ton-repo)
+Projet pour le BTS développeur Web et Web mobile
 
 ## 📋 Sommaire
 - [À propos](#-à-propos)
@@ -20,8 +20,8 @@
 ---
 
 ## 🧐 À propos
-Explique ici plus en détail le "pourquoi" du projet. Quel problème résout-il ? À qui s'adresse-t-il ? 
-*Exemple : "Ce projet est une application web permettant de gérer sa liste de tâches quotidiennes avec une synchronisation en temps réel."*
+"Ce projet est une application web permettant à des utilisateurs de vendre en ligne 
+des accéssoires pour camping car"*
 
 ## ✨ Fonctionnalités
 - ✅ Inscription et connexion sécurisée
@@ -30,10 +30,9 @@ Explique ici plus en détail le "pourquoi" du projet. Quel problème résout-il 
 - 🌙 Mode sombre automatique
 
 ## 🛠 Technologies utilisées
-* **Frontend :** React.js, Tailwind CSS
+* **Frontend :** HTML, CSS
 * **Backend :** Node.js, Express
-* **Base de données :** MongoDB
-* **Déploiement :** Vercel / Heroku
+* **Base de données :** mysql
 
 ## ⚙️ Installation
 
