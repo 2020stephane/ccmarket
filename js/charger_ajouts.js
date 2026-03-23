@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const li = document.createElement('li');
             li.className = 'produit-card';
             li.innerHTML = `
-                <img src="${annonce.image_url || '../img/placeholder.png'}" alt="${annonce.titre}">
+                <img src="../uploads/${annonce.image_nom || '../img/placeholder.png'}" alt="${annonce.titre}">
                 <div class="produit-info">
                     <h3>${annonce.titre}</h3>
                     <p class="produit-prix">${annonce.prix} €</p>
