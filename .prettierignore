@@ -1,0 +1,15 @@
+# Dépendances
+node_modules/
+
+# Dossiers de build / sortie
+dist/
+build/
+out/
+
+# Fichiers de log et système
+npm-debug.log
+.DS_Store
+
+# Dossiers de configuration spécifiques
+.vscode/
+.git/

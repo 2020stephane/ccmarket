@@ -1,122 +1,121 @@
 /* =====================
    ===== INDEX.CSS =====
    ===================== */
-@import url('header.css');
-@import url('footer.css');
+@import url("header.css");
+@import url("footer.css");
 /* ================
    ===== HERO ===== 
    ================ */
 .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0.3)), url('../img/cc_lac.png');
-    background-size: cover;
-    background-position: center;
-    min-height: 400px;
-    
-    height: 100vh; 
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: white;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../img/cc_lac.png");
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: white;
 }
 h1 {
-    cursor: default;
-    margin-top: 50px; 
+  cursor: default;
+  margin-top: 50px;
 }
 .hero nav {
-    margin-top: 50px;
-    cursor: default;
+  margin-top: 50px;
+  cursor: default;
 }
 .hero ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding: 30px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 30px;
 }
 .hero li {
-    padding: 10px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: all 0.3s;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
 }
 .hero li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(5, 255, 180, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(5, 255, 180, 0.3);
 }
 .hero span {
-    font-size: 48px;
-    margin-bottom: 15px;
+  font-size: 48px;
+  margin-bottom: 15px;
 }
 .hero h3 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 /* ====================
    ===== PRODUITS =====
    ==================== */
 .produits {
-    padding: 4em;
+  padding: 4em;
 }
-h2{
-    margin-bottom: 1em;
-    cursor: default;
+h2 {
+  margin-bottom: 1em;
+  cursor: default;
 }
 .produits ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2em;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2em;
 }
 article {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s;
-    cursor: default;
-    max-width: 15em;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  cursor: default;
+  max-width: 15em;
 }
 article:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(5, 255, 180, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(5, 255, 180, 0.3);
 }
 figure {
-    width: 100%;
-    /* max-width: 200px; */
-    height: 10em;
+  width: 100%;
+  /* max-width: 200px; */
+  height: 10em;
 }
 figure img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-} 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .produit-content {
-    padding: 1em;
+  padding: 1em;
 }
 h3 {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .produit-price {
-    font-size: 24px;
-    color: #05FFB4;
-    margin-bottom: 0.5em;
+  font-size: 24px;
+  color: #05ffb4;
+  margin-bottom: 0.5em;
 }
-.produit-date{
-    margin-bottom: 0.5em;
+.produit-date {
+  margin-bottom: 0.5em;
 }
-.produit-footer{
-    margin-bottom: 0.5em;
+.produit-footer {
+  margin-bottom: 0.5em;
 }
-.btn-contact{
-    cursor: pointer;
+.btn-contact {
+  cursor: pointer;
 }
 @media (max-width: 900px) {
-
-   
   /* Affiche le bouton hamburger */
   .btn-hamburger {
     display: flex;
@@ -175,12 +174,12 @@ h3 {
     text-align: center;
   }
 
-.hero ul {
+  .hero ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+  }
+  .produits ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-.produits ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-   
-}}

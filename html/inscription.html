@@ -1,83 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
-    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car."
+    />
+    <meta
+      name="keywords"
+      content="pièces détachées, camping-car, accessoires, mécanique, carrosserie"
+    />
     <script src="..\js\activer_menu.js" defer></script>
-    <link rel="stylesheet" href="..\css\inscription.css">
+    <link rel="stylesheet" href="..\css\inscription.css" />
     <title>Camping-Car Market</title>
-</head>
-<body>
-<!--==================== 
+  </head>
+  <body>
+    <!--==================== 
     =====  HEADER  =====
     ==================== -->
     <header>
-        <img class="logo-img" src="..\img\Logo_paysage.png" alt="Logo Camping-Car Market">
-        <img class="logo-titre" src="..\img\Titre_CC_Market.png" alt="Titre Camping-Car Market">
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="#" class="disabled">Mes annonces</a></li>
-                <li><a href="#" class="disabled">Messages</a></li>
-                <li><a href="seconnecter.html" class="seconnecter">Se connecter</a></li>
-                <li><button class="btn-search">RECHERCHER</button></li>
-            </ul>
-        </nav>
+      <img
+        class="logo-img"
+        src="..\img\Logo_paysage.png"
+        alt="Logo Camping-Car Market"
+      />
+      <img
+        class="logo-titre"
+        src="..\img\Titre_CC_Market.png"
+        alt="Titre Camping-Car Market"
+      />
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="#" class="disabled">Mes annonces</a></li>
+          <li><a href="#" class="disabled">Messages</a></li>
+          <li>
+            <a href="seconnecter.html" class="seconnecter">Se connecter</a>
+          </li>
+          <li><button class="btn-search">RECHERCHER</button></li>
+        </ul>
+      </nav>
     </header>
-<!--==================== 
+    <!--==================== 
     =====  HERO   =====
     ==================== -->
     <section class="hero">
-         <h2>Créer un compte</h2>
-        <form action="../../backend/form_inscr.php" method="post">
+      <h2>Créer un compte</h2>
+      <form action="../../backend/form_inscr.php" method="post">
+        <p>
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" name="prenom" required />
+        </p>
 
-            <p>
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required>
-            </p>
+        <p>
+          <label for="nom">Nom :</label>
+          <input type="text" id="nom" name="nom" required />
+        </p>
 
-            <p>
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required>
-            </p>
+        <p>
+          <label for="email">e-mail :</label>
+          <input type="email" id="email" name="email" required />
+        </p>
 
-            <p>
-                <label for="email">e-mail :</label>
-                <input type="email" id="email" name="email" required>
-            </p>
+        <p>
+          <label for="phone">Numéro de téléphone :</label>
+          <input type="tel" id="phone" name="phone" />
+        </p>
 
-            <p>
-                <label for="phone">Numéro de téléphone :</label>
-                <input type="tel" id="phone" name="phone" >
-            </p>
+        <p>
+          <label for="password">Mot de passe :</label>
+          <input type="password" id="password" name="password" />
+        </p>
 
-            <p>
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" >
-            </p>
-
-            <button type="submit">S'inscrire</button>
-         </form>
-        <p>Déjà un compte ? <a href="seconnecter.html">Se connecter</a></p>
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p>Déjà un compte ? <a href="seconnecter.html">Se connecter</a></p>
     </section>
-<!--==================
+    <!--==================
     ===== FOOTER =====
     ==================-->
     <footer class="main-footer">
-        
-            <p class="footer-links">
-                <a href="#contact">Contact</a>
-                <a href="#apropos">À propos</a>
-                <a href="#conditions">Conditions générales de vente</a>
-                <a href="#mentions">Mentions légales</a>
-                <a href="#livraison">Livraison & Retours</a>
-            </p>
-            <p class="footer-copyright">
-                © 2026 Camping-Car Market. Tous droits réservés.
-            </p>
-       
+      <p class="footer-links">
+        <a href="#contact">Contact</a>
+        <a href="#apropos">À propos</a>
+        <a href="#conditions">Conditions générales de vente</a>
+        <a href="#mentions">Mentions légales</a>
+        <a href="#livraison">Livraison & Retours</a>
+      </p>
+      <p class="footer-copyright">
+        © 2026 Camping-Car Market. Tous droits réservés.
+      </p>
     </footer>
-</body>
+  </body>
 </html>

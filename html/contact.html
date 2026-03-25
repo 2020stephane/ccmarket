@@ -1,78 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
-    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car."
+    />
+    <meta
+      name="keywords"
+      content="pièces détachées, camping-car, accessoires, mécanique, carrosserie"
+    />
     <script src="..\js\activer_menu.js" defer></script>
-    <link rel="stylesheet" href="..\css\contact.css">
+    <link rel="stylesheet" href="..\css\contact.css" />
     <title>Camping-Car Market</title>
-</head>
-<body>
-<!--==================== 
+  </head>
+  <body>
+    <!--==================== 
     =====  HEADER  =====
     ==================== -->
     <header>
-        <img class="logo-img" src="..\img\Logo_paysage.png" alt="Logo Camping-Car Market">
-        <img class="logo-titre" src="..\img\Titre_CC_Market.png" alt="Titre Camping-Car Market">
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="#" class="disabled">Mes annonces</a></li>
-                <li><a href="#" class="disabled">Messages</a></li>
-                <li><a href="seconnecter.html" class="seconnecter">Se connecter</a></li>
-                <li><button class="btn-search">RECHERCHER</button></li>
-            </ul>
-        </nav>
+      <img
+        class="logo-img"
+        src="..\img\Logo_paysage.png"
+        alt="Logo Camping-Car Market"
+      />
+      <img
+        class="logo-titre"
+        src="..\img\Titre_CC_Market.png"
+        alt="Titre Camping-Car Market"
+      />
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="#" class="disabled">Mes annonces</a></li>
+          <li><a href="#" class="disabled">Messages</a></li>
+          <li>
+            <a href="seconnecter.html" class="seconnecter">Se connecter</a>
+          </li>
+          <li><button class="btn-search">RECHERCHER</button></li>
+        </ul>
+      </nav>
     </header>
-<!--==================== 
+    <!--==================== 
     =====  HERO   =====
     ==================== -->
     <section class="hero">
-         <h2>Envoyez un message</h2>
-        <form action="../../backend/form_contact.php" method="post">
+      <h2>Envoyez un message</h2>
+      <form action="../../backend/form_contact.php" method="post">
+        <p>
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" name="prenom" required />
+        </p>
 
-            <p>
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required>
-            </p>
+        <p>
+          <label for="nom">Nom :</label>
+          <input type="text" id="nom" name="nom" required />
+        </p>
 
-            <p>
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required>
-            </p>
+        <p>
+          <label for="email">e-mail :</label>
+          <input type="email" id="email" name="email" required />
+        </p>
 
-            <p>
-                <label for="email">e-mail :</label>
-                <input type="email" id="email" name="email" required>
-            </p>
+        <p>
+          <label for="mess">Votre message :</label>
+          <textarea
+            id="mess"
+            name="mess"
+            rows="6"
+            cols="40"
+            placeholder="Écrivez votre message ici..."
+          ></textarea>
+        </p>
 
-            <p>
-                <label for="mess">Votre message :</label>
-                <textarea id="mess" name="mess" rows="6" cols="40" placeholder="Écrivez votre message ici..."></textarea>
-            </p>
-           
-
-            <button type="submit">Envoyer</button>
-         </form>
-     </section>
+        <button type="submit">Envoyer</button>
+      </form>
+    </section>
     <!--==================
     ===== FOOTER =====
     ==================-->
     <footer class="main-footer">
-        
-            <div class="footer-links">
-                <a href="contact.html">Contact</a>
-                <a href="#apropos">À propos</a>
-                <a href="#conditions">Conditions générales de vente</a>
-                <a href="#mentions">Mentions légales</a>
-                <a href="#livraison">Livraison & Retours</a>
-            </div>
-            <div class="footer-copyright">
-                © 2026 Camping-Car Market. Tous droits réservés.
-            </div>
-       
+      <div class="footer-links">
+        <a href="contact.html">Contact</a>
+        <a href="#apropos">À propos</a>
+        <a href="#conditions">Conditions générales de vente</a>
+        <a href="#mentions">Mentions légales</a>
+        <a href="#livraison">Livraison & Retours</a>
+      </div>
+      <div class="footer-copyright">
+        © 2026 Camping-Car Market. Tous droits réservés.
+      </div>
     </footer>
-</body>
+  </body>
 </html>
