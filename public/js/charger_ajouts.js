@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:3000/api/annonces/derniers-ajouts",
+      "/api/derniers-ajouts",
     );
 
     if (!response.ok) throw new Error("Erreur réseau");
