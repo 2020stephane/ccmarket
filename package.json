@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "ctrl + shift + P --> npm scripts et Focus",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",
