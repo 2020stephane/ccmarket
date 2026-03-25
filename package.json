@@ -1,27 +1,21 @@
 {
-  "scripts": {
-    "start": "nodemon server/server.js",
-    "dev": "node server/server.js",
-    "Analyse": "eslint .",
-    "Corrige": "eslint . --fix",
-    "format": "prettier --write .",
-    "check-format": "prettier --check ."
-  },
   "name": "ccmarket",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "site de ventes d'accessoires pour camping car",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Stephane Brisse",
   "license": "ISC",
-  "description": "ctrl + shift + P --> npm scripts et Focus",
   "dependencies": {
     "cors": "^2.8.6",
-    "mysql2": "^3.20.0"
+    "express": "^5.2.1"
   },
   "devDependencies": {
-    "eslint": "^10.1.0",
-    "eslint-config-prettier": "^10.1.8",
-    "nodemon": "^3.1.14",
-    "prettier": "^3.8.1"
+    "nodemon": "^3.1.14"
   }
 }
