@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="fr">
   <head>
+     <script src="../js/menu_hamburger.js" defer></script>
+     <script src="..\js\activer_menu.js" defer></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -11,7 +13,6 @@
       name="keywords"
       content="pièces détachées, camping-car, accessoires, mécanique, carrosserie"
     />
-    <script src="..\js\activer_menu.js" defer></script>
     <link rel="stylesheet" href="..\css\seconnecter.css" />
     <title>Camping-Car Market</title>
   </head>
@@ -30,6 +31,17 @@
         src="..\img\Titre_CC_Market.png"
         alt="Titre Camping-Car Market"
       />
+      <button
+        class="btn-hamburger"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <nav>
         <ul class="nav-menu">
           <li><a href="index.html">Accueil</a></li>
@@ -74,7 +86,7 @@
           </div>
         </div>
 
-        <button class="btnconnect" type="submit">Connexion</button>
+        <button class="btnconnect" type="submit">CONNEXION</button>
       </form>
       <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
     </section>
@@ -82,16 +94,12 @@
     ===== FOOTER =====
     ==================-->
     <footer class="main-footer">
-      <div class="footer-links">
-        <a href="#contact">Contact</a>
+      <nav class="footer-links">
+        <a href="contact.html">Contact</a>
         <a href="#apropos">À propos</a>
-        <a href="#conditions">Conditions générales de vente</a>
         <a href="#mentions">Mentions légales</a>
-        <a href="#livraison">Livraison & Retours</a>
-      </div>
-      <div class="footer-copyright">
-        © 2026 Camping-Car Market. Tous droits réservés.
-      </div>
+      </nav>
+      <div class="footer-copyright">2026 Camping-Car Market.</div>
     </footer>
   </body>
 </html>

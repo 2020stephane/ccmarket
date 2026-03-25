@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "nodemon server/server.js",
+    "start": "nodemon server/server.js",
+    "dev": "node --watch server/server.js",
     "Analyse": "eslint .",
     "Corrige": "eslint . --fix",
     "format": "prettier --write .",
