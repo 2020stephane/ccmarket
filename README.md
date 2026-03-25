@@ -39,8 +39,16 @@ des accéssoires pour camping car"\*
 ## ⚙️ Installation
 
 Pour faire tourner le projet localement :
+Dans vscode :
+  npm install express cors mysql2 
+  node server/server.js
+puis dans le navigateur :
+http://localhost:3000/
+## Auteurs
+
+Stephane Brisse
 
 1. **Cloner le dépôt**
    ```bash
-   git clone [https://github.com/ton-pseudo/ton-repo.git](https://github.com/ton-pseudo/ton-repo.git)
+   git clone [https://github.com/2020stephane/ccmarket.git]
    ```
