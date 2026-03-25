@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="public/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 <p align="center">
-  <img src="img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="public/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 
 Projet pour le BTS développeur Web et Web mobile
