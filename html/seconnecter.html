@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
+    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
+    <script src="..\js\activer_menu.js" defer></script>
+    <link rel="stylesheet" href="..\css\seconnecter.css">
+    <title>Camping-Car Market</title>
+</head>
+<body>
+<!--==================== 
+    =====  HEADER  =====
+    ==================== -->
+    <header>
+        <img class="logo-img" src="..\img\Logo_paysage.png" alt="Logo Camping-Car Market">
+        <img class="logo-titre" src="..\img\Titre_CC_Market.png" alt="Titre Camping-Car Market">
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="#" class="disabled">Mes annonces</a></li>
+                <li><a href="#" class="disabled">Messages</a></li>
+                <li><a href="seconnecter.html" class="seconnecter">Se connecter</a></li>
+                <li><button class="btn-search">RECHERCHER</button></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- ==========================
+         =====  HERO SECTION  =====
+         ========================== -->
+    <section class="hero">
+        <h1>Se connecter</h1>
+           <form action="../../backend/check.php" method="POST">
+
+                <div class="form-group">
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" autocomplete="email" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mot de passe :</label>
+                    <div class="password-container">
+                      <input type="password" id="password" name="password" autocomplete="mot de passe"  placeholder="Mot de passe" >
+                      <button type="button" id="togglePassword">👁️</button>
+                    </div>    
+                </div>
+
+                <button class="btnconnect" type="submit">Connexion</button>
+           </form>
+            <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
+    </section>              
+<!--==================
+    ===== FOOTER =====
+    ==================-->
+    <footer class="main-footer">
+        
+            <div class="footer-links">
+                <a href="#contact">Contact</a>
+                <a href="#apropos">À propos</a>
+                <a href="#conditions">Conditions générales de vente</a>
+                <a href="#mentions">Mentions légales</a>
+                <a href="#livraison">Livraison & Retours</a>
+            </div>
+            <div class="footer-copyright">
+                © 2026 Camping-Car Market. Tous droits réservés.
+            </div>
+       
+    </footer>
+</body>
+</html>
