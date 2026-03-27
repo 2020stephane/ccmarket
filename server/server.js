@@ -14,11 +14,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api', annoncesRoutes);
-// app.use('/css', express.static(path.join(__dirname, '../public/css')));
-// app.use('/img', express.static(path.join(__dirname, '../public/img')));
-// app.use('/js', express.static(path.join(__dirname, '../public/js')));
-// app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
+app.get('/:page.html', (req, res) => {
+    const page = req.params.page;
+    const filePath = path.join(__dirname, '../public/html', `${page}.html`);
 
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error(`Erreur : Le fichier ${page}.html n'existe pas.`);
+            res.status(404).send("Désolé, cette page n'existe pas !");
+        }
+    });
+});
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/html/index.html'));
 });
