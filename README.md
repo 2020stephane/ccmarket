@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="public/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 <p align="center">
-  <img src="img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="public/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 
 Projet pour le BTS développeur Web et Web mobile
@@ -39,8 +39,16 @@ des accéssoires pour camping car"\*
 ## ⚙️ Installation
 
 Pour faire tourner le projet localement :
+Dans vscode :
+  npm install express cors mysql2 
+  node server/server.js
+puis dans le navigateur :
+http://localhost:3000/
+## Auteurs
+
+Stephane Brisse
 
 1. **Cloner le dépôt**
    ```bash
-   git clone [https://github.com/ton-pseudo/ton-repo.git](https://github.com/ton-pseudo/ton-repo.git)
+   git clone [https://github.com/2020stephane/ccmarket.git]
    ```
