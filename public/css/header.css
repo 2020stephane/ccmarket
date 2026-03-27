@@ -1,21 +1,28 @@
-@font-face {
-  font-family: "Roboto";
-  src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: "Roboto", sans-serif;
-  color: #000;
-}
+/* ===========================================================
+   FICHIER : header.css
+   PROJET  : ccmarket
+   DATE    : 27/03/2026
+   AUTEUR  : Stephane Brisse
+   =========================================================== */
+ @font-face {
+ font-family: "Roboto";
+ src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
+ }
+ *,
+ *::before,
+ *::after {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+ body {
+ font-family: "Roboto", sans-serif;
+ color: #000;
+ }
+
 header {
   background: white;
   display: flex;
