@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const liste = document.querySelector(".produits-grid");
 
   try {
-    const response = await fetch(
-      "/api/derniers-ajouts",
-    );
+    const response = await fetch("/api/derniers-ajouts",);
 
     if (!response.ok) throw new Error("Erreur réseau");
 
