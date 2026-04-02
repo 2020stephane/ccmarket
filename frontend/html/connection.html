@@ -6,44 +6,48 @@
     ===========================================================-->
 <!doctype html>
 <html lang="fr">
-<!--=====================================================
-======================  HEAD  =========================
-======================================================-->
 
 <head>
-   <script src="../js/menu_hamburger.js" defer></script>
-   <script src="..\js\activer_menu.js" defer></script>
+   <script src="/js/menu_hamburger.js" defer></script>
+   <script src="/js/activer_menu.js" defer></script>
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
-   <link rel="stylesheet" href="..\css\seconnecter.css">
+   <link rel="stylesheet" href="/css/connection.css">
    <title>Camping-Car Market</title>
 </head>
 
 <body>
-   <!--=====================================================
- ======================  HEADER  =========================
- ======================================================-->
-
+   <!--==================================================
+======================  HEADER  ======================
+===================================================-->
    <header>
-      <img class="logo-img" src="..\img\Logo_paysage.png" alt="Logo Camping-Car Market" />
-      <img class="logo-titre" src="..\img\Titre_CC_Market.png" alt="Titre Camping-Car Market" />
+      <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
+      <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
       <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
          aria-controls="nav-menu">
          <span></span>
          <span></span>
          <span></span>
       </button>
-      <nav>
+      <nav aria-label="Navigation principale">
          <ul class="nav-menu">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="#" class="disabled">Mes annonces</a></li>
-            <li><a href="#" class="disabled">Messages</a></li>
             <li>
-               <a href="seconnecter.html" class="seconnecter">Se connecter</a>
+               <a href="index.html">Accueil</a>
             </li>
-            <li><button class="btn-search">RECHERCHER</button></li>
+            <li>
+               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            </li>
+            <li>
+               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Messages</a>
+            </li>
+            <li>
+               <a href="connection.html" class="seconnecter">Se connecter</a>
+            </li>
+            <li>
+               <button class="btn-search">RECHERCHER</button>
+            </li>
          </ul>
       </nav>
    </header>
@@ -52,7 +56,7 @@
          ========================== -->
    <section class="hero">
       <h1>Se connecter</h1>
-      <form action="/api/connect" method="POST">
+      <form action="/api/connection" method="POST">
          <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" autocomplete="email" placeholder="Email" required>

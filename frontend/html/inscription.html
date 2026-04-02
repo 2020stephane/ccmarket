@@ -9,6 +9,7 @@
 
 <head>
    <script src="/js/menu_hamburger.js" defer></script>
+   <script src="/js/activer_menu.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
@@ -56,7 +57,7 @@
 ===================================================-->
    <section class="hero">
       <h2>Créer un compte</h2>
-      <form action="../../backend/form_inscr.php" method="post">
+      <form action="/api/finscription" method="POST">
          <p>
             <label for="prenom">Prénom :</label>
             <input type="text" id="prenom" name="prenom" required>
@@ -73,13 +74,8 @@
          </p>
 
          <p>
-            <label for="phone">Numéro de téléphone :</label>
-            <input type="tel" id="phone" name="phone">
-         </p>
-
-         <p>
             <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password" required>
          </p>
 
          <button type="submit">S'inscrire</button>

@@ -9,7 +9,7 @@ const router = express.Router();
 const db = require('./db');
 const bcrypt = require('bcrypt');
 
-router.post('/connect', async (req, res) => {
+router.post('/connection', async (req, res) => {
    const { email, password } = req.body;
 
    try {
@@ -26,6 +26,7 @@ router.post('/connect', async (req, res) => {
       if (match) {
          // Ici, tu pourrais créer une session ou un token JWT
          res.send(`Bienvenue ${user.nom} ! Connexion réussie.`);
+         return res.redirect('/index.html');
       } else {
          res.status(401).send("mot de passe incorrect.");
       }
