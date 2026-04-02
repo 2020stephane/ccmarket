@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="frontend/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 <p align="center">
-  <img src="public/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="frontend/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 
 Projet pour le BTS développeur Web et Web mobile
@@ -40,9 +40,11 @@ des accéssoires pour camping car"\*
 
 Pour faire tourner le projet localement :
 Dans vscode :
-  npm install express cors mysql2 
+  npm install express cors mysql2 bcrypt jsonwebtoken 
   node server/server.js
-puis dans le navigateur :
+Dans xampp :
+  start MySql
+Dans le navigateur :
 http://localhost:3000/
 ## Auteurs
 
