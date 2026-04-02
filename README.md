@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="frontend/img/Logo_paysage.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 <p align="center">
-  <img src="public/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
+  <img src="frontend/img/Titre_CC_Market.png" alt="Logo de mon projet" width="150" height="150"/>
 </p>
 
 Projet pour le BTS développeur Web et Web mobile
@@ -13,7 +13,6 @@ Projet pour le BTS développeur Web et Web mobile
 - [Fonctionnalités](#-fonctionnalités)
 - [Technologies utilisées](#-technologies-utilisées)
 - [Installation](#-installation)
-- [Utilisation](#-utilisation)
 - [Auteurs](#-auteurs)
 
 ---
@@ -32,18 +31,20 @@ des accéssoires pour camping car"\*
 
 ## 🛠 Technologies utilisées
 
-- **Frontend :** HTML, CSS
+- **Frontend :** HTML, CSS, JS
 - **Backend :** Node.js, Express
 - **Base de données :** mysql
 
 ## ⚙️ Installation
 
-Pour faire tourner le projet localement :
-Dans vscode :
-  npm install express cors mysql2 
-  node server/server.js
-puis dans le navigateur :
-http://localhost:3000/
+- Pour faire tourner le projet localement :
+- Dans vscode :
+  - npm install express cors mysql2 bcrypt jsonwebtoken 
+  - node server/server.js
+- Dans xampp :
+  - start MySql
+- Dans le navigateur :
+- http://localhost:3000/
 ## Auteurs
 
 Stephane Brisse
