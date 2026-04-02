@@ -13,7 +13,6 @@ Projet pour le BTS développeur Web et Web mobile
 - [Fonctionnalités](#-fonctionnalités)
 - [Technologies utilisées](#-technologies-utilisées)
 - [Installation](#-installation)
-- [Utilisation](#-utilisation)
 - [Auteurs](#-auteurs)
 
 ---
@@ -32,20 +31,20 @@ des accéssoires pour camping car"\*
 
 ## 🛠 Technologies utilisées
 
-- **Frontend :** HTML, CSS
+- **Frontend :** HTML, CSS, JS
 - **Backend :** Node.js, Express
 - **Base de données :** mysql
 
 ## ⚙️ Installation
 
-Pour faire tourner le projet localement :
-Dans vscode :
-  npm install express cors mysql2 bcrypt jsonwebtoken 
-  node server/server.js
-Dans xampp :
-  start MySql
-Dans le navigateur :
-http://localhost:3000/
+- Pour faire tourner le projet localement :
+- Dans vscode :
+  - npm install express cors mysql2 bcrypt jsonwebtoken 
+  - node server/server.js
+- Dans xampp :
+  - start MySql
+- Dans le navigateur :
+- http://localhost:3000/
 ## Auteurs
 
 Stephane Brisse
