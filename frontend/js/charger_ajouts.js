@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     annonces.forEach((annonce) => {
       const imagePath = annonce.image_nom
-        ? `../uploads/${annonce.image_nom}`
-        : "../uploads/default.png";
+        ? `/uploads/${annonce.image_nom}`
+        : "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
 
       const card = `

@@ -1,6 +1,12 @@
+//===========================================================
+//    FICHIER : annonces.js
+//    PROJET  : ccmarket
+//    DATE    : 01/04/2026
+//    AUTEUR  : Stephane Brisse
+//===========================================================
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require("./db");
 
 // GET /api/annonces/derniers-ajouts
 router.get("/derniers-ajouts", async (req, res) => {

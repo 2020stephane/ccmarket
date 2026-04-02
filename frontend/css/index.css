@@ -4,15 +4,15 @@
    DATE    : 15/02/2026
    AUTEUR  : Stephane Brisse
    =========================================================== */
-@import url("header.css");
-@import url("footer.css");
+@import url("/css/header.css");
+@import url("/css/footer.css");
 /* ================
    ===== HERO ===== 
    ================ */
 .hero {
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("../img/cc_lac.png");
+    url("/img/cc_lac.png");
   background-size: cover;
   background-position: center;
   min-height: 400px;
