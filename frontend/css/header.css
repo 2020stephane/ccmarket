@@ -12,6 +12,11 @@
    font-display: swap;
 }
 
+:root {
+   --b_color_base: #05ffb4;
+   --b_color_hover: #04e0a0;
+}
+
 *,
 *::before,
 *::after {
@@ -61,20 +66,18 @@ header {
 }
 
 .btn-search {
-   background: #05ffb4;
+   background-color: var(--b_color_base);
    color: #000;
    padding: 10px 25px;
-   border-radius: 5px;
+   border-radius: 10px;
    font-weight: 500;
    border: none;
    cursor: pointer;
-   transition:
-      all 0.3s,
-      transform 0.3s;
+   transition: all 0.3s, transform 0.3s;
 }
 
 .btn-search:hover {
-   background: #04e0a0;
+   background-color: var(--b_color_hover);
    transform: translateY(-2px);
 }
 
@@ -97,9 +100,7 @@ header {
    height: 3px;
    background: black;
    border-radius: 3px;
-   transition:
-      transform 0.3s,
-      opacity 0.3s;
+   transition: transform 0.3s, opacity 0.3s;
    transform-origin: center;
 }
 
