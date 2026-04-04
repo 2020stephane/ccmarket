@@ -8,12 +8,16 @@
 // Importation des modules
 // ==================================================
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
 const annoncesRoutes = require('./routes/annonces');
 const inscriptionRoutes = require('./routes/inscription');
 const connectionRoutes = require('./routes/connection');
+const authentificationRoutes = require('./routes/auth');
 // ==================================================
 // affectation des variables
 // ==================================================
@@ -25,9 +29,13 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
  app.use('/api', annoncesRoutes);
 app.use('/api', connectionRoutes);
 app.use('/api', inscriptionRoutes);
+app.use('/api', authentificationRoutes);
+
 app.use(express.static(path.join(__dirname, '../frontend/html')));
 app.use('/css', express.static(path.join(__dirname, '../frontend/css')));
 app.use('/js', express.static(path.join(__dirname, '../frontend/js')));

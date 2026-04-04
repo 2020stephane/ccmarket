@@ -43,7 +43,7 @@ router.post('/connection', async (req, res) => {
       );
 
       // 4. Stocker le token dans un cookie HTTP-only sécurisé
-      res.cookie('token', token, {
+      res.cookie('monToken', token, {
          httpOnly: true,
          secure: process.env.NODE_ENV === 'production',
          sameSite: 'strict',

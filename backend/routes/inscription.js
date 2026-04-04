@@ -32,7 +32,6 @@ router.post('/finscription', async (req, res) => {
       return res.redirect('/index.html');
 
    } catch (err) {
-      console.error('Erreur inscription :', err);
       return res.status(500).json({ message: 'Erreur serveur.' });
    }
 });
