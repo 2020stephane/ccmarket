@@ -29,7 +29,7 @@ router.post('/finscription', async (req, res) => {
          [prenom, nom, email, hashedPassword]
       );
 
-      return res.status(201).json({ message: 'Compte créé avec succès.' });
+      return res.redirect('/index.html');
 
    } catch (err) {
       console.error('Erreur inscription :', err);

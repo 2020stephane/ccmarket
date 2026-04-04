@@ -25,7 +25,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', annoncesRoutes);
+ app.use('/api', annoncesRoutes);
 app.use('/api', connectionRoutes);
 app.use('/api', inscriptionRoutes);
 app.use(express.static(path.join(__dirname, '../frontend/html')));
