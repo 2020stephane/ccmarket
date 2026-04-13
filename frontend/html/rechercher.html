@@ -56,7 +56,51 @@
 ===================================================-->   
    <main>
       <h1>Rechercher</h1>
-   </main>
+      <form action="/api/recherche" method="POST">
+         <label for="cate"><h2>Catégories :</h2></label>
+         <select name="categorie" id="cate">
+            <option value="tout" selected>--Toutes catégories--</option>
+            <option value="meca">Mécanique</option>
+            <option value="carro">Carrosserie</option>
+            <option value="acce">Accessoires</option>
+            <option value="elec">Electricité</option>
+         </select>
+         
+         <h2>Prix :</h2>
+         <section class="class_prix">
+            <p>
+               <label for="prix_min">Prix min :</label>
+               <input type="text" id="prix_min" name="prixmin" value="pmin">
+            </p>
+
+            <p>
+               <label for="prix_max">Prix max :</label>
+                  <input type="text" id="prix_max" name="prixmax" value="pmax">
+            </p>
+         </section>
+         <h2>Tri :</h2>
+         <p>
+               <input type="radio" id="recent" name="plus_ra" value="recent">
+               <label for="recent">Plus récentes.</label>
+         </p>
+
+         <p>
+               <input type="radio" id="ancien" name="plus_ra" value="ancien">
+               <label for="ancien">Plus anciennes.</label>
+         </p>
+
+         <p>
+               <input type="radio" id="prixc" name="prix_cd" value="crois">
+               <label for="prixc">Prix croissants.</label>
+         </p>
+
+         <p>
+               <input type="radio" id="prixd" name="prix_cd" value="decrois">
+               <label for="prixd">Prix décroissants.</label>
+         </p>
+         <button id="b_submit" type="submit">RECHERCHER</button>
+      </form>
+     </main>
   
    <!--=====================================================
 ======================  FOOTER  =========================
