@@ -1,22 +1,22 @@
 <!--===========================================================
-    FICHIER : contact.html
+    FICHIER : mesannonces.html
     PROJET  : ccmarket
-    DATE    : 17/03/2026
+    DATE    : 14/04/2026
     AUTEUR  : Stephane Brisse
     ===========================================================-->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-
 <head>
+   <script src="/js/charger_ajouts.js" defer></script>
    <script src="/js/menu_hamburger.js" defer></script>
+   <script src="/js/bouton_listener.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
-   <link rel="stylesheet" href="/css/contact.css">
+   <link rel="stylesheet" href="/css/index.css">
    <title>Camping-Car Market</title>
 </head>
-
 <body>
    <!--==================================================
 ======================  HEADER  ======================
@@ -24,7 +24,8 @@
    <header>
       <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
       <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
+         aria-controls="nav-menu">
          <span></span>
          <span></span>
          <span></span>
@@ -49,35 +50,15 @@
          </ul>
       </nav>
    </header>
-   <!--==================================================
-======================  MAIN  ========================
-===================================================-->
-   <main>
-      <h1>Envoyez un message</h1>
-      <form action="#" method="post">
-         <p>
-            <label for="prenom_id">Prénom :</label>
-            <input type="text" id="prenom_id" name="prenom" required>
-         </p>
-
-         <p>
-            <label for="nom_id">Nom :</label>
-            <input type="text" id="nom_id" name="nom" required>
-         </p>
-
-         <p>
-            <label for="email_id">e-mail :</label>
-            <input type="email" id="email_id" name="email" required>
-         </p>
-
-         <p>
-            <label for="message_id">Votre message :</label>
-            <textarea id="message_id" name="message" rows="6" cols="40" maxlength="250"
-               placeholder="Écrivez votre message ici...Max:250 caractères"></textarea>
-         </p>
-
-         <button type="submit" id="b_submit">ENVOYER</button>
-      </form>
+   
+    <!--=====================================================
+======================  Mes annonces  ================
+======================================================-->
+<main class="main_class">
+   <section class="annonces">
+      <h2 class="section-title">Derniers ajouts :</h2>
+      <ul class="annonces-grid"></ul>
+   </section>  
    </main>
    <!--=====================================================
 ======================  FOOTER  =========================
@@ -89,7 +70,6 @@
       </nav>
       <div class="footer-copyright">2026 Camping-Car Market.</div>
    </footer>
-   <script src="/js/authentification.js"></script>
+<script src="/js/authentification.js"></script>
 </body>
-
 </html>

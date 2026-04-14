@@ -60,16 +60,16 @@ h1 {
   margin-bottom: 10px;
 }
 /* ====================
-   ===== PRODUITS =====
+   ===== ANNONCES =====
    ==================== */
-.produits {
+.annonces {
   padding: 4em;
 }
 h2 {
   margin-bottom: 1em;
   cursor: default;
 }
-.produits ul {
+.annonces ul {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

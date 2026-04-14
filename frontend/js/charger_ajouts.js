@@ -1,6 +1,6 @@
 // fonction en js
 document.addEventListener("DOMContentLoaded", async () => {
-  const liste = document.querySelector(".produits-grid");
+  const liste = document.querySelector(".annonces-grid");
 
   try {
     const response = await fetch("/api/derniers-ajouts",);
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       liste.innerHTML = "<li>Aucune annonce pour le moment.</li>";
       return;
     }
-    const container = document.querySelector(".produits-grid");
+    const container = document.querySelector(".annonces-grid");
     container.innerHTML = "";
 
     annonces.forEach((annonce) => {

@@ -13,7 +13,7 @@
 fetch('/api/connect', { credentials: 'include' })
    .then(res => res.json())
    .then(data => {
-      console.log("bonjour");
+      console.log(data.message);
       if (data.connecte) {
 
          // Afficher le prénom de l'utilisateur
@@ -34,12 +34,12 @@ fetch('/api/connect', { credentials: 'include' })
             link.removeAttribute('aria-disabled');
             link.removeAttribute('tabindex');
          });
-         const b2 = document.getElementById('btn-deconnection');
+      const b2 = document.getElementById('btn-deconnection');
 
       b2.addEventListener('click', function() {
       fetch('/api/deconnect', { method: 'POST', credentials: 'include' })
          .then(() => {
-            window.location.href = '/connection.html';
+            window.location.href = '../connection.html';
          });
       });
       } 
