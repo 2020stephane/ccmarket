@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </p>
                             
                             <footer class="annonce_footer">
-                                <p class="vendeur">Vendeur : ${annonce.nom}</p>
-                                <button type="button" class="btn-contact">Contacter le vendeur</button>
+                                 <button type="button" class="btn-contact">Modifier l'annonce</button>
                             </footer>
                         </div>
                     </article>
