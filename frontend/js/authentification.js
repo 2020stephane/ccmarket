@@ -8,6 +8,11 @@
 // ----------------------------------------------------------
 // Vérification de la connexion au chargement de la page
 // ----------------------------------------------------------
+const b1 = document.getElementById('btn-connection');
+
+b1.addEventListener('click', function() {
+    window.location.href = 'connection.html';
+});
 
 fetch('/api/connect', { credentials: 'include' })
    .then(res => res.json())
