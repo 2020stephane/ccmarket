@@ -1,9 +1,14 @@
-// fonction en js
+//===========================================================
+//    FICHIER : afficher_annonces.js
+//    PROJET  : ccmarket
+//    DATE    : 17/04/2026
+//    AUTEUR  : Stephane Brisse
+//===========================================================
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".annonces-grid");
 
   try {
-    const response = await fetch("/api/derniers-ajouts",);
+    const response = await fetch("/api/mesannonces",);
 
     if (!response.ok) throw new Error("Erreur réseau");
 
@@ -21,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         : "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
 
-      const card = `
+      const fiche = `
                 <li>
                     <article>
                         <figure>
@@ -32,8 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <h3>${annonce.titre}</h3>
                             
                             <p class="annonce_description">
-                               ${annonce.description}
-                            </p>
+                              ${annonce.description}
+                            </p>  
                             <p class="annonce_price">
                                ${parseFloat(annonce.prix).toLocaleString("fr-FR")} €
                             </p>
@@ -50,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </article>
                 </li>
             `;
-      container.insertAdjacentHTML("beforeend", card);
+      container.insertAdjacentHTML("beforeend", fiche);
     });
   } catch (error) {
     console.error("Impossible de charger les annonces :", error);

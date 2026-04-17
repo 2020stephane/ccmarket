@@ -4,7 +4,6 @@
 //    DATE    : 04/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-
  
 // ----------------------------------------------------------
 // Vérification de la connexion au chargement de la page
@@ -27,7 +26,7 @@ fetch('/api/connect', { credentials: 'include' })
          // Activer les liens désactivés dans la nav
         
       const disabledLinks = document.querySelectorAll('.nav-menu a.disabled');
-      disabledLinks[0].href = "annonces.html";
+      disabledLinks[0].href = "mesannonces.html";
       disabledLinks[1].href = "message.html";
       disabledLinks.forEach(link => {
             link.classList.remove('disabled');

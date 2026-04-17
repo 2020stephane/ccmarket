@@ -1,34 +1,32 @@
 /* ===========================================================
-   FICHIER : index.css
+   FICHIER : mesannonces.css
    PROJET  : ccmarket
-   DATE    : 15/02/2026
+   DATE    : 17/04/2026
    AUTEUR  : Stephane Brisse
    =========================================================== */
 @import url("/css/header.css");
 @import url("/css/footer.css");
-/* ================
-   ===== HERO ===== 
-   ================ */
-.section_img {
-  position: relative; 
-  display: flex;
-  justify-content: center; 
-  align-items: center;    
-}
-
-.img_hero {
-  width: 100%;    
-  height: auto;
-  display: block; 
-}
-
-h1 {
-  position: absolute; 
-  top: 25%;          
-  margin: 5%;          
-  color: white;    
-  cursor: default;
-}
+@font-face {
+ font-family: "Roboto";
+ src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
+ }
+ *,
+ *::before,
+ *::after {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+ html {
+ scroll-behavior: smooth;
+ }
+ body {
+ font-family: "Roboto", sans-serif;
+ color: #000;
+ }
 /* ====================
    ===== ANNONCES =====
    ==================== */
@@ -68,26 +66,27 @@ figure img {
   height: 100%;
   object-fit: cover;
 }
-.annonce_content {
+.produit-content {
   padding: 1em;
 }
 h3 {
   margin-bottom: 1em;
 }
-.annonce_price {
+.produit-price {
   font-size: 24px;
   color: #05ffb4;
   margin-bottom: 0.5em;
 }
-.annonce_date {
+.produit-date {
   margin-bottom: 0.5em;
 }
-.annonce_footer {
+.produit-footer {
   margin-bottom: 0.5em;
 }
 .btn-contact {
   cursor: pointer;
 }
+ 
 @media (max-width: 900px) {
   /* Affiche le bouton hamburger */
   .btn-hamburger {
