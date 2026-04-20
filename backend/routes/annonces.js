@@ -8,6 +8,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("./db");
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 // GET /api/annonces/derniers-ajouts
@@ -35,7 +36,6 @@ router.get("/mesannonces", async (req, res) => {
     const [rows] = await db.query(`
             SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]); 
             
-       
     res.json(rows);
   } catch (error) {
     console.error(error);
@@ -48,14 +48,16 @@ router.post('/publierannonce', async (req, res) => {
    const decoded = jwt.verify(token, JWT_SECRET);
    const userid = decoded.id;
    let image_nom = photo;
-
+   console.log(`test log ${image_nom}`);
    if (req.files && req.files.photo) {
-        const dossier_upload = "../frontend/uploads/";
+      
+        const dossier_upload = path.join(__dirname, '../../frontend/uploads/');
         const extension = req.files.photo.name.split('.').pop();
         const nom_unique = Date.now() + "_" + req.files.photo.name;
         const chemin_final = dossier_upload + nom_unique;
         const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        
+        console.log(`test log ok ${chemin_final}`);
+
         if (extensions_autorisees.includes(extension.toLowerCase())) {
             await req.files.photo.mv(chemin_final);
             image_nom = nom_unique;
@@ -66,5 +68,6 @@ router.post('/publierannonce', async (req, res) => {
          'INSERT INTO annonces (titre, prix, description, utilisateur_id, image_nom) VALUES (?, ?, ?, ?, ?)',
          [titre, prix, description, userid, image_nom]
       );
+   return res.status(201).json({ message: "Annonce publiée avec succès !" });   
 });   
 module.exports = router;

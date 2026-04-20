@@ -9,7 +9,6 @@
 <head>
    <script src="/js/afficher_annonces.js" defer></script>
    <script src="/js/menu_hamburger.js" defer></script>
-   <script src="/js/bouton_listener.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
@@ -60,7 +59,7 @@
       <ul class="annonces-grid"></ul>
    </section>
    <h2>Publier une nouvelle annonce</h2>
-        <form action="/api/publierannonce" method="POST">
+        <form action="/api/publierannonce" method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="titre">Titre de l'annonce :</label>

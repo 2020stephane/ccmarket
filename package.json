@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "inspect": "node --inspect backend/server.js"
   },
   "keywords": [],
   "author": "Stephane Brisse",
@@ -17,6 +17,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.20.0"
   },

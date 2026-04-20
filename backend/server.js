@@ -13,6 +13,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 const annoncesRoutes = require('./routes/annonces');
 const inscriptionRoutes = require('./routes/inscription');
@@ -30,8 +31,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fileUpload());
 
- app.use('/api', annoncesRoutes);
+app.use('/api', annoncesRoutes);
 app.use('/api', connectionRoutes);
 app.use('/api', inscriptionRoutes);
 app.use('/api', authentificationRoutes);
