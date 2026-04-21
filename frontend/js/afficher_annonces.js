@@ -6,7 +6,7 @@
 //===========================================================
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".annonces-grid");
-
+     
   try {
     const response = await fetch("/api/mesannonces",);
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     container.innerHTML = "";
-
+    
     annonces.forEach((annonce) => {
       const imagePath = annonce.image_nom
         ? `/uploads/${annonce.image_nom}`
@@ -48,14 +48,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </p>
                             
                             <footer class="annonce_footer">
-                                 <button type="button" class="btn-contact">Modifier l'annonce</button>
+                                 <button type="button" class="btn_modifier">Modifier l'annonce</button>
                             </footer>
                         </div>
                     </article>
                 </li>
+                
             `;
       container.insertAdjacentHTML("beforeend", fiche);
-    });
+     });
   } catch (error) {
     console.error("Impossible de charger les annonces :", error);
     liste.innerHTML = "<li>Impossible de charger les annonces.</li>";

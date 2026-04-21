@@ -1,0 +1,29 @@
+/* ===========================================================
+   FICHIER : modifier_annonce.css
+   PROJET  : ccmarket
+   DATE    : 21/04/2026
+   AUTEUR  : Stephane Brisse
+   =========================================================== */
+@import url("/css/header.css");
+@import url("/css/footer.css");   
+@font-face {
+ font-family: "Roboto";
+ src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
+ }
+ *,
+ *::before,
+ *::after {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+ html {
+ scroll-behavior: smooth;
+ }
+ body {
+ font-family: "Roboto", sans-serif;
+ color: #000;
+ }
