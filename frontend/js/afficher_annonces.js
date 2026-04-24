@@ -5,7 +5,7 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 document.addEventListener("DOMContentLoaded", async () => {
-  const container = document.querySelector(".annonces-grid");
+  const container = document.querySelector(".annonces_grid");
      
   try {
     const response = await fetch("/api/mesannonces",);
@@ -34,11 +34,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </figure>
                     
                         <div class="annonce_content">
+                           <h2>Titre:</h2>
                             <h3>${annonce.titre}</h3>
-                            
+                           <h2>Description:</h2> 
                             <p class="annonce_description">
                               ${annonce.description}
-                            </p>  
+                            </p> 
+                            <h2>Prix:</h2> 
                             <p class="annonce_price">
                                ${parseFloat(annonce.prix).toLocaleString("fr-FR")} €
                             </p>
@@ -48,7 +50,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </p>
                             
                             <footer class="annonce_footer">
+                                 <a href="modifier_annonce.html?id=${annonce.annonceid}">
                                  <button type="button" class="btn_modifier">Modifier l'annonce</button>
+                                 </a>
                             </footer>
                         </div>
                     </article>

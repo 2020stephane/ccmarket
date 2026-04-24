@@ -10,7 +10,6 @@
 ======================  HEAD  ======================
 ===================================================-->
 <head>
-   <script src="/js/charger_ajouts.js" defer></script>
    <script src="/js/menu_hamburger.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,8 +54,36 @@
 <!--==================================================
 ======================  MAIN  ======================
 ===================================================-->
-   <main>
-   
+   <main class="main_class">
+   <section class="annonces">
+      <h1 class="section-title">Modifier l'annonce :</h1>
+      <ul class="annonces-grid"></ul>
+   </section>
+   <h2>Publier une nouvelle annonce</h2>
+        <form action="/api/publierannonce" method="POST" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label for="titre">Titre de l'annonce :</label>
+                <input type="text" name="titre" id="titre" maxlength="25" placeholder="titre">
+            </div>
+
+            <div class="form-group">
+            <label for="prix">Prix (€) :</label>
+            <input type="number" step="0.01" name="prix" id="prix" min="0" max="999999" placeholder="prix" required>
+            </div>
+
+            <div class="form-group">
+            <label for="description">Description :</label>
+            <textarea name="description" id="description" rows="5" maxlength="25" placeholder="description"></textarea>
+            </div>
+
+            <div class="form-group">
+            <label for="photo">Photo :</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            </div>
+            <button type="submit" class="btn-publier">Publier l'annonce</button>
+        </form>
+       
    </main>
 <!--=====================================================
  ======================  FOOTER  =========================
