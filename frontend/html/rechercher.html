@@ -9,7 +9,6 @@
 
 <head>
    <script src="/js/menu_hamburger.js" defer></script>
-   <script src="/js/bouton_listener.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
@@ -56,14 +55,14 @@
 ===================================================-->   
    <main>
       <h1>Rechercher</h1>
-      <form action="/api/recherche" method="POST">
+      <form action="#">
          <label for="cate"><h2>Catégories :</h2></label>
          <select name="categorie" id="cate">
             <option value="tout" selected>--Toutes catégories--</option>
             <option value="meca">Mécanique</option>
             <option value="carro">Carrosserie</option>
-            <option value="acce">Accessoires</option>
-            <option value="elec">Electricité</option>
+            <option value="accessoires">Accessoires</option>
+            <option value="electricite">Electricité</option>
          </select>
          
          <h2>Prix :</h2>
@@ -98,7 +97,7 @@
                <input type="radio" id="prixd" name="prix_cd" value="decrois">
                <label for="prixd">Prix décroissants.</label>
          </p>
-         <button id="b_submit" type="submit">RECHERCHER</button>
+         <button id="b_submit" type="button" onclick="lancerRecherche()">RECHERCHER</button>
       </form>
      </main>
   
@@ -113,5 +112,28 @@
       <div class="footer-copyright">2026 Camping-Car Market.</div>
    </footer>
    <script src="/js/authentification.js"></script>
+   <script>
+      async function lancerRecherche() {
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+    
+    // Conversion du formulaire en objet JSON
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch('/api/recherche', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    const resultats = await response.json();
+
+    // On stocke le résultat en texte dans le navigateur
+    localStorage.setItem('mesResultats', JSON.stringify(resultats));
+
+    // On change de page manuellement
+    window.location.href = '/resultat_recherche.html';
+}
+   </script>
 </body>
 </html>

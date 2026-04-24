@@ -32,7 +32,7 @@ fetch('/api/connect', { credentials: 'include' })
         
       const disabledLinks = document.querySelectorAll('.nav-menu a.disabled');
       disabledLinks[0].href = "mesannonces.html";
-      disabledLinks[1].href = "message.html";
+      disabledLinks[1].href = "messagerie.html";
       disabledLinks.forEach(link => {
             link.classList.remove('disabled');
             link.removeAttribute('aria-disabled');

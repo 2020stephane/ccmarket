@@ -8,27 +8,34 @@ const express = require('express');
 const router = express.Router();
 const db = require('./db');
 router.post('/recherche', async (req, res) => {
-   const { prixmin, prixmax, plus_ra, prix_cd } = req.body;
+   const { categorie, prixmin, prixmax, plus_ra, prix_cd } = req.body;
 
    try {
-      // Vérification si l'email existe déjà
-      const [users] = await db.query('SELECT * FROM annonces WHERE email = ?', [email]);
+      let sql = 'SELECT * FROM annonces WHERE 1=1';
+      let params = [];
 
-      if (users.length > 0) {
-         return res.status(409).json({ message: 'Un compte avec cet email existe déjà.' });
+      // Filtre Catégorie
+      if (categorie !== 'tout') {
+         sql += ' AND categorie = ?';
+         params.push(categorie);
       }
 
-      // Hashage du mot de passe
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // Filtre Prix (on convertit en nombre pour plus de sécurité)
+      if (prixmin && !isNaN(prixmin)) {
+         sql += ' AND prix >= ?';
+         params.push(Number(prixmin));
+      }
+      if (prixmax && !isNaN(prixmax)) {
+         sql += ' AND prix <= ?';
+         params.push(Number(prixmax));
+      }
+      if (plus_ra === 'recent') sql += ' ORDER BY date_publication DESC';
+      else if (plus_ra === 'ancien') sql += ' ORDER BY date_publication ASC';
+      else if (prix_cd === 'crois') sql += ' ORDER BY prix ASC';
+      else if (prix_cd === 'decrois') sql += ' ORDER BY prix DESC';
 
-      // Insertion du nouvel utilisateur
-      await db.query(
-         'INSERT INTO utilisateurs (prenom, nom, email, password) VALUES (?, ?, ?, ?)',
-         [prenom, nom, email, hashedPassword]
-      );
-
-      return res.redirect('/index.html');
-
+      const [rows] = await db.query(sql, params);
+      res.json(rows);
    } catch (err) {
       return res.status(500).json({ message: 'Erreur serveur.' });
    }
