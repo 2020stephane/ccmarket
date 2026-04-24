@@ -8,28 +8,20 @@
 // ----------------------------------------------------------
 // Vérification de la connexion au chargement de la page
 // ----------------------------------------------------------
-const b1 = document.getElementById('btn-connection');
-
-b1.addEventListener('click', function() {
-    window.location.href = 'connection.html';
+const bconnect = document.getElementById(`btn_connection`);
+bconnect.addEventListener('click', function() {
+          window.location.href = '/connection.html'; 
 });
-
 fetch('/api/connect', { credentials: 'include' })
    .then(res => res.json())
    .then(data => {
-      console.log(data.message);
+      
       if (data.connecte) {
-
-         // Afficher le prénom de l'utilisateur
-         const userInfo = document.getElementById('btn-connection');
+         const userInfo = document.getElementById('btn_connection');
          if (userInfo) {
             userInfo.textContent = `Bonjour, ${data.prenom} !`;
-            userInfo.href = "/deconnexion.js";
-            userInfo.id = "btn-deconnection";
+            userInfo.id = "btn_deconnection";
          }
-
-         // Activer les liens désactivés dans la nav
-        
       const disabledLinks = document.querySelectorAll('.nav-menu a.disabled');
       disabledLinks[0].href = "mesannonces.html";
       disabledLinks[1].href = "messagerie.html";
@@ -38,16 +30,16 @@ fetch('/api/connect', { credentials: 'include' })
             link.removeAttribute('aria-disabled');
             link.removeAttribute('tabindex');
          });
-      const b2 = document.getElementById('btn-deconnection');
-
-      b2.addEventListener('click', function() {
+      const b2 = document.getElementById('btn_deconnection');
+      b2.addEventListener('click', function(e) {
+         e.preventDefault();
       fetch('/api/deconnect', { method: 'POST', credentials: 'include' })
          .then(() => {
-            window.location.href = '../connection.html';
+            window.location.href = '/index.html';
          });
       });
       } 
-   })
+})
    .catch(() => {
-      window.location.href = '/connexion.html';
+      window.location.href = '/connection.html';
    });
