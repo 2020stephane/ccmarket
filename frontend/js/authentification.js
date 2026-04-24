@@ -4,10 +4,6 @@
 //    DATE    : 04/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
- 
-// ----------------------------------------------------------
-// Vérification de la connexion au chargement de la page
-// ----------------------------------------------------------
 const bconnect = document.getElementById(`btn_connection`);
 bconnect.addEventListener('click', function() {
           window.location.href = '/connection.html'; 
