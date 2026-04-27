@@ -76,12 +76,12 @@ router.post('/recherche', async (req, res) => {
    try {
       let sql = 'SELECT * FROM annonces WHERE 1=1';
       let params = [];
-
+ 
       // Filtre Catégorie
       if (categorie !== 'tout') {
          sql += ' AND categorie = ?';
          params.push(categorie);
-      }
+      } 
 
       // Filtre Prix (on convertit en nombre pour plus de sécurité)
       if (prixmin && !isNaN(prixmin)) {
