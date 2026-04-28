@@ -1,19 +1,19 @@
 // fonction en js
 document.addEventListener("DOMContentLoaded", async () => {
-  const container = document.querySelector(".annonces-grid");
+  const pGrid = document.querySelector(".annonces-grid");
 
   try {
-    const response = await fetch("/api/derniers-ajouts",);
+    const response = await fetch("/api/derniers_ajouts",);
 
     if (!response.ok) throw new Error("Erreur réseau");
 
     const annonces = await response.json();
 
     if (annonces.length === 0) {
-      container.innerHTML = "<li>Aucune annonce pour le moment.</li>";
+      pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
       return;
     }
-    container.innerHTML = "";
+    pGrid.innerHTML = "";
 
     annonces.forEach((annonce) => {
       const imagePath = annonce.image_nom
@@ -50,10 +50,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </article>
                 </li>
             `;
-      container.insertAdjacentHTML("beforeend", fiche);
+      pGrid.insertAdjacentHTML("beforeend", fiche);
     });
   } catch (error) {
-    console.error("Impossible de charger les annonces :", error);
-    liste.innerHTML = "<li>Impossible de charger les annonces.</li>";
+    console.log("message : ", error.message);
+    console.log("nom : ", error.name);
+    console.log("stack : ", error.stack);
+    pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
   }
 });

@@ -9,10 +9,12 @@ const router = express.Router();
 const db = require("./db");
 const jwt = require('jsonwebtoken');
 const path = require('path');
-
+const verifierToken = require('../middleware/auth2');
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
-// GET /api/annonces/derniers-ajouts
-router.get("/derniers-ajouts", async (req, res) => {
+// ==================================================
+// derniers_ajouts
+// ==================================================
+router.get("/derniers_ajouts", async (req, res) => {
   try {
     const [rows] = await db.query(`
             SELECT annonceid, titre, prix, date_publication, description, utilisateur_id, image_nom
@@ -22,27 +24,31 @@ router.get("/derniers-ajouts", async (req, res) => {
         `);
     res.json(rows);
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
+    console.log(error.name);
+    console.log(error.stack);
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
+// ==================================================
+// mesannonces
+// ==================================================
 
-router.get("/mesannonces", async (req, res) => {
-   const token = req.cookies.monToken;
-   const decoded = jwt.verify(token, JWT_SECRET);
-   const userid = decoded.id;
-  try {
+router.get("/mesannonces", verifierToken, async (req, res) => {
    
-    const [rows] = await db.query(`
-            SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]); 
-            
-    res.json(rows);
+  try {
+   const userid = req.user.id;
+   const [rows] = await db.query(`SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]); 
+   res.json(rows);
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
+    console.log(error.name);
+    console.log(error.stack);
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
 router.post('/publierannonce', async (req, res) => {
+   try {
    const { titre, prix, description, photo } = req.body;
    const token = req.cookies.monToken;
    const decoded = jwt.verify(token, JWT_SECRET);
@@ -68,8 +74,12 @@ router.post('/publierannonce', async (req, res) => {
          'INSERT INTO annonces (titre, prix, description, utilisateur_id, image_nom) VALUES (?, ?, ?, ?, ?)',
          [titre, prix, description, userid, image_nom]
       );
-   return res.status(201).json({ message: "Annonce publiée avec succès !" });   
+   return res.status(201).json({ message: "Annonce publiée avec succès !" });
+    } catch (error) {
+      console.error(error); 
+    }
 }); 
+
 router.post('/recherche', async (req, res) => {
    const { categorie, prixmin, prixmax, plus_ra, prix_cd } = req.body;
 
