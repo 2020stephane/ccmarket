@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         : "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
 
-      const card = `
+      const fiche = `
                 <li>
                     <article>
                         <figure>
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </article>
                 </li>
             `;
-      container.insertAdjacentHTML("beforeend", card);
+      container.insertAdjacentHTML("beforeend", fiche);
     });
   } catch (error) {
     console.error("Impossible de charger les annonces :", error);

@@ -13,10 +13,10 @@ fetch('/api/connect', { credentials: 'include' })
    .then(data => {
       
       if (data.connecte) {
-         const userInfo = document.getElementById('btn_connection');
-         if (userInfo) {
-            userInfo.textContent = `Bonjour, ${data.prenom} !`;
-            userInfo.id = "btn_deconnection";
+         const btnc = document.getElementById('btn_connection');
+         if (btnc) {
+            btnc.textContent = `Bonjour, ${data.prenom} !`;
+            btnc.id = "btn_deconnection";
          }
       const disabledLinks = document.querySelectorAll('.nav-menu a.disabled');
       disabledLinks[0].href = "mesannonces.html";
@@ -26,6 +26,7 @@ fetch('/api/connect', { credentials: 'include' })
             link.removeAttribute('aria-disabled');
             link.removeAttribute('tabindex');
          });
+          localStorage.setItem('userInfo', JSON.stringify(data));
       const b2 = document.getElementById('btn_deconnection');
       b2.addEventListener('click', function(e) {
          e.preventDefault();
