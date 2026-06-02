@@ -1,26 +1,27 @@
-// fonction en js
+//===========================================================
+//    FICHIER : charger_ajouts.js
+//    PROJET  : ccmarket
+//    DATE    : 02/03/2026
+//    AUTEUR  : Stephane Brisse
+//===========================================================
+
 document.addEventListener("DOMContentLoaded", async () => {
   const pGrid = document.querySelector(".annonces-grid");
 
   try {
     const response = await fetch("/api/derniers_ajouts",);
-
     if (!response.ok) throw new Error("Erreur réseau");
-
     const annonces = await response.json();
-
     if (annonces.length === 0) {
       pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
       return;
     }
     pGrid.innerHTML = "";
-
     annonces.forEach((annonce) => {
       const imagePath = annonce.image_nom
         ? `/uploads/${annonce.image_nom}`
         : "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
-
       const fiche = `
                 <li>
                     <article>

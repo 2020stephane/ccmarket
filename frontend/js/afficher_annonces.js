@@ -63,6 +63,6 @@ document.addEventListener("DOMContentLoaded", async () => {
      });
   } catch (error) {
     console.error("Impossible de charger les annonces :", error);
-    liste.innerHTML = "<li>Impossible de charger les annonces.</li>";
+    container.innerHTML = "<li>Impossible de charger les annonces.</li>";
   }
 });
