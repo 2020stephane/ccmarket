@@ -18,33 +18,23 @@ router.post('/connection', async (req, res) => {
 
    try {
       const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
-      if (users.length === 0) {
-         return res.redirect('/connection.html');
-      }
-
       const user = users[0];
       const match = await bcrypt.compare(password, user.password);
-
       if (!match) {
-         return res.status(401).redirect('/connection.html');
+         return res.status(409).json({ message: 'Mot de passe invalide' });
       }
-      
       const token = jwt.sign(
          { id: user.userid, prenom: user.prenom, nom: user.nom, email: user.email },
          JWT_SECRET,
          { expiresIn: '7d' }
       );
-      
       res.cookie('monToken', token, {
          httpOnly: true,
          secure: process.env.NODE_ENV === 'production',
          sameSite: 'strict',
          maxAge: 7 * 24 * 60 * 60 * 1000 
       });
-
-      
-      return res.redirect('/index.html');
-
+      return res.status(200).json({ message: 'Connection réussie.' });
    } catch (error) {
       console.error('Erreur connexion :', error);
       return res.status(500).send('Erreur lors de la tentative de connexion.');

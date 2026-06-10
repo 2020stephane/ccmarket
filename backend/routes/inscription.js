@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
-router.post('/finscription', async (req, res) => {
+router.post('/inscription', async (req, res) => {
    const { prenom, nom, email, password } = req.body;
 
    try {
@@ -21,15 +21,13 @@ router.post('/finscription', async (req, res) => {
          return res.status(409).json({ message: 'Un compte avec cet email existe déjà.' });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      await db.query(
+      const [result] = await db.query(
          'INSERT INTO utilisateurs (prenom, nom, email, password) VALUES (?, ?, ?, ?)',
          [prenom, nom, email, hashedPassword]
       );
-
-      const [user1] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
-      const user = user1[0];
+      console.log([result]);
       const token = jwt.sign(
-         { id: user.userid, prenom: user.prenom, nom: user.nom, email: user.email },
+         { id: result.insertId, prenom: prenom, nom: nom, email: email },
          JWT_SECRET,
          { expiresIn: '7d' }
       );
@@ -40,10 +38,10 @@ router.post('/finscription', async (req, res) => {
          sameSite: 'strict',
          maxAge: 7 * 24 * 60 * 60 * 1000 
       });
-      return res.redirect('/index.html');
+      return res.status(200).json({ message: 'Inscription réussie.' });
 
    } catch (err) {
-      return res.status(500).json({ message: 'Erreur serveur.' });
+      return res.status(409).json({ message: 'Erreur serveur.' });
    }
 });
 

@@ -11,6 +11,7 @@
  
       fetch('/api/deconnect', { method: 'POST', credentials: 'include' })
          .then(() => {
+            localStorage.removeItem('userinfo');
             window.location.href = '/index.html';
          })
          .catch(() => {

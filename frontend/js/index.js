@@ -1,23 +1,48 @@
 //===========================================================
-//    FICHIER : charger_ajouts.js
+//    FICHIER : index.js
 //    PROJET  : ccmarket
 //    DATE    : 02/03/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const pGrid = document.querySelector(".annonces-grid");
-
-  try {
-    const response = await fetch("/api/derniers_ajouts",);
-    if (!response.ok) throw new Error("Erreur réseau");
-    const annonces = await response.json();
-    if (annonces.length === 0) {
+import {annonces_info} from "./data/annoncesAll.js";
+console.log("an_info= ",annonces_info);
+let userInfo = [];
+localStorage.getItem("annonces")
+ ? JSON.parse(localStorage.getItem("annonces")).forEach((item) => annonces_info.push(item))
+ : localStorage.setItem("annonces", JSON.stringify(annonces_info));
+localStorage.getItem("userinfo")
+ ? Object.values(JSON.parse(localStorage.getItem("userinfo"))).forEach((item) => userInfo.push(item))
+ : localStorage.setItem("userinfo", JSON.stringify(userInfo));
+console.log(userInfo);
+sauveAnnonces();
+afficheAnnonces();
+// ==================================================
+// Fonction sauveAnnonces
+// ==================================================
+async function sauveAnnonces() {
+   try {
+      const response = await fetch("/api/derniers_ajouts",);
+      if (!response.ok) throw new Error("Erreur réseau");
+      const tmp = await response.json();
+      localStorage.setItem("annonces", JSON.stringify(tmp));
+   } catch (error) {
+      console.log("message : ", error.message);
+      console.log("nom : ", error.name);
+      console.log("stack : ", error.stack);
+      pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
+   }
+}
+// ==================================================
+// Fonction afficheAnnonces
+// ==================================================
+function afficheAnnonces() {
+   const pGrid = document.querySelector(".annonces-grid");
+   if (annonces_info.length === 0) {
       pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
       return;
     }
     pGrid.innerHTML = "";
-    annonces.forEach((annonce) => {
+    annonces_info.forEach((annonce) => {
       const imagePath = annonce.image_nom
         ? `/uploads/${annonce.image_nom}`
         : "/uploads/default.png";
@@ -44,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             </p>
                             
                             <footer class="annonce_footer">
-                                <p class="vendeur">Vendeur : ${annonce.nom}</p>
+                                <p class="vendeur">Vendeur : ${userInfo[2]}</p>
                                 <button type="button" class="btn-contact">Contacter le vendeur</button>
                             </footer>
                         </div>
@@ -53,10 +78,4 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
       pGrid.insertAdjacentHTML("beforeend", fiche);
     });
-  } catch (error) {
-    console.log("message : ", error.message);
-    console.log("nom : ", error.name);
-    console.log("stack : ", error.stack);
-    pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
-  }
-});
+}
