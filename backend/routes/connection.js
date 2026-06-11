@@ -4,13 +4,14 @@
 //    DATE    : 01/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-require('dotenv').config();
-const express = require('express');
+import { setCookie, clearCookie  } from '../tools/cookie.js';
+import { db } from './db.js';
+import 'dotenv/config';
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+ 
 const router = express.Router();
-const db = require('./db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
 router.post('/connection', async (req, res) => {
@@ -21,19 +22,9 @@ router.post('/connection', async (req, res) => {
       const user = users[0];
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-         return res.status(409).json({ message: 'Mot de passe invalide' });
+         return res.status(409).json({ message: 'Mot de passe ou email invalide' });
       }
-      const token = jwt.sign(
-         { id: user.userid, prenom: user.prenom, nom: user.nom, email: user.email },
-         JWT_SECRET,
-         { expiresIn: '7d' }
-      );
-      res.cookie('monToken', token, {
-         httpOnly: true,
-         secure: process.env.NODE_ENV === 'production',
-         sameSite: 'strict',
-         maxAge: 7 * 24 * 60 * 60 * 1000 
-      });
+      setCookie(res, user, JWT_SECRET);
       return res.status(200).json({ message: 'Connection réussie.' });
    } catch (error) {
       console.error('Erreur connexion :', error);
@@ -41,4 +32,8 @@ router.post('/connection', async (req, res) => {
    }
 });
 
-module.exports = router;
+router.post('/deconnection', (req, res) => {
+   clearCookie(res);
+   res.json({ deconnecte: true });
+});
+export default router;

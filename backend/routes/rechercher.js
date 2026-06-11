@@ -4,9 +4,10 @@
 //    DATE    : 10/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-const express = require('express');
+import express from 'express';
+import { db } from './db.js';
+
 const router = express.Router();
-const db = require('./db');
 router.post('/recherche', async (req, res) => {
    const { categorie, prixmin, prixmax, plus_ra, prix_cd } = req.body;
 

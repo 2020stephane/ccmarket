@@ -4,21 +4,24 @@
 //    DATE    : 02/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-require('dotenv').config();
-const express = require('express');
+import 'dotenv/config';
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { db } from './db.js';
+
 const router = express.Router();
-const db = require('./db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
 router.post('/inscription', async (req, res) => {
    const { prenom, nom, email, password } = req.body;
-
+   if (!prenom || !nom || !email || !password) {
+      return res.status(400).json({ message: 'Tous les champs sont requis.' });
+   }
    try {
       const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
       if (users.length > 0) {
-         return res.status(409).json({ message: 'Un compte avec cet email existe déjà.' });
+         return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
       const [result] = await db.query(
@@ -27,7 +30,7 @@ router.post('/inscription', async (req, res) => {
       );
       console.log([result]);
       const token = jwt.sign(
-         { id: result.insertId, prenom: prenom, nom: nom, email: email },
+         { id: result.insertId },
          JWT_SECRET,
          { expiresIn: '7d' }
       );
@@ -41,8 +44,8 @@ router.post('/inscription', async (req, res) => {
       return res.status(200).json({ message: 'Inscription réussie.' });
 
    } catch (err) {
-      return res.status(409).json({ message: 'Erreur serveur.' });
+      return res.status(500).json({ message: 'Erreur serveur.' });
    }
 });
 
-module.exports = router;
+export default router;

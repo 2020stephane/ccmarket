@@ -18,6 +18,8 @@ form.addEventListener("submit", async (e) => {
          body: JSON.stringify({ email, password })
       });
       if (response.ok) {
+         const bconnect = document.getElementById(`btn_compte`);
+         bconnect.dataset.etat = 'connecte'
          window.location.href="index.html";
          return;
       }

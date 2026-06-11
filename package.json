@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "site de ventes d'accessoires pour camping car",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",

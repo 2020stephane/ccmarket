@@ -7,25 +7,31 @@
 // ==================================================
 // Importation des modules
 // ==================================================
-require('dotenv').config();
+import 'dotenv/config';
 
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
 
-const annoncesRoutes = require('./routes/annonces');
-const inscriptionRoutes = require('./routes/inscription');
-const connectionRoutes = require('./routes/connection');
-const authentificationRoutes = require('./routes/auth');
+import annoncesRoutes from './routes/annonces.js';
+import inscriptionRoutes from './routes/inscription.js';
+import connectionRoutes from './routes/connection.js';
+import authentificationRoutes from './routes/auth.js';
+// ==================================================
+// Recréation de __dirname
+// ==================================================
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // ==================================================
 // affectation des variables
 // ==================================================
 const app = express();
 const PORT = 3000;
 // ==================================================
-// Configuration des middleware
+// Configuration des intergiciels
 // ==================================================
 app.use(cors());
 app.use(express.json());

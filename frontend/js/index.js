@@ -4,31 +4,29 @@
 //    DATE    : 02/03/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import {annonces_info} from "./data/annoncesAll.js";
-console.log("an_info= ",annonces_info);
-let userInfo = [];
-localStorage.getItem("annonces")
- ? JSON.parse(localStorage.getItem("annonces")).forEach((item) => annonces_info.push(item))
- : localStorage.setItem("annonces", JSON.stringify(annonces_info));
-localStorage.getItem("userinfo")
- ? Object.values(JSON.parse(localStorage.getItem("userinfo"))).forEach((item) => userInfo.push(item))
- : localStorage.setItem("userinfo", JSON.stringify(userInfo));
-console.log(userInfo);
-sauveAnnonces();
-afficheAnnonces();
+import { ajoutBouttonCompte, verifierConnection} from "/js/tools/authentification.js";
+
+let annonces_info = [];
+ajoutBouttonCompte();
+verifierConnection();
+chargerAnnonces();
 // ==================================================
-// Fonction sauveAnnonces
+// Fonction chargerAnnonces
 // ==================================================
-async function sauveAnnonces() {
+async function chargerAnnonces() {
    try {
       const response = await fetch("/api/derniers_ajouts",);
       if (!response.ok) throw new Error("Erreur réseau");
       const tmp = await response.json();
       localStorage.setItem("annonces", JSON.stringify(tmp));
+      annonces_info.length = 0;                    
+      tmp.forEach(item => annonces_info.push(item)); 
+      afficheAnnonces();  
    } catch (error) {
       console.log("message : ", error.message);
       console.log("nom : ", error.name);
       console.log("stack : ", error.stack);
+      const pGrid = document.querySelector(".annonces-grid");
       pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
    }
 }
@@ -47,6 +45,7 @@ function afficheAnnonces() {
         ? `/uploads/${annonce.image_nom}`
         : "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
+      const nomVendeur = annonce?.nom ?? "Vendeur inconnu";
       const fiche = `
                 <li>
                     <article>
@@ -69,7 +68,7 @@ function afficheAnnonces() {
                             </p>
                             
                             <footer class="annonce_footer">
-                                <p class="vendeur">Vendeur : ${userInfo[2]}</p>
+                                <p class="vendeur">Vendeur : ${nomVendeur}</p>
                                 <button type="button" class="btn-contact">Contacter le vendeur</button>
                             </footer>
                         </div>

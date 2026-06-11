@@ -4,12 +4,13 @@
 //    DATE    : 01/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-const express = require("express");
+import { db } from './db.js';
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import path from 'path';
+
 const router = express.Router();
-const db = require("./db");
-const jwt = require('jsonwebtoken');
-const path = require('path');
-const verifierToken = require('../middleware/auth2');
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 // ==================================================
 // derniers_ajouts
@@ -34,7 +35,7 @@ router.get("/derniers_ajouts", async (req, res) => {
 // mesannonces
 // ==================================================
 
-router.get("/mesannonces", verifierToken, async (req, res) => {
+router.get("/mesannonces", async (req, res) => {
    
   try {
    const userid = req.user.id;
@@ -135,4 +136,4 @@ if (orderClauses.length > 0) {
       return res.status(500).json({ message: 'Erreur serveur.' });
    }
 });  
-module.exports = router;
+export default router;
