@@ -5,7 +5,7 @@
    AUTEUR  : Stephane Brisse
    =========================================================== */
  @import url("/css/header.css");
-@import url("/css/footer.css");
+ @import url("/css/footer.css");
  @font-face {
  font-family: "Roboto";
  src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
@@ -26,7 +26,13 @@
  body {
  font-family: "Roboto", sans-serif;
  color: #000;
+ min-height: 100vh;     
+ display: flex;
+ flex-direction: column;
  }
+ main {
+  flex: 1; 
+}
 @media (max-width: 900px) {
 
    .btn-hamburger {
