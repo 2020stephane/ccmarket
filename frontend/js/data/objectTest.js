@@ -6,7 +6,7 @@
 //===========================================================
 let annonces = [
    {
-   categorie : "accessoire",   
+   categorie : "accessoire",
    image : "../img/test/supporttv.webp",
    titre : "support_tv",
    description : "un support pour tv",
@@ -15,7 +15,7 @@ let annonces = [
    nomVendeur: "brisse"
    },
    {
-   categorie : "electricite",    
+   categorie : "electricite",
    image : "../img/test/pompe.webp",
    titre : "pompe à eau",
    description : "pompe 12v",
@@ -23,13 +23,13 @@ let annonces = [
    datePublication : "21-04-2026",
    nomVendeur: "toto"},
    {
-   categorie : "electricite",    
+   categorie : "electricite",
    image : "../img/test/victron.webp",
    titre : "convertisseur",
    description : "convertisseur victron 250w",
    prix : 45,
    datePublication : "24-04-2026",
-   nomVendeur: "toto"}
+   nomVendeur: "titi"}
 ]
 
 function ajouts() {
@@ -45,14 +45,14 @@ function ajouts() {
                         </figure>
                         <div class="annonce_content">
                             <h3>${annonce.titre}</h3>
-                            
+
                             <p class="annonce_description">
                                ${annonce.description}
                             </p>
                             <p class="annonce_price">
-                               ${annonce.prix} euros 
+                               ${annonce.prix} euros
                             </p>
-                                                      
+
                             <footer class="annonce_footer">
                                 <p class="vendeur">Vendeur : ${annonce.nomVendeur}</p>
                                 <button type="button" class="btn-contact">Contacter le vendeur</button>

@@ -1,0 +1,66 @@
+Sub Create_Tables()
+
+DoCmd.RunSQL "CREATE TABLE utilisateurs(" & _
+   "utilisateur_id COUNTER," & _
+   "nom VARCHAR(50) NOT NULL," & _
+   "prenom VARCHAR(50) NOT NULL," & _
+   "email VARCHAR(50) NOT NULL," & _
+   "motdepasse VARCHAR(50)," & _
+   "administrateur LOGICAL," & _
+   "PRIMARY KEY(utilisateur_id)," & _
+   "UNIQUE(email)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE categories(" & _
+   "categorie_id COUNTER," & _
+   "nom VARCHAR(50)," & _
+   "PRIMARY KEY(categorie_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE messages(" & _
+   "message_id COUNTER," & _
+   "contenu VARCHAR(50) NOT NULL," & _
+   "date_envoi DATE," & _
+   "annonce_id INT," & _
+   "PRIMARY KEY(message_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE annonces(" & _
+   "annonce_id COUNTER," & _
+   "titre VARCHAR(50)," & _
+   "descriptif VARCHAR(50)," & _
+   "prix INT," & _
+   "photo VARCHAR(50)," & _
+   "date_publication DATE NOT NULL," & _
+   "utilisateur_id INT NOT NULL," & _
+   "categorie_id INT NOT NULL," & _
+   "PRIMARY KEY(annonce_id)," & _
+   "FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id)," & _
+   "FOREIGN KEY(categorie_id) REFERENCES categories(categorie_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE photos(" & _
+   "photo_id COUNTER," & _
+   "photo_url VARCHAR(50)," & _
+   "annonce_id INT NOT NULL," & _
+   "PRIMARY KEY(photo_id)," & _
+   "FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE envoyer(" & _
+   "utilisateur_id INT," & _
+   "message_id INT," & _
+   "PRIMARY KEY(utilisateur_id, message_id)," & _
+   "FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id)," & _
+   "FOREIGN KEY(message_id) REFERENCES messages(message_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE recevoir(" & _
+   "utilisateur_id INT," & _
+   "message_id INT," & _
+   "PRIMARY KEY(utilisateur_id, message_id)," & _
+   "FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id)," & _
+   "FOREIGN KEY(message_id) REFERENCES messages(message_id)" & _
+");"   
+
+End Sub

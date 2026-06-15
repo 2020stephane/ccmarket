@@ -2,7 +2,7 @@ Cahier des charges pour le site CAMPING CAR MARKET:
 
 Pour ce site ,il y a plusieurs utilisateurs qui s'inscrivent avec le prenom,nom,email et mot de passe.
 Chaque utilisateur peut publier une ou plusieurs annonces.
-Chaque annnonce possede un titre,un descriptif,un prix,une catégorie et une photos.
-Il y a 4 categories possibles:accéssoires,electricité,carrosserie et mécanique.
-Une annonce ne peut appartenir qu'a une seule catégorie. 
+Chaque annnonce possede un titre,un descriptif,un prix,une catégorie et une ou plusieurs photos.
+Chaque annonce est classé dans une categorie.
+Une annonce ne peut appartenir qu'a une seule catégorie.
 Un acheteur peut contacter un vendeur via la messagerie.
