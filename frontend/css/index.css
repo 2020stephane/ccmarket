@@ -7,26 +7,26 @@
 @import url("/css/header.css");
 @import url("/css/footer.css");
 /* ================
-   ===== HERO ===== 
+   ===== HERO =====
    ================ */
 .section_img {
-  position: relative; 
+  position: relative;
   display: flex;
-  justify-content: center; 
-  align-items: center;    
+  justify-content: center;
+  align-items: center;
 }
 
 .img_hero {
-  width: 100%;    
+  width: 100%;
   height: auto;
-  display: block; 
+  display: block;
 }
 
 h1 {
-  position: absolute; 
-  top: 25%;          
-  margin: 5%;          
-  color: white;    
+  position: absolute;
+  top: 25%;
+  margin: 5%;
+  color: white;
   cursor: default;
 }
 /* ====================
@@ -53,6 +53,7 @@ article {
   transition: all 0.3s;
   cursor: default;
   max-width: 15em;
+  height: 33em;
 }
 article:hover {
   transform: translateY(-5px);
@@ -83,6 +84,11 @@ h3 {
 }
 .annonce_footer {
   margin-bottom: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+
 }
 .btn-contact {
  background-color: var(--b_color_base);
@@ -92,6 +98,7 @@ h3 {
    font-weight: 500;
    border: none;
    cursor: pointer;
+   margin-bottom: 1em;
    transition: all 0.3s, transform 0.3s;
 }
 .btn-contact:hover {
@@ -114,9 +121,9 @@ h3 {
   @media (max-width: 640px) {
     .logo-img {
       display: none;
-      
+
     }
-    
+
   }
   header nav {
     position: absolute;
