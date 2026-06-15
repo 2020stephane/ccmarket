@@ -18,12 +18,30 @@ const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 router.get("/derniers_ajouts", async (req, res) => {
   try {
     const [rows] = await db.query(`
-            SELECT annonceid, titre, prix, date_publication, description, utilisateur_id, image_nom
-            FROM annonces
-            ORDER BY date_publication DESC
-            LIMIT 12
-        `);
-    res.json(rows);
+      SELECT
+        a.*,
+        GROUP_CONCAT(p.photo_url) AS photos
+      FROM annonces a
+      LEFT JOIN photos p ON a.annonce_id = p.annonce_id
+      GROUP BY a.annonce_id
+      ORDER BY a.date_publication DESC
+      LIMIT 8
+    `);
+
+    // Convertir la string "url1,url2" en tableau ["url1", "url2"]
+    const annonces = rows.map(row => ({
+      ...row,
+      photos: row.photos ? row.photos.split(',') : []
+    }));
+
+    res.json(annonces);
+    // const [rows] = await db.query(`
+    //         SELECT *
+    //         FROM annonces
+    //         ORDER BY date_publication DESC
+    //         LIMIT 8
+    //     `);
+    // res.json(rows);
   } catch (error) {
     console.log(error.message);
     console.log(error.name);
@@ -36,10 +54,10 @@ router.get("/derniers_ajouts", async (req, res) => {
 // ==================================================
 
 router.get("/mesannonces", async (req, res) => {
-   
+
   try {
    const userid = req.user.id;
-   const [rows] = await db.query(`SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]); 
+   const [rows] = await db.query(`SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]);
    res.json(rows);
   } catch (error) {
     console.log(error.message);
@@ -57,7 +75,7 @@ router.post('/publierannonce', async (req, res) => {
    let image_nom = photo;
    console.log(`test log ${image_nom}`);
    if (req.files && req.files.photo) {
-      
+
         const dossier_upload = path.join(__dirname, '../../frontend/uploads/');
         const extension = req.files.photo.name.split('.').pop();
         const nom_unique = Date.now() + "_" + req.files.photo.name;
@@ -77,9 +95,9 @@ router.post('/publierannonce', async (req, res) => {
       );
    return res.status(201).json({ message: "Annonce publiée avec succès !" });
     } catch (error) {
-      console.error(error); 
+      console.error(error);
     }
-}); 
+});
 
 router.post('/recherche', async (req, res) => {
    const { categorie, prixmin, prixmax, plus_ra, prix_cd } = req.body;
@@ -87,12 +105,12 @@ router.post('/recherche', async (req, res) => {
    try {
       let sql = 'SELECT * FROM annonces WHERE 1=1';
       let params = [];
- 
+
       // Filtre Catégorie
       if (categorie !== 'tout') {
          sql += ' AND categorie = ?';
          params.push(categorie);
-      } 
+      }
 
       // Filtre Prix (on convertit en nombre pour plus de sécurité)
       // if (prixmin && !isNaN(prixmin)) {
@@ -135,5 +153,5 @@ if (orderClauses.length > 0) {
    } catch (err) {
       return res.status(500).json({ message: 'Erreur serveur.' });
    }
-});  
+});
 export default router;

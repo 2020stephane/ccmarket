@@ -25,7 +25,7 @@ router.post('/inscription', async (req, res) => {
       }
       const hashedPassword = await bcrypt.hash(password, 10);
       const [result] = await db.query(
-         'INSERT INTO utilisateurs (prenom, nom, email, password) VALUES (?, ?, ?, ?)',
+         'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
          [prenom, nom, email, hashedPassword]
       );
       console.log([result]);
@@ -34,12 +34,12 @@ router.post('/inscription', async (req, res) => {
          JWT_SECRET,
          { expiresIn: '7d' }
       );
-      
+
       res.cookie('monToken', token, {
          httpOnly: true,
          secure: process.env.NODE_ENV === 'production',
          sameSite: 'strict',
-         maxAge: 7 * 24 * 60 * 60 * 1000 
+         maxAge: 7 * 24 * 60 * 60 * 1000
       });
       return res.status(200).json({ message: 'Inscription réussie.' });
 
