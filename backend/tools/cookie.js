@@ -18,7 +18,7 @@ export function setCookie(res, user, JWT_SECRET) {
             sameSite: 'strict'
          });
 }
-export function clearCookie() {
+export function clearCookie(res) {
    res.clearCookie('monToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

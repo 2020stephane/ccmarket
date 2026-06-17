@@ -1,5 +1,5 @@
 <!--===========================================================
-    FICHIER : connection.html
+    FICHIER : seconnecter.html
     PROJET  : ccmarket
     DATE    : 17/02/2026
     AUTEUR  : Stephane Brisse
@@ -44,7 +44,7 @@
                <a href="rechercher.html" class="rechercher">Rechercher</a>
             </li>
             <li>
-              <button data-etat="deconnecte" id="btn_compte">Mon compte</button>
+              <a href="seconnecter.html" id="seconnecter">Se connecter</a>
             </li>
          </ul>
       </nav>
@@ -53,8 +53,8 @@
          =====  HERO SECTION  =====
          ========================== -->
    <section class="hero">
-      <h1>Se connecter</h1>
-      <form action="#" id="formInscription"> 
+      <h1>CONNECTION</h1>
+      <form action="#" id="formConnection">
          <p>
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" autocomplete="email" placeholder="Email" required>
@@ -65,10 +65,11 @@
                <input type="password" id="password" name="password" autocomplete="mot de passe"
                   placeholder="Mot de passe" required>
          </p>
-         
+
          <button id="b_submit" type="submit">CONNECTION</button>
       </form>
       <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
+      <button id="deconnection">DECONNECTION</button>
    </section>
    <!--==================
     ===== FOOTER =====
@@ -80,6 +81,6 @@
       </nav>
       <div class="footer-copyright">2026 Camping-Car Market.</div>
    </footer>
-   <script src="/js/connection.js"></script>
+   <script type="module" src="/js/seconnecter.js"></script>
 </body>
 </html>

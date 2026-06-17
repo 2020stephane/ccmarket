@@ -16,6 +16,8 @@ import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 
+import { db } from './bdd/db.js';
+
 import annoncesRoutes from './routes/annonces.js';
 import inscriptionRoutes from './routes/inscription.js';
 import connectionRoutes from './routes/connection.js';
@@ -29,7 +31,7 @@ const __dirname = path.dirname(__filename);
 // affectation des variables
 // ==================================================
 const app = express();
-const PORT = 3000;
+const PORT =  process.env.NS_PORT;
 // ==================================================
 // Configuration des intergiciels
 // ==================================================
@@ -39,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(fileUpload());
 
-app.use('/api', annoncesRoutes);
+app.use('/api/annonces', annoncesRoutes);
 app.use('/api', connectionRoutes);
 app.use('/api', inscriptionRoutes);
 app.use('/api', authentificationRoutes);
@@ -59,6 +61,17 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
    res.status(404).send("Désolé, cette page n'existe pas !");
 });
+// ==================================================
+// Connection a la bdd
+// ==================================================
+try {
+   await db.query('SELECT 1');
+   console.log('✅ Connexion à la base de données MySQL réussie (Pool actif).');
+} catch (error) {
+   console.error('❌ Erreur de connexion à la base de données :');
+   console.error(error.message);
+   process.exit(1);
+}
 // ==================================================
 // Lancement du serveur
 // ==================================================

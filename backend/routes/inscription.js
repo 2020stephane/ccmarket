@@ -8,7 +8,7 @@ import 'dotenv/config';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { db } from './db.js';
+import { db } from '../bdd/db.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';

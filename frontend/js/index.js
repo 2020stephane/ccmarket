@@ -4,10 +4,9 @@
 //    DATE    : 02/03/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { ajoutBouttonCompte, verifierConnection} from "/js/tools/authentification.js";
+import { verifierConnection } from "/js/tools/authentification.js";
 
 let annonces_info = [];
-ajoutBouttonCompte();
 verifierConnection();
 chargerAnnonces();
 // ==================================================
@@ -15,8 +14,7 @@ chargerAnnonces();
 // ==================================================
 async function chargerAnnonces() {
    try {
-      const response = await fetch("/api/derniers_ajouts",);
-    //   if (!response.ok) throw new Error("Erreur réseau");
+      const response = await fetch("/api/annonces/derniers_ajouts",);
       const tmp = await response.json();
       localStorage.setItem("annonces", JSON.stringify(tmp));
       annonces_info.length = 0;
@@ -41,16 +39,14 @@ function afficheAnnonces() {
     }
     pGrid.innerHTML = "";
     annonces_info.forEach((annonce) => {
-      const imagePath = annonce.photos
-        ? `/uploads/${annonce.photos}`
-        : "/uploads/default.png";
+      const imagePath = annonce.photos?.[0] ?? "/uploads/default.png";
       const datePub = new Date(annonce.date_publication);
       const nomVendeur = annonce?.nom ?? "Vendeur inconnu";
       const fiche = `
                 <li>
                     <article>
                         <figure>
-                            <img src="/uploads/default.png" alt="${annonce.titre}" loading="lazy">
+                            <img src="${imagePath}" alt="${annonce.titre}" loading="lazy">
                         </figure>
 
                         <div class="annonce_content">
@@ -68,7 +64,7 @@ function afficheAnnonces() {
                             </p>
 
                             <footer class="annonce_footer">
-                                <p class="vendeur">Vendeur : ${nomVendeur}</p>
+                                <p class="vendeur">Vendeur : ${annonce.utilisateur_id}</p>
                                 <button type="button" class="btn-contact">Contacter le vendeur</button>
                             </footer>
                         </div>
