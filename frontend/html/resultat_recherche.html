@@ -6,18 +6,23 @@
     ===========================================================-->
 <!DOCTYPE html>
 <html lang="fr">
-<!--==================================================
+   <!--==================================================
 ======================  HEAD  ======================
 ===================================================-->
 <head>
-   <script src="/js/menu_hamburger.js" defer></script>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
-   <title>ccmarket</title>
+
+   <link rel="icon" href="/img/favicon.ico">
    <link rel="stylesheet" href="/css/resultat_recherche.css">
+
+   <script src="/js/tools/menu_hamburger.js" defer></script>
+
+   <title>Camping-Car Market</title>
 </head>
+
 <body>
 <!--==================================================
 ======================  HEADER  ======================
@@ -60,7 +65,7 @@
 <script>
     // On récupère les données stockées
     const donneesRaw = localStorage.getItem('mesResultats');
-    
+
     if (donneesRaw) {
         const annonces = JSON.parse(donneesRaw);
         const conteneur = document.getElementById('affichage');
@@ -88,7 +93,6 @@
       </nav>
       <div class="footer-copyright">2026 Camping-Car Market.</div>
    </footer>
-   <script src="/js/resultat_recherche.js"></script>
-   <script src="/js/authentification.js"></script>
+   <script type="module" src="/js/resultat_recherche.js"></script>
 </body>
 </html>

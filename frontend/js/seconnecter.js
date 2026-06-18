@@ -15,13 +15,14 @@ form.addEventListener("submit", async (e) => {
    const email = document.getElementById("email").value;
    const motdepasse = document.getElementById("password").value;
    try {
-      const response = await fetch("/api/connection", {
+      const response = await fetch("/api/utilisateurs/connection", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ email:email, motdepasse:motdepasse })
       });
       const data = await response.json();
       if (response.ok) {
+         localStorage.setItem('userinfo', JSON.stringify(data));
          window.location.href = "index.html";
       } else {
          alert(data.message);
@@ -37,7 +38,7 @@ const btnd = document.getElementById("deconnection");
 btnd.addEventListener("click", async (e) => {
    e.preventDefault();
    try {
-      const response = await fetch("/api/deconnection", {
+      const response = await fetch("/api/utilisateurs/deconnection", {
          method: "POST",
          headers: {
             "Content-Type": "application/json"
@@ -46,7 +47,8 @@ btnd.addEventListener("click", async (e) => {
       const data = await response.json();
 
       if (response.ok) {
-        window.location.href = "index.html";
+         localStorage.removeItem('userinfo');
+         window.location.href = "index.html";
       } else {
          alert(data.message || "Impossible de se déconnecter.");
          window.location.href = "seconnecter.html";

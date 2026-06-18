@@ -19,8 +19,7 @@ import fileUpload from 'express-fileupload';
 import { db } from './bdd/db.js';
 
 import annoncesRoutes from './routes/annonces.js';
-import inscriptionRoutes from './routes/inscription.js';
-import connectionRoutes from './routes/connection.js';
+import utilisateursRoutes from './routes/utilisateurs.js';
 import authentificationRoutes from './routes/auth.js';
 // ==================================================
 // Recréation de __dirname
@@ -42,8 +41,7 @@ app.use(cookieParser());
 app.use(fileUpload());
 
 app.use('/api/annonces', annoncesRoutes);
-app.use('/api', connectionRoutes);
-app.use('/api', inscriptionRoutes);
+app.use('/api/utilisateurs', utilisateursRoutes);
 app.use('/api', authentificationRoutes);
 
 app.use(express.static(path.join(__dirname, '../frontend/html')));

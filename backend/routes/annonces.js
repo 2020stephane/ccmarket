@@ -12,14 +12,21 @@ import {
    updateAnnonce,
    patchAnnonce,
    deleteAnnonce,
-   getAjouts
+   getAjouts,
+   getAnnoncesByUser,
+   getAnnoncesByFilter,
+   postAnnonce
 } from '../controllers/annoncesControllers.js';
 
 const router = express.Router();
 // ==================================================
-// routes ajoutes pour mon projet
+// routes ajoutées pour mon projet
 // ==================================================
 router.get('/derniers_ajouts', getAjouts);
+router.get('/mesannonces/:id', getAnnoncesByUser);
+router.post('/recherche', getAnnoncesByFilter);
+router.post('/publierannonce', postAnnonce);
+
 // ==================================================
 // routes pour le CRUD
 // ==================================================

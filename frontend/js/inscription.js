@@ -4,9 +4,9 @@
 //    DATE    : 02/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { ajoutBouttonCompte, verifierConnection} from "/js/tools/authentification.js";
-ajoutBouttonCompte();
+import { verifierConnection} from "/js/tools/authentification.js";
 verifierConnection();
+
 const form = document.getElementById("formInscription");
 
 form.addEventListener("submit", async (e) => {
@@ -16,7 +16,7 @@ form.addEventListener("submit", async (e) => {
    const nom = document.getElementById("nom").value.trim();
    const email = document.getElementById("email").value.trim();
    const password = document.getElementById("password").value.trim();
-   
+
    if (!prenom || !nom || !email || !password) {
       afficherErreur("Tous les champs sont obligatoires.");
       return;
@@ -34,7 +34,7 @@ form.addEventListener("submit", async (e) => {
       if (response.ok) {
          window.location.href="index.html";
       }else {
-         afficherErreur(data.message); 
+         afficherErreur(data.message);
       }
    } catch {
           afficherErreur("Erreur serveur, veuillez réessayer.");
@@ -44,6 +44,6 @@ form.addEventListener("submit", async (e) => {
 // function afficherErreur(msg: any): void
 // ==================================================
 function afficherErreur(msg) {
-   const el = document.getElementById("msg-erreur"); 
+   const el = document.getElementById("msg-erreur");
    if (el) el.textContent = msg;
 }

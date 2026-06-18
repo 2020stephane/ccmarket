@@ -20,8 +20,6 @@ export async function verifierConnection() {
             link.removeAttribute('aria-disabled');
             link.removeAttribute('tabindex');
          });
-
-         localStorage.setItem('userinfo', JSON.stringify(data));
       }
    } catch {
       window.location.href = '/seconnecter.html';
