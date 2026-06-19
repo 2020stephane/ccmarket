@@ -18,6 +18,7 @@ db = mysql.createPool({
    waitForConnections: true,
    connectionLimit: 10,
 }).promise();
+console.log('Database connection established successfully');
 } catch (error) {
   console.error('Error establishing database connection:', error);
   // Optionally, you can rethrow the error or handle it as needed

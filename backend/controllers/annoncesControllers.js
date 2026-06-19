@@ -44,16 +44,16 @@ export async function getAnnonceById(req, res) {
 // POST créer une annonce
 // ==================================================
 export async function createAnnonce(req, res) {
-   const { titre, descriptif, prix, categorie } = req.body;
+   const { titre, descriptif, prix, categorie_id, utilisateur_id } = req.body;
 
-   if (!titre || !descriptif || !prix || !categorie) {
+   if (!titre || !descriptif || !prix || !categorie_id || !utilisateur_id) {
       return res.status(400).json({ message: 'Champs obligatoires manquants' });
    }
 
    try {
       const [result] = await db.execute(
-         'INSERT INTO annonces (titre, descriptif, prix, categorie, utilisateur_id, date_publication) VALUES (?, ?, ?, ?, ?)',
-         [titre, description, prix, categorie ?? null]
+         'INSERT INTO annonces (titre, descriptif, prix, categorie_id, utilisateur_id) VALUES (?, ?, ?, ?, ?)',
+         [titre, descriptif, prix, categorie_id, utilisateur_id]
       );
       res.status(201).json({ message: 'Annonce créée', id: result.insertId });
    } catch (err) {
@@ -65,16 +65,16 @@ export async function createAnnonce(req, res) {
 //  PUT modifier une annonce
 // ==================================================
 export async function updateAnnonce(req, res) {
-   const { titre, description, prix, categorie } = req.body;
+   const { titre, descriptif, prix, categorie_id } = req.body;
 
-   if (!titre || !description || !prix) {
+   if (!titre || !descriptif || !prix || !categorie_id) {
       return res.status(400).json({ message: 'Champs obligatoires manquants' });
    }
 
    try {
       const [result] = await db.execute(
-         'UPDATE annonces SET titre = ?, description = ?, prix = ?, categorie = ? WHERE id = ?',
-         [titre, description, prix, categorie ?? null, req.params.id]
+         'UPDATE annonces SET titre = ?, descriptif = ?, prix = ?, categorie_id = ? WHERE annonce_id = ?',
+         [titre, descriptif, prix, categorie_id ?? null, req.params.id]
       );
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
@@ -238,30 +238,33 @@ if (orderClauses.length > 0) {
 // ==================================================
 export async function postAnnonce(req, res) {
    try {
-      const { titre, prix, description, photo } = req.body;
+      const { titre, prix, descriptif, categorie } = req.body;
+      console.log("=", titre,"=", prix,"=", descriptif,"=", categorie)
       const token = req.cookies.monToken;
       const decoded = jwt.verify(token, JWT_SECRET);
       const userid = decoded.id;
-      let image_nom = photo;
-      console.log(`test log ${image_nom}`);
-      if (req.files && req.files.photo) {
+      const cat = 2;
+      console.log("=", userid);
+      // let image_nom = photo;
+      // console.log(`test log ${image_nom}`);
+      // if (req.files && req.files.photo) {
 
-           const dossier_upload = path.join(__dirname, '../../frontend/uploads/');
-           const extension = req.files.photo.name.split('.').pop();
-           const nom_unique = Date.now() + "_" + req.files.photo.name;
-           const chemin_final = dossier_upload + nom_unique;
-           const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-           console.log(`test log ok ${chemin_final}`);
+      //      const dossier_upload = path.join(__dirname, '../../frontend/uploads/');
+      //      const extension = req.files.photo.name.split('.').pop();
+      //      const nom_unique = Date.now() + "_" + req.files.photo.name;
+      //      const chemin_final = dossier_upload + nom_unique;
+      //      const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+      //      console.log(`test log ok ${chemin_final}`);
 
-           if (extensions_autorisees.includes(extension.toLowerCase())) {
-               await req.files.photo.mv(chemin_final);
-               image_nom = nom_unique;
-           }
-       }
+      //      if (extensions_autorisees.includes(extension.toLowerCase())) {
+      //          await req.files.photo.mv(chemin_final);
+      //          image_nom = nom_unique;
+      //      }
+      //  }
 
       await db.query(
-            'INSERT INTO annonces (titre, prix, description, utilisateur_id, image_nom) VALUES (?, ?, ?, ?, ?)',
-            [titre, prix, description, userid, image_nom]
+            'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
+            [titre, prix, descriptif, userid, cat]
          );
       return res.status(201).json({ message: "Annonce publiée avec succès !" });
        } catch (error) {

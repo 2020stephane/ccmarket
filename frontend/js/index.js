@@ -9,7 +9,8 @@ import { verifierConnection } from "/js/tools/authentification.js";
 //import { ajouts } from "/js/data/objectTest.js";
 //***********************************************
 verifierConnection();
-chargerAnnonces(); // commenter pour utiliser ajouts
+//commenter pour utiliser ajouts
+chargerAnnonces();
 // ==================================================
 // Fonction chargerAnnonces
 // ==================================================
