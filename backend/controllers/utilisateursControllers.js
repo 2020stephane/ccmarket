@@ -4,7 +4,7 @@
 //    DATE    : 18/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { db } from '../bdd/db.js';
+import db from '../bdd/db.js';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import { setCookie, clearCookie } from '../tools/cookie.js';
@@ -12,7 +12,9 @@ import { setCookie, clearCookie } from '../tools/cookie.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
 // ==================================================
-// seConnecter
+// Function: seConnecter
+// input:    email, motdepasse
+// output:   id, prenom, nom
 // ==================================================
 export const seConnecter = async (req, res) => {
 

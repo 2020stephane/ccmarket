@@ -7,7 +7,9 @@
 import mysql from 'mysql2';
 import 'dotenv/config';
 
-const pool = mysql.createPool({
+let db;
+try {
+db = mysql.createPool({
    host: process.env.DB_HOST,
    user: process.env.DB_USER,
    password: process.env.DB_PASSWORD,
@@ -15,6 +17,11 @@ const pool = mysql.createPool({
    port: process.env.DB_PORT,
    waitForConnections: true,
    connectionLimit: 10,
-});
-export const db = pool.promise();
+}).promise();
+} catch (error) {
+  console.error('Error establishing database connection:', error);
+  // Optionally, you can rethrow the error or handle it as needed
+  throw error;
+}
+export default db;
 

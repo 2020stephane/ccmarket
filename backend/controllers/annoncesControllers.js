@@ -4,7 +4,7 @@
 //    DATE    : 16/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { db } from '../bdd/db.js';
+import db from '../bdd/db.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';

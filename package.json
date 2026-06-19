@@ -5,9 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
-    "inspect": "node --inspect backend/server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "inspect": "node --inspect server.js"
   },
   "keywords": [],
   "author": "Stephane Brisse",
