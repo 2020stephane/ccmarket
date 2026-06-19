@@ -7,7 +7,8 @@
 import express from 'express';
 import {
    seConnecter,
-   seDeconnecter
+   seDeconnecter,
+   sInscrire
 } from '../controllers/utilisateursControllers.js';
 
 const router = express.Router();
@@ -16,5 +17,5 @@ const router = express.Router();
 // ==================================================
 router.post('/connection', seConnecter);
 router.post('/deconnection', seDeconnecter);
-
+router.post('/inscription', sInscrire);
 export default router;

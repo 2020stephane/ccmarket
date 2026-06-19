@@ -5,21 +5,23 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection } from "/js/tools/authentification.js";
-
-let annonces_info = [];
+//***********************************************
+//import { ajouts } from "/js/data/objectTest.js";
+//***********************************************
 verifierConnection();
-chargerAnnonces();
+chargerAnnonces(); // commenter pour utiliser ajouts
 // ==================================================
 // Fonction chargerAnnonces
 // ==================================================
 async function chargerAnnonces() {
+    let annonces_info = [];
    try {
       const response = await fetch("/api/annonces/derniers_ajouts",);
       const tmp = await response.json();
       localStorage.setItem("annonces", JSON.stringify(tmp));
       annonces_info.length = 0;
       tmp.forEach(item => annonces_info.push(item));
-      afficheAnnonces();
+      afficheAnnonces(annonces_info);
    } catch (error) {
       console.log("message : ", error.message);
       console.log("nom : ", error.name);
@@ -31,7 +33,7 @@ async function chargerAnnonces() {
 // ==================================================
 // Fonction afficheAnnonces
 // ==================================================
-function afficheAnnonces() {
+function afficheAnnonces(annonces_info) {
    const pGrid = document.querySelector(".annonces-grid");
    if (annonces_info.length === 0) {
       pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";

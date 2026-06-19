@@ -29,7 +29,6 @@ export const seConnecter = async (req, res) => {
           return res.status(409).json({ message: 'Mot de passe ou email invalide' });
           }
           setCookie(res, user, JWT_SECRET);
-          console.log(user);
           return res.status(200).json({
           id: user.utilisateur_id,
           prenom: user.prenom,
@@ -46,4 +45,29 @@ export const seConnecter = async (req, res) => {
 export const seDeconnecter = (req, res) => {
      clearCookie(res);
      res.json({ connection: false });
+}
+// ==================================================
+// s'inscrire
+// ==================================================
+export const sInscrire = async (req, res) => {
+     const { prenom, nom, email, password } = req.body;
+        if (!prenom || !nom || !email || !password) {
+           return res.status(400).json({ message: 'Tous les champs sont requis.' });
+        }
+        try {
+           const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+           if (users.length > 0) {
+              return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
+           }
+           const hashedPassword = await bcrypt.hash(password, 10);
+           const [result] = await db.query(
+              'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
+              [prenom, nom, email, hashedPassword]
+           );
+           setCookie(res, user, JWT_SECRET);
+           return res.status(200).json({ message: 'Inscription réussie.' });
+
+   } catch (err) {
+      return res.status(500).json({ message: 'Erreur serveur.' });
+   }
 }
