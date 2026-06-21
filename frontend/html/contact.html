@@ -61,7 +61,7 @@
 ===================================================-->
    <main>
       <h1>Envoyez un message</h1>
-      <form action="#" method="post">
+      <form id="formContact">
          <p>
             <label for="prenom_id">Prénom :</label>
             <input type="text" id="prenom_id" name="prenom" required>
@@ -84,6 +84,7 @@
          </p>
 
          <button type="submit" id="b_submit">ENVOYER</button>
+         <p id="msg-erreur"></p>
       </form>
    </main>
    <!--=====================================================

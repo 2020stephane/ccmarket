@@ -1,0 +1,124 @@
+/* ===========================================================
+   FICHIER : modifier_annonce.css
+   PROJET  : ccmarket
+   DATE    : 21/04/2026
+   AUTEUR  : Stephane Brisse
+   =========================================================== */
+@import url("/css/header.css");
+@import url("/css/footer.css");
+@font-face {
+ font-family: "Roboto";
+ src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
+ font-weight: 400;
+ font-style: normal;
+ font-display: swap;
+ }
+ *,
+ *::before,
+ *::after {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+ html {
+ scroll-behavior: smooth;
+ }
+ body {
+ font-family: "Roboto", sans-serif;
+ color: #000;
+ }
+/* ====================
+   ===== MAIN =========
+   ==================== */
+.annonces {
+  padding-top: 2rem;
+}
+h1 {
+   cursor: default;
+   text-align: center;
+   margin-bottom: 1rem;
+}
+h2 {
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  cursor: default;
+}
+.table_container {
+  width: 100%;
+  overflow-x: auto; /* Permet le défilement horizontal sur petit écran si nécessaire */
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+.annonces_table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  text-align: left;
+}
+
+.annonces_table th,
+.annonces_table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+.annonces_table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+.col_photo img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.col_titre {
+  font-size: 1rem;
+  color: #2c3e50;
+}
+.col_desc_cell {
+  max-width: 300px;
+  vertical-align: middle; /* Aligne le contenu au centre verticalement */
+}
+
+/* C'est ce conteneur interne qui va gérer le défilement proprement */
+.scroll_desc {
+  max-height: 75px;         /* Hauteur max avant défilement */
+  overflow-y: auto;         /* Active le scroll vertical si besoin */
+  padding-right: 8px;       /* Espace pour la scrollbar */
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+/* Personnalisation de la barre de défilement (optionnel) */
+.scroll_desc::-webkit-scrollbar {
+  width: 5px;
+}
+.scroll_desc::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.scroll_desc::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.scroll_desc::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+.col_prix {
+  font-weight: bold;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+.col_date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}

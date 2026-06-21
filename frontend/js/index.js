@@ -44,7 +44,6 @@ function afficheAnnonces(annonces_info) {
       return;
     }
     pGrid.innerHTML = "";
-console.log("message : ", annonces_info);
 
     annonces_info.forEach((annonce) => {
         let imageNom;

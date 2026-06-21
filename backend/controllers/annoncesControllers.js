@@ -32,13 +32,17 @@ export async function getAnnonces(req, res) {
 export async function getAnnonceById(req, res) {
    try {
       const [rows] = await db.execute(
-         'SELECT * FROM annonces WHERE annonce_id = ?',
-         [req.params.id]
+         'SELECT * FROM annonces WHERE annonce_id = ?', [req.params.id]
       );
       if (rows.length === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
-      res.json(rows[0]);
+      const annonce = rows[0];
+      const [photosDeLAnnonce] = await db.execute(
+         'SELECT * FROM photos WHERE annonce_id = ?', [req.params.id]
+      );
+      annonce.photos = photosDeLAnnonce;
+      res.json(annonce);
    } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Erreur serveur' });

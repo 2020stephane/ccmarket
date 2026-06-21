@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         Aucune annonce pour le moment.
                     </td>
                 </tr>`;
-      return;
+        return;
         }
         container.innerHTML = "";
 
@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             ? `/uploads/${annonce.photos[0].photo_url}`
             : '/uploads/default.png';
         const datePub = new Date(annonce.date_publication);
-        const idAnnonce = annonce.id || annonce.annonce_id;
         const fiche = `
                 <tr>
                     <td class="col_photo">
@@ -48,10 +47,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td class="col_prix">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</td>
                     <td class="col_date"><time datetime="${datePub.toISOString()}">${datePub.toLocaleDateString()}</time></td>
                     <td class="col_action">
-                        <a href="modifier_annonce.html?id=${idAnnonce}">
+                        <a href="modifierAnnonce.html?id=${annonce.annonce_id}">
                             <button type="button" class="btn_modifier">Modifier</button>
                         </a>
-                        <a href="supprimer_annonce.html?id=${idAnnonce}">
+                        <a href="supprimerAnnonce.html?id=${annonce.annonce_id}">
                             <button type="button" class="btn_supprimer">Supprimer</button>
                         </a>
                     </td>

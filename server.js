@@ -21,6 +21,7 @@ import db from './backend/bdd/db.js';
 
 import annoncesRoutes from './backend/routes/annonces.js';
 import utilisateursRoutes from './backend/routes/utilisateurs.js';
+import contactRoutes from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth.js';
 // ==================================================
 // Recréation de __dirname
@@ -43,6 +44,7 @@ app.use(fileUpload());
 
 app.use('/api/annonces', annoncesRoutes);
 app.use('/api/utilisateurs', utilisateursRoutes);
+app.use('/api/contacter', contactRoutes);
 app.use('/api', authentificationRoutes);
 
 app.use(express.static(path.join(__dirname, '/frontend/html')));

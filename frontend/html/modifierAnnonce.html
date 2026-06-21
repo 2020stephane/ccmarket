@@ -1,12 +1,12 @@
 <!--===========================================================
-    FICHIER : inscription.html
+    FICHIER : modifier_annonce.html
     PROJET  : ccmarket
-    DATE    : 27/02/2026
+    DATE    : 21/04/2026
     AUTEUR  : Stephane Brisse
     ===========================================================-->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-   <!--==================================================
+      <!--==================================================
 ======================  HEAD  ======================
 ===================================================-->
 <head>
@@ -16,7 +16,7 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
-   <link rel="stylesheet" href="/css/inscription.css">
+   <link rel="stylesheet" href="/css/modifierAnnonce.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -28,7 +28,7 @@
 ======================  HEADER  ======================
 ===================================================-->
    <header>
-      <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
+      <img class="logo-img" src="/img/Logo_paysage.png" alt="Camping-Car garé au bord d'un lac">
       <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
       <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
          aria-controls="nav-menu">
@@ -51,42 +51,35 @@
                <a href="rechercher.html" class="rechercher">Rechercher</a>
             </li>
             <li>
-               <button data-etat="deconnecte" id="btn_compte">Mon compte</button>
+               <a href="seconnecter.html" id="seconnecter">Se connecter</a>
             </li>
          </ul>
       </nav>
    </header>
-   <!--==================================================
-======================  HERO  ========================
+<!--==================================================
+======================  MAIN  ======================
 ===================================================-->
-   <section class="hero">
-      <h1>Créer un compte</h1>
-      <form id="formInscription">
-         <p>
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" required>
-         </p>
-
-         <p>
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" required>
-         </p>
-
-         <p>
-            <label for="email">e-mail :</label>
-            <input type="email" id="email" name="email" autocomplete="email" required>
-         </p>
-
-         <p>
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" autocomplete="new-password" required>
-         </p>
-
-         <button id="b_submit" type="submit">S'inscrire</button>
-      </form>
-      <p>Déjà un compte ? <a href="connection.html">Se connecter</a></p>
-      <p id="msg-erreur"></p>
-   </section>
+   <main class="main_class">
+      <section class="annonces">
+         <h1 class="section-title">Mes annonces :</h1>
+<div class="table_container">
+            <h2>Annonce(s) en ligne:</h2>
+            <table class="annonces_table">
+               <thead>
+                  <tr>
+                     <th>Photo</th>
+                     <th>Titre</th>
+                     <th>Description</th>
+                     <th>Prix</th>
+                     <th>Date de publication</th>
+                  </tr>
+               </thead>
+               <tbody id="annonces_body">
+                  </tbody>
+            </table>
+         </div>
+          </section>
+   </main>
    <!--=====================================================
 ======================  FOOTER  =========================
 ======================================================-->
@@ -97,7 +90,6 @@
       </nav>
       <div class="footer-copyright">2026 Camping-Car Market.</div>
    </footer>
-   <script type="module" src="/js/inscription.js"></script>
+   <script type="module" src="/js/modifierAnnonce.js"></script>
 </body>
-
 </html>
