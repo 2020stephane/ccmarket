@@ -15,7 +15,7 @@ import {
    getAjouts,
    getAnnoncesByUser,
    getAnnoncesByFilter,
-   postAnnonce
+   publierAnnonce
 } from '../controllers/annoncesControllers.js';
 
 const router = express.Router();
@@ -25,7 +25,7 @@ const router = express.Router();
 router.get('/derniers_ajouts', getAjouts);
 router.get('/mesannonces/:id', getAnnoncesByUser);
 router.post('/recherche', getAnnoncesByFilter);
-router.post('/publierannonce', postAnnonce);
+router.post('/publierannonce', publierAnnonce);
 
 // ==================================================
 // routes pour le CRUD

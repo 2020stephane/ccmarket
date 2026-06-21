@@ -6,8 +6,12 @@
 //===========================================================
 import db from '../bdd/db.js';
 import bcrypt from 'bcrypt';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import jwt from 'jsonwebtoken';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 // ==================================================
 // GET toutes les annonces
 // ==================================================
@@ -167,9 +171,23 @@ export async function getAjouts(req, res) {
 // ==================================================
 export async function getAnnoncesByUser(req, res) {
   try {
-const userid = req.params.id;
-   const [rows] = await db.query(`SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]);
-   res.json(rows);
+   const userid = req.params.id;
+   const [fiches] = await db.execute(`SELECT * FROM annonces WHERE utilisateur_id = ?`,[userid]);
+   const fichesAvecPhotos = await Promise.all(
+      fiches.map(async (fiche) => {
+        // Pour chaque annonce, on va chercher ses photos
+        const [photosDeLAnnonce] = await db.execute(`SELECT * FROM photos WHERE annonce_id = ?`, [fiche.annonce_id]);
+
+        // On retourne l'annonce en lui injectant son tableau de photos
+        return {
+          ...fiche,
+          photos: photosDeLAnnonce
+        };
+      })
+    );
+
+    // 3. Renvoyer le résultat complet au frontend
+    res.json(fichesAvecPhotos);
   } catch (error) {
     console.log(error.message);
     console.log(error.name);
@@ -236,37 +254,36 @@ if (orderClauses.length > 0) {
 // ==================================================
 // publier
 // ==================================================
-export async function postAnnonce(req, res) {
+export async function publierAnnonce(req, res) {
    try {
-      const { titre, prix, descriptif, categorie } = req.body;
-      console.log("=", titre,"=", prix,"=", descriptif,"=", categorie)
+      const { titre, prix, descriptif, categorie, photo } = req.body;
       const token = req.cookies.monToken;
       const decoded = jwt.verify(token, JWT_SECRET);
       const userid = decoded.id;
-      const cat = 2;
-      console.log("=", userid);
-      // let image_nom = photo;
-      // console.log(`test log ${image_nom}`);
-      // if (req.files && req.files.photo) {
+      let image_nom = photo;
+      if (req.files && req.files.photo) {
 
-      //      const dossier_upload = path.join(__dirname, '../../frontend/uploads/');
-      //      const extension = req.files.photo.name.split('.').pop();
-      //      const nom_unique = Date.now() + "_" + req.files.photo.name;
-      //      const chemin_final = dossier_upload + nom_unique;
-      //      const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-      //      console.log(`test log ok ${chemin_final}`);
+           const dossier_upload = path.join(__dirname, '..', '..', 'frontend', 'uploads');
+           const extension = req.files.photo.name.split('.').pop();
+           const nom_unique = Date.now() + "_" + req.files.photo.name;
+           const chemin_final = path.join(dossier_upload, nom_unique);
+           const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+           console.log("url= ",chemin_final);
+           if (extensions_autorisees.includes(extension.toLowerCase())) {
+               await req.files.photo.mv(chemin_final);
+               image_nom = nom_unique;
+           }
+       }
 
-      //      if (extensions_autorisees.includes(extension.toLowerCase())) {
-      //          await req.files.photo.mv(chemin_final);
-      //          image_nom = nom_unique;
-      //      }
-      //  }
-
-      await db.query(
+      const [result]= await db.execute(
             'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
-            [titre, prix, descriptif, userid, cat]
+            [titre, prix, descriptif, userid, categorie]
          );
-      return res.status(201).json({ message: "Annonce publiée avec succès !" });
+      await db.execute(
+            'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
+            [image_nom, result.insertId]
+         );
+      return res.redirect('/mesannonces.html');
        } catch (error) {
          console.error(error);
        }

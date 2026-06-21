@@ -58,6 +58,7 @@ export const sInscrire = async (req, res) => {
         }
         try {
            const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+           const user = users[0];
            if (users.length > 0) {
               return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
            }
@@ -66,8 +67,12 @@ export const sInscrire = async (req, res) => {
               'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
               [prenom, nom, email, hashedPassword]
            );
-           setCookie(res, user, JWT_SECRET);
-           return res.status(200).json({ message: 'Inscription réussie.' });
+           const nouvelUtilisateur = { id: result.insertId, prenom:prenom, nom:nom, email:email };
+           setCookie(res, nouvelUtilisateur, JWT_SECRET);
+           return res.status(200).json({
+            id: nouvelUtilisateur.id,
+            prenom: nouvelUtilisateur.prenom,
+            nom: nouvelUtilisateur.nom });
 
    } catch (err) {
       return res.status(500).json({ message: 'Erreur serveur.' });

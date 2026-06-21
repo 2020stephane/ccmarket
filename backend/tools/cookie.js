@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 
 export function setCookie(res, user, JWT_SECRET) {
    const token = jwt.sign(
-            { id: user.userid, prenom: user.prenom, nom: user.nom, email: user.email },
+            { id: user.utilisateur_id, prenom: user.prenom, nom: user.nom, email: user.email },
             JWT_SECRET,
             { expiresIn: '1h' }
          );

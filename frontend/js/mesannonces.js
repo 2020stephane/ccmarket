@@ -8,62 +8,89 @@ import { verifierConnection } from "/js/tools/authentification.js";
 verifierConnection();
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const container = document.querySelector(".annonces_grid");
+    const container = document.getElementById("annonces_body");
+    const formPublier = document.querySelector("form");
+    try {
+        const userinfo = localStorage.getItem('userinfo');
+        if (!userinfo) return;
 
-  try {
-    const userid = (JSON.parse(localStorage.getItem('userinfo'))).id;
-    const response = await fetch(`/api/annonces/mesannonces/${userid}`);
-    const annonces = await response.json();
+        const userid = JSON.parse(userinfo).id;
+        const response = await fetch(`/api/annonces/mesannonces/${userid}`);
+        const annonces = await response.json();
 
-    if (annonces.length === 0) {
-      container.innerHTML = "<li>Aucune annonce pour le moment.</li>";
+        if (!annonces || annonces.length === 0) {
+            container.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:2rem;">
+                        Aucune annonce pour le moment.
+                    </td>
+                </tr>`;
       return;
+        }
+        container.innerHTML = "";
+
+        annonces.forEach((annonce) => {
+        const aDesPhotos = annonce.photos && annonce.photos.length > 0;
+        const imagePath = aDesPhotos
+            ? `/uploads/${annonce.photos[0].photo_url}`
+            : '/uploads/default.png';
+        const datePub = new Date(annonce.date_publication);
+        const idAnnonce = annonce.id || annonce.annonce_id;
+        const fiche = `
+                <tr>
+                    <td class="col_photo">
+                        <img src="${imagePath}" alt="${annonce.titre}" loading="lazy">
+                    </td>
+                    <td class="col_titre"><strong>${annonce.titre}</strong></td>
+                    <td class="col_desc_cell">
+                        <div class="scroll_desc">${annonce.descriptif}</div>
+                    </td>
+                    <td class="col_prix">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</td>
+                    <td class="col_date"><time datetime="${datePub.toISOString()}">${datePub.toLocaleDateString()}</time></td>
+                    <td class="col_action">
+                        <a href="modifier_annonce.html?id=${idAnnonce}">
+                            <button type="button" class="btn_modifier">Modifier</button>
+                        </a>
+                        <a href="supprimer_annonce.html?id=${idAnnonce}">
+                            <button type="button" class="btn_supprimer">Supprimer</button>
+                        </a>
+                    </td>
+                </tr>
+        `;
+        container.insertAdjacentHTML("beforeend", fiche);
+        });
+    } catch (error) {
+        console.error("Impossible de charger les annonces :", error);
+       container.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Impossible de charger les annonces.</td></tr>`;
     }
-    container.innerHTML = "";
 
-    annonces.forEach((annonce) => {
-      const imagePath = annonce.image_nom
-        ? `/uploads/${annonce.image_nom}`
-        : "/uploads/default.png";
-      const datePub = new Date(annonce.date_publication);
+    if (formPublier) {
+        formPublier.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      const fiche = `
-                <li>
-                    <article>
-                        <figure>
-                            <img src="${imagePath}" alt="${annonce.titre}" loading="lazy">
-                        </figure>
+        const formData = new FormData(formPublier);
 
-                        <div class="annonce_content">
-                           <h2>Titre:</h2>
-                            <h3>${annonce.titre}</h3>
-                           <h2>Description:</h2>
-                            <p class="annonce_description">
-                              ${annonce.descriptif}
-                            </p>
-                            <h2>Prix:</h2>
-                            <p class="annonce_price">
-                               ${parseFloat(annonce.prix).toLocaleString("fr-FR")} €
-                            </p>
+        const userinfo = JSON.parse(localStorage.getItem('userinfo'));
+        if (userinfo && userinfo.id) {
+            formData.append("utilisateur_id", userinfo.id);
+        }
+    try {
+            const res = await fetch("/api/annonces/publierannonce", {
+            method: "POST",
+            body: formData
+            });
 
-                            <p class="annonce_date">
-                                Publié le : <time datetime="${datePub.toISOString()}">${datePub.toLocaleDateString()}</time>
-                            </p>
-
-                            <footer class="annonce_footer">
-                                 <a href="modifier_annonce.html?id=${annonce.annonceid}">
-                                 <button type="button" class="btn_modifier">Modifier l'annonce</button>
-                                 </a>
-                            </footer>
-                        </div>
-                    </article>
-                </li>
-
-            `;
-      container.insertAdjacentHTML("beforeend", fiche);
-     });
-  } catch (error) {
-    console.error("Impossible de charger les annonces :", error);
-    container.innerHTML = "<li>Impossible de charger les annonces.</li>";
-  }
+            if (res.ok) {
+            alert("Annonce publiée avec succès !");
+            window.location.reload();
+            } else {
+            const errData = await res.json();
+            alert(`Erreur lors de la publication : ${errData.message || 'Erreur inconnue'}`);
+            }
+        } catch (err) {
+            console.error("Erreur lors de l'envoi :", err);
+            alert("Impossible de joindre le serveur.");
+        }
+        });
+    }
 });

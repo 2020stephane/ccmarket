@@ -23,15 +23,16 @@ form.addEventListener("submit", async (e) => {
    }
 
    try {
-      const response = await fetch("/api/inscription", {
+      const response = await fetch("/api/utilisateurs/inscription", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ prenom, nom,  email, password })
+         body: JSON.stringify({ prenom:prenom, nom:nom,  email:email, password:password })
       });
 
       const data = await response.json();
 
       if (response.ok) {
+         localStorage.setItem('userinfo', JSON.stringify(data));
          window.location.href="index.html";
       }else {
          afficherErreur(data.message);

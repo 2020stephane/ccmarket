@@ -5,10 +5,13 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection } from "/js/tools/authentification.js";
+
 //***********************************************
 //import { ajouts } from "/js/data/objectTest.js";
 //***********************************************
+
 verifierConnection();
+
 //commenter pour utiliser ajouts
 chargerAnnonces();
 // ==================================================
@@ -41,15 +44,22 @@ function afficheAnnonces(annonces_info) {
       return;
     }
     pGrid.innerHTML = "";
+console.log("message : ", annonces_info);
+
     annonces_info.forEach((annonce) => {
-      const imagePath = annonce.photos?.[0] ?? "/uploads/default.png";
+        let imageNom;
+        if (annonce.photos.length > 0 && annonce.photos[0] !== "") {
+            imageNom = `/uploads/${annonce.photos[0]}`;
+        } else {
+            imageNom = "/uploads/default.png";
+        }
       const datePub = new Date(annonce.date_publication);
       const nomVendeur = annonce?.nom ?? "Vendeur inconnu";
       const fiche = `
                 <li>
                     <article>
                         <figure>
-                            <img src="${imagePath}" alt="${annonce.titre}" loading="lazy">
+                            <img src="${imageNom}" alt="${annonce.titre}" loading="lazy">
                         </figure>
 
                         <div class="annonce_content">
