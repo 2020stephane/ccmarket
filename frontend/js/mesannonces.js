@@ -76,8 +76,6 @@ console.log("annonces = ", annonces)
        container.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Impossible de charger les annonces.</td></tr>`;
     }
 
-
-
     if (formPublier) {
         formPublier.addEventListener("submit", async (e) => {
         e.preventDefault();

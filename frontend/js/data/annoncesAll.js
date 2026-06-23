@@ -18,7 +18,7 @@ export let annonces = [
    {
    categorie : "electricite",
    image : "../img/test/pompe.webp",
-   titre : "pompe à eau",
+   titre : "pompe à huile",
    description : "pompe 12v",
    prix : 45,
    datePublication : "21-04-2026",

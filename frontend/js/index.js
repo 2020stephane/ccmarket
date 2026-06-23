@@ -5,14 +5,7 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection } from "/js/tools/authentification.js";
-
-//***********************************************
-//import { ajouts } from "/js/data/objectTest.js";
-//***********************************************
-
 verifierConnection();
-
-//commenter pour utiliser ajouts
 chargerAnnonces();
 // ==================================================
 // Fonction chargerAnnonces
@@ -26,10 +19,7 @@ async function chargerAnnonces() {
       annonces_info.length = 0;
       tmp.forEach(item => annonces_info.push(item));
       afficheAnnonces(annonces_info);
-   } catch (error) {
-      console.log("message : ", error.message);
-      console.log("nom : ", error.name);
-      console.log("stack : ", error.stack);
+   } catch {
       const pGrid = document.querySelector(".annonces-grid");
       pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
    }

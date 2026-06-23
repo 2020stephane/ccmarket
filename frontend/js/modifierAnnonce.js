@@ -5,6 +5,7 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection } from "/js/tools/authentification.js";
+import { testFormulaire } from "/js/tools/testFormulaire.js";
 verifierConnection();
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -78,4 +79,20 @@ console.log("annonce = ", annonce);
         console.error("Impossible de charger l'annonce :", error);
        container.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Impossible de charger l'annonce.</td></tr>`;
     }
+
+    const temp = document.querySelector(".btn_sauver");
+    temp.addEventListener("click",async  () => {
+        const jsonData = testFormulaire();
+        const response = await fetch(`/api/annonces/${idAnnonce}`,{
+            method: "PATCH",
+            headers: {
+                "content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonData)
+        });
+        const annonce = await response.json();
+    });
+    document.querySelector(".btn_annuler").addEventListener("click",async  () => {
+        window.location.href="mesannonces.html";
+    });
 });

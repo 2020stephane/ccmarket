@@ -73,16 +73,16 @@ export async function createAnnonce(req, res) {
 //  PUT modifier une annonce
 // ==================================================
 export async function updateAnnonce(req, res) {
-   const { titre, descriptif, prix, categorie_id } = req.body;
+   const { titre, descriptif, prix, utilisateur_id, categorie_id } = req.body;
 
-   if (!titre || !descriptif || !prix || !categorie_id) {
+   if (!titre || !descriptif || !prix || !utilisateur_id|| !categorie_id) {
       return res.status(400).json({ message: 'Champs obligatoires manquants' });
    }
 
    try {
       const [result] = await db.execute(
-         'UPDATE annonces SET titre = ?, descriptif = ?, prix = ?, categorie_id = ? WHERE annonce_id = ?',
-         [titre, descriptif, prix, categorie_id ?? null, req.params.id]
+         'UPDATE annonces SET titre = ?, descriptif = ?, prix = ?, utilisateur_id = ?,categorie_id = ? WHERE annonce_id = ?',
+         [titre, descriptif, prix, utilisateur_id, categorie_id ?? null, req.params.id]
       );
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
@@ -98,7 +98,7 @@ export async function updateAnnonce(req, res) {
 // ==================================================
 export async function patchAnnonce(req, res) {
    const champs = req.body;
-   const colonnesAutorisees = ['titre', 'description', 'prix', 'categorie'];
+   const colonnesAutorisees = ['titre', 'descriptif', 'prix', 'categorie_id'];
 
    const entrees = Object.entries(champs).filter(([col]) =>
       colonnesAutorisees.includes(col)
@@ -113,7 +113,7 @@ export async function patchAnnonce(req, res) {
 
    try {
       const [result] = await db.execute(
-         `UPDATE annonces SET ${setClause} WHERE id = ?`,
+         `UPDATE annonces SET ${setClause} WHERE annonce_id = ?`,
          [...valeurs, req.params.id]
       );
       if (result.affectedRows === 0) {
