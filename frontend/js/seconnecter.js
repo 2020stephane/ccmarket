@@ -21,9 +21,14 @@ form.addEventListener("submit", async (e) => {
          body: JSON.stringify({ email:email, motdepasse:motdepasse })
       });
       const data = await response.json();
+
       if (response.ok) {
+         if (data.admin == 1) {
+            window.location.href = "admin.html";
+         } else {
          localStorage.setItem('userinfo', JSON.stringify(data));
          window.location.href = "index.html";
+         }
       } else {
          alert(data.message);
          window.location.href="seconnecter.html";

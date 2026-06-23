@@ -21,7 +21,6 @@ db = mysql.createPool({
 console.log('Database connection established successfully');
 } catch (error) {
   console.error('Error establishing database connection:', error);
-  // Optionally, you can rethrow the error or handle it as needed
   throw error;
 }
 export default db;

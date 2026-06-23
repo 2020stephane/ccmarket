@@ -10,7 +10,7 @@ export function setCookie(res, user, JWT_SECRET) {
    const token = jwt.sign(
             { id: user.utilisateur_id, prenom: user.prenom, nom: user.nom, email: user.email },
             JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '4h' }
          );
          res.cookie('monToken', token, {
             httpOnly: true,

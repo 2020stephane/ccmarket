@@ -74,6 +74,7 @@
                      <th>Titre</th>
                      <th>Description</th>
                      <th>Prix</th>
+                     <th>Catégorie</th>
                      <th>Date de publication</th>
                      <th>Action</th>
                   </tr>
@@ -97,8 +98,17 @@
 
             <div class="form_group">
                <label for="categorie">Catégorie :</label>
-               <input type="number" name="categorie" id="categorie" placeholder="ID de la catégorie" required>
-            </div>
+               <select type="number" name="categorie" id="categorie" placeholder="ID de la catégorie" required>
+                  <option value="">-- Choisissez une catégorie --</option>
+                  <option value="1">Mobilier intérieur</option>
+                  <option value="2">Énergie solaire</option>
+                  <option value="3">Cuisine & Électroménage</option>
+                  <option value="4">Sanitaire & Eau</option>
+                  <option value="5">Literie & Confort</option>
+                  <option value="6">Électronique & Navigation</option>
+                  <option value="7">Extérieur & Auvent</option>
+               </select>
+               </div>
 
             <div class="form_group">
                <label for="prix">Prix (€) :</label>
@@ -118,6 +128,15 @@
             <button type="submit" class="btn_publier">Publier l'annonce</button>
          </form>
       </section>
+      <dialog id="ma_boite_dialogue">
+         <h2>Confirmation de suppression</h2>
+         <p>Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.</p>
+
+         <div class="dialog_actions">
+            <button id="btn_annuler">Annuler</button>
+            <button id="btn_confirmer" class="btn_danger">Supprimer</button>
+         </div>
+      </dialog>
    </main>
    <!--=====================================================
 ======================  FOOTER  =========================

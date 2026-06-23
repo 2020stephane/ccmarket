@@ -4,8 +4,9 @@
 //    DATE    : 17/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-// import { verifierConnection } from "/js/tools/authentification.js";
-// verifierConnection();
+import { verifierConnection } from "/js/tools/authentification.js";
+verifierConnection();
+
 const form = document.getElementById("formContact");
 
 form.addEventListener("submit", async (e) => {

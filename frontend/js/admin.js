@@ -1,8 +1,6 @@
 //===========================================================
-//    FICHIER : messagerie.js
+//    FICHIER : admin.js
 //    PROJET  : ccmarket
-//    DATE    : 22/06/2026
+//    DATE    : 21/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { verifierConnection } from "/js/tools/authentification.js";
-verifierConnection();

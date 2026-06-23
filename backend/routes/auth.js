@@ -21,7 +21,7 @@ router.get('/status', (req, res) => {
       const decoded = jwt.verify(token, JWT_SECRET);
       res.json({ connection: true, prenom: decoded.prenom, nom: decoded.nom });
    } catch (e) {
-      res.status(401).json({ connection: false });
+      res.json({ connection: false });
    }
 });
 export default router;

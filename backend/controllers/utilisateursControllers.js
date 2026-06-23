@@ -34,7 +34,8 @@ export const seConnecter = async (req, res) => {
           return res.status(200).json({
           id: user.utilisateur_id,
           prenom: user.prenom,
-          nom: user.nom
+          nom: user.nom,
+          admin: user.administrateur
           });
      } catch (error) {
           console.error('Erreur connexion :', error);

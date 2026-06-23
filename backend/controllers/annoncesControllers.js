@@ -181,10 +181,10 @@ export async function getAnnoncesByUser(req, res) {
       fiches.map(async (fiche) => {
         // Pour chaque annonce, on va chercher ses photos
         const [photosDeLAnnonce] = await db.execute(`SELECT * FROM photos WHERE annonce_id = ?`, [fiche.annonce_id]);
-
-        // On retourne l'annonce en lui injectant son tableau de photos
+        const [nomCategorie] = await db.execute(`SELECT nom FROM categories WHERE categorie_id = ?`,[fiche.categorie_id]);
         return {
           ...fiche,
+          categorie: nomCategorie,
           photos: photosDeLAnnonce
         };
       })

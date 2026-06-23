@@ -238,6 +238,49 @@ form input[type="file"] {
   transform: translateY(-2px);
 }
 /* ==================================================
+   BOITE DE DIALOGUE
+   ================================================== */
+/* Style de la boîte elle-même */
+dialog {
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+}
+
+/* Style de l'arrière-plan (l'effet sombre derrière) */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px); /* Floute l'arrière-plan du site */
+}
+
+/* Alignement des boutons à l'intérieur */
+.dialog_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dialog_actions button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn_danger {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* ==================================================
    MEDIA QUERIES (RESPONSIVE)
    ================================================== */
 @media (max-width: 900px) {
@@ -319,5 +362,41 @@ header nav {
 @media (max-width: 640px) {
   .logo-img {
     display: none;
+  }
+
+  /* On cache l'en-tête global qui est tout en haut */
+  .annonces_table thead {
+    display: none;
+  }
+
+  /* Chaque ligne (tr) devient un bloc indépendant */
+  .annonces_table tbody tr {
+    display: flex;
+    flex-direction: column; /* On empile les cellules verticalement */
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  /* Chaque cellule (td) se comporte comme une ligne */
+  .annonces_table td {
+    display: flex;
+    justify-content: space-between; /* Aligne le label à gauche et la valeur à droite */
+    padding: 8px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Astuce : On peut injecter le nom de la colonne à gauche via un attribut data-* */
+  .annonces_table td::before {
+    content: attr(data-label); /* Va chercher le texte défini dans l'HTML */
+    font-weight: bold;
+    color: #333;
+    padding-right: 10px;
+  }
+
+  .annonces_table td:last-child {
+    border-bottom: none;
   }
 }
