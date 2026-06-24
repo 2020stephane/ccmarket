@@ -1,28 +1,62 @@
-//===========================================================
-//    FICHIER : annonces.js
-//    PROJET  : ccmarket
-//    DATE    : 16/06/2026
-//    AUTEUR  : Stephane Brisse
-//===========================================================
-import db from '../bdd/db.js';
+/**
+ * =======================================================
+ *  @fileoverview  annoncesControllers.js
+ *  @project       ccmarket
+ *  @description   Contrôleur de gestion des annonces
+ *  @version       1.0.0
+ *  @date          2026-06-24
+ *  @author        Stephane Brisse
+ *  @license       MIT
+ * =======================================================
+ */
+/**
+ * =======================================================
+ * IMPORTS EXTERNES
+ * =======================================================
+ */
 import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-
+/**
+ * =======================================================
+ * IMPORTS INTERNES
+ * =======================================================
+ */
+import { logError } from "../tools/logger.js";
+import db from '../bdd/db.js';
+/**
+ * =======================================================
+ * VARIABLES
+ * =======================================================
+ */
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-// ==================================================
-// GET toutes les annonces
-// ==================================================
+/**
+ * =======================================================
+ *  @function     getAnnonces
+ *  @description  Extrait toutes les annonces de la base de données.
+ *  @description  Triées par date de publication décroissante.
+ *  @async
+ * =======================================================
+ *
+ *  @param {import('express').Request}  req  - L'objet de requête Express
+ *  @param {import('express').Response} res  - L'objet de réponse Express
+ *
+ *  @returns {Promise<import('express').Response>} Réponse HTTP :
+ *    - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
+ *    - 500 : Erreur interne du serveur (l'erreur est journalisée via logError).
+ *
+ * =======================================================
+ */
 export async function getAnnonces(req, res) {
    try {
       const [annonces] = await db.execute(
          'SELECT * FROM annonces ORDER BY date_publication DESC'
       );
-      res.json(annonces);
-   } catch (err) {
-      console.error(err);
+      res.status(200).json(annonces);
+   } catch (error) {
+      logError(error, "function getAnnonces dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -42,9 +76,9 @@ export async function getAnnonceById(req, res) {
          'SELECT * FROM photos WHERE annonce_id = ?', [req.params.id]
       );
       annonce.photos = photosDeLAnnonce;
-      res.json(annonce);
-   } catch (err) {
-      console.error(err);
+      res.status(200).json(annonce);
+   } catch (error) {
+      logError(error, "function getAnnonceById dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -64,8 +98,8 @@ export async function createAnnonce(req, res) {
          [titre, descriptif, prix, categorie_id, utilisateur_id]
       );
       res.status(201).json({ message: 'Annonce créée', id: result.insertId });
-   } catch (err) {
-      console.error(err);
+   } catch (error) {
+      logError(error, "function createAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -88,8 +122,8 @@ export async function updateAnnonce(req, res) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
       res.json({ message: 'Annonce mise à jour' });
-   } catch (err) {
-      console.error(err);
+   } catch (error) {
+      logError(error, "function updateAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -105,6 +139,7 @@ export async function patchAnnonce(req, res) {
    );
 
    if (entrees.length === 0) {
+
       return res.status(400).json({ message: 'Aucun champ valide fourni' });
    }
 
@@ -117,11 +152,13 @@ export async function patchAnnonce(req, res) {
          [...valeurs, req.params.id]
       );
       if (result.affectedRows === 0) {
+
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
+
       res.json({ message: 'Annonce mise à jour partiellement' });
-   } catch (err) {
-      console.error(err);
+   } catch (error) {
+      logError(error, "function patchAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -138,8 +175,8 @@ export async function deleteAnnonce(req, res) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
       res.json({ message: 'Annonce supprimée' });
-   } catch (err) {
-      console.error(err);
+   } catch (error) {
+     logError(error, "function deleteAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -164,9 +201,7 @@ export async function getAjouts(req, res) {
     }));
     res.json(annonces);
   } catch (error) {
-    console.log(error.message);
-    console.log(error.name);
-    console.log(error.stack);
+    logError(error, "function getAjouts dans le module:annoncesControllers.js");
     res.status(500).json({ message: "Erreur serveur" });
   }
 }
@@ -193,9 +228,7 @@ export async function getAnnoncesByUser(req, res) {
     // 3. Renvoyer le résultat complet au frontend
     res.json(fichesAvecPhotos);
   } catch (error) {
-    console.log(error.message);
-    console.log(error.name);
-    console.log(error.stack);
+    logError(error, "function getAnnoncesByUser dans le module:annoncesControllers.js");
     res.status(500).json({ message: "Erreur serveur" });
   }
 }
@@ -249,9 +282,7 @@ if (orderClauses.length > 0) {
       res.json(rows);
 
   } catch (error) {
-    console.log(error.message);
-    console.log(error.name);
-    console.log(error.stack);
+    logError(error, "function getAnnoncesByFilter dans le module:annoncesControllers.js");
     res.status(500).json({ message: "Erreur serveur" });
   }
 }
@@ -289,6 +320,6 @@ export async function publierAnnonce(req, res) {
          );
       return res.redirect('/mesannonces.html');
        } catch (error) {
-         console.error(error);
+           logError(error, "function publierAnnonce dans le module:annoncesControllers.js");
        }
 }
