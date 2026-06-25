@@ -9,6 +9,7 @@
  *  @license       MIT
  * =======================================================
  */
+
 /**
  * =======================================================
  * IMPORTS EXTERNES
@@ -18,6 +19,7 @@ import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import jwt from 'jsonwebtoken';
+
 /**
  * =======================================================
  * IMPORTS INTERNES
@@ -25,6 +27,7 @@ import jwt from 'jsonwebtoken';
  */
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
+
 /**
  * =======================================================
  * VARIABLES
@@ -32,81 +35,11 @@ import db from '../bdd/db.js';
  */
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
-/**
- * =======================================================
- *  @function     getAnnonces
- *  @description  Extrait toutes les annonces de la base de données.
- *  @description  Triées par date de publication décroissante.
- *  @async
- * =======================================================
- *
- *  @param {import('express').Request}  req  - L'objet de requête Express
- *  @param {import('express').Response} res  - L'objet de réponse Express
- *
- *  @returns {Promise<import('express').Response>} Réponse HTTP :
- *    - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
- *    - 500 : Erreur interne du serveur (l'erreur est journalisée via logError).
- *
- * =======================================================
- */
-export async function getAnnonces(req, res) {
-   try {
-      const [annonces] = await db.execute(
-         'SELECT * FROM annonces ORDER BY date_publication DESC'
-      );
-      res.status(200).json(annonces);
-   } catch (error) {
-      logError(error, "function getAnnonces dans le module:annoncesControllers.js");
-      res.status(500).json({ message: 'Erreur serveur' });
-   }
-}
-// ==================================================
-// GET une annonce par ID
-// ==================================================
-export async function getAnnonceById(req, res) {
-   try {
-      const [rows] = await db.execute(
-         'SELECT * FROM annonces WHERE annonce_id = ?', [req.params.id]
-      );
-      if (rows.length === 0) {
-         return res.status(404).json({ message: 'Annonce introuvable' });
-      }
-      const annonce = rows[0];
-      const [photosDeLAnnonce] = await db.execute(
-         'SELECT * FROM photos WHERE annonce_id = ?', [req.params.id]
-      );
-      annonce.photos = photosDeLAnnonce;
-      res.status(200).json(annonce);
-   } catch (error) {
-      logError(error, "function getAnnonceById dans le module:annoncesControllers.js");
-      res.status(500).json({ message: 'Erreur serveur' });
-   }
-}
-// ==================================================
-// POST créer une annonce
-// ==================================================
-export async function createAnnonce(req, res) {
-   const { titre, descriptif, prix, categorie_id, utilisateur_id } = req.body;
 
-   if (!titre || !descriptif || !prix || !categorie_id || !utilisateur_id) {
-      return res.status(400).json({ message: 'Champs obligatoires manquants' });
-   }
-
-   try {
-      const [result] = await db.execute(
-         'INSERT INTO annonces (titre, descriptif, prix, categorie_id, utilisateur_id) VALUES (?, ?, ?, ?, ?)',
-         [titre, descriptif, prix, categorie_id, utilisateur_id]
-      );
-      res.status(201).json({ message: 'Annonce créée', id: result.insertId });
-   } catch (error) {
-      logError(error, "function createAnnonce dans le module:annoncesControllers.js");
-      res.status(500).json({ message: 'Erreur serveur' });
-   }
-}
 // ==================================================
 //  PUT modifier une annonce
 // ==================================================
-export async function updateAnnonce(req, res) {
+export async function putAnnonce(req, res) {
    const { titre, descriptif, prix, utilisateur_id, categorie_id } = req.body;
 
    if (!titre || !descriptif || !prix || !utilisateur_id|| !categorie_id) {
@@ -123,7 +56,7 @@ export async function updateAnnonce(req, res) {
       }
       res.json({ message: 'Annonce mise à jour' });
    } catch (error) {
-      logError(error, "function updateAnnonce dans le module:annoncesControllers.js");
+      logError(error, "function putAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }

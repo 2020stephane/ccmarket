@@ -18,11 +18,11 @@
  * =======================================================
  */
 import 'dotenv/config';
-import express        from 'express';
-import cors           from 'cors';
-import path           from 'path';
-import cookieParser   from 'cookie-parser';
-import fileUpload     from 'express-fileupload';
+import express           from 'express';
+import cors              from 'cors';
+import path              from 'path';
+import cookieParser      from 'cookie-parser';
+import fileUpload        from 'express-fileupload';
 import { fileURLToPath } from 'url';
 
 /**
@@ -30,11 +30,12 @@ import { fileURLToPath } from 'url';
  *  Importation des modules internes
  * =======================================================
  */
-import annoncesRoutes        from './backend/routes/annonces.js';
-import utilisateursRoutes    from './backend/routes/utilisateurs.js';
-import contactRoutes         from './backend/routes/contacter.js';
-import authentificationRoutes from './backend/routes/auth.js';
-
+import postmanRoutes          from './backend/routes/postman.js';
+import annoncesRoutes         from './backend/routes/annonces.js';
+import utilisateursRoutes     from './backend/routes/utilisateurs.js';
+import contactRoutes          from './backend/routes/contacter.js';
+import authentificationRoutes from './backend/routes/auth2.js';
+import authentificationGoogle from './backend/routes/auth.js';
 /**
  * =======================================================
  *  Déclaration des variables
@@ -65,11 +66,12 @@ app.use(fileUpload());
  *  Déclaration des routes API
  * =======================================================
  */
+app.use('/api/postman',      postmanRoutes);
 app.use('/api/annonces',     annoncesRoutes);
 app.use('/api/utilisateurs', utilisateursRoutes);
 app.use('/api/contacter',    contactRoutes);
 app.use('/api',              authentificationRoutes);
-
+app.use('/auth',             authentificationGoogle);
 /**
  * =======================================================
  *  Déclaration des fichiers statiques
@@ -77,6 +79,7 @@ app.use('/api',              authentificationRoutes);
  */
 app.use(express.static(path.join(__dirname, '/frontend/html')));
 app.use('/css',     express.static(path.join(__dirname, '/frontend/css')));
+app.use('/tools',   express.static(path.join(__dirname, '/frontend/js/tools')));
 app.use('/js',      express.static(path.join(__dirname, '/frontend/js')));
 app.use('/img',     express.static(path.join(__dirname, '/frontend/img')));
 app.use('/fonts',   express.static(path.join(__dirname, '/frontend/fonts')));

@@ -5,13 +5,13 @@
    AUTEUR  : Stephane Brisse
    =========================================================== */
 .main-footer {
-  background: #05ffb4;
+  background-color: var(--primary-dark);
   padding: 30px 40px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-   margin-top: auto;
+  margin-top: auto;
 }
 
 .footer-links {
@@ -21,7 +21,7 @@
 
 .footer-links a {
   text-decoration: none;
-  color: #000;
+  color: var(--white);
   font-size: 14px;
   font-weight: 400;
   transition: opacity 0.3s;
@@ -33,5 +33,5 @@
 
 .footer-copyright {
   font-size: 14px;
-  color: #000;
+  color: var(--white);
 }

@@ -1,0 +1,113 @@
+<!--
+ * ==========================================================
+ *   @file         monCompte.html
+ *   @project      ccmarket
+ *   @description  Description de la page
+ *   @date         2026-06-25
+ *   @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *   @license      MIT
+ * ==========================================================
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte | Camping-Car Market</title>
+    <link rel="stylesheet" href="../css/monCompte.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo-area">
+                <img src="Titre_CC_Market.png" alt="Camping-Car Market" class="logo-img">
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-item">Accueil</a>
+                <a href="#" class="nav-item">Rechercher</a>
+                <a href="#" class="nav-item active-nav">Mon Compte 👤</a>
+                <a href="#" class="btn-cta">Déposer une annonce</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container account-layout">
+
+        <aside class="account-sidebar">
+            <div class="user-summary">
+                <div class="user-avatar">JM</div>
+                <h3>Jean-Marc</h3>
+                <p>Membre depuis juin 2026</p>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#profil" class="sidebar-link active">⚙️ Informations personnelles</a>
+                <a href="#annonces" class="sidebar-link">📦 Mes annonces (2)</a>
+                <a href="#securite" class="sidebar-link danger-link">🔒 Sécurité & Suppression</a>
+            </nav>
+        </aside>
+
+        <section class="account-content">
+
+            <div class="account-card">
+                <h2 class="card-title">Modifier mes informations</h2>
+                <form action="/user/update" method="POST" class="account-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nom">Nom complet</label>
+                            <input type="text" id="nom" name="nom" value="Jean-Marc Dupond" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Adresse Email</label>
+                            <input type="email" id="email" name="email" value="jeanmarc.33@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" name="telephone" value="06 12 34 56 78">
+                        </div>
+                        <div class="form-group">
+                            <label for="region">Département / Région</label>
+                            <input type="text" id="region" name="region" value="Gironde (33)">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Enregistrer les modifications</button>
+                </form>
+            </div>
+
+            <div class="account-card">
+                <h2 class="card-title">Mes annonces en cours</h2>
+                <div class="mini-ads-list">
+                    <div class="mini-ad-item">
+                        <div class="mini-ad-img">[Photo]</div>
+                        <div class="mini-ad-info">
+                            <h4>Panneau Solaire Monocristallin 160W</h4>
+                            <span class="mini-ad-price">120 €</span>
+                        </div>
+                        <div class="mini-ad-actions">
+                            <a href="#" class="btn-action edit">✏️ Modifier</a>
+                            <a href="#" class="btn-action delete">🗑️ Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-card border-danger">
+                <h2 class="card-title text-danger">Zone de danger</h2>
+                <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
+
+                <form action="/user/delete" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.');">
+                    <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Camping-Car Market - Espace Professionnel Utilisateur.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,6 +1,11 @@
-//===========================================================
-//    FICHIER : admin.js
-//    PROJET  : ccmarket
-//    DATE    : 21/06/2026
-//    AUTEUR  : Stephane Brisse
-//===========================================================
+/**
+ * =======================================================
+ *  @fileoverview  admin.js
+ *  @project       ccmarket
+ *  @description   Module pour administrer le site
+ *  @version       1.0.0
+ *  @date          2026-06-24
+ *  @author        Stephane Brisse
+ *  @license       MIT
+ * =======================================================
+ */

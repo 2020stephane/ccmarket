@@ -15,6 +15,13 @@
 :root {
    --b_color_base: #05ffb4;
    --b_color_hover: #04e0a0;
+   --primary-color: #388E53;     /* Vert logo */
+   --primary-dark: #1E5E3A;      /* Vert sapin foncé (Header/Footer) */
+   --accent-color: #F5E076;      /* Jaune soleil de l'illustration */
+   --text-dark: #131c17;         /* Gris-vert très foncé pour le texte */
+   --text-light: #607367;        /* Gris-vert adouci pour les détails */
+   --bg-light: #F4F7F5;          /* Fond de page ultra-léger */
+   --white: #ffffff;
 }
 
 *,
@@ -33,36 +40,60 @@ body {
    flex-direction: column;
 }
 
-header {
-   background: white;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 10px 20px;
-   position: sticky;
-   top: 0;
-   z-index: 3;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.logo-img,
+.navbar {
+    background-color: var(--white);
+    padding: 10px 0;
+    border-bottom: 3px solid var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .logo-titre {
    max-height: 48px;
    width: auto;
 }
 
-.nav-menu {
+.navlinks {
    display: flex;
    list-style: none;
-   gap: 1rem;
+   gap: 25px;
    align-items: center;
 }
-
-.nav-menu a {
-   text-decoration: none;
+.logo-img {
+    height: 45px;
+    display: block;
 }
 
-.nav-menu a.disabled {
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-item {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--primary-color);
+}
+
+.nav-links a.disabled {
    color: #999;
    pointer-events: none;
    opacity: 0.6;
@@ -113,7 +144,6 @@ header {
 
 .btn-hamburger.is-open span:nth-child(2) {
    opacity: 0;
-   /* transform: scaleX(0); */
 }
 
 .btn-hamburger.is-open span:nth-child(3) {

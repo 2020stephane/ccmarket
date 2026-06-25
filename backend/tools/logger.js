@@ -4,7 +4,7 @@
 //    DATE    : 23/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import fs from "fs";
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -41,32 +41,32 @@ function writeLogFile(entries) {
 // ─── Fonction principale ──────────────────────────────────────────────────────
 
 /**
- * Enregistre une erreur dans errors.json avec date, heure et contexte.
- *
- * @param {Error|unknown} error   - L'erreur capturée dans le catch
- * @param {string}        context - Description du bloc try/catch (ex : "chargement config")
- * @param {object}        [extra] - Données supplémentaires libres (userId, url, etc.)
+ * Enregistre une erreur dans errors.json
+ * @param {Error|unknown} error
+ * @param {string}        context  - "chargement config", "appel API", etc.
+ * @param {object}        [extra]  - données libres : userId, url, etc.
+ * @param {string}        [source] - "backend" ou "frontend"
  */
-export function logError(error, context = "inconnu", extra = {}) {
+export function logError(error, context = "inconnu", extra = {}, source = "backend") {
   const now = new Date();
 
   const entry = {
-    date: now.toLocaleDateString("fr-FR"),          // ex : "23/06/2026"
-    heure: now.toLocaleTimeString("fr-FR"),          // ex : "14:35:07"
-    timestamp: now.toISOString(),                    // format ISO pour tris/filtres
+    source,
+    date: now.toLocaleDateString("fr-FR"),
+    heure: now.toLocaleTimeString("fr-FR"),
+    timestamp: now.toISOString(),
     contexte: context,
     message: error instanceof Error ? error.message : String(error),
     type: error instanceof Error ? error.constructor.name : typeof error,
-    stack: error instanceof Error ? error.stack : null,
-    ...extra,                                        // champs libres
+    stack: error instanceof Error ? (error.stack ?? null) : null,
+    ...extra,
   };
 
   const entries = readLogFile();
   entries.push(entry);
   writeLogFile(entries);
 
-  // Affichage console en développement
-  console.error(`[ERREUR][${entry.date} ${entry.heure}] ${context} → ${entry.message}`);
+  console.error(`[${source.toUpperCase()}][${entry.date} ${entry.heure}] ${context} → ${entry.message}`);
 }
 
 

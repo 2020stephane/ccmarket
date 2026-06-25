@@ -1,15 +1,21 @@
-<!-- ===========================================================
-   FICHIER : index.html
-   PROJET  : ccmarket
-   DATE    : 15/02/2026
-   AUTEUR  : Stephane Brisse
-   GITHUB  : https://github.com/2020stephane/ccmarket.git
-   =========================================================== -->
+<!--
+ *==========================================================
+ *  @file         index.html
+ *  @project      ccmarket
+ *  @description  Page d'accueil du site
+ *  @date         2026-02-15
+ *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *  @license      MIT
+ ==========================================================
+-->
+
 <!doctype html>
 <html lang="fr">
-   <!--==================================================
-======================  HEAD  ======================
-===================================================-->
+<!--
+ * ==========================================================
+ * ======================  HEAD  =====================
+ * ==========================================================
+-->
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +23,9 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
    <link rel="stylesheet" href="/css/index.css">
+   <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -25,61 +33,100 @@
 </head>
 
 <body>
-   <!--==================================================
-======================  HEADER  ======================
-===================================================-->
-   <header>
-      <img class="logo-img" src="/img/Logo_paysage.png" alt="Camping-Car garé au bord d'un lac">
-      <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
-         aria-controls="nav-menu">
-         <span></span>
-         <span></span>
-         <span></span>
-      </button>
-      <nav aria-label="Navigation principale">
-         <ul class="nav-menu">
-            <li>
-               <a href="index.html">Accueil</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Messages</a>
-            </li>
-            <li>
-               <a href="rechercher.html" class="rechercher">Rechercher</a>
-            </li>
-            <li>
-               <a href="seconnecter.html" id="seconnecter">Se connecter</a>
-            </li>
-         </ul>
-      </nav>
+<!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+   <header class="navbar">
+      <section class="container nav-container">
+         <figure>
+            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+         </figure>
+
+         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+
+         <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item" >Accueil</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
+         </nav>
+      </section>
    </header>
-   <!--==================================================
-======================  MAIN  ========================
-===================================================-->
+<!--
+ * ==========================================================
+ * ======================  MAIN  =====================
+ * ==========================================================
+-->
    <main>
-      <section class="section_hero">
-         <img class="img_hero" src="/img/cc_lac.png" alt="Logo Camping-Car Market">
-         <h1>Trouvez et vendez vos pièces détachées pour camping-car</h1>
+      <section class="hero">
+        <div class="container hero-content">
+            <h1>Trouvez l'équipement idéal pour votre prochaine aventure</h1>
+            <p>Achetez et vendez vos accessoires d'occasion entre passionnés de la route.</p>
+
+            <form class="search-form" action="/search" method="GET">
+                <input type="text" name="keyword" placeholder="Ex: Panneau solaire, Porte-vélos Fiamma, Convertisseur..." required>
+                <select name="category">
+                    <option value="">Toutes les catégories</option>
+                    <option value="energie">⚡ Énergie & Solaire</option>
+                    <option value="cuisine">🍳 Cuisine & Vie à bord</option>
+                    <option value="portage">🚲 Porte-vélos & Attelages</option>
+                    <option value="hightech">📺 High-Tech & Antenne</option>
+                </select>
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
       </section>
 
-      <section class="section_annonces">
+      <section class="categories container">
+        <h2 class="section-title">Parcourir par univers :</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <span class="category-icon">⚡</span>
+                <h3>Énergie & Solaire</h3>
+                <p>142 annonces</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">🍳</span>
+                <h3>Cuisine & Vie à bord</h3>
+                <p>98 annonces</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">🚲</span>
+                <h3>Porte-vélos & Attelages</h3>
+                <p>64 annonces</p>
+            </div>
+            <div class="category-card">
+                <span class="category-icon">📺</span>
+                <h3>High-Tech & Antenne</h3>
+                <p>41 annonces</p>
+            </div>
+        </div>
+    </section>
+
+      <section class="recent-ads container">
          <h2 class="section-title">Derniers ajouts :</h2>
-         <ul class="annonces-grid"></ul>
+         <ul class="annonces-grid ads-list"></ul>
       </section>
    </main>
-   <!--=====================================================
-======================  FOOTER  =========================
-======================================================-->
+<!--
+ * ==========================================================
+ * ======================  FOOTER  =====================
+ * ==========================================================
+-->
    <footer class="main-footer">
       <nav class="footer-links">
          <a href="contact.html">Contact</a>
          <a href="mentions_legales.html">Mentions légales</a>
       </nav>
-      <div class="footer-copyright">2026 Camping-Car Market.</div>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
    </footer>
    <script type="module" src="/js/index.js"></script>
 </body>

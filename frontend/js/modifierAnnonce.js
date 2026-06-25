@@ -4,8 +4,15 @@
 //    DATE    : 21/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { verifierConnection } from "/js/tools/authentification.js";
-import { testFormulaire } from "/js/tools/testFormulaire.js";
+/**
+ * =======================================================
+ * IMPORTS INTERNES
+ * =======================================================
+ */
+import { logError } from "/tools/logger.js";
+import { verifierConnection } from "/tools/authentification.js";
+import { testFormulaire } from "/tools/testFormulaire.js";
+
 verifierConnection();
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -23,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
     }
      try {
-        const response = await fetch(`/api/annonces/${idAnnonce}`);
+        const response = await fetch(`/api/annonces/mesannonces/${idAnnonce}`);
         const annonce = await response.json();
 console.log("annonce = ", annonce);
         container.innerHTML = "";
@@ -76,7 +83,7 @@ console.log("annonce = ", annonce);
 
         };
      } catch (error) {
-        console.error("Impossible de charger l'annonce :", error);
+       logError(error, "dans le module:modifierannonce.js");
        container.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Impossible de charger l'annonce.</td></tr>`;
     }
 

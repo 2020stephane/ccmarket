@@ -6,12 +6,6 @@
 //===========================================================
 import express from 'express';
 import {
-   getAnnonces,
-   getAnnonceById,
-   createAnnonce,
-   updateAnnonce,
-   patchAnnonce,
-   deleteAnnonce,
    getAjouts,
    getAnnoncesByUser,
    getAnnoncesByFilter,
@@ -26,15 +20,5 @@ router.get('/derniers_ajouts', getAjouts);
 router.get('/mesannonces/:id', getAnnoncesByUser);
 router.post('/recherche', getAnnoncesByFilter);
 router.post('/publierannonce', publierAnnonce);
-
-// ==================================================
-// routes pour le CRUD
-// ==================================================
-router.get('/',       getAnnonces);
-router.get('/:id',    getAnnonceById);
-router.post('/',      createAnnonce);
-router.put('/:id',    updateAnnonce);
-router.patch('/:id',  patchAnnonce);
-router.delete('/:id', deleteAnnonce);
 
 export default router;

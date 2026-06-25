@@ -1,25 +1,177 @@
-<!--===========================================================
-    FICHIER : admin.html
-    PROJET  : ccmarket
-    DATE    : 21/06/2026
-    AUTEUR  : Stephane Brisse
-    ===========================================================-->
+<!--
+ * =======================================================
+ *  @file         admin.html
+ *  @project      ccmarket
+ *  @description  Page html pour administrer le site
+ *  @date         2026-06-24
+ *  @author       Stephane Brisse
+ *  @license      MIT
+ * =======================================================
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>ccmarket</title>
-     <link rel="stylesheet" href="/css/admin.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Panel d'administration ccmarket">
+   <title>Administration — ccmarket</title>
+   <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-     <header>
-     </header>
-     <main>
-          <h1>Bienvenue administrateur</h1>
-     </main>
-     <script src="/js/admin.js"></script>
-     <footer>
-     </footer>
+
+   <header>
+      <h1 class="admin-logo">ccmarket <span>Admin</span></h1>
+      <button class="btn-deconnexion" id="btnDeconnexion">Déconnexion</button>
+   </header>
+
+   <div class="admin-wrapper">
+
+      <!-- ===============================================
+           SIDEBAR NAVIGATION
+      ================================================ -->
+      <aside class="admin-sidebar">
+         <nav>
+            <ul>
+               <li><a href="#dashboard"   class="nav-link active">📊 Tableau de bord</a></li>
+               <li><a href="#utilisateurs" class="nav-link">👤 Utilisateurs</a></li>
+               <li><a href="#annonces"    class="nav-link">📋 Annonces</a></li>
+               <li><a href="#contacts"    class="nav-link">✉️  Messages</a></li>
+               <li><a href="#parametres"  class="nav-link">⚙️  Paramètres</a></li>
+            </ul>
+         </nav>
+      </aside>
+
+      <!-- ===============================================
+           CONTENU PRINCIPAL
+      ================================================ -->
+      <main class="admin-main">
+
+         <!-- Tableau de bord -->
+         <section id="dashboard" class="admin-section">
+            <h2>Tableau de bord</h2>
+            <div class="stats-grid">
+               <div class="stat-card">
+                  <span class="stat-icon">👤</span>
+                  <span class="stat-nombre" id="totalUtilisateurs">0</span>
+                  <span class="stat-label">Utilisateurs</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">📋</span>
+                  <span class="stat-nombre" id="totalAnnonces">0</span>
+                  <span class="stat-label">Annonces</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">✉️</span>
+                  <span class="stat-nombre" id="totalMessages">0</span>
+                  <span class="stat-label">Messages</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">🕒</span>
+                  <span class="stat-nombre" id="totalEnAttente">0</span>
+                  <span class="stat-label">En attente</span>
+               </div>
+            </div>
+         </section>
+
+         <!-- Gestion des utilisateurs -->
+         <section id="utilisateurs" class="admin-section hidden">
+            <h2>Gestion des utilisateurs</h2>
+            <div class="section-toolbar">
+               <input type="search" id="rechercheUtilisateur" placeholder="Rechercher un utilisateur...">
+            </div>
+            <table class="admin-table">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Nom</th>
+                     <th>Email</th>
+                     <th>Rôle</th>
+                     <th>Inscrit le</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody id="listeUtilisateurs">
+                  <!-- Rempli dynamiquement via admin.js -->
+               </tbody>
+            </table>
+         </section>
+
+         <!-- Gestion des annonces -->
+         <section id="annonces" class="admin-section hidden">
+            <h2>Gestion des annonces</h2>
+            <div class="section-toolbar">
+               <input type="search" id="rechercheAnnonce" placeholder="Rechercher une annonce...">
+               <select id="filtreStatut">
+                  <option value="">Tous les statuts</option>
+                  <option value="active">Active</option>
+                  <option value="en_attente">En attente</option>
+                  <option value="refusee">Refusée</option>
+               </select>
+            </div>
+            <table class="admin-table">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Titre</th>
+                     <th>Auteur</th>
+                     <th>Statut</th>
+                     <th>Publiée le</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody id="listeAnnonces">
+                  <!-- Rempli dynamiquement via admin.js -->
+               </tbody>
+            </table>
+         </section>
+
+         <!-- Gestion des messages -->
+         <section id="contacts" class="admin-section hidden">
+            <h2>Messages reçus</h2>
+            <table class="admin-table">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Nom</th>
+                     <th>Email</th>
+                     <th>Message</th>
+                     <th>Reçu le</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody id="listeContacts">
+                  <!-- Rempli dynamiquement via admin.js -->
+               </tbody>
+            </table>
+         </section>
+
+         <!-- Paramètres -->
+         <section id="parametres" class="admin-section hidden">
+            <h2>Paramètres du site</h2>
+            <div class="parametres-form">
+               <div class="form-group">
+                  <label for="nomSite">Nom du site</label>
+                  <input type="text" id="nomSite" value="ccmarket">
+               </div>
+               <div class="form-group">
+                  <label for="emailContact">Email de contact</label>
+                  <input type="email" id="emailContact" placeholder="contact@ccmarket.fr">
+               </div>
+               <div class="form-group">
+                  <label for="modeMaintenance">Mode maintenance</label>
+                  <input type="checkbox" id="modeMaintenance">
+               </div>
+               <button class="btn-sauvegarder" id="btnSauvegarder">Sauvegarder</button>
+            </div>
+         </section>
+
+      </main>
+   </div>
+
+   <footer>
+      <p>ccmarket Admin — &copy; <span id="annee"></span></p>
+   </footer>
+
+   <script src="/js/admin.js"></script>
 </body>
 </html>

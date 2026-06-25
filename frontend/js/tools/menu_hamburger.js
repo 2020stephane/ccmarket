@@ -5,7 +5,7 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 const btnHamburger = document.querySelector(".btn-hamburger");
-const nav = document.querySelector("header nav");
+const nav = document.querySelector(".nav-links");
 
 const closeMenu = () => {
   nav.classList.remove("is-open");
@@ -29,7 +29,7 @@ document.addEventListener("click", (e) => {
     closeMenu();
   }
 });
-document.querySelectorAll(".nav-menu a").forEach((link) => {
+document.querySelectorAll(".nav-links a").forEach((link) => {
   link.addEventListener("click", closeMenu);
 });
 document.addEventListener("keydown", (e) => {

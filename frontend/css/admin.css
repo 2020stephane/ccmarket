@@ -1,22 +1,22 @@
-/* ===========================================================
-   FICHIER : admin.css
-   PROJET  : ccmarket
-   DATE    : 21/06/2026
-   AUTEUR  : Stephane Brisse
-   =========================================================== */
+/**
+ * =======================================================
+ *  @file         admin.css
+ *  @module       admin
+ *  @project      ccmarket
+ *  @description  Styles de la page d'administration
+ *  @version      1.0.0
+ *  @date         2026-06-24
+ *  @author       Stephane Brisse
+ *  @license      MIT
+ * =======================================================
+ */
+
  @font-face {
  font-family: "Roboto";
  src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
  font-weight: 400;
  font-style: normal;
  font-display: swap;
- }
- *,
- *::before,
- *::after {
- margin: 0;
- padding: 0;
- box-sizing: border-box;
  }
  html {
  scroll-behavior: smooth;
@@ -25,3 +25,374 @@
  font-family: "Roboto", sans-serif;
  color: #000;
  }
+/* =======================================================
+   Variables & Reset
+======================================================= */
+:root {
+   --couleur-fond          : #0f1117;
+   --couleur-fond-sidebar  : #161b27;
+   --couleur-fond-carte    : #1c2333;
+   --couleur-fond-table    : #1c2333;
+   --couleur-accent        : #4f8ef7;
+   --couleur-accent-hover  : #3a72d4;
+   --couleur-danger        : #e05c5c;
+   --couleur-succes        : #4caf80;
+   --couleur-warning       : #f0a444;
+   --couleur-texte         : #e2e8f0;
+   --couleur-texte-doux    : #8a9bbf;
+   --couleur-bordure       : #2a3348;
+   --rayon                 : 8px;
+   --transition            : 0.2s ease;
+   --hauteur-header        : 60px;
+   --largeur-sidebar       : 220px;
+   --police-principale     : 'Segoe UI', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+   box-sizing : border-box;
+   margin     : 0;
+   padding    : 0;
+}
+
+body {
+   font-family      : var(--police-principale);
+   background-color : var(--couleur-fond);
+   color            : var(--couleur-texte);
+   font-size        : 14px;
+   line-height      : 1.6;
+   min-height       : 100vh;
+}
+
+a {
+   color           : inherit;
+   text-decoration : none;
+}
+
+ul {
+   list-style : none;
+}
+
+/* =======================================================
+   Header
+======================================================= */
+header {
+   position         : fixed;
+   top              : 0;
+   left             : 0;
+   right            : 0;
+   height           : var(--hauteur-header);
+   background-color : var(--couleur-fond-sidebar);
+   border-bottom    : 1px solid var(--couleur-bordure);
+   display          : flex;
+   align-items      : center;
+   justify-content  : space-between;
+   padding          : 0 24px;
+   z-index          : 100;
+}
+
+.admin-logo {
+   font-size   : 18px;
+   font-weight : 700;
+   letter-spacing : 0.5px;
+   color       : var(--couleur-texte);
+}
+
+.admin-logo span {
+   color       : var(--couleur-accent);
+   font-weight : 400;
+   font-size   : 13px;
+   margin-left : 6px;
+   padding     : 2px 8px;
+   border      : 1px solid var(--couleur-accent);
+   border-radius : var(--rayon);
+}
+
+.btn-deconnexion {
+   background-color : transparent;
+   color            : var(--couleur-danger);
+   border           : 1px solid var(--couleur-danger);
+   padding          : 6px 14px;
+   border-radius    : var(--rayon);
+   cursor           : pointer;
+   font-size        : 13px;
+   transition       : var(--transition);
+}
+
+.btn-deconnexion:hover {
+   background-color : var(--couleur-danger);
+   color            : #fff;
+}
+
+/* =======================================================
+   Layout principal
+======================================================= */
+.admin-wrapper {
+   display    : flex;
+   margin-top : var(--hauteur-header);
+   min-height : calc(100vh - var(--hauteur-header));
+}
+
+/* =======================================================
+   Sidebar
+======================================================= */
+.admin-sidebar {
+   width            : var(--largeur-sidebar);
+   background-color : var(--couleur-fond-sidebar);
+   border-right     : 1px solid var(--couleur-bordure);
+   position         : fixed;
+   top              : var(--hauteur-header);
+   bottom           : 0;
+   padding          : 24px 0;
+   overflow-y       : auto;
+}
+
+.admin-sidebar nav ul {
+   display        : flex;
+   flex-direction : column;
+   gap            : 4px;
+   padding        : 0 12px;
+}
+
+.nav-link {
+   display       : flex;
+   align-items   : center;
+   gap           : 10px;
+   padding       : 10px 14px;
+   border-radius : var(--rayon);
+   color         : var(--couleur-texte-doux);
+   font-size     : 13px;
+   font-weight   : 500;
+   transition    : var(--transition);
+}
+
+.nav-link:hover {
+   background-color : var(--couleur-fond-carte);
+   color            : var(--couleur-texte);
+}
+
+.nav-link.active {
+   background-color : rgba(79, 142, 247, 0.12);
+   color            : var(--couleur-accent);
+}
+
+/* =======================================================
+   Contenu principal
+======================================================= */
+.admin-main {
+   margin-left : var(--largeur-sidebar);
+   flex        : 1;
+   padding     : 32px;
+}
+
+.admin-section {
+   display : block;
+}
+
+.admin-section.hidden {
+   display : none;
+}
+
+.admin-section h2 {
+   font-size     : 20px;
+   font-weight   : 600;
+   margin-bottom : 24px;
+   padding-bottom : 12px;
+   border-bottom  : 1px solid var(--couleur-bordure);
+   color          : var(--couleur-texte);
+}
+
+/* =======================================================
+   Tableau de bord — Cartes statistiques
+======================================================= */
+.stats-grid {
+   display               : grid;
+   grid-template-columns : repeat(auto-fit, minmax(180px, 1fr));
+   gap                   : 20px;
+}
+
+.stat-card {
+   background-color : var(--couleur-fond-carte);
+   border           : 1px solid var(--couleur-bordure);
+   border-radius    : var(--rayon);
+   padding          : 24px 20px;
+   display          : flex;
+   flex-direction   : column;
+   align-items      : center;
+   gap              : 8px;
+   transition       : var(--transition);
+}
+
+.stat-card:hover {
+   border-color : var(--couleur-accent);
+}
+
+.stat-icon {
+   font-size : 28px;
+}
+
+.stat-nombre {
+   font-size   : 32px;
+   font-weight : 700;
+   color       : var(--couleur-accent);
+   line-height : 1;
+}
+
+.stat-label {
+   font-size : 12px;
+   color     : var(--couleur-texte-doux);
+   text-transform : uppercase;
+   letter-spacing : 0.8px;
+}
+
+/* =======================================================
+   Barre d'outils (recherche + filtres)
+======================================================= */
+.section-toolbar {
+   display       : flex;
+   gap           : 12px;
+   margin-bottom : 20px;
+   flex-wrap     : wrap;
+}
+
+.section-toolbar input[type="search"],
+.section-toolbar select {
+   background-color : var(--couleur-fond-carte);
+   border           : 1px solid var(--couleur-bordure);
+   border-radius    : var(--rayon);
+   color            : var(--couleur-texte);
+   padding          : 8px 14px;
+   font-size        : 13px;
+   outline          : none;
+   transition       : var(--transition);
+}
+
+.section-toolbar input[type="search"] {
+   width : 280px;
+}
+
+.section-toolbar input[type="search"]:focus,
+.section-toolbar select:focus {
+   border-color : var(--couleur-accent);
+}
+
+/* =======================================================
+   Tableaux
+======================================================= */
+.admin-table {
+   width           : 100%;
+   border-collapse : collapse;
+   background-color : var(--couleur-fond-table);
+   border-radius   : var(--rayon);
+   overflow        : hidden;
+   border          : 1px solid var(--couleur-bordure);
+}
+
+.admin-table thead {
+   background-color : rgba(79, 142, 247, 0.08);
+}
+
+.admin-table th {
+   text-align     : left;
+   padding        : 12px 16px;
+   font-size      : 11px;
+   font-weight    : 600;
+   text-transform : uppercase;
+   letter-spacing : 0.8px;
+   color          : var(--couleur-texte-doux);
+   border-bottom  : 1px solid var(--couleur-bordure);
+}
+
+.admin-table td {
+   padding       : 12px 16px;
+   border-bottom : 1px solid var(--couleur-bordure);
+   font-size     : 13px;
+   color         : var(--couleur-texte);
+}
+
+.admin-table tbody tr:last-child td {
+   border-bottom : none;
+}
+
+.admin-table tbody tr:hover {
+   background-color : rgba(255, 255, 255, 0.03);
+}
+
+/* =======================================================
+   Paramètres
+======================================================= */
+.parametres-form {
+   background-color : var(--couleur-fond-carte);
+   border           : 1px solid var(--couleur-bordure);
+   border-radius    : var(--rayon);
+   padding          : 28px;
+   max-width        : 480px;
+   display          : flex;
+   flex-direction   : column;
+   gap              : 20px;
+}
+
+.form-group {
+   display        : flex;
+   flex-direction : column;
+   gap            : 6px;
+}
+
+.form-group label {
+   font-size  : 12px;
+   font-weight : 600;
+   color      : var(--couleur-texte-doux);
+   text-transform : uppercase;
+   letter-spacing : 0.6px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+   background-color : var(--couleur-fond);
+   border           : 1px solid var(--couleur-bordure);
+   border-radius    : var(--rayon);
+   color            : var(--couleur-texte);
+   padding          : 10px 14px;
+   font-size        : 13px;
+   outline          : none;
+   transition       : var(--transition);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+   border-color : var(--couleur-accent);
+}
+
+.form-group input[type="checkbox"] {
+   width  : 18px;
+   height : 18px;
+   cursor : pointer;
+   accent-color : var(--couleur-accent);
+}
+
+.btn-sauvegarder {
+   background-color : var(--couleur-accent);
+   color            : #fff;
+   border           : none;
+   border-radius    : var(--rayon);
+   padding          : 10px 20px;
+   font-size        : 13px;
+   font-weight      : 600;
+   cursor           : pointer;
+   transition       : var(--transition);
+   align-self       : flex-start;
+}
+
+.btn-sauvegarder:hover {
+   background-color : var(--couleur-accent-hover);
+}
+
+/* =======================================================
+   Footer
+======================================================= */
+footer {
+   margin-left      : var(--largeur-sidebar);
+   padding          : 20px 32px;
+   border-top       : 1px solid var(--couleur-bordure);
+   color            : var(--couleur-texte-doux);
+   font-size        : 12px;
+}
