@@ -4,7 +4,7 @@
  *  @module        server
  *  @project       ccmarket
  *  @description   Point d'entrée principal du serveur Express.
- *                 Configure les middlewares, les routes et démarre l'application.
+ *                 Configure les middlewares, les routes et démarre le serveur
  *  @version       1.0.0
  *  @date          2026-06-24
  *  @author        Stephane Brisse
@@ -14,7 +14,7 @@
 
 /**
  * =======================================================
- *  Importation des modules externes
+ *  Importation des modules
  * =======================================================
  */
 import 'dotenv/config';
@@ -25,17 +25,13 @@ import cookieParser      from 'cookie-parser';
 import fileUpload        from 'express-fileupload';
 import { fileURLToPath } from 'url';
 
-/**
- * =======================================================
- *  Importation des modules internes
- * =======================================================
- */
 import postmanRoutes          from './backend/routes/postman.js';
 import annoncesRoutes         from './backend/routes/annonces.js';
 import utilisateursRoutes     from './backend/routes/utilisateurs.js';
 import contactRoutes          from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth2.js';
 import authentificationGoogle from './backend/routes/auth.js';
+import logErrorRoutes         from './backend/routes/logError.js';
 /**
  * =======================================================
  *  Déclaration des variables
@@ -46,16 +42,20 @@ const PORT       = process.env.NS_PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
-if (!process.env.NS_PORT) {
-   console.warn('⚠️  NS_PORT non défini dans .env — port 3000 utilisé par défaut');
-}
-
 /**
  * =======================================================
  *  Configuration des middlewares
  * =======================================================
  */
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -72,9 +72,10 @@ app.use('/api/utilisateurs', utilisateursRoutes);
 app.use('/api/contacter',    contactRoutes);
 app.use('/api',              authentificationRoutes);
 app.use('/auth',             authentificationGoogle);
+app.use('/api/log_error',    logErrorRoutes);
 /**
  * =======================================================
- *  Déclaration des fichiers statiques
+ *  Déclaration des repertoires statiques
  * =======================================================
  */
 app.use(express.static(path.join(__dirname, '/frontend/html')));

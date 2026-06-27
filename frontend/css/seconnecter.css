@@ -12,13 +12,27 @@ body {
    flex-direction: column;
    min-height: 100vh;
 }
-
 .hero {
-   flex: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 25px;
+}
+.hero h1{
+   color: var(--primary-dark);
+   margin-top: 20px;
+}
+.c_standard {
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
+}
+.c_google {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 form {
    display: flex;
@@ -32,7 +46,14 @@ form p {
    flex-direction: column;
    gap: 5px;
 }
+form p:last-of-type {
+    text-align: center;
+}
 
+form p:last-of-type a {
+    display: block;
+    margin-top: 5px;
+}
 input {
     width: 100%;
     padding: 12px;
@@ -73,21 +94,22 @@ input:focus {
     margin: 20px 0;
     color: var(--text-light, #607367);
 }
-
-.separator::before, .separator::after {
+/* .separator::before, .separator::after {
     content: '';
     flex: 1;
     border-bottom: 1px solid #e2f0e7;
 }
 
 .separator:not(:empty)::before { margin-right: .5em; }
-.separator:not(:empty)::after { margin-left: .5em; }
+.separator:not(:empty)::after { margin-left: .5em; } */
 
 /* Centrer le bouton Google */
 .g_id_signin {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-bottom: 20px;
+    align-items: center;
+    /* margin-bottom: 20px; */
 }
 
 

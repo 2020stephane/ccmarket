@@ -23,7 +23,9 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
-   <link rel="stylesheet" href="/css/connection.css">
+   <link rel="stylesheet" href="/css/header.css">
+   <link rel="stylesheet" href="/css/seconnecter.css">
+   <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -64,42 +66,49 @@
 -->
 
    <main>
-     <section class="hero">
-         <h1>CONNEXION</h1>
-         <form action="#" id="formConnection">
-            <p>
-               <label for="email">Email :</label>
-               <input type="email" id="email" name="email" autocomplete="email" placeholder="Email" required>
-            </p>
+      <section class="hero">
+         <section class="c_standard">
+            <h1>CONNEXION</h1>
+            <form action="#" id="formConnection">
+               <p>
+                  <label for="email">Email :</label>
+                  <input type="email" id="email" name="email" autocomplete="email"
+                     placeholder="Email" required>
+               </p>
 
-            <p>
-               <label for="password">Mot de passe :</label>
+               <p>
+                  <label for="password">Mot de passe :</label>
                   <input type="password" id="password" name="password" autocomplete="current-password"
                      placeholder="Mot de passe" required>
-            </p>
+               </p>
 
-            <button id="b_submit" type="submit">CONNEXION</button>
-         </form>
+               <button id="b_submit" type="submit">CONNEXION</button>
+
+               <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
+            </form>
+         </section>
 
          <div class="separator">ou</div>
 
-         <div id="g_id_onload"
-            data-client_id="704222357776-ej7hprrv42f4os1mpbddivl1p812ge0m.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-callback="handleCredentialResponse"
-            data-auto_prompt="false">
-         </div>
-         <div class="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="outline"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left">
-         </div>
-         <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
-         <button id="deconnection">DECONNEXION</button>
+         <section class="c_google">
+            <div id="g_id_onload"
+               data-client_id="704222357776-ej7hprrv42f4os1mpbddivl1p812ge0m.apps.googleusercontent.com"
+               data-context="signin"
+               data-ux_mode="popup"
+               data-callback="handleCredentialResponse"
+               data-auto_prompt="false">
+            </div>
+
+            <div class="g_id_signin"
+               data-type="standard"
+               data-shape="rectangular"
+               data-theme="outline"
+               data-text="signin_with"
+               data-size="large"
+               data-logo_alignment="left">
+            </div>
+
+         </section>
       </section>
    </main>
 <!--
@@ -113,7 +122,9 @@
          <a href="contact.html">Contact</a>
          <a href="mentions_legales.html">Mentions légales</a>
       </nav>
-      <div class="footer-copyright">2026 Camping-Car Market.</div>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
    </footer>
    <script src="https://accounts.google.com/gsi/client"></script>
    <script type="module" src="/js/seconnecter.js"></script>

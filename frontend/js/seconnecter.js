@@ -5,7 +5,8 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection } from "/js/tools/authentification.js";
-verifierConnection();
+import { logError } from "/tools/logger.js";
+// verifierConnection();
 
 const form = document.getElementById("formConnection");
 
@@ -33,37 +34,12 @@ form.addEventListener("submit", async (e) => {
          alert(data.message);
          window.location.href="seconnecter.html";
       }
-   } catch (e) {
-          alert("erreur serveur");
+   } catch (error) {
+          logError(error, "dans le module:seconnecter.js");
           window.location.href="seconnecter.html";
    }
 });
-const btnd = document.getElementById("deconnection");
 
-btnd.addEventListener("click", async (e) => {
-   e.preventDefault();
-   try {
-      const response = await fetch("/api/utilisateurs/deconnection", {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json"
-         }
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-         localStorage.removeItem('userinfo');
-         window.location.href = "index.html";
-      } else {
-         alert(data.message || "Impossible de se déconnecter.");
-         window.location.href = "seconnecter.html";
-      }
-   } catch (error) {
-      console.error("Erreur lors de la déconnexion :", error);
-      alert("Erreur serveur");
-      window.location.href = "seconnecter.html";
-   }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     const formConnection = document.getElementById('formConnection');

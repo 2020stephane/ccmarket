@@ -37,7 +37,7 @@ import db from '../bdd/db.js';
 export async function getAnnonces(req, res) {
    try {
       const [annonces] = await db.execute(
-         'SELECT * FROM annonces ORDER BY date_publication DESC'
+         'SELECT * FROM annonces '
       );
       res.status(200).json(annonces);
    } catch (error) {
@@ -57,10 +57,6 @@ export async function getAnnonceById(req, res) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
       const annonce = rows[0];
-      const [photosDeLAnnonce] = await db.execute(
-         'SELECT * FROM photos WHERE annonce_id = ?', [req.params.id]
-      );
-      annonce.photos = photosDeLAnnonce;
       res.status(200).json(annonce);
    } catch (error) {
       logError(error, "function getAnnonceById dans le module:annoncesControllers.js");

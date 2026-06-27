@@ -4,6 +4,8 @@
 //    DATE    : 04/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
+import { logError } from "/tools/logger.js";
+
 export async function verifierConnection() {
    try {
       const res = await fetch('/api/status', { credentials: 'include' });
@@ -13,7 +15,7 @@ export async function verifierConnection() {
       if (data.connection) {
          const btnc = document.getElementById('seconnecter');
          if (btnc) { btnc.textContent = `Bonjour, ${data.prenom} !`; }
-         const disabledLinks = document.querySelectorAll('.nav-menu a.disabled');
+         const disabledLinks = document.querySelectorAll('.nav-links a.disabled');
          disabledLinks[0].href = "mesannonces.html";
          disabledLinks[1].href = "messagerie.html";
          disabledLinks.forEach(link => {
@@ -22,8 +24,9 @@ export async function verifierConnection() {
             link.removeAttribute('tabindex');
          });
       }
-   } catch {
-      window.location.href = '/seconnecter.html';
+return data;
+   } catch (error){
+      logError(error, "dans le module:authentification.js");
    }
 }
 // export async function verifierConnection() {

@@ -9,17 +9,20 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
+const JWT_SECRET = process.env.JWT_SECRET ;
 
 router.get('/status', (req, res) => {
    const token = req.cookies.monToken;
    if (!token){
-
        return res.json({ connection: false, message: "pas de token" });
    }
    try {
       const decoded = jwt.verify(token, JWT_SECRET);
-      res.json({ connection: true, prenom: decoded.prenom, nom: decoded.nom });
+res.json({
+    connection: true,
+    prenom: decoded.prenom,
+    nom: decoded.nom
+});
    } catch (e) {
       res.json({ connection: false });
    }

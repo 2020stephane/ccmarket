@@ -1,6 +1,6 @@
 /**
  * ==========================================================
- * @file         google.js
+ * @file         auth.js
  * @project      ccmarket
  * @description  Authentification Google + JWT + MySQL
  * @date         2026-06-25
@@ -13,11 +13,9 @@ import bcrypt from 'bcrypt';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import db from '../bdd/db.js';
-import { logError } from "../tools/logger.js";
 
 const router = express.Router();
 
-// Remplplace par le Client ID obtenu sur ta Google Cloud Console
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
@@ -48,7 +46,10 @@ router.post('/google', async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
+
+        // BUG CORRIGÉ : "name" n'existait pas — on construit le nom depuis given_name + family_name
         const { email, given_name, family_name, picture } = payload;
+        const nomComplet = `${given_name} ${family_name}`.trim();
 
         // 2. Chercher l'utilisateur en BDD
         const [rows] = await db.query(
@@ -61,34 +62,28 @@ router.post('/google', async (req, res) => {
         if (rows.length === 0) {
             // 3a. Nouvel utilisateur → inscription automatique
             const [result] = await db.query(
-                'INSERT INTO utilisateurs (nom, prenom, email, motdepasse, administrateur) VALUES (?, ?, ?, ?,?)',
-                [family_name, given_name, email, null, false]
+                'INSERT INTO utilisateurs (nom, prenom, email, photo, administrateur) VALUES (?, ?, ?, ?, ?)',
+                [family_name, given_name, email, picture, false]
             );
             utilisateur = {
                 utilisateur_id: result.insertId,
                 nom: family_name,
                 prenom: given_name,
-                email: email,
+                email,
                 administrateur: false
-            }
+            };
         } else {
             // 3b. Utilisateur existant → récupération
             utilisateur = rows[0];
         }
 
         // 4. Génération du JWT local
-        const token = genererToken({
-    id: utilisateur.utilisateur_id,
-    email: utilisateur.email,
-    nom: utilisateur.nom,        // ← présent ?
-    prenom: utilisateur.prenom,  // ← présent ?
-    administrateur: utilisateur.administrateur
-});
-res.cookie('monToken', jwtToken, {
-    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
-    secure: false,   // mettre true en production (HTTPS)
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
-});
+        const jwtToken = genererToken({
+            id: utilisateur.utilisateur_id,
+            email: utilisateur.email,
+            administrateur: utilisateur.administrateur
+        });
+
         // 5. Réponse
         return res.status(200).json({
             success: true,
@@ -96,13 +91,13 @@ res.cookie('monToken', jwtToken, {
             user: {
                 id: utilisateur.utilisateur_id,
                 nom: utilisateur.nom,
+                prenom: utilisateur.prenom,
                 email: utilisateur.email,
                 administrateur: utilisateur.administrateur
             }
         });
 
     } catch (error) {
-
         console.error('Erreur auth Google:', error);
         return res.status(401).json({
             success: false,
@@ -112,7 +107,7 @@ res.cookie('monToken', jwtToken, {
 });
 
 // ==================================================
-// POST /auth/login
+// POST /auth/login  (connexion classique avec bcrypt)
 // ==================================================
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -153,17 +148,11 @@ router.post('/login', async (req, res) => {
 
         // 4. Générer le JWT
         const token = genererToken({
-    id: utilisateur.utilisateur_id,
-    email: utilisateur.email,
-    nom: utilisateur.nom,        // ← présent ?
-    prenom: utilisateur.prenom,  // ← présent ?
-    administrateur: utilisateur.administrateur
-});
-res.cookie('monToken', jwtToken, {
-    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
-    secure: false,   // mettre true en production (HTTPS)
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
-});
+            id: utilisateur.utilisateur_id,
+            email: utilisateur.email,
+            administrateur: utilisateur.administrateur
+        });
+
         // 5. Réponse
         return res.status(200).json({
             success: true,
@@ -185,5 +174,5 @@ res.cookie('monToken', jwtToken, {
         });
     }
 });
-export default router;
 
+export default router;
