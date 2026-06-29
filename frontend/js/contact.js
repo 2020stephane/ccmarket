@@ -1,10 +1,17 @@
-//===========================================================
-//    FICHIER : contact.js
-//    PROJET  : ccmarket
-//    DATE    : 17/06/2026
-//    AUTEUR  : Stephane Brisse
-//===========================================================
+/**
+ * =======================================================
+ *  @fileoverview  contact.js
+ *  @project       ccmarket
+ *  @description   script pour la page de contact
+ *  @version       1.0.0
+ *  @date          2026-06-17
+ *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *  @license       MIT
+ * =======================================================
+ */
 import { verifierConnection } from "/js/tools/authentification.js";
+import { logError } from "/tools/logger.js";
+
 verifierConnection();
 
 const form = document.getElementById("formContact");
@@ -31,14 +38,32 @@ try {
       const data = await response.json();
 
       if (response.ok) {
-         localStorage.setItem('userinfo', JSON.stringify(data));
          window.location.href="index.html";
       }else {
          afficherErreur(data.message);
       }
    } catch {
+      logError(error, "dans le module:contact.js");
           afficherErreur("Erreur serveur, veuillez réessayer.");
    }
+});
+
+
+const textarea    = document.getElementById('message_id');
+const compteur    = document.getElementById('message-compteur');
+const MAX         = 250;
+
+textarea.addEventListener('input', () => {
+    const restants = MAX - textarea.value.length;
+    compteur.textContent = `${textarea.value.length} / ${MAX}`;
+
+    if (restants <= 20) {
+        compteur.style.color = 'red';
+    } else if (restants <= 75) {
+        compteur.style.color = 'orange';
+    } else {
+        compteur.style.color = '';
+    }
 });
 // ==================================================
 // function afficherErreur(msg: any): void

@@ -38,6 +38,26 @@ function writeLogFile(entries) {
   fs.writeFileSync(LOG_FILE, JSON.stringify(entries, null, 2), "utf-8");
 }
 
+/**
+ * Nettoie et formate le stack trace :
+ * - supprime les lignes node_modules
+ * - raccourcit les chemins absolus vers le projet
+ * - retourne un tableau de lignes
+ */
+function formatStack(stack, projectRoot = process.cwd()) {
+  if (!stack) return null;
+return stack
+    .split("\n")
+    .filter(line => !line.includes("node_modules"))   // supprime le bruit
+    .map(line =>
+      line
+        .replace(/\\/g, "/")                           // Windows → slash unix
+        .replace(projectRoot.replace(/\\/g, "/"), "~") // chemin absolu → ~
+        .trim()
+    )
+    .filter(Boolean);                                  // supprime les lignes vides
+}
+
 // ─── Fonction principale ──────────────────────────────────────────────────────
 
 /**
@@ -49,17 +69,17 @@ function writeLogFile(entries) {
  */
 export function logError(error, context = "inconnu", extra = {}, source = "backend") {
   const now = new Date();
-
+  const rawMessage = error instanceof Error ? error.message : String(error);
   const entry = {
     source,
     date: now.toLocaleDateString("fr-FR"),
     heure: now.toLocaleTimeString("fr-FR"),
     timestamp: now.toISOString(),
     contexte: context,
-    message: error instanceof Error ? error.message : String(error),
+    message: rawMessage || "(aucun message — voir stack ou extra)",
     type: error instanceof Error ? error.constructor.name : typeof error,
-    stack: error instanceof Error ? (error.stack ?? null) : null,
-    ...extra,
+    stack: formatStack(error instanceof Error ? error.stack ?? null : null),
+    ...(Object.keys(extra).length > 0 ? { extra } : {}),
   };
 
   const entries = readLogFile();
@@ -68,40 +88,3 @@ export function logError(error, context = "inconnu", extra = {}, source = "backe
 
   console.error(`[${source.toUpperCase()}][${entry.date} ${entry.heure}] ${context} → ${entry.message}`);
 }
-
-
-// ─── Exemple d'utilisation ────────────────────────────────────────────────────
-// Décommentez le bloc ci-dessous pour tester directement avec : node logger.js
-
-/*
-const { logError } = require("./logger");
-
-// Exemple 1 – erreur de lecture de fichier
-try {
-  const data = fs.readFileSync("/chemin/inexistant.json", "utf-8");
-} catch (err) {
-  logError(err, "lecture du fichier de configuration");
-}
-
-// Exemple 2 – erreur réseau avec données supplémentaires
-async function fetchData() {
-  try {
-    const res = await fetch("https://api.exemple.com/data");
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (err) {
-    logError(err, "appel API fetchData", { url: "https://api.exemple.com/data" });
-  }
-}
-
-// Exemple 3 – erreur métier personnalisée
-try {
-  const user = null;
-  if (!user) throw new Error("Utilisateur introuvable");
-  console.log(user.name);
-} catch (err) {
-  logError(err, "récupération profil utilisateur", { userId: 42 });
-}
-
-fetchData();
-*/

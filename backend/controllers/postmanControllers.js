@@ -2,7 +2,7 @@
  * =======================================================
  *  @fileoverview  postmanControllers.js
  *  @project       ccmarket
- *  @description   Contrôleur de gestion du postman
+ *  @description   Contrôleur pour tester postman
  *  @version       1.0.0
  *  @date          2026-06-24
  *  @author        Stephane Brisse
@@ -41,7 +41,7 @@ export async function getAnnonces(req, res) {
       );
       res.status(200).json(annonces);
    } catch (error) {
-      logError(error, "function getAnnonces dans le module:annoncesControllers.js");
+      logError(error, "FONCTION: getAnnonces, MODULE: postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -59,7 +59,7 @@ export async function getAnnonceById(req, res) {
       const annonce = rows[0];
       res.status(200).json(annonce);
    } catch (error) {
-      logError(error, "function getAnnonceById dans le module:annoncesControllers.js");
+      logError(error, "FONCTION: getAnnonceById, MODULE: postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -80,7 +80,7 @@ export async function postAnnonce(req, res) {
       );
       res.status(201).json({ message: 'Annonce créée', id: result.insertId });
    } catch (error) {
-      logError(error, "function postAnnonce dans le module:annoncesControllers.js");
+      logError(error, "FONCTION: postAnnonce, MODULE: postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -104,7 +104,7 @@ export async function putAnnonce(req, res) {
       }
       res.json({ message: 'Annonce mise à jour' });
    } catch (error) {
-      logError(error, "function putAnnonce dans le module:annoncesControllers.js");
+      logError(error, "FONCTION: putAnnonce, MODULE: postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -139,7 +139,7 @@ export async function patchAnnonce(req, res) {
 
       res.json({ message: 'Annonce mise à jour partiellement' });
    } catch (error) {
-      logError(error, "function patchAnnonce dans le module:annoncesControllers.js");
+      logError(error, "FONCTION: patchAnnonce, MODULE:postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -157,7 +157,7 @@ export async function deleteAnnonce(req, res) {
       }
       res.json({ message: 'Annonce supprimée' });
    } catch (error) {
-     logError(error, "function deleteAnnonce dans le module:annoncesControllers.js");
+     logError(error, "FONCTION: deleteAnnonce, MODULE:postmanControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }

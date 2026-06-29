@@ -34,7 +34,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 /**
  * =======================================================
  *  @function     seConnecter
- *  @description  Contrôleur de connection de l'utilisateur.
+ *  @description  Fonction de connexion de l'utilisateur.
  *  @async
  * =======================================================
  *

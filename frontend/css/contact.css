@@ -1,11 +1,13 @@
-/* ===========================================================
-   FICHIER : contact.css
-   PROJET  : ccmarket
-   DATE    : 17/03/2026
-   AUTEUR  : Stephane Brisse
-   =========================================================== */
-@import url("header.css");
-@import url("footer.css");
+/**
+ * =======================================================
+ *  @file         contact.css
+ *  @project      ccmarket
+ *  @description  Feuille de style pour la page contact
+ *  @date         2026-06-28
+ *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *  @license      MIT
+ * =======================================================
+ */
 
 body {
    display: flex;
@@ -20,7 +22,11 @@ main {
    align-items: center;
    justify-content: center;
 }
-
+h1 {
+  font-size: 2.4rem;
+  color: var(--primary-dark);
+  margin-bottom: 15px;
+}
 form {
    display: flex;
    flex-direction: column;
@@ -28,7 +34,7 @@ form {
    gap: 15px;
 }
 
-form p {
+form div {
    display: flex;
    flex-direction: column;
    gap: 5px;
@@ -37,101 +43,91 @@ form p {
 #message_id {
    resize: none;
 }
- 
+
 input, textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 8px; 
+    border-radius: 8px;
     transition: border-color 0.3s ease;
 }
 
 input:focus, textarea:focus {
-    border-color: var(--b_color_hover); 
+    border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
-
+#message-compteur {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color:var(--text-light);
+    margin-top: 0.25rem;
+}
 #b_submit {
-   background-color: var(--b_color_base);
-   color: #000;
-   padding: 10px 25px;
-   border-radius: 10px;
-   font-weight: 500;
-   border: none;
-   cursor: pointer;
-   transition: all 0.3s, transform 0.3s;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 #b_submit:hover {
-   background-color: var(--b_color_hover);
-   transform: translateY(-2px);
+   background-color: var(--primary-dark);
 }
-@media (max-width: 900px) {
-  /* Affiche le bouton hamburger */
-  .btn-hamburger {
-    display: flex;
-  }
+/** ===================================================
+ *    Responsive mobile
+ *  ===================================================
+ */
 
-  /* Cache le logo image sur mobile */
-  @media (max-width: 640px) {
-    .logo-img {
-      display: none;
+@media (max-width: 768px) {
+    .nav-container {
+      flex-direction: column;
+      gap: 15px;
     }
-  }
-  header nav {
-    position: absolute;
-    top: 100%; /* colle sous le header */
-    left: 0;
-    width: 100%;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    .main-footer {
+      flex-direction: column;
+      gap: 15px;
+    }
+}
+@media (max-width: 600px) {
 
-    /* État fermé */
-    max-height: 0px;
-    transition: max-height 0.35s ease;
-  }
-  header nav.is-open {
-    max-height: 400px; /* suffisamment grand pour contenir le menu */
-  }
-
-  /* Menu en colonne */
-  .nav-menu {
+.btn-hamburger {
+    display: flex;
+}
+.nav-container {
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    }
+.nav-links {
+    display: none;
     flex-direction: column;
     align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
     gap: 0;
     padding: 0.5rem 0;
-  }
-
-  .nav-menu li {
+    z-index: 100;
+}
+.nav-item {
     width: 100%;
-  }
-  .nav-menu li a,
-  .nav-menu li .seconnecter {
     display: block;
     padding: 12px 20px;
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
-  }
-
-  .nav-menu li:last-child a {
-    border-bottom: none;
-  }
-
-  /* Bouton rechercher pleine largeur */
-  .btn-search {
-    width: calc(100% - 40px);
-    margin: 10px 20px;
-    text-align: center;
-  }
-
-  .hero ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .produits ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+}
+.nav-links.is-open {
+    display: flex;
+}
 }

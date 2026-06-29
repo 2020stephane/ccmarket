@@ -26,7 +26,7 @@ export async function logError(error, contexte = "inconnu", extra = {}) {
       body: JSON.stringify(payload),
     });
   } catch (fetchErr) {
-      console.error("[logger] Impossible d'envoyer l'erreur au serveur :", fetchErr);
+      console.error("[ERREUR] Impossible d'envoyer l'erreur au serveur :", fetchErr);
   }
-  console.error(`[ERREUR][${contexte}]`, error);
+  console.error(`[ERREUR][${contexte}]`, `${error.message}`);
 }

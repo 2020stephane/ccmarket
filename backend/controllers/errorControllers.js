@@ -9,6 +9,7 @@
  *  @license       MIT
  * =======================================================
  */
+import { logError } from '../tools/logger.js';
 export async function sauveError(req, res) {
      const { message, contexte, stack, url, extra = {} } = req.body;
 

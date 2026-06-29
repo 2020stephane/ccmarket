@@ -9,7 +9,8 @@ import {
    getAjouts,
    getAnnoncesByUser,
    getAnnoncesByFilter,
-   publierAnnonce
+   publierAnnonce,
+   supprimerAnnonce
 } from '../controllers/annoncesControllers.js';
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.get('/derniers_ajouts', getAjouts);
 router.get('/mesannonces/:id', getAnnoncesByUser);
 router.post('/recherche', getAnnoncesByFilter);
 router.post('/publierannonce', publierAnnonce);
+router.delete('/supprimerannonce/:id', supprimerAnnonce);
 
 export default router;

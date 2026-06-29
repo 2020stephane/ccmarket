@@ -33,7 +33,7 @@ import db from '../bdd/db.js';
  * VARIABLES
  * =======================================================
  */
-const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
+const JWT_SECRET = process.env.JWT_SECRET;
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 // ==================================================
@@ -56,7 +56,7 @@ export async function putAnnonce(req, res) {
       }
       res.json({ message: 'Annonce mise à jour' });
    } catch (error) {
-      logError(error, "function putAnnonce dans le module:annoncesControllers.js");
+      logError(error, "fonction putAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -98,18 +98,17 @@ export async function patchAnnonce(req, res) {
 // ==================================================
 // DELETE supprimer une annonce
 // ==================================================
-export async function deleteAnnonce(req, res) {
+export async function supprimerAnnonce(req, res) {
    try {
       const [result] = await db.execute(
-         'DELETE FROM annonces WHERE annonce_id = ?',
-         [req.params.id]
+         'DELETE FROM annonces WHERE annonce_id = ?', [req.params.id]
       );
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
       res.json({ message: 'Annonce supprimée' });
    } catch (error) {
-     logError(error, "function deleteAnnonce dans le module:annoncesControllers.js");
+     logError(error, "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
@@ -223,36 +222,60 @@ if (orderClauses.length > 0) {
 // publier
 // ==================================================
 export async function publierAnnonce(req, res) {
+console.log("publierAnnonce appelée");
+console.log("body:", req.body);
+console.log("files:", req.files);
+console.log("cookies:", req.cookies);
    try {
-      const { titre, prix, descriptif, categorie, photo } = req.body;
-      const token = req.cookies.monToken;
-      const decoded = jwt.verify(token, JWT_SECRET);
-      const userid = decoded.id;
-      let image_nom = photo;
-      if (req.files && req.files.photo) {
+      const { titre, prix, descriptif, categorie, utilisateur_id } = req.body;
+console.log("champs:", { titre, prix, descriptif, categorie, utilisateur_id });
+      if (!titre || !prix || !descriptif || !categorie) {
+            return res.status(400).json({ message: 'Champs obligatoires manquants' });
+        }
+      const token = req.cookies?.monToken;
+      let userid = utilisateur_id;
 
-           const dossier_upload = path.join(__dirname, '..', '..', 'frontend', 'uploads');
-           const extension = req.files.photo.name.split('.').pop();
-           const nom_unique = Date.now() + "_" + req.files.photo.name;
-           const chemin_final = path.join(dossier_upload, nom_unique);
-           const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-           console.log("url= ",chemin_final);
-           if (extensions_autorisees.includes(extension.toLowerCase())) {
-               await req.files.photo.mv(chemin_final);
-               image_nom = nom_unique;
-           }
-       }
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                userid = decoded.id;
+            } catch {
+                return res.status(401).json({ message: 'Token invalide' });
+            }
+        }
+
+        if (!userid) {
+            return res.status(401).json({ message: 'Utilisateur non identifié' });
+        }
+      let image_nom = null;
+      if (req.files && req.files.photo) {
+            const photo = req.files.photo;
+            const extension = photo.name.split('.').pop().toLowerCase();
+            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if (!extensions_autorisees.includes(extension)) {
+                return res.status(400).json({ message: 'Format de fichier non autorisé' });
+            }
+
+            image_nom = Date.now() + '_' + photo.name;
+            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
+
+            await photo.mv(chemin_final);
+        }
 
       const [result]= await db.execute(
             'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
             [titre, prix, descriptif, userid, categorie]
          );
-      await db.execute(
-            'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
-            [image_nom, result.insertId]
-         );
-      return res.redirect('/mesannonces.html');
+      if (image_nom) {
+            await db.execute(
+                'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
+                [image_nom, result.insertId]
+            );
+        }
+      return res.status(201).json({ message: 'Annonce publiée avec succès' });
        } catch (error) {
-           logError(error, "function publierAnnonce dans le module:annoncesControllers.js");
+           logError(error, "FONCTION: publierAnnonce, MODULE: annoncesControllers.js");
+        return res.status(500).json({ message: 'Erreur serveur' });
        }
 }

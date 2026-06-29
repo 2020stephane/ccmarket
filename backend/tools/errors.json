@@ -38,5 +38,420 @@
     "message": "",
     "type": "Error",
     "stack": "Error\n    at PromisePool.execute (C:\\DEFI_WEB\\ccmarket\\node_modules\\mysql2\\lib\\promise\\pool.js:54:22)\n    at getAjouts (file:///C:/DEFI_WEB/ccmarket/backend/controllers/annoncesControllers.js:121:29)\n    at Layer.handleRequest (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\index.js:582:12)\n    at next (C:\\DEFI_WEB\\ccmarket\\node_modules\\router\\index.js:291:5)"
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "16:46:38",
+    "timestamp": "2026-06-27T14:46:38.624Z",
+    "contexte": "dans le module:authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "url": "http://localhost:3000/index.html"
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "16:56:08",
+    "contexte": "dans le module:authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "url": "http://localhost:3000/index.html"
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:05:29",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "url": "http://localhost:3000/index.html"
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:06:30",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "url": "http://localhost:3000/index.html"
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:31:28",
+    "timestamp": "2026-06-27T15:31:28.246Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:37:18",
+    "timestamp": "2026-06-27T15:37:18.778Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:44:52",
+    "timestamp": "2026-06-27T15:44:52.753Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "17:54:20",
+    "timestamp": "2026-06-27T15:54:20.810Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "27/06/2026",
+    "heure": "18:01:27",
+    "timestamp": "2026-06-27T16:01:27.651Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "27/06/2026",
+    "heure": "18:30:33",
+    "timestamp": "2026-06-27T16:30:33.456Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "27/06/2026",
+    "heure": "18:32:53",
+    "timestamp": "2026-06-27T16:32:53.685Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "27/06/2026",
+    "heure": "18:40:16",
+    "timestamp": "2026-06-27T16:40:16.570Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "27/06/2026",
+    "heure": "18:42:59",
+    "timestamp": "2026-06-27T16:42:59.228Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "28/06/2026",
+    "heure": "06:56:33",
+    "timestamp": "2026-06-28T04:56:33.782Z",
+    "contexte": "connexionStandard",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionStandard (file:///~/backend/controllers/authControllers.js:160:24)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "28/06/2026",
+    "heure": "07:02:35",
+    "timestamp": "2026-06-28T05:02:35.948Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "28/06/2026",
+    "heure": "07:04:13",
+    "timestamp": "2026-06-28T05:04:13.933Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:85:24)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "28/06/2026",
+    "heure": "07:10:16",
+    "timestamp": "2026-06-28T05:10:16.808Z",
+    "contexte": "connexionGoogle",
+    "message": "jwtToken is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: jwtToken is not defined",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:93:20)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "07:27:07",
+    "timestamp": "2026-06-28T05:27:07.165Z",
+    "contexte": "MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "28/06/2026",
+    "heure": "07:30:34",
+    "timestamp": "2026-06-28T05:30:34.754Z",
+    "contexte": "fonction status dans module authControllers",
+    "message": "JWT_SECRET is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: JWT_SECRET is not defined",
+      "at status (file:///~/backend/controllers/authControllers.js:204:43)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "07:51:13",
+    "timestamp": "2026-06-28T05:51:13.494Z",
+    "contexte": "dans le module:mesannonces.js",
+    "message": "userid is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: userid is not defined",
+      "at HTMLDocument.<anonymous> (http://localhost:3000/js/mesannonces.js:19:67)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "08:14:04",
+    "timestamp": "2026-06-28T06:14:04.877Z",
+    "contexte": "dans le module:mesannonces.js",
+    "message": "userinfo is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: userinfo is not defined",
+      "at HTMLDocument.<anonymous> (http://localhost:3000/js/mesannonces.js:17:9)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "08:15:36",
+    "timestamp": "2026-06-28T06:15:36.303Z",
+    "contexte": "dans le module:mesannonces.js",
+    "message": "Failed to fetch",
+    "type": "Error",
+    "stack": [
+      "TypeError: Failed to fetch",
+      "at HTMLDocument.<anonymous> (http://localhost:3000/js/mesannonces.js:19:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "08:56:13",
+    "timestamp": "2026-06-28T06:56:13.720Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/contact.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "08:57:36",
+    "timestamp": "2026-06-28T06:57:36.009Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/contact.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "13:54:47",
+    "timestamp": "2026-06-28T11:54:47.196Z",
+    "contexte": "dans le module:mesannonces.js",
+    "message": "fichier is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: fichier is not defined",
+      "at HTMLDocument.<anonymous> (http://localhost:3000/js/mesannonces.js:27:26)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html?titre=convertisseur&categorie=2&prix=35&descriptif=super&photo=victron.webp"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "14:08:58",
+    "timestamp": "2026-06-28T12:08:58.070Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/modifierAnnonce.html?id=22"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "15:23:05",
+    "timestamp": "2026-06-28T13:23:05.426Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messagerie.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "15:58:06",
+    "timestamp": "2026-06-28T13:58:06.266Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/modifierAnnonce.html?id=25"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "28/06/2026",
+    "heure": "18:12:36",
+    "timestamp": "2026-06-28T16:12:36.623Z",
+    "contexte": "FONCTION: chargerAnnonces, MODULE: mesannonces.js",
+    "message": "json is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: json is not defined",
+      "at chargerAnnonces (http://localhost:3000/js/mesannonces.js:75:49)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html#"
+    }
   }
 ]

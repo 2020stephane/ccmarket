@@ -16,7 +16,10 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
    <link rel="stylesheet" href="/css/mesannonces.css">
+   <link rel="stylesheet" href="/css/footer.css">
+   <link rel="stylesheet" href="/css/modale.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -24,37 +27,30 @@
 </head>
 
 <body>
-   <!--==================================================
-======================  HEADER  ======================
-===================================================-->
-   <header>
-      <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
-      <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
-         aria-controls="nav-menu">
-         <span></span>
-         <span></span>
-         <span></span>
-      </button>
-      <nav aria-label="Navigation principale">
-         <ul class="nav-menu">
-            <li>
-               <a href="index.html">Accueil</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Messages</a>
-            </li>
-            <li>
-               <a href="rechercher.html" class="rechercher">Rechercher</a>
-            </li>
-            <li>
-                <a href="seconnecter.html" id="seconnecter">Se connecter</a>
-            </li>
-         </ul>
-      </nav>
+<!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+   <header class="navbar">
+      <section class="container nav-container">
+         <figure>
+            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+         </figure>
+
+         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+
+         <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item" >Accueil</a>
+            <a href="#" class="disabled nav-item actif" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
+         </nav>
+      </section>
    </header>
 
     <!--=====================================================
@@ -85,10 +81,8 @@
          </div>
       </section>
 
-
+      <h2 id="id_h2">Publier une nouvelle annonce :</h2>
       <section class="publication_form">
-         <h2 id="id_h2">Publier une nouvelle annonce :</h2>
-
          <form enctype="multipart/form-data">
 
             <div class="form_group">
@@ -108,7 +102,7 @@
                   <option value="6">Électronique & Navigation</option>
                   <option value="7">Extérieur & Auvent</option>
                </select>
-               </div>
+            </div>
 
             <div class="form_group">
                <label for="prix">Prix (€) :</label>
@@ -121,11 +115,15 @@
             </div>
 
             <div class="form_group">
-               <label for="photo">Photo :</label>
-               <input type="file" id="photo" name="photo" accept="image/*">
+               <label for="inputphoto">Photo :</label>
+               <div class="file-upload">
+                  <input type="file" id="inputphoto" name="photo" accept="image/*">
+                  <label for="inputphoto" class="btn-file">Choisir une photo</label>
+                  <span id="file-nom">Aucun fichier choisi</span>
+               </div>
             </div>
 
-            <button type="submit" class="btn_publier">Publier l'annonce</button>
+            <button type="submit" id="btn_publier">Publier l'annonce</button>
          </form>
       </section>
       <dialog id="ma_boite_dialogue">
@@ -137,6 +135,58 @@
             <button id="btn_confirmer" class="btn_danger">Supprimer</button>
          </div>
       </dialog>
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Modifier mon annonce</h2>
+
+              <section class="formEditAnnonce">
+         <form enctype="multipart/form-data">
+
+            <div class="form_group">
+               <label for="titre">Titre de l'annonce :</label>
+               <input type="text" name="titre" id="titre" maxlength="50" placeholder="Ex: Panneau solaire 200W" required>
+            </div>
+
+            <div class="form_group">
+               <label for="categorie">Catégorie :</label>
+               <select type="number" name="categorie" id="categorie" placeholder="ID de la catégorie" required>
+                  <option value="">-- Choisissez une catégorie --</option>
+                  <option value="1">Mobilier intérieur</option>
+                  <option value="2">Énergie solaire</option>
+                  <option value="3">Cuisine & Électroménage</option>
+                  <option value="4">Sanitaire & Eau</option>
+                  <option value="5">Literie & Confort</option>
+                  <option value="6">Électronique & Navigation</option>
+                  <option value="7">Extérieur & Auvent</option>
+               </select>
+            </div>
+
+            <div class="form_group">
+               <label for="prix">Prix (€) :</label>
+               <input type="number" step="0.01" name="prix" id="prix" min="0" max="999999" placeholder="Prix en €" required>
+            </div>
+
+            <div class="form_group">
+               <label for="descriptif">Description :</label>
+               <textarea name="descriptif" id="descriptif" rows="5" maxlength="1000" placeholder="Décrivez votre produit en détail..." required></textarea>
+            </div>
+
+            <div class="form_group">
+               <label for="inputphoto">Photo :</label>
+               <div class="file-upload">
+                  <input type="file" id="inputphoto" name="photo" accept="image/*">
+                  <label for="inputphoto" class="btn-file">Choisir une photo</label>
+                  <span id="file-nom">Aucun fichier choisi</span>
+               </div>
+            </div>
+
+            <button type="submit" id="btn_enregistrer">Enregistrer l'annonce</button>
+            <button type="submit" id="btn_annuler">Annuler</button>
+         </form>
+      </section>
+    </div>
+</div>
    </main>
    <!--=====================================================
 ======================  FOOTER  =========================
@@ -146,8 +196,11 @@
          <a href="contact.html">Contact</a>
          <a href="mentions_legales.html">Mentions légales</a>
       </nav>
-      <div class="footer-copyright">2026 Camping-Car Market.</div>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
    </footer>
    <script type="module" src="/js/mesannonces.js"></script>
+
 </body>
 </html>

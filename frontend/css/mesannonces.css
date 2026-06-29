@@ -1,11 +1,14 @@
-/* ===========================================================
-   FICHIER : mesannonces.css
-   PROJET  : ccmarket
-   DATE    : 17/04/2026
-   AUTEUR  : Stephane Brisse
-   =========================================================== */
-@import url("/css/header.css");
-@import url("/css/footer.css");
+/**
+ * =======================================================
+ *  @file         mesannonces.css
+ *  @project      ccmarket
+ *  @description  feuille de style
+ *  @date         2026-04-17
+ *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *  @license      MIT
+ * =======================================================
+ */
+
 @font-face {
  font-family: "Roboto";
  src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
@@ -34,13 +37,19 @@
   padding-top: 2rem;
 }
 h1 {
-   cursor: default;
-   text-align: center;
-   margin-bottom: 1rem;
+  font-size: 2.4rem;
+  color: var(--primary-dark);
+  cursor: default;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 h2 {
-  margin-bottom: 1rem;
-  margin-left: 1rem;
+  font-size: 1.4rem;
+  color: var(--primary-dark);
+  margin: 45px 0 25px 0;
+  border-left: 5px solid var(--primary-color);
+  margin-left: 12px;
+  padding-left: 12px;
   cursor: default;
 }
 /* ===========================================================
@@ -188,54 +197,84 @@ h2 {
 /* ==================================================
    FORMULAIRE
    ================================================== */
+.publication_form {
+  flex: 1;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
 form {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
   gap: 15px;
-  max-width: 500px;
-  margin: 0 auto 3rem auto;
-  padding: 0 1rem;
 }
 
 .form_group {
-  display: contents;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.form_group label {
-  align-self: center;
-  text-align: right;
-  padding-right: 10px;
-  font-weight: 500;
+#descriptif {
+   resize: none;
 }
 
-form input[type="text"],
-form input[type="number"],
-form textarea,
-form input[type="file"] {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-family: inherit;
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
 }
 
-.btn_publier {
-  grid-column: 1 / span 2;
-  justify-self: center;
-  background-color: var(--b_color_base, #05ffb4);
-  color: #000;
-  padding: 10px 35px;
-  margin-top: 1rem;
-  border-radius: 10px;
-  font-weight: 500;
+input:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+}
+
+#inputphoto {
+    display: none;
+}
+
+.btn-file {
+    display: inline-block;
+    background-color:  var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    /* font-weight: bold; */
+    transition: background-color 0.2s;
+}
+
+.btn-file:hover {
+    background-color:var(--primary-dark);
+}
+
+#file-nom {
+    margin-left: 0.75rem;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+#btn_publier {
+  background-color: var(--primary-color);
+  color: var(--white);
   border: none;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.2s;
 }
 
-.btn_publier:hover {
-  background-color: var(--b_color_hover, #00d696);
-  transform: translateY(-2px);
+#btn_publier:hover {
+   background-color: var(--primary-dark);
 }
 /* ==================================================
    BOITE DE DIALOGUE
@@ -280,123 +319,55 @@ dialog::backdrop {
   color: white;
 }
 
-/* ==================================================
-   MEDIA QUERIES (RESPONSIVE)
-   ================================================== */
-@media (max-width: 900px) {
-  .btn-hamburger {
-    display: flex;
-  }
+/** ===================================================
+ *    Responsive mobile
+ *  ===================================================
+ */
 
-.hero {
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: top;
-      width: 100%;
+@media (max-width: 768px) {
+    .nav-container {
+      flex-direction: column;
+      gap: 15px;
     }
-header nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    max-height: 0px;
-    transition: max-height 0.35s ease;
-  }
+    .main-footer {
+      flex-direction: column;
+      gap: 15px;
+    }
+}
+@media (max-width: 600px) {
 
-  header nav.is-open {
-    max-height: 400px;
-  }
-
-  .nav-menu {
+.btn-hamburger {
+    display: flex;
+}
+.nav-container {
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    }
+.nav-links {
+    display: none;
     flex-direction: column;
     align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
     gap: 0;
     padding: 0.5rem 0;
-  }
-
-  .nav-menu li {
+    z-index: 100;
+}
+.nav-item {
     width: 100%;
-  }
-
-  .nav-menu li a {
     display: block;
     padding: 12px 20px;
     width: 100%;
     border-bottom: 1px solid #f0f0f0;
-  }
-
-  .nav-menu li:last-child a {
-    border-bottom: none;
-  }
-
-  .btn-search {
-    width: calc(100% - 40px);
-    margin: 10px 20px;
-    text-align: center;
-  }
-
-  .hero ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-
-  form {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .form_group label {
-    text-align: left;
-    margin-bottom: -5px;
-  }
-
-  .btn_publier {
-    grid-column: 1;
-  }
 }
-
-@media (max-width: 640px) {
-  .logo-img {
-    display: none;
-  }
-
-  /* On cache l'en-tête global qui est tout en haut */
-  .annonces_table thead {
-    display: none;
-  }
-
-  /* Chaque ligne (tr) devient un bloc indépendant */
-  .annonces_table tbody tr {
+.nav-links.is-open {
     display: flex;
-    flex-direction: column; /* On empile les cellules verticalement */
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 10px;
-  }
-
-  /* Chaque cellule (td) se comporte comme une ligne */
-  .annonces_table td {
-    display: flex;
-    justify-content: space-between; /* Aligne le label à gauche et la valeur à droite */
-    padding: 8px 4px;
-    border-bottom: 1px solid #eee;
-  }
-
-  /* Astuce : On peut injecter le nom de la colonne à gauche via un attribut data-* */
-  .annonces_table td::before {
-    content: attr(data-label); /* Va chercher le texte défini dans l'HTML */
-    font-weight: bold;
-    color: #333;
-    padding-right: 10px;
-  }
-
-  .annonces_table td:last-child {
-    border-bottom: none;
-  }
+}
 }

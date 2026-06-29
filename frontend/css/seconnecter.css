@@ -94,95 +94,61 @@ input:focus {
     margin: 20px 0;
     color: var(--text-light, #607367);
 }
-/* .separator::before, .separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #e2f0e7;
-}
-
-.separator:not(:empty)::before { margin-right: .5em; }
-.separator:not(:empty)::after { margin-left: .5em; } */
-
-/* Centrer le bouton Google */
 .g_id_signin {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* margin-bottom: 20px; */
 }
 
+/** ===================================================
+ *    Responsive mobile
+ *  ===================================================
+ */
+@media (max-width: 768px) {
+   .nav-container {
+      flex-direction: column;
+      gap: 15px;
+   }
+   .main-footer {
+      flex-direction: column;
+      gap: 15px;
+   }
 
-@media (max-width: 900px) {
-
+}
+@media (max-width: 600px) {
    .btn-hamburger {
       display: flex;
    }
-
-   @media (max-width: 640px) {
-      .logo-img {
-         display: none;
-      }
+   .nav-container {
+      flex-direction: row;
+      gap: 15px;
+      position: relative;
    }
-
-   header nav {
-      position: absolute;
-      top: 100%;
-      /* colle sous le header */
-      left: 0;
-      width: 100%;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-
-      /* État fermé */
-      max-height: 0;
-      transition: max-height 0.35s ease;
-   }
-
-   header nav.is-open {
-      max-height: 400px;
-      /* suffisamment grand pour contenir le menu */
-   }
-
-   /* Menu en colonne */
-   .nav-menu {
+   .nav-links {
+      display: none;
       flex-direction: column;
       align-items: flex-start;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      background: white;
+      border: 2px solid var(--primary-color);
+      border-radius: 5px;
       gap: 0;
       padding: 0.5rem 0;
+      z-index: 100;
    }
-
-   .nav-menu li {
+   .nav-item {
       width: 100%;
-   }
-
-   .nav-menu li a,
-   .nav-menu li .seconnecter {
       display: block;
       padding: 12px 20px;
       width: 100%;
       border-bottom: 1px solid #f0f0f0;
    }
-
-   .nav-menu li:last-child a {
-      border-bottom: none;
-   }
-
-   /* Bouton rechercher pleine largeur */
-   .btn-search {
-      width: calc(100% - 40px);
-      margin: 10px 20px;
-      text-align: center;
-   }
-
-   .hero ul {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-   }
-
-   .produits ul {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+   .nav-links.is-open {
+      display: flex;
    }
 }

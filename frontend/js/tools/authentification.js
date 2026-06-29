@@ -8,13 +8,15 @@ import { logError } from "/tools/logger.js";
 
 export async function verifierConnection() {
    try {
-      const res = await fetch('/api/status', { credentials: 'include' });
+      const res = await fetch('/auth/status', { credentials: 'include' });
       const data = await res.json();
-
 
       if (data.connection) {
          const btnc = document.getElementById('seconnecter');
-         if (btnc) { btnc.textContent = `Bonjour, ${data.prenom} !`; }
+         if (btnc) {
+             btnc.textContent = "Mon Compte";
+             btnc.href = "monCompte.html";
+             }
          const disabledLinks = document.querySelectorAll('.nav-links a.disabled');
          disabledLinks[0].href = "mesannonces.html";
          disabledLinks[1].href = "messagerie.html";
@@ -24,9 +26,9 @@ export async function verifierConnection() {
             link.removeAttribute('tabindex');
          });
       }
-return data;
+      return data;
    } catch (error){
-      logError(error, "dans le module:authentification.js");
+      logError(error, "FONCTION : status, MODULE: authentification.js");
    }
 }
 // export async function verifierConnection() {

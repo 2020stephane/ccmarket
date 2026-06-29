@@ -4,42 +4,7 @@
 //    DATE    : 09/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/tools/logger.js";
-// verifierConnection();
-
-const form = document.getElementById("formConnection");
-
-form.addEventListener("submit", async (e) => {
-   e.preventDefault();
-
-   const email = document.getElementById("email").value;
-   const motdepasse = document.getElementById("password").value;
-   try {
-      const response = await fetch("/api/utilisateurs/connection", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ email:email, motdepasse:motdepasse })
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-         if (data.admin == 1) {
-            window.location.href = "admin.html";
-         } else {
-         localStorage.setItem('userinfo', JSON.stringify(data));
-         window.location.href = "index.html";
-         }
-      } else {
-         alert(data.message);
-         window.location.href="seconnecter.html";
-      }
-   } catch (error) {
-          logError(error, "dans le module:seconnecter.js");
-          window.location.href="seconnecter.html";
-   }
-});
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const formConnection = document.getElementById('formConnection');
@@ -52,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/auth/login', {
+                const response = await fetch('/auth/loginStandard', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -64,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Connexion réussie !');
+                    localStorage.setItem('userinfo', JSON.stringify(data.user));
                     window.location.href = 'index.html';
                 } else {
                     alert(data.message || 'Identifiants incorrects');
@@ -77,10 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 window.handleCredentialResponse = async (response) => {
     // response.credential contient le jeton d'identité sécurisé (JWT) fourni par Google
     const googleToken = response.credential;
-
     try {
         // On envoie le jeton à notre backend Express pour vérification
-        const res = await fetch('/auth/google', {
+        const res = await fetch('/auth/loginGoogle', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -93,6 +58,7 @@ window.handleCredentialResponse = async (response) => {
         if (res.ok) {
             alert('Connexion réussie avec Google !');
             localStorage.setItem('token', data.token);
+            localStorage.setItem('userinfo', JSON.stringify(data.user));
             // Redirection vers l'accueil ou le profil
             window.location.href = 'index.html';
         } else {

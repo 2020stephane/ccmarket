@@ -1,8 +1,8 @@
 /**
  * ==========================================================
- * @file         auth.js
+ * @file         google.js
  * @project      ccmarket
- * @description  Authentification Google + JWT + MySQL
+ * @description  Authentification Standard, Google + JWT + MySQL
  * @date         2026-06-25
  * ==========================================================
  */
@@ -13,9 +13,11 @@ import bcrypt from 'bcrypt';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import db from '../bdd/db.js';
+import { logError } from "../tools/logger.js";
 
 const router = express.Router();
 
+// Remplplace par le Client ID obtenu sur ta Google Cloud Console
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
@@ -29,27 +31,22 @@ function genererToken(payload) {
 // ==================================================
 // POST /auth/google
 // ==================================================
-router.post('/google', async (req, res) => {
-    const { token } = req.body;
+export async function connexionGoogle(req, res) {
+ console.log("👉 connexionGoogle appelée, body:", req.body);
+    const { token: googleToken } = req.body;
 
-    if (!token) {
-        return res.status(400).json({
-            success: false,
-            message: 'Token manquant.'
-        });
+    if (!googleToken) {
+        return res.status(400).json({ success: false, message: 'Token manquant.' });
     }
 
     try {
         // 1. Vérification du token auprès de Google
         const ticket = await client.verifyIdToken({
-            idToken: token,
+            idToken: googleToken,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
-
-        // BUG CORRIGÉ : "name" n'existait pas — on construit le nom depuis given_name + family_name
         const { email, given_name, family_name, picture } = payload;
-        const nomComplet = `${given_name} ${family_name}`.trim();
 
         // 2. Chercher l'utilisateur en BDD
         const [rows] = await db.query(
@@ -62,32 +59,38 @@ router.post('/google', async (req, res) => {
         if (rows.length === 0) {
             // 3a. Nouvel utilisateur → inscription automatique
             const [result] = await db.query(
-                'INSERT INTO utilisateurs (nom, prenom, email, photo, administrateur) VALUES (?, ?, ?, ?, ?)',
-                [family_name, given_name, email, picture, false]
+                'INSERT INTO utilisateurs (nom, prenom, email, motdepasse, administrateur) VALUES (?, ?, ?, ?,?)',
+                [family_name, given_name, email, null, false]
             );
             utilisateur = {
                 utilisateur_id: result.insertId,
                 nom: family_name,
                 prenom: given_name,
-                email,
+                email: email,
                 administrateur: false
-            };
+            }
         } else {
             // 3b. Utilisateur existant → récupération
             utilisateur = rows[0];
         }
 
         // 4. Génération du JWT local
-        const jwtToken = genererToken({
-            id: utilisateur.utilisateur_id,
-            email: utilisateur.email,
-            administrateur: utilisateur.administrateur
-        });
-
+        const token = genererToken({
+    id: utilisateur.utilisateur_id,
+    email: utilisateur.email,
+    nom: utilisateur.nom,
+    prenom: utilisateur.prenom,
+    administrateur: utilisateur.administrateur
+});
+res.cookie('monToken', token, {
+    httpOnly: true,
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000
+});
         // 5. Réponse
         return res.status(200).json({
             success: true,
-            token: jwtToken,
+            token: token,
             user: {
                 id: utilisateur.utilisateur_id,
                 nom: utilisateur.nom,
@@ -98,18 +101,19 @@ router.post('/google', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Erreur auth Google:', error);
+console.error("Erreur verifyIdToken:", error.message);
+        logError(error, "connexionGoogle");
         return res.status(401).json({
             success: false,
             message: 'Token Google invalide ou expiré.'
         });
     }
-});
+}
 
 // ==================================================
-// POST /auth/login  (connexion classique avec bcrypt)
+// POST /auth/login
 // ==================================================
-router.post('/login', async (req, res) => {
+export async function connexionStandard(req, res) {
     const { email, password } = req.body;
 
     // 1. Validation des champs
@@ -148,11 +152,17 @@ router.post('/login', async (req, res) => {
 
         // 4. Générer le JWT
         const token = genererToken({
-            id: utilisateur.utilisateur_id,
-            email: utilisateur.email,
-            administrateur: utilisateur.administrateur
-        });
-
+    id: utilisateur.utilisateur_id,
+    email: utilisateur.email,
+    nom: utilisateur.nom,
+    prenom: utilisateur.prenom,
+    administrateur: utilisateur.administrateur
+});
+res.cookie('monToken', token, {
+    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
+    secure: false,   // mettre true en production (HTTPS)
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
+});
         // 5. Réponse
         return res.status(200).json({
             success: true,
@@ -167,12 +177,40 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Erreur login:', error);
+         logError(error, "fonction connexionStandard dans module authControllers");
         return res.status(500).json({
             success: false,
             message: 'Erreur serveur.'
         });
     }
-});
+}
+/**
+ * @route   POST /auth/logout
+ * @desc    Déconnexion de l'utilisateur (Classique ou Google)
+ * @access  Public
+ */
+export async function deconnexion(req, res) {
+        res.clearCookie('monToken');
+        return res.status(200).json({ success: true, message: 'Déconnecté avec succès.' });
+}
 
+export async function status(req, res) {
+   const token = req.cookies.monToken;
+   if (!token){
+    console.log('pas de token');
+       return res.json({ connection: false, message: "pas de token" });
+   }
+   try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return res.json({
+            connection: true,
+            prenom: decoded.prenom,
+            nom: decoded.nom
+        });
+   } catch (error) {
+        logError(error, "fonction status dans module authControllers");
+        res.json({ connection: false });
+   }
+}
 export default router;
+

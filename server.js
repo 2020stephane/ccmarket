@@ -29,8 +29,7 @@ import postmanRoutes          from './backend/routes/postman.js';
 import annoncesRoutes         from './backend/routes/annonces.js';
 import utilisateursRoutes     from './backend/routes/utilisateurs.js';
 import contactRoutes          from './backend/routes/contacter.js';
-import authentificationRoutes from './backend/routes/auth2.js';
-import authentificationGoogle from './backend/routes/auth.js';
+import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
 /**
  * =======================================================
@@ -70,8 +69,7 @@ app.use('/api/postman',      postmanRoutes);
 app.use('/api/annonces',     annoncesRoutes);
 app.use('/api/utilisateurs', utilisateursRoutes);
 app.use('/api/contacter',    contactRoutes);
-app.use('/api',              authentificationRoutes);
-app.use('/auth',             authentificationGoogle);
+app.use('/auth',             authentificationRoutes);
 app.use('/api/log_error',    logErrorRoutes);
 /**
  * =======================================================

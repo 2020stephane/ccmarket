@@ -18,7 +18,8 @@ export function boiteDialogue(dialog, id) {
 
   // Action de confirmation
   btnConfirmer.addEventListener("click", async () => {
-    const response = await fetch(`/api/annonces/${id}`,{
+console.log('id_confirmer = ',id);
+    const response = await fetch(`/api/annonces/supprimerannonce/${id}`,{
       method: "DELETE"
     });
     dialog.close();

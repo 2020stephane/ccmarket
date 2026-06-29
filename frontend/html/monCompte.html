@@ -10,27 +10,54 @@
 -->
 <!DOCTYPE html>
 <html lang="fr">
+<!--
+ * ==========================================================
+ * ======================  HEAD  =====================
+ * ==========================================================
+-->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Compte | Camping-Car Market</title>
-    <link rel="stylesheet" href="../css/monCompte.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Camping-Car Market - Votre spécialiste en pièces détachées pour camping-car.">
+   <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
+
+   <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
+   <link rel="stylesheet" href="/css/monCompte.css">
+   <link rel="stylesheet" href="/css/footer.css">
+
+   <script src="/js/tools/menu_hamburger.js" defer></script>
+
+   <title>Camping-Car Market</title>
 </head>
+
 <body>
 
-    <header class="navbar">
-        <div class="container nav-container">
-            <div class="logo-area">
-                <img src="Titre_CC_Market.png" alt="Camping-Car Market" class="logo-img">
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="nav-item">Accueil</a>
-                <a href="#" class="nav-item">Rechercher</a>
-                <a href="#" class="nav-item active-nav">Mon Compte 👤</a>
-                <a href="#" class="btn-cta">Déposer une annonce</a>
-            </nav>
-        </div>
-    </header>
+    <!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+   <header class="navbar">
+      <section class="container nav-container">
+         <figure>
+            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+         </figure>
+
+         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+
+         <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item" >Accueil</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
+         </nav>
+      </section>
+   </header>
 
     <main class="container account-layout">
 
@@ -42,9 +69,11 @@
             </div>
             <nav class="sidebar-menu">
                 <a href="#profil" class="sidebar-link active">⚙️ Informations personnelles</a>
-                <a href="#annonces" class="sidebar-link">📦 Mes annonces (2)</a>
                 <a href="#securite" class="sidebar-link danger-link">🔒 Sécurité & Suppression</a>
             </nav>
+            <form action="/user/logout" method="POST" style="margin-top: 1.5rem;">
+                <button type="submit" id="btn-logout">Se déconnecter</button>
+            </form>
         </aside>
 
         <section class="account-content">
@@ -54,41 +83,21 @@
                 <form action="/user/update" method="POST" class="account-form">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="nom">Nom complet</label>
-                            <input type="text" id="nom" name="nom" value="Jean-Marc Dupond" required>
+                            <label for="nom">Nom</label>
+                            <input type="text" id="nom" name="nom" value="Dupond" autocomplete="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prenom</label>
+                            <input type="text" id="prenom" name="prenom" value="Jean-Marc" autocomplete="prenom" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Adresse Email</label>
-                            <input type="email" id="email" name="email" value="jeanmarc.33@example.com" required>
+                            <input type="email" id="email" name="email" value="jeanmarc.33@example.com" autocomplete="email" required>
                         </div>
-                        <div class="form-group">
-                            <label for="telephone">Téléphone</label>
-                            <input type="tel" id="telephone" name="telephone" value="06 12 34 56 78">
-                        </div>
-                        <div class="form-group">
-                            <label for="region">Département / Région</label>
-                            <input type="text" id="region" name="region" value="Gironde (33)">
-                        </div>
+
                     </div>
                     <button type="submit" class="btn-submit">Enregistrer les modifications</button>
                 </form>
-            </div>
-
-            <div class="account-card">
-                <h2 class="card-title">Mes annonces en cours</h2>
-                <div class="mini-ads-list">
-                    <div class="mini-ad-item">
-                        <div class="mini-ad-img">[Photo]</div>
-                        <div class="mini-ad-info">
-                            <h4>Panneau Solaire Monocristallin 160W</h4>
-                            <span class="mini-ad-price">120 €</span>
-                        </div>
-                        <div class="mini-ad-actions">
-                            <a href="#" class="btn-action edit">✏️ Modifier</a>
-                            <a href="#" class="btn-action delete">🗑️ Supprimer</a>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="account-card border-danger">
@@ -102,12 +111,20 @@
 
         </section>
     </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Camping-Car Market - Espace Professionnel Utilisateur.</p>
-        </div>
-    </footer>
-
+<!--
+ * ==========================================================
+ * ======================  FOOTER  =====================
+ * ==========================================================
+-->
+   <footer class="main-footer">
+      <nav class="footer-links">
+         <a href="contact.html">Contact</a>
+         <a href="mentions_legales.html">Mentions légales</a>
+      </nav>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
+   </footer>
+   <script type="module" src="/js/monCompte.js"></script>
 </body>
 </html>

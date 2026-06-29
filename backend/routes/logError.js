@@ -16,6 +16,6 @@ import {
 
 const router = express.Router();
 
-router.post("/log_error", sauveError);
+router.post("/", sauveError);
 
 export default router;
