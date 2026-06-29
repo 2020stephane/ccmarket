@@ -22,6 +22,9 @@ export function afficheModale() {
         e.preventDefault();
         const id = Number(e.target.getAttribute('data-id'));
         monAnnonce = tabAnnonces.find(tmp => tmp.annonce_id == id);
+        document.getElementById('editTitre').value = titre;
+        document.getElementById('editPrix').value = prix;
+        document.getElementById('editDescription').value = description;
         modal.style.display = 'flex';
     }
     });
