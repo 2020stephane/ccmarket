@@ -9,23 +9,27 @@
  *  @license       MIT
  * =======================================================
  */
+import { logError } from "/js/tools/logger.js";
+
 export function afficheModale() {
 
     const modal = document.getElementById('editModal');
     const closeBtn = document.querySelector('.close-modal');
-    const formEdit = document.getElementById('formEditAnnonce');
+    const formEdit = document.getElementById('formmodifier');
+    let id = 0;
     const tabAnnonces = JSON.parse(localStorage.getItem("userannonces"));
-    const monAnnonce = [];
+    let monAnnonce = [];
 
     document.addEventListener('click', (e) => {
     if (e.target && e.target.classList.contains('btn_modifier')) {
         e.preventDefault();
-        const id = Number(e.target.getAttribute('data-id'));
+        id = Number(e.target.getAttribute('data-id'));
         monAnnonce = tabAnnonces.find(tmp => tmp.annonce_id == id);
-        document.getElementById('editTitre').value = titre;
-        document.getElementById('editPrix').value = prix;
-        document.getElementById('editDescription').value = description;
         modal.style.display = 'flex';
+
+        document.getElementById('editTitre').value = monAnnonce.titre;
+        document.getElementById('editPrix').value = monAnnonce.prix;
+        document.getElementById('editDescriptif').value = monAnnonce.descriptif;
     }
     });
 
@@ -42,32 +46,35 @@ export function afficheModale() {
     });
 
     if (formEdit) {
-        formEdit.addEventListener('submit', async (e) => {
+    const formClone = formEdit.cloneNode(true);
+    formEdit.parentNode.replaceChild(formClone, formEdit);
+        formClone.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const id = document.getElementById('editId').value;
             const updatedData = {
                 titre: document.getElementById('editTitre').value,
                 prix: document.getElementById('editPrix').value,
-                description: document.getElementById('editDescription').value
+                descriptif: document.getElementById('editDescriptif').value,
+                categorie_id: document.getElementById('editCategorie').value
             };
 
             try {
-                const response = await fetch(`/annonces/update/${id}`, {
+                const response = await fetch(`/api/annonces/modifierannonce/${id}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedData)
                 });
 
                 if (response.ok) {
-                    alert('Annonce mise à jour avec succès !');
+                    // alert('Annonce mise à jour avec succès !');
                     modal.style.display = 'none';
-                    window.location.reload(); // Recharge la page pour afficher les changements
+                    window.location.reload();
                 } else {
-                    alert('Erreur lors de la modification.');
+                    console.error('Erreur lors de la modification. :', error);
                 }
             } catch (error) {
                 console.error('Erreur réseau :', error);
+                logError(error, "FONCTION: afficheModale, MODULE:modale.js");
             }
         });
     }

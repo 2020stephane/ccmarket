@@ -1,9 +1,9 @@
 <!--
  * ==========================================================
- *   @file         contact.html
+ *   @file         publication.html
  *   @project      ccmarket
- *   @description  Page de contact
- *   @date         2026-06-28
+ *   @description  Description de la page
+ *   @date         2026-06-29
  *   @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *   @license      MIT
  * ==========================================================
@@ -23,7 +23,7 @@
 
    <link rel="icon" href="/img/favicon.ico">
    <link rel="stylesheet" href="/css/header.css">
-   <link rel="stylesheet" href="/css/contact.css">
+   <link rel="stylesheet" href="/css/publication.css">
    <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
@@ -52,53 +52,64 @@
          <nav class="nav-links" aria-label="Navigation principale">
             <a href="index.html" class="nav-item actif" >Accueil</a>
             <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+            <a href="#" class="disabled nav-item actif" aria-disabled="true" tabindex="-1">Publier une annonce</a>
             <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
             <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
          </nav>
       </section>
    </header>
 <!--
-<!--
  * ==========================================================
  * ======================  MAIN  =====================
  * ==========================================================
 -->
-   <main>
-      <h1>Contacter Camping-Car Market</h1>
-      <form id="formContact" aria-labelledby="form-titre">
+     <main>
+          <h1>Publier une annonce</h1>
+          <div id="formPublier">
+          <form enctype="multipart/form-data">
 
-         <div class="form-group">
-            <label for="prenom_id">Prénom :</label>
-            <input type="text" id="prenom_id" name="prenom" autocomplete="prenom"
-               placeholder="Prénom" required>
-         </div>
+            <div class="form_group">
+               <label for="titre">Titre de l'annonce :</label>
+               <input type="text" name="titre" id="titre" maxlength="50" placeholder="Ex: Panneau solaire 200W" required>
+            </div>
 
-         <div class="form-group">
-            <label for="nom_id">Nom :</label>
-            <input type="text" id="nom_id" name="nom" autocomplete="nom"
-               placeholder="Nom" required>
-         </div>
+            <div class="form_group">
+               <label for="categorie">Catégorie :</label>
+               <select type="number" name="categorie" id="categorie" placeholder="ID de la catégorie" required>
+                  <option value="">-- Choisissez une catégorie --</option>
+                  <option value="1">Mobilier intérieur</option>
+                  <option value="2">Énergie solaire</option>
+                  <option value="3">Cuisine & Électroménage</option>
+                  <option value="4">Sanitaire & Eau</option>
+                  <option value="5">Literie & Confort</option>
+                  <option value="6">Électronique & Navigation</option>
+                  <option value="7">Extérieur & Auvent</option>
+               </select>
+            </div>
 
-         <div class="form-group">
-            <label for="email_id">e-mail :</label>
-            <input type="email" id="email_id" name="email" autocomplete="email"
-               placeholder="email" required>
-         </div>
+            <div class="form_group">
+               <label for="prix">Prix (€) :</label>
+               <input type="number" step="1" name="prix" id="prix" min="0" max="999999" placeholder="Prix en €" required>
+            </div>
 
-         <div class="form-group">
-            <label for="message_id">Votre message <span class="hint">(250 caractères max)</span>:</label>
-            <textarea id="message_id" name="message" rows="6" cols="40"
-               maxlength="250" aria-describedby="message-compteur"
-               placeholder="Écrivez votre message ici..."></textarea>
-               <span id="message-compteur" aria-live="polite">0 / 250</span>
-         </div>
+            <div class="form_group">
+               <label for="descriptif">Description :</label>
+               <textarea name="descriptif" id="descriptif" rows="5" maxlength="1000" placeholder="Décrivez votre produit en détail..." required></textarea>
+            </div>
 
-         <button type="submit" id="b_submit">ENVOYER</button>
-         <p id="msg-erreur" role="alert" aria-live="polite"></p>
+            <div class="form_group">
+               <label for="inputphoto">Photo :</label>
+               <div class="file-upload">
+                  <input type="file" id="inputphoto" name="photo" accept="image/*">
+                  <label for="inputphoto" class="btn-file">Choisir une photo</label>
+                  <span id="file-nom">Aucun fichier choisi</span>
+               </div>
+            </div>
 
-      </form>
-   </main>
+            <button type="submit" id="btn_publier">Publier l'annonce</button>
+         </form>
+       </div>
+     </main>
 <!--
  * ==========================================================
  * ======================  FOOTER  =====================
@@ -113,7 +124,6 @@
          2026 Camping-Car Market - Projet Professionnel BTS Web.
       </div>
    </footer>
-   <script type="module" src="/js/contact.js"></script>
+   <script type="module" src="/js/publication.js"></script>
 </body>
-
 </html>

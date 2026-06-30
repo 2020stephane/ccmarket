@@ -88,7 +88,9 @@ body {
 .btn-cta:hover {
     background-color: var(--primary-dark);
 }
-
+#section-securite {
+    display: none; /* Masqué par défaut, le JS l'affichera si nécessaire */
+}
 /* --- Section Héro (Avec ton illustration en fond) --- */
 .hero {
     position: relative;

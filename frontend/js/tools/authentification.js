@@ -19,7 +19,8 @@ export async function verifierConnection() {
              }
          const disabledLinks = document.querySelectorAll('.nav-links a.disabled');
          disabledLinks[0].href = "mesannonces.html";
-         disabledLinks[1].href = "messagerie.html";
+         disabledLinks[1].href = "publication.html";
+         disabledLinks[2].href = "messagerie.html";
          disabledLinks.forEach(link => {
             link.classList.remove('disabled');
             link.removeAttribute('aria-disabled');
@@ -28,7 +29,7 @@ export async function verifierConnection() {
       }
       return data;
    } catch (error){
-      logError(error, "FONCTION : status, MODULE: authentification.js");
+      logError(error, "FONCTION : verifierConnection, MODULE: authentification.js");
    }
 }
 // export async function verifierConnection() {

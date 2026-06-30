@@ -1,0 +1,151 @@
+/**
+ * =======================================================
+ *  @file         publication.css
+ *  @project      ccmarket
+ *  @description  feuille de style
+ *  @date         2026-06-29
+ *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *  @license      MIT
+ * =======================================================
+ */
+h1 {
+  font-size: 2.4rem;
+  color: var(--primary-dark);
+  cursor: default;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+/* ==================================================
+   FORMULAIRE
+   ================================================== */
+#formPublier {
+  flex: 1;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  gap: 15px;
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#descriptif {
+   resize: none;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+}
+
+#inputphoto {
+    display: none;
+}
+
+.btn-file {
+    display: inline-block;
+    background-color:  var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    /* font-weight: bold; */
+    transition: background-color 0.2s;
+}
+
+.btn-file:hover {
+    background-color:var(--primary-dark);
+}
+
+#file-nom {
+    margin-left: 0.75rem;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+#btn_publier {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#btn_publier:hover {
+   background-color: var(--primary-dark);
+}
+/** ===================================================
+ *    Responsive mobile
+ *  ===================================================
+ */
+
+@media (max-width: 768px) {
+    .nav-container {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .main-footer {
+      flex-direction: column;
+      gap: 15px;
+    }
+}
+@media (max-width: 600px) {
+
+.btn-hamburger {
+    display: flex;
+}
+.nav-container {
+    flex-direction: row;
+    gap: 15px;
+    position: relative;
+    }
+.nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    gap: 0;
+    padding: 0.5rem 0;
+    z-index: 100;
+}
+.nav-item {
+    width: 100%;
+    display: block;
+    padding: 12px 20px;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+}
+.nav-links.is-open {
+    display: flex;
+}
+}

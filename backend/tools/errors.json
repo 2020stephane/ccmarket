@@ -453,5 +453,173 @@
     "extra": {
       "url": "http://localhost:3000/mesannonces.html#"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "09:09:40",
+    "timestamp": "2026-06-30T07:09:40.933Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/monCompte.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "09:14:39",
+    "timestamp": "2026-06-30T07:14:39.329Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/monCompte.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "09:16:20",
+    "timestamp": "2026-06-30T07:16:20.918Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/monCompte.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "09:16:54",
+    "timestamp": "2026-06-30T07:16:54.938Z",
+    "contexte": "FONCTION : status, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/monCompte.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "09:18:37",
+    "timestamp": "2026-06-30T07:18:37.880Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/monCompte.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "30/06/2026",
+    "heure": "13:59:32",
+    "timestamp": "2026-06-30T11:59:32.016Z",
+    "contexte": "FONCTION: sInscrire, MODULE:utilisateursControllers.js",
+    "message": "connexionStandard is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: connexionStandard is not defined",
+      "at sInscrire (file:///~/backend/controllers/utilisateursControllers.js:82:13)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "30/06/2026",
+    "heure": "14:38:45",
+    "timestamp": "2026-06-30T12:38:45.856Z",
+    "contexte": "FONCTION: sInscrire, MODULE:utilisateursControllers.js",
+    "message": "utilisateur is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: utilisateur is not defined",
+      "at sInscrire (file:///~/backend/controllers/utilisateursControllers.js:79:21)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "30/06/2026",
+    "heure": "14:43:05",
+    "timestamp": "2026-06-30T12:43:05.747Z",
+    "contexte": "FONCTION: sInscrire, MODULE:utilisateursControllers.js",
+    "message": "utilisateur is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: utilisateur is not defined",
+      "at sInscrire (file:///~/backend/controllers/utilisateursControllers.js:80:21)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "30/06/2026",
+    "heure": "14:47:27",
+    "timestamp": "2026-06-30T12:47:27.487Z",
+    "contexte": "FONCTION: sInscrire, MODULE:utilisateursControllers.js",
+    "message": "token is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: token is not defined",
+      "at sInscrire (file:///~/backend/controllers/utilisateursControllers.js:86:19)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "15:34:00",
+    "timestamp": "2026-06-30T13:34:00.332Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/contact.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "15:45:20",
+    "timestamp": "2026-06-30T13:45:20.692Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:23:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/contact.html"
+    }
   }
 ]

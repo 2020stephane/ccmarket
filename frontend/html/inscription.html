@@ -16,7 +16,9 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
    <link rel="stylesheet" href="/css/inscription.css">
+   <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -24,37 +26,31 @@
 </head>
 
 <body>
-   <!--==================================================
-======================  HEADER  ======================
-===================================================-->
-   <header>
-      <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
-      <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
-         aria-controls="nav-menu">
-         <span></span>
-         <span></span>
-         <span></span>
-      </button>
-      <nav aria-label="Navigation principale">
-         <ul class="nav-menu">
-            <li>
-               <a href="index.html">Accueil</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Messages</a>
-            </li>
-            <li>
-               <a href="rechercher.html" class="rechercher">Rechercher</a>
-            </li>
-            <li>
-               <button data-etat="deconnecte" id="btn_compte">Mon compte</button>
-            </li>
-         </ul>
-      </nav>
+<!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+   <header class="navbar">
+      <section class="container nav-container">
+         <figure>
+            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+         </figure>
+
+         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+
+         <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item" >Accueil</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
+         </nav>
+      </section>
    </header>
    <!--==================================================
 ======================  HERO  ========================
@@ -87,15 +83,19 @@
       <p>Déjà un compte ? <a href="connection.html">Se connecter</a></p>
       <p id="msg-erreur"></p>
    </section>
-   <!--=====================================================
-======================  FOOTER  =========================
-======================================================-->
+<!--
+ * ==========================================================
+ * ======================  FOOTER  =====================
+ * ==========================================================
+-->
    <footer class="main-footer">
       <nav class="footer-links">
          <a href="contact.html">Contact</a>
          <a href="mentions_legales.html">Mentions légales</a>
       </nav>
-      <div class="footer-copyright">2026 Camping-Car Market.</div>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
    </footer>
    <script type="module" src="/js/inscription.js"></script>
 </body>

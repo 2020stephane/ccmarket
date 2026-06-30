@@ -235,15 +235,6 @@ console.log("champs:", { titre, prix, descriptif, categorie, utilisateur_id });
       const token = req.cookies?.monToken;
       let userid = utilisateur_id;
 
-        if (token) {
-            try {
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
-                userid = decoded.id;
-            } catch {
-                return res.status(401).json({ message: 'Token invalide' });
-            }
-        }
-
         if (!userid) {
             return res.status(401).json({ message: 'Utilisateur non identifié' });
         }

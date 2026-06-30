@@ -32,7 +32,7 @@ form.addEventListener("submit", async (e) => {
       const data = await response.json();
 
       if (response.ok) {
-         localStorage.setItem('userinfo', JSON.stringify(data));
+         localStorage.setItem('userinfo', JSON.stringify(data.user));
          window.location.href="index.html";
       }else {
          afficherErreur(data.message);

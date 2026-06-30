@@ -33,39 +33,44 @@
 
 <body>
 
-    <!--
+<!--
  * ==========================================================
  * ======================  HEADER  =====================
  * ==========================================================
 -->
-   <header class="navbar">
-      <section class="container nav-container">
-         <figure>
-            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-         </figure>
+    <header class="navbar">
+        <section class="container nav-container">
+            <figure>
+                <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+            </figure>
 
-         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-         </button>
+            <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-         <nav class="nav-links" aria-label="Navigation principale">
-            <a href="index.html" class="nav-item" >Accueil</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
-            <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
-         </nav>
-      </section>
-   </header>
-
+            <nav class="nav-links" aria-label="Navigation principale">
+                <a href="index.html" class="nav-item" >Accueil</a>
+                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+                <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
+            </nav>
+        </section>
+    </header>
+<!--
+ * ==========================================================
+ * ======================  MAIN  =====================
+ * ==========================================================
+-->
     <main class="container account-layout">
 
         <aside class="account-sidebar">
             <div class="user-summary">
-                <div class="user-avatar">JM</div>
-                <h3>Jean-Marc</h3>
-                <p>Membre depuis juin 2026</p>
+                <div id="sidebarAvatar" class="user-avatar">JM</div>
+                <h3 id="sidebarPrenom" >Jean-Marc</h3>
+                <p id="sidebarDateInscription" >Membre depuis juin 2026</p>
             </div>
             <nav class="sidebar-menu">
                 <a href="#profil" class="sidebar-link active">⚙️ Informations personnelles</a>
@@ -77,37 +82,59 @@
         </aside>
 
         <section class="account-content">
-
-            <div class="account-card">
+            <div id="section-profil" class="account-card">
                 <h2 class="card-title">Modifier mes informations</h2>
                 <form action="/user/update" method="POST" class="account-form">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="nom">Nom</label>
-                            <input type="text" id="nom" name="nom" value="Dupond" autocomplete="nom" required>
+                            <input type="text" id="nom" name="nom" value="" autocomplete="nom" required>
                         </div>
                         <div class="form-group">
                             <label for="prenom">Prenom</label>
-                            <input type="text" id="prenom" name="prenom" value="Jean-Marc" autocomplete="prenom" required>
+                            <input type="text" id="prenom" name="prenom" value="" autocomplete="prenom" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Adresse Email</label>
-                            <input type="email" id="email" name="email" value="jeanmarc.33@example.com" autocomplete="email" required>
+                            <input type="email" id="email" name="email" value="" autocomplete="email" required>
                         </div>
-
                     </div>
                     <button type="submit" class="btn-submit">Enregistrer les modifications</button>
                 </form>
             </div>
 
-            <div class="account-card border-danger">
-                <h2 class="card-title text-danger">Zone de danger</h2>
-                <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
+            <div id="section-securite" class="account-card border-danger">
+    <div class="password-change-block" style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
+        <h2 class="card-title">Changer mon mot de passe</h2>
 
-                <form action="/user/delete" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.');">
-                    <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
-                </form>
+        <form action="/user/update-password" method="POST" class="account-form">
+            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-group">
+                    <label for="currentPassword">Mot de passe actuel</label>
+                    <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmer le nouveau mot de passe</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required>
+                </div>
             </div>
+            <button type="submit" class="btn-submit">Mettre à jour le mot de passe</button>
+        </form>
+    </div>
+
+    <div class="danger-zone-block">
+        <h2 class="card-title text-danger">Zone de danger</h2>
+        <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
+
+        <form id="formDeleteAccount" action="/utilisateurs/delete/" method="DELETE" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.');">
+            <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
+        </form>
+    </div>
+</div>
 
         </section>
     </main>

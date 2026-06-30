@@ -42,7 +42,7 @@ try {
       }else {
          afficherErreur(data.message);
       }
-   } catch {
+   } catch (error){
       logError(error, "dans le module:contact.js");
           afficherErreur("Erreur serveur, veuillez réessayer.");
    }

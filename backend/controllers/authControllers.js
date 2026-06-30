@@ -172,7 +172,7 @@ res.cookie('monToken', token, {
                 nom: utilisateur.nom,
                 prenom: utilisateur.prenom,
                 email: utilisateur.email,
-                administrateur: utilisateur.administrateur
+                date: utilisateur.date_inscription
             }
         });
 
@@ -208,7 +208,7 @@ export async function status(req, res) {
             nom: decoded.nom
         });
    } catch (error) {
-        logError(error, "fonction status dans module authControllers");
+        logError(error, "FONCTION: status, MODULE: authControllers.js");
         res.json({ connection: false });
    }
 }

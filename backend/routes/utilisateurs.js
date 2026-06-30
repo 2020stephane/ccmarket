@@ -6,16 +6,15 @@
 //===========================================================
 import express from 'express';
 import {
-   seConnecter,
-   seDeconnecter,
-   sInscrire
+   sInscrire,
+   supprimerUtilisateur
 } from '../controllers/utilisateursControllers.js';
 
 const router = express.Router();
 // ==================================================
 // routes ajoutées pour mon projet
 // ==================================================
-router.post('/connection', seConnecter);
-router.post('/deconnection', seDeconnecter);
 router.post('/inscription', sInscrire);
+router.delete('/delete/:id',supprimerUtilisateur);
+
 export default router;
