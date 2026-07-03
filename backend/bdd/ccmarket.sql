@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 27 juin 2026 à 13:26
+-- Généré le : ven. 03 juil. 2026 à 16:04
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `annonces` (
   `annonce_id` int(11) NOT NULL,
   `titre` varchar(50) DEFAULT NULL,
-  `descriptif` varchar(50) DEFAULT NULL,
+  `descriptif` varchar(150) DEFAULT NULL,
   `prix` int(11) DEFAULT NULL,
-  `date_publication` date NOT NULL,
+  `date_publication` datetime NOT NULL DEFAULT current_timestamp(),
   `utilisateur_id` int(11) NOT NULL,
   `categorie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -42,17 +42,17 @@ CREATE TABLE `annonces` (
 --
 
 INSERT INTO `annonces` (`annonce_id`, `titre`, `descriptif`, `prix`, `date_publication`, `utilisateur_id`, `categorie_id`) VALUES
-(4, NULL, NULL, NULL, 'H762-11-22', -445746144, -798921106),
-(6, 'Frigo à compression Dometic 50LRéfrigérateur à compression 50L, fonctionne ', 'parfait', -445815442, 'O254-01-00', -161124764, -182426783),
-(8, NULL, NULL, -731815316, 'M328-03-05', -199216096, -479698583),
-(9, 'Kit douche solaire 20LDouche solaire portable 20L avec pommeau r', NULL, NULL, '8660-11-07', -329162132, -450092941),
-(10, NULL, 'GPS Garmin Camper 890GPS spécial camping car, cartes Europe à j', NULL, 'N650-11-18', -1607323598, -1288953661),
-(11, NULL, 'Matelas mémoire de forme 140x190Matelas mémoire de forme 2 places, épaiss', -445287904, 'F681-03-03', -315875224, -277515405),
-(12, NULL, NULL, NULL, 'J679-11-13', -261807933, 538994017),
-(13, NULL, NULL, -1033801118, 'M361-11-21', -450861215, -98537361),
-(14, NULL, NULL, -261132944, 'M328-03-01', -1603968651, -210407323),
-(15, 'Panne', 'au solaire 200W Victronsuper�\0\0<��׀\0\0�\0\0n, excellent état, avec câbles inclus.�\0\0���a�\0\0�\0\0es inclus.�', NULL, '@384-05-20', 265314688, -2147483008),
-(16, 'Auvent latéral Fiamma F45Panneau solaire rigide 200W, utilisé 1 saison, excellent �', NULL, 695492980, 'F032-03-01', -161127648, -473718174);
+(11, 'Panneau solaire 200W Victron', 'Panneau solaire rigide 200W, utilisé 1 saison, excellent état, avec câbles inclus.', 180, '2024-03-01 00:00:00', 2, 2),
+(12, 'Auvent latéral Fiamma F45', 'Auvent Fiamma F45 de 3m, couleur gris, très bon état, démonté avec soin.', 350, '2024-03-05 00:00:00', 3, 7),
+(13, 'Frigo à compression Dometic 50L', 'Réfrigérateur à compression 50L, fonctionne parfaitement, vendu car upgrade.', 220, '2024-03-08 00:00:00', 4, 3),
+(14, 'Convertisseur 12V/230V 1000W', 'Convertisseur pur sinus 1000W, marque Victron, peu utilisé, avec notice.', 150, '2024-03-10 00:00:00', 2, 2),
+(15, 'Table et 4 chaises pliantes', 'Ensemble table aluminium + 4 chaises légères, idéal camping car, bon état.', 85, '2024-03-12 00:00:00', 5, 1),
+(16, 'Kit douche solaire 20L', 'Douche solaire portable 20L avec pommeau réglable, saison 2023.', 25, '2024-03-15 00:00:00', 3, 4),
+(17, 'GPS Garmin Camper 890', 'GPS spécial camping car, cartes Europe à jour 2023, état neuf.', 280, '2024-03-18 00:00:00', 4, 6),
+(18, 'Matelas mémoire de forme 140x190', 'Matelas mémoire de forme 2 places, épaisseur 12cm, housse lavable incluse.', 120, '2024-03-20 00:00:00', 5, 5),
+(20, 'Barbecue gaz portable Weber', 'Barbecue gaz 2 brûleurs Weber Q1200, utilisé 2 étés, très bon état.', 95, '2024-03-25 00:00:00', 3, 7),
+(25, 'convertisseur', 'super etat', 35, '2026-06-28 15:49:50', 1, 2),
+(26, 'barbecue auchan', 'tres bien', 75, '2026-06-29 09:10:14', 1, 7);
 
 -- --------------------------------------------------------
 
@@ -81,6 +81,29 @@ INSERT INTO `categories` (`categorie_id`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `contact_id` int(11) NOT NULL,
+  `prenom` varchar(100) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `message` varchar(250) NOT NULL,
+  `date_envoi` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `contacts`
+--
+
+INSERT INTO `contacts` (`contact_id`, `prenom`, `nom`, `email`, `message`, `date_envoi`) VALUES
+(3, 'titi', 'titi', 'titi@gmail.com', 'test', '2026-06-30 16:08:18'),
+(4, 'toto', 'toto', 'toto@gmail.com', 'test', '2026-07-03 13:32:07');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `messages`
 --
 
@@ -89,8 +112,8 @@ CREATE TABLE `messages` (
   `contenu` varchar(50) NOT NULL,
   `date_envoi` date DEFAULT NULL,
   `annonce_id` int(11) DEFAULT NULL,
-  `utilisateur_id` int(11) NOT NULL,
-  `utilisateur_id_1` int(11) NOT NULL
+  `expediteur_id` int(11) NOT NULL,
+  `destinataire_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -110,8 +133,19 @@ CREATE TABLE `photos` (
 --
 
 INSERT INTO `photos` (`photo_id`, `photo_url`, `annonce_id`) VALUES
+(1, '1782648232143_victron.webp', 21),
+(2, '1782648456138_victron.webp', 22),
+(3, '1782653806045_victron.webp', 23),
+(4, '1782654425450_victron.webp', 24),
+(5, '1782654590482_victron.webp', 25),
 (19, '1782201017165_pompe.webp', 14),
-(20, '1782215581230_ps2.webp', 15);
+(20, '1782215581230_ps2.webp', 15),
+(21, '1782717014627_barbecue1.webp', 26),
+(22, '1782728436186_ps1.webp', 27),
+(23, '1782742257590_ps2.webp', 28),
+(24, '1782742674405_ps2.webp', 29),
+(25, '1782743017771_ps2.webp', 30),
+(26, '1783077492655_ps2.webp', 31);
 
 -- --------------------------------------------------------
 
@@ -124,25 +158,27 @@ CREATE TABLE `utilisateurs` (
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `motdepasse` varchar(50) DEFAULT NULL,
-  `administrateur` tinyint(1) DEFAULT NULL
+  `motdepasse` varchar(255) DEFAULT NULL,
+  `administrateur` tinyint(1) DEFAULT NULL,
+  `date_inscription` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`utilisateur_id`, `nom`, `prenom`, `email`, `motdepasse`, `administrateur`) VALUES
-(1, 'brisse', 'stephane', 'stephanebrisse@gmail.com', '$2b$10$OHZWPMw98aJoOrTCf5OSSuk16XKChbmbU1IKfnRwL451vvvNIgzsG', 1),
-(2, 'martin', 'sophie', 'sophiemartin@email.com', '$2b$10$c1auVCK5kZHOPduL70dKAe0pFSRoQ5N.MOYmMUogLwXTqsMuHg24e', 0),
-(3, 'dubois', 'pierre', 'pierredubois@email.com', '$2b$10$ODW3bwWIPW2zv4zYbTHG3O0jViYrzvxrAdrPnq2UAYt5g3l8SeXAm', 0),
-(4, 'bernard', 'marie', 'mariebernard@email.com', '$2b$10$LEBhJx560Mi7lBI/pzwB1u7pUC1au190rWY1S.2wZ46x9qJrNeAVW', 0),
-(5, 'petit', 'jean', 'jeanpetit@email.com', '$2b$10$GVdn/4yuhob7VGuDiY3k6eKowRSgml1aH6AQGXvP6AeO0/dmVNxNa', 0),
-(6, 'durand', 'isabelle', 'isabelledurand@email.com', '$2b$10$gAxkGK4dFBamHM7q5JS.l.9ILYAnnQTu9Sz2VQMcKn0MpRUvTC8b.', 0),
-(7, 'moreau', 'lucas', 'lucasmoreau@email.com', '$2b$10$Yc96/1x5KdnkgPC9oe.kSOi.yXMBYLbzmy1Jf917.eEICxeCRyxt.', 0),
-(8, 'girard', 'francois', 'francoisgirard@email.com', '$2b$10$GOeU725iHzs05jvoY2wTheuoLtInJoW9RfLpPP9zOAivs70.AmHny', 0),
-(9, 'laurent', 'nathalie', 'nathalielaurent@email.com', '$2b$10$GdRad1b91fcQIrzThBOSR.bwlNnvRbzObO09ThboTvrFPaNhwhGJi', 0),
-(10, 'simon', 'thierry', 'thierrysimon@email.com', '$2b$10$LrUdh3FrJB8Swmq1k3GnCecGMxqEBkcHzDCrQdQfvg8IDXisEOulq', 0);
+INSERT INTO `utilisateurs` (`utilisateur_id`, `nom`, `prenom`, `email`, `motdepasse`, `administrateur`, `date_inscription`) VALUES
+(1, 'brisse', 'stephane', 'stephanebrisse@gmail.com', '$2b$10$OHZWPMw98aJoOrTCf5OSSuk16XKChbmbU1IKfnRwL451vvvNIgzsG', 1, '2026-06-28 08:37:54'),
+(2, 'martin', 'sophie', 'sophiemartin@email.com', '$2b$10$c1auVCK5kZHOPduL70dKAe0pFSRoQ5N.MOYmMUogLwXTqsMuHg24e', 0, '2026-06-28 08:37:54'),
+(3, 'dubois', 'pierre', 'pierredubois@email.com', '$2b$10$ODW3bwWIPW2zv4zYbTHG3O0jViYrzvxrAdrPnq2UAYt5g3l8SeXAm', 0, '2026-06-28 08:37:54'),
+(4, 'bernard', 'marie', 'mariebernard@email.com', '$2b$10$LEBhJx560Mi7lBI/pzwB1u7pUC1au190rWY1S.2wZ46x9qJrNeAVW', 0, '2026-06-28 08:37:54'),
+(5, 'petit', 'jean', 'jeanpetit@email.com', '$2b$10$GVdn/4yuhob7VGuDiY3k6eKowRSgml1aH6AQGXvP6AeO0/dmVNxNa', 0, '2026-06-28 08:37:54'),
+(6, 'durand', 'isabelle', 'isabelledurand@email.com', '$2b$10$gAxkGK4dFBamHM7q5JS.l.9ILYAnnQTu9Sz2VQMcKn0MpRUvTC8b.', 0, '2026-06-28 08:37:54'),
+(7, 'moreau', 'lucas', 'lucasmoreau@email.com', '$2b$10$Yc96/1x5KdnkgPC9oe.kSOi.yXMBYLbzmy1Jf917.eEICxeCRyxt.', 0, '2026-06-28 08:37:54'),
+(8, 'girard', 'francois', 'francoisgirard@email.com', '$2b$10$GOeU725iHzs05jvoY2wTheuoLtInJoW9RfLpPP9zOAivs70.AmHny', 0, '2026-06-28 08:37:54'),
+(9, 'laurent', 'nathalie', 'nathalielaurent@email.com', '$2b$10$GdRad1b91fcQIrzThBOSR.bwlNnvRbzObO09ThboTvrFPaNhwhGJi', 0, '2026-06-28 08:37:54'),
+(10, 'simon', 'thierry', 'thierrysimon@email.com', '$2b$10$LrUdh3FrJB8Swmq1k3GnCecGMxqEBkcHzDCrQdQfvg8IDXisEOulq', 0, '2026-06-28 08:37:54'),
+(19, 'titi', 'titi', 'titi@gmail.com', '$2b$10$RbNyxn/aPLJEiyhCVRx3V.Zr9eVQn9LwJagp.kEzhpB0A3z6IDg0W', NULL, '2026-06-30 14:48:52');
 
 --
 -- Index pour les tables déchargées
@@ -163,13 +199,19 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`categorie_id`);
 
 --
+-- Index pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`contact_id`);
+
+--
 -- Index pour la table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`message_id`),
   ADD KEY `annonce_id` (`annonce_id`),
-  ADD KEY `utilisateur_id` (`utilisateur_id`),
-  ADD KEY `utilisateur_id_1` (`utilisateur_id_1`);
+  ADD KEY `utilisateur_id` (`expediteur_id`),
+  ADD KEY `utilisateur_id_1` (`destinataire_id`);
 
 --
 -- Index pour la table `photos`
@@ -193,13 +235,19 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
-  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categorie_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `categorie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
@@ -211,13 +259,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT pour la table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
