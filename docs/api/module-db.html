@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: contacter</title>
+    <title>JSDoc: Module: db</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: contacter</h1>
+    <h1 class="page-title">Module: db</h1>
 
     
 
@@ -38,8 +38,8 @@
     <div class="container-overview">
     
         
-            <div class="description">Déclaration de la route permettant de contacter
-l'administrateur du site.</div>
+            <div class="description">Initialisation et export du pool de connexions MySQL.
+Utilise mysql2 avec support des promesses.</div>
         
 
         
@@ -101,7 +101,7 @@ l'administrateur du site.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_contacter.js.html">backend/routes/contacter.js</a>, <a href="backend_routes_contacter.js.html#line1">line 1</a>
+        <a href="backend_bdd_db.js.html">backend/bdd/db.js</a>, <a href="backend_bdd_db.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -141,9 +141,11 @@ l'administrateur du site.</div>
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li>module:express</li>
+            <li>module:mysql2</li>
         
-            <li>module:../controllers/contacterControllers.js</li>
+            <li>module:dotenv/config</li>
+        
+            <li>module:../tools/logger.js</li>
         </ul>
     
 
@@ -160,177 +162,19 @@ l'administrateur du site.</div>
 
         
             
-<h4 class="name" id="~router"><span class="type-signature">(inner, constant) </span>router<span class="type-signature"> :express.Router</span></h4>
+<h4 class="name" id="~db"><span class="type-signature">(inner, constant) </span>db<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Routeur Express dédié au contact.
+    Pool de connexions MySQL (interface promises de `mysql2`), configuré
+à partir des variables d'environnement `DB_HOST`, `DB_USER`,
+`DB_PASSWORD`, `DB_NAME` et `DB_PORT`.
+En cas d'échec de création du pool, l'erreur est journalisée via
+`logError` puis relancée, ce qui interrompt le démarrage du serveur.
 </div>
 
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">express.Router</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_contacter.js.html">backend/routes/contacter.js</a>, <a href="backend_routes_contacter.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~POST/contacter"><span class="type-signature">(inner) </span>POST/contacter<span class="signature">(path, contacterAdmin)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Route publique : envoie un message à l'administrateur du site.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>path</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">`/contacter`</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>contacterAdmin</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Contrôleur traitant et transmettant le message à l'administrateur.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -366,7 +210,7 @@ l'administrateur du site.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_contacter.js.html">backend/routes/contacter.js</a>, <a href="backend_routes_contacter.js.html#line26">line 26</a>
+        <a href="backend_bdd_db.js.html">backend/bdd/db.js</a>, <a href="backend_bdd_db.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -382,21 +226,9 @@ l'administrateur du site.</div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
+    
+
     
 
     

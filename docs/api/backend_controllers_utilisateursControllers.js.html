@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend/controllers/utilisateursControllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: backend/controllers/utilisateursControllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Contrôleur de gestion de l'utilisateur
+ * (inscription, suppression de compte).
+ * @module utilisateursControllers
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-24
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires dotenv/config
+ * @requires bcrypt
+ * @requires jsonwebtoken
+ * @requires ../tools/logger.js
+ * @requires ../bdd/db.js
+ * @requires ../tools/cookie.js
+ * @requires ./authControllers.js
+ */
+
+import 'dotenv/config';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+import { logError } from "../tools/logger.js";
+import db from '../bdd/db.js';
+import { setCookie, clearCookie } from '../tools/cookie.js';
+import { connexionStandard } from './authControllers.js';
+
+/**
+ * Clé secrète utilisée pour signer les jetons JWT.
+ * Repliée sur une valeur par défaut si non définie en environnement.
+ * @type {string}
+ * @const
+ */
+const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
+
+/**
+ * Inscrit un nouvel utilisateur.
+ * Valide les données reçues, vérifie l'unicité de l'email, hache le
+ * mot de passe, crée l'utilisateur en base de données, génère un
+ * cookie JWT et retourne son profil.
+ * @function sInscrire
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, password }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP :
+ *   - 200 : Inscription réussie, retourne le token et le profil créé.
+ *   - 400 : Champs manquants ou erreur lors de l'insertion.
+ *   - 409 : Email déjà utilisé par un compte existant.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
+export async function sInscrire(req, res) {
+
+   const { prenom, nom, email, password } = req.body;
+
+      if (!prenom || !nom || !email || !password) {
+         return res.status(400).json({ message: 'Tous les champs sont requis.' });
+      }
+      try {
+         const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+         const user = users[0];
+
+         if (users.length > 0) {
+            return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
+         }
+
+         const hashedPassword = await bcrypt.hash(password, 10);
+
+         const [result] = await db.query(
+            'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
+            [prenom, nom, email, hashedPassword]
+         );
+
+         if (result.affectedRows > 0) {
+
+            const payload = {
+        id: result.insertId,
+        email: email,
+        nom: nom,
+        prenom: prenom,
+        administrateur: 0
+    };
+             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+            res.cookie('monToken', token, {
+                httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
+                secure: false,   // mettre true en production (HTTPS)
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
+            });
+             const [temps] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+         const utilisateur = temps[0];       // 5. Réponse
+                    return res.status(200).json({
+                        success: true,
+                        token,
+                        user: {
+                            id: utilisateur.utilisateur_id,
+                            nom: utilisateur.nom,
+                            prenom: utilisateur.prenom,
+                            email: utilisateur.email,
+                            date: utilisateur.date_inscription
+                        }
+                    });
+        } else {
+            return res.status(400).json({ error: "Erreur lors de l'inscription" });
+        }
+      } catch (error) {
+          logError(error, "FONCTION: sInscrire, MODULE:utilisateursControllers.js");
+         return res.status(500).json({ message: 'Erreur serveur.' });
+      }
+}
+
+/**
+ * Supprime le compte d'un utilisateur.
+ * Seul le propriétaire du compte ou un administrateur peut effectuer
+ * cette action.
+ * @function supprimerUtilisateur
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'utilisateur à supprimer, `user` = utilisateur authentifié.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP :
+ *   - 200 : Suppression réussie.
+ *   - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
+ *   - 404 : Utilisateur introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
+export async function supprimerUtilisateur(req, res) {
+   try {
+      const idCible = Number(req.params.id);
+      const estProprietaire = req.user.id === idCible;
+      const estAdmin = !!req.user.administrateur;
+
+      if (!estProprietaire &amp;&amp; !estAdmin) {
+         return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer ce compte.' });
+      }
+
+      const [result] = await db.execute(
+         'DELETE FROM utilisateurs WHERE utilisateur_id = ?', [idCible]
+      );
+
+      if (result.affectedRows === 0) {
+         return res.status(404).json({ message: 'Utilisateur introuvable' });
+      }
+
+      res.json({ message: 'Utilisateur supprimé' });
+   } catch (error) {
+     logError(error, "FONCTION: supprimerUtilisateur, MODULE: utilisateursControllers.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 11:02:48 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -5,7 +5,11 @@
     "source": {
         "include": [
             "server.js",
-            "backend/routes"
+            "backend/routes",
+            "backend/controllers",
+            "backend/middlewares",
+            "backend/tools",
+            "backend/bdd/db.js"
         ],
         "includePattern": ".js$",
         "excludePattern": "(node_modules|docs|frontend|uploads)"

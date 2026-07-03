@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: utilisateurs</title>
+    <title>JSDoc: Module: utilisateursControllers</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: utilisateurs</h1>
+    <h1 class="page-title">Module: utilisateursControllers</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Déclaration des routes liées aux utilisateurs
+            <div class="description">Contrôleur de gestion de l'utilisateur
 (inscription, suppression de compte).</div>
         
 
@@ -101,7 +101,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_utilisateurs.js.html">backend/routes/utilisateurs.js</a>, <a href="backend_routes_utilisateurs.js.html#line1">line 1</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -141,11 +141,19 @@
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li>module:express</li>
+            <li>module:dotenv/config</li>
         
-            <li>module:../controllers/utilisateursControllers.js</li>
+            <li>module:bcrypt</li>
         
-            <li>module:../middlewares/authMiddleware.js</li>
+            <li>module:jsonwebtoken</li>
+        
+            <li>module:../tools/logger.js</li>
+        
+            <li>module:../bdd/db.js</li>
+        
+            <li>module:../tools/cookie.js</li>
+        
+            <li>module:./authControllers.js</li>
         </ul>
     
 
@@ -162,13 +170,14 @@
 
         
             
-<h4 class="name" id="~router"><span class="type-signature">(inner, constant) </span>router<span class="type-signature"> :express.Router</span></h4>
+<h4 class="name" id="~JWT_SECRET"><span class="type-signature">(inner, constant) </span>JWT_SECRET<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    Routeur Express dédié aux utilisateurs.
+    Clé secrète utilisée pour signer les jetons JWT.
+Repliée sur une valeur par défaut si non définie en environnement.
 </div>
 
 
@@ -177,7 +186,7 @@
     <ul>
         <li>
             
-<span class="param-type">express.Router</span>
+<span class="param-type">string</span>
 
 
         </li>
@@ -216,7 +225,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_utilisateurs.js.html">backend/routes/utilisateurs.js</a>, <a href="backend_routes_utilisateurs.js.html#line27">line 27</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -244,7 +253,7 @@
     
 
     
-    <h4 class="name" id="~DELETE/delete/:id"><span class="type-signature">(inner) </span>DELETE/delete/:id<span class="signature">(path, verifierAuthentification, supprimerUtilisateur)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~sInscrire"><span class="type-signature">(async, inner) </span>sInscrire<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -252,8 +261,10 @@
 
 
 <div class="description">
-    Route protégée : suppression définitive d'un compte utilisateur.
-Nécessite un utilisateur authentifié.
+    Inscrit un nouvel utilisateur.
+Valide les données reçues, vérifie l'unicité de l'email, hache le
+mot de passe, crée l'utilisateur en base de données, génère un
+cookie JWT et retourne son profil.
 </div>
 
 
@@ -271,8 +282,6 @@ Nécessite un utilisateur authentifié.
     <thead>
     <tr>
         
-        <th>Name</th>
-        
 
         <th>Type</th>
 
@@ -289,15 +298,8 @@ Nécessite un utilisateur authentifié.
 
         <tr>
             
-                <td class="name"><code>path</code></td>
-            
 
             <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
             
             </td>
 
@@ -305,22 +307,15 @@ Nécessite un utilisateur authentifié.
 
             
 
-            <td class="description last">`/delete/:id`</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>verifierAuthentification</code></td>
-            
 
             <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
             
             </td>
 
@@ -328,30 +323,7 @@ Nécessite un utilisateur authentifié.
 
             
 
-            <td class="description last">Middleware vérifiant que l'utilisateur est connecté.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>supprimerUtilisateur</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Contrôleur supprimant l'utilisateur ciblé par `id`.</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -392,7 +364,7 @@ Nécessite un utilisateur authentifié.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_utilisateurs.js.html">backend/routes/utilisateurs.js</a>, <a href="backend_routes_utilisateurs.js.html#line38">line 38</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line36">line 36</a>
     </li></ul></dd>
     
 
@@ -417,6 +389,12 @@ Nécessite un utilisateur authentifié.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+    
 
 
 
@@ -428,7 +406,7 @@ Nécessite un utilisateur authentifié.
     
 
     
-    <h4 class="name" id="~POST/inscription"><span class="type-signature">(inner) </span>POST/inscription<span class="signature">(path, sInscrire)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~supprimerUtilisateur"><span class="type-signature">(async, inner) </span>supprimerUtilisateur<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -436,7 +414,9 @@ Nécessite un utilisateur authentifié.
 
 
 <div class="description">
-    Route publique : inscription d'un nouvel utilisateur.
+    Supprime le compte d'un utilisateur.
+Seul le propriétaire du compte ou un administrateur peut effectuer
+cette action.
 </div>
 
 
@@ -454,8 +434,6 @@ Nécessite un utilisateur authentifié.
     <thead>
     <tr>
         
-        <th>Name</th>
-        
 
         <th>Type</th>
 
@@ -472,15 +450,8 @@ Nécessite un utilisateur authentifié.
 
         <tr>
             
-                <td class="name"><code>path</code></td>
-            
 
             <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
             
             </td>
 
@@ -488,22 +459,15 @@ Nécessite un utilisateur authentifié.
 
             
 
-            <td class="description last">`/inscription`</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>sInscrire</code></td>
-            
 
             <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
             
             </td>
 
@@ -511,7 +475,7 @@ Nécessite un utilisateur authentifié.
 
             
 
-            <td class="description last">Contrôleur créant l'utilisateur en base.</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -552,7 +516,7 @@ Nécessite un utilisateur authentifié.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_routes_utilisateurs.js.html">backend/routes/utilisateurs.js</a>, <a href="backend_routes_utilisateurs.js.html#line29">line 29</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -577,6 +541,12 @@ Nécessite un utilisateur authentifié.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+    
 
 
 

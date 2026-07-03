@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend/controllers/authControllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: backend/controllers/authControllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Contrôleur d'authentification : connexion standard
+ * (email/mot de passe), connexion Google (OAuth2), déconnexion et
+ * vérification du statut de session. Génère et vérifie les jetons JWT.
+ * @module authControllers
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-25
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires express
+ * @requires google-auth-library
+ * @requires bcrypt
+ * @requires dotenv/config
+ * @requires jsonwebtoken
+ * @requires ../bdd/db.js
+ * @requires ../tools/logger.js
+ */
+
+import express from 'express';
+import { OAuth2Client } from 'google-auth-library';
+import bcrypt from 'bcrypt';
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import db from '../bdd/db.js';
+import { logError } from "../tools/logger.js";
+
+/**
+ * Routeur Express local (non utilisé par les routes déclarées
+ * dans `routes/auth.js`, conservé ici pour compatibilité).
+ * @type {express.Router}
+ * @const
+ */
+const router = express.Router();
+
+/**
+ * Identifiant client OAuth2 fourni par Google.
+ * @type {string}
+ * @const
+ */
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+
+/**
+ * Client OAuth2 Google utilisé pour vérifier les jetons d'identité.
+ * @type {OAuth2Client}
+ * @const
+ */
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+/**
+ * Génère un JWT local signé avec la clé secrète de l'application.
+ * @function genererToken
+ * @param {Object} payload - Les données à encoder dans le token.
+ * @returns {string} Le token JWT signé, valide 7 jours.
+ */
+function genererToken(payload) {
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+}
+
+/**
+ * Connecte un utilisateur via son compte Google.
+ * Vérifie le jeton d'identité auprès de Google, crée automatiquement
+ * l'utilisateur en base s'il n'existe pas encore, puis génère un JWT
+ * local stocké en cookie.
+ * @function connexionGoogle
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ token }` (jeton d'identité Google).
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP :
+ *   - 200 : Connexion réussie, retourne le token local et le profil utilisateur.
+ *   - 400 : Jeton Google manquant.
+ *   - 401 : Jeton Google invalide ou expiré (journalisé via logError).
+ */
+export async function connexionGoogle(req, res) {
+    const { token: googleToken } = req.body;
+
+    if (!googleToken) {
+        return res.status(400).json({ success: false, message: 'Token manquant.' });
+    }
+
+    try {
+        // 1. Vérification du token auprès de Google
+        const ticket = await client.verifyIdToken({
+            idToken: googleToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const { email, given_name, family_name, picture } = payload;
+
+        // 2. Chercher l'utilisateur en BDD
+        const [rows] = await db.query(
+            'SELECT * FROM utilisateurs WHERE email = ?',
+            [email]
+        );
+
+        let utilisateur;
+
+        if (rows.length === 0) {
+            // 3a. Nouvel utilisateur → inscription automatique
+            const [result] = await db.query(
+                'INSERT INTO utilisateurs (nom, prenom, email, motdepasse, administrateur) VALUES (?, ?, ?, ?,?)',
+                [family_name, given_name, email, null, false]
+            );
+            utilisateur = {
+                utilisateur_id: result.insertId,
+                nom: family_name,
+                prenom: given_name,
+                email: email,
+                administrateur: false
+            }
+        } else {
+            // 3b. Utilisateur existant → récupération
+            utilisateur = rows[0];
+        }
+
+        // 4. Génération du JWT local
+        const token = genererToken({
+    id: utilisateur.utilisateur_id,
+    email: utilisateur.email,
+    nom: utilisateur.nom,
+    prenom: utilisateur.prenom,
+    administrateur: utilisateur.administrateur
+});
+res.cookie('monToken', token, {
+    httpOnly: true,
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000
+});
+        // 5. Réponse
+        return res.status(200).json({
+            success: true,
+            token: token,
+            user: {
+                id: utilisateur.utilisateur_id,
+                nom: utilisateur.nom,
+                prenom: utilisateur.prenom,
+                email: utilisateur.email,
+                administrateur: utilisateur.administrateur
+            }
+        });
+
+    } catch (error) {
+console.error("Erreur verifyIdToken:", error.message);
+        logError(error, "connexionGoogle");
+        return res.status(401).json({
+            success: false,
+            message: 'Token Google invalide ou expiré.'
+        });
+    }
+}
+
+/**
+ * Connecte un utilisateur via son email et son mot de passe.
+ * Vérifie les identifiants en base et génère un JWT local stocké
+ * en cookie en cas de succès.
+ * @function connexionStandard
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ email, password }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP :
+ *   - 200 : Connexion réussie, retourne le token et le profil utilisateur.
+ *   - 400 : Email ou mot de passe manquant.
+ *   - 401 : Identifiants incorrects.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
+export async function connexionStandard(req, res) {
+    const { email, password } = req.body;
+
+    // 1. Validation des champs
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email et mot de passe requis.'
+        });
+    }
+
+    try {
+        // 2. Chercher l'utilisateur par email
+        const [rows] = await db.query(
+            'SELECT * FROM utilisateurs WHERE email = ?',
+            [email]
+        );
+
+        if (rows.length === 0) {
+            return res.status(401).json({
+                success: false,
+                message: 'Identifiants incorrects.'
+            });
+        }
+
+        const utilisateur = rows[0];
+
+        // 3. Vérifier le mot de passe avec bcrypt
+        const motDePasseValide = await bcrypt.compare(password, utilisateur.motdepasse);
+
+        if (!motDePasseValide) {
+            return res.status(401).json({
+                success: false,
+                message: 'Identifiants incorrects.'
+            });
+        }
+
+        // 4. Générer le JWT
+        const token = genererToken({
+    id: utilisateur.utilisateur_id,
+    email: utilisateur.email,
+    nom: utilisateur.nom,
+    prenom: utilisateur.prenom,
+    administrateur: utilisateur.administrateur
+});
+res.cookie('monToken', token, {
+    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
+    secure: false,   // mettre true en production (HTTPS)
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
+});
+        // 5. Réponse
+        return res.status(200).json({
+            success: true,
+            token,
+            user: {
+                id: utilisateur.utilisateur_id,
+                nom: utilisateur.nom,
+                prenom: utilisateur.prenom,
+                email: utilisateur.email,
+                date: utilisateur.date_inscription
+            }
+        });
+
+    } catch (error) {
+         logError(error, "fonction connexionStandard dans module authControllers");
+        return res.status(500).json({
+            success: false,
+            message: 'Erreur serveur.'
+        });
+    }
+}
+
+/**
+ * Déconnecte l'utilisateur, quel que soit son mode de connexion
+ * (standard ou Google), en supprimant le cookie de session.
+ * @function deconnexion
+ * @async
+ * @route POST /auth/logout
+ * @access Public
+ * @param {import('express').Request} req - Requête Express.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP :
+ *   - 200 : Déconnexion réussie.
+ */
+export async function deconnexion(req, res) {
+        res.clearCookie('monToken');
+        return res.status(200).json({ success: true, message: 'Déconnecté avec succès.' });
+}
+
+/**
+ * Renvoie le statut de connexion de l'utilisateur courant, en
+ * décodant le JWT présent dans le cookie `monToken`.
+ * @function status
+ * @async
+ * @param {import('express').Request} req - Requête Express, cookie `monToken` attendu.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise&lt;import('express').Response>} Réponse HTTP (toujours 200) :
+ *   - `{ connection: false }` si aucun token ou token invalide (erreur journalisée via logError).
+ *   - `{ connection: true, id, prenom, nom }` si le token est valide.
+ */
+export async function status(req, res) {
+   const token = req.cookies.monToken;
+   if (!token){
+       return res.json({ connection: false, message: "pas de token" });
+   }
+   try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return res.json({
+            connection: true,
+            id: decoded.id,
+            prenom: decoded.prenom,
+            nom: decoded.nom
+        });
+   } catch (error) {
+        logError(error, "FONCTION: status, MODULE: authControllers.js");
+        res.json({ connection: false });
+   }
+}
+
+export default router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 11:02:48 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

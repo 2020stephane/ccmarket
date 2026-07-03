@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: backend/routes/postman.js</title>
+    <title>JSDoc: Source: backend/bdd/db.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: backend/routes/postman.js</h1>
+    <h1 class="page-title">Source: backend/bdd/db.js</h1>
 
     
 
@@ -27,90 +27,54 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Déclaration des routes CRUD sur les annonces,
- * utilisées pour les tests via Postman.
- * @module postman
+ * @fileoverview Initialisation et export du pool de connexions MySQL.
+ * Utilise mysql2 avec support des promesses.
+ * @module db
  * @project ccmarket
  * @version 1.0.0
- * @date 2026-06-24
+ * @date 2026-06-11
  * @author Stephane Brisse
  * @license MIT
- * @requires express
- * @requires ../controllers/postmanControllers.js
+ * @requires mysql2
+ * @requires dotenv/config
+ * @requires ../tools/logger.js
  */
 
-import express from 'express';
-import {
-   getAnnonces,
-   getAnnonceById,
-   postAnnonce,
-   putAnnonce,
-   patchAnnonce,
-   deleteAnnonce,
-} from '../controllers/postmanControllers.js';
+import mysql      from 'mysql2';
+import 'dotenv/config';
+
+import { logError } from '../tools/logger.js';
 
 /**
- * Routeur Express dédié au CRUD de test Postman.
- * @type {express.Router}
+ * Pool de connexions MySQL (interface promises de `mysql2`), configuré
+ * à partir des variables d'environnement `DB_HOST`, `DB_USER`,
+ * `DB_PASSWORD`, `DB_NAME` et `DB_PORT`.
+ * En cas d'échec de création du pool, l'erreur est journalisée via
+ * `logError` puis relancée, ce qui interrompt le démarrage du serveur.
+ * @type {import('mysql2/promise').Pool}
  * @const
  */
-const router = express.Router();
+let db;
 
-/**
- * Route : récupère la liste de toutes les annonces.
- * @name GET/
- * @function
- * @param {string} path - `/`
- * @param {Function} getAnnonces - Contrôleur renvoyant l'ensemble des annonces.
- */
-router.get('/', getAnnonces);
+try {
+   db = mysql.createPool({
+      host             : process.env.DB_HOST,
+      user             : process.env.DB_USER,
+      password         : process.env.DB_PASSWORD,
+      database         : process.env.DB_NAME,
+      port             : process.env.DB_PORT,
+      waitForConnections: true,
+      connectionLimit  : 10,
+   }).promise();
 
-/**
- * Route : récupère une annonce à partir de son identifiant.
- * @name GET/:id
- * @function
- * @param {string} path - `/:id`
- * @param {Function} getAnnonceById - Contrôleur renvoyant l'annonce ciblée par `id`.
- */
-router.get('/:id', getAnnonceById);
+   console.log(`✅  Connexion établie à la BDD : ${process.env.DB_NAME}`);
 
-/**
- * Route : crée une nouvelle annonce.
- * @name POST/
- * @function
- * @param {string} path - `/`
- * @param {Function} postAnnonce - Contrôleur créant l'annonce en base.
- */
-router.post('/', postAnnonce);
+} catch (error) {
+   logError(error,'Échec de la connexion à la BDD');
+   throw error;
+}
 
-/**
- * Route : remplace intégralement une annonce existante.
- * @name PUT/:id
- * @function
- * @param {string} path - `/:id`
- * @param {Function} putAnnonce - Contrôleur remplaçant l'annonce ciblée par `id`.
- */
-router.put('/:id', putAnnonce);
-
-/**
- * Route : modifie partiellement une annonce existante.
- * @name PATCH/:id
- * @function
- * @param {string} path - `/:id`
- * @param {Function} patchAnnonce - Contrôleur mettant à jour l'annonce ciblée par `id`.
- */
-router.patch('/:id', patchAnnonce);
-
-/**
- * Route : supprime une annonce existante.
- * @name DELETE/:id
- * @function
- * @param {string} path - `/:id`
- * @param {Function} deleteAnnonce - Contrôleur supprimant l'annonce ciblée par `id`.
- */
-router.delete('/:id', deleteAnnonce);
-
-export default router;
+export default db;
 </code></pre>
         </article>
     </section>
