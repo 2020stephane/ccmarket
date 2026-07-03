@@ -322,7 +322,7 @@ recherche, publication, modification, suppression).</div>
     
 
     
-    <h4 class="name" id="~getAjouts"><span class="type-signature">(async, inner) </span>getAjouts<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAjouts"><span class="type-signature">(async, inner) </span>getAjouts<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -348,6 +348,8 @@ recherche, publication, modification, suppression).</div>
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -364,8 +366,15 @@ recherche, publication, modification, suppression).</div>
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -373,15 +382,22 @@ recherche, publication, modification, suppression).</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -389,7 +405,7 @@ recherche, publication, modification, suppression).</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -458,7 +474,25 @@ recherche, publication, modification, suppression).</div>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Succès, retourne un tableau des dernières annonces (avec leurs photos).
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -472,7 +506,7 @@ recherche, publication, modification, suppression).</div>
     
 
     
-    <h4 class="name" id="~getAnnoncesByFilter"><span class="type-signature">(async, inner) </span>getAnnoncesByFilter<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAnnoncesByFilter"><span class="type-signature">(async, inner) </span>getAnnoncesByFilter<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -499,6 +533,8 @@ tri par date et/ou par prix).
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -515,8 +551,15 @@ tri par date et/ou par prix).
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -524,15 +567,22 @@ tri par date et/ou par prix).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `body` attendu : `{ categorie, prixmin, prixmax, plus_ra, prix_cd }`.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -540,7 +590,7 @@ tri par date et/ou par prix).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -609,7 +659,25 @@ tri par date et/ou par prix).
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Succès, retourne un tableau des annonces correspondant aux filtres.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -623,7 +691,7 @@ tri par date et/ou par prix).
     
 
     
-    <h4 class="name" id="~getAnnoncesByUser"><span class="type-signature">(async, inner) </span>getAnnoncesByUser<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAnnoncesByUser"><span class="type-signature">(async, inner) </span>getAnnoncesByUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -650,6 +718,8 @@ enrichies de leurs photos et du nom de leur catégorie.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -666,8 +736,15 @@ enrichies de leurs photos et du nom de leur catégorie.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -675,15 +752,22 @@ enrichies de leurs photos et du nom de leur catégorie.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'utilisateur.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -691,7 +775,7 @@ enrichies de leurs photos et du nom de leur catégorie.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -760,7 +844,25 @@ enrichies de leurs photos et du nom de leur catégorie.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Succès, retourne un tableau des annonces de l'utilisateur.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -774,7 +876,7 @@ enrichies de leurs photos et du nom de leur catégorie.
     
 
     
-    <h4 class="name" id="~patchAnnonce"><span class="type-signature">(async, inner) </span>patchAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~patchAnnonce"><span class="type-signature">(async, inner) </span>patchAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -803,6 +905,8 @@ effectuer cette action.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -819,8 +923,15 @@ effectuer cette action.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -828,15 +939,22 @@ effectuer cette action.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour, `user` = utilisateur authentifié.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -844,7 +962,7 @@ effectuer cette action.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -913,7 +1031,28 @@ effectuer cette action.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce mise à jour partiellement.
+  - 400 : Aucun champ valide fourni.
+  - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -927,7 +1066,7 @@ effectuer cette action.
     
 
     
-    <h4 class="name" id="~publierAnnonce"><span class="type-signature">(async, inner) </span>publierAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~publierAnnonce"><span class="type-signature">(async, inner) </span>publierAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -954,6 +1093,8 @@ gestion optionnelle d'une photo uploadée.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -970,8 +1111,15 @@ gestion optionnelle d'une photo uploadée.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -979,15 +1127,22 @@ gestion optionnelle d'une photo uploadée.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `body` attendu : `{ titre, prix, descriptif, categorie }`, `files.photo` optionnel, `user` = utilisateur authentifié.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -995,7 +1150,7 @@ gestion optionnelle d'une photo uploadée.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -1064,7 +1219,26 @@ gestion optionnelle d'une photo uploadée.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 201 : Annonce publiée avec succès.
+  - 400 : Champs obligatoires manquants, ou format de fichier non autorisé.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1078,7 +1252,7 @@ gestion optionnelle d'une photo uploadée.
     
 
     
-    <h4 class="name" id="~putAnnonce"><span class="type-signature">(async, inner) </span>putAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~putAnnonce"><span class="type-signature">(async, inner) </span>putAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -1104,6 +1278,8 @@ gestion optionnelle d'une photo uploadée.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -1120,8 +1296,15 @@ gestion optionnelle d'une photo uploadée.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -1129,15 +1312,22 @@ gestion optionnelle d'une photo uploadée.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -1145,7 +1335,7 @@ gestion optionnelle d'une photo uploadée.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -1214,7 +1404,27 @@ gestion optionnelle d'une photo uploadée.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce mise à jour.
+  - 400 : Champs obligatoires manquants.
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1228,7 +1438,7 @@ gestion optionnelle d'une photo uploadée.
     
 
     
-    <h4 class="name" id="~supprimerAnnonce"><span class="type-signature">(async, inner) </span>supprimerAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~supprimerAnnonce"><span class="type-signature">(async, inner) </span>supprimerAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -1256,6 +1466,8 @@ effectuer cette action.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -1272,8 +1484,15 @@ effectuer cette action.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -1281,15 +1500,22 @@ effectuer cette action.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce, `user` = utilisateur authentifié.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -1297,7 +1523,7 @@ effectuer cette action.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -1366,7 +1592,27 @@ effectuer cette action.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce supprimée.
+  - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1396,7 +1642,7 @@ effectuer cette action.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 11:02:48 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 14:39:59 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

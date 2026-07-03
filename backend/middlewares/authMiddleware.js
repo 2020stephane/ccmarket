@@ -20,9 +20,9 @@ import { logError } from '../tools/logger.js';
  * à `req.user` et la requête continue vers le prochain middleware/controller.
  * Si le token est absent ou invalide, la requête est bloquée avec un code 401.
  * @function verifierAuthentification
- * @param {import('express').Request} req - Requête Express entrante.
- * @param {import('express').Response} res - Réponse Express.
- * @param {import('express').NextFunction} next - Callback pour passer au middleware suivant.
+ * @param {express.Request} req - Requête Express entrante.
+ * @param {express.Response} res - Réponse Express.
+ * @param {express.NextFunction} next - Callback pour passer au middleware suivant.
  * @returns {void}
  */
 export function verifierAuthentification(req, res, next) {
@@ -52,9 +52,9 @@ export function verifierAuthentification(req, res, next) {
  * Vérifie que l'utilisateur authentifié possède le statut administrateur.
  * Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
  * @function verifierAdministrateur
- * @param {import('express').Request} req - Requête Express entrante.
- * @param {import('express').Response} res - Réponse Express.
- * @param {import('express').NextFunction} next - Callback pour passer au middleware suivant.
+ * @param {express.Request} req - Requête Express entrante.
+ * @param {express.Response} res - Réponse Express.
+ * @param {express.NextFunction} next - Callback pour passer au middleware suivant.
  * @returns {void}
  */
 export function verifierAdministrateur(req, res, next) {

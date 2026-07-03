@@ -41,9 +41,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
  * Remplace intégralement une annonce existante.
  * @function putAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce mise à jour.
  *   - 400 : Champs obligatoires manquants.
  *   - 404 : Annonce introuvable.
@@ -78,9 +78,9 @@ export async function putAnnonce(req, res) {
  * effectuer cette action.
  * @function patchAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour, `user` = utilisateur authentifié.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour, `user` = utilisateur authentifié.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce mise à jour partiellement.
  *   - 400 : Aucun champ valide fourni.
  *   - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
@@ -142,9 +142,9 @@ export async function patchAnnonce(req, res) {
  * effectuer cette action.
  * @function supprimerAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `user` = utilisateur authentifié.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `user` = utilisateur authentifié.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce supprimée.
  *   - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
  *   - 404 : Annonce introuvable.
@@ -188,9 +188,9 @@ export async function supprimerAnnonce(req, res) {
  * Récupère les 8 dernières annonces publiées, avec leurs photos associées.
  * @function getAjouts
  * @async
- * @param {import('express').Request} req - Requête Express.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Succès, retourne un tableau des dernières annonces (avec leurs photos).
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
@@ -222,9 +222,9 @@ export async function getAjouts(req, res) {
  * enrichies de leurs photos et du nom de leur catégorie.
  * @function getAnnoncesByUser
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'utilisateur.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'utilisateur.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Succès, retourne un tableau des annonces de l'utilisateur.
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
@@ -258,9 +258,9 @@ export async function getAnnoncesByUser(req, res) {
  * tri par date et/ou par prix).
  * @function getAnnoncesByFilter
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ categorie, prixmin, prixmax, plus_ra, prix_cd }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ categorie, prixmin, prixmax, plus_ra, prix_cd }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Succès, retourne un tableau des annonces correspondant aux filtres.
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
@@ -321,9 +321,9 @@ if (orderClauses.length > 0) {
  * gestion optionnelle d'une photo uploadée.
  * @function publierAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ titre, prix, descriptif, categorie }`, `files.photo` optionnel, `user` = utilisateur authentifié.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ titre, prix, descriptif, categorie }`, `files.photo` optionnel, `user` = utilisateur authentifié.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 201 : Annonce publiée avec succès.
  *   - 400 : Champs obligatoires manquants, ou format de fichier non autorisé.
  *   - 500 : Erreur interne du serveur (journalisée via logError).

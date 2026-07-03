@@ -398,7 +398,7 @@ dans `routes/auth.js`, conservé ici pour compatibilité).
     
 
     
-    <h4 class="name" id="~connexionGoogle"><span class="type-signature">(async, inner) </span>connexionGoogle<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~connexionGoogle"><span class="type-signature">(async, inner) </span>connexionGoogle<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -427,6 +427,8 @@ local stocké en cookie.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -443,8 +445,15 @@ local stocké en cookie.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -452,15 +461,22 @@ local stocké en cookie.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `body` attendu : `{ token }` (jeton d'identité Google).</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -468,7 +484,7 @@ local stocké en cookie.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -537,7 +553,26 @@ local stocké en cookie.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Connexion réussie, retourne le token local et le profil utilisateur.
+  - 400 : Jeton Google manquant.
+  - 401 : Jeton Google invalide ou expiré (journalisé via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -551,7 +586,7 @@ local stocké en cookie.
     
 
     
-    <h4 class="name" id="~connexionStandard"><span class="type-signature">(async, inner) </span>connexionStandard<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~connexionStandard"><span class="type-signature">(async, inner) </span>connexionStandard<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -579,6 +614,8 @@ en cookie en cas de succès.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -595,8 +632,15 @@ en cookie en cas de succès.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -604,15 +648,22 @@ en cookie en cas de succès.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `body` attendu : `{ email, password }`.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -620,7 +671,7 @@ en cookie en cas de succès.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -689,7 +740,27 @@ en cookie en cas de succès.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Connexion réussie, retourne le token et le profil utilisateur.
+  - 400 : Email ou mot de passe manquant.
+  - 401 : Identifiants incorrects.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -703,7 +774,7 @@ en cookie en cas de succès.
     
 
     
-    <h4 class="name" id="~deconnexion"><span class="type-signature">(async, inner) </span>deconnexion<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~deconnexion"><span class="type-signature">(async, inner) </span>deconnexion<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -730,6 +801,8 @@ en cookie en cas de succès.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -746,8 +819,15 @@ en cookie en cas de succès.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -755,15 +835,22 @@ en cookie en cas de succès.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -771,7 +858,7 @@ en cookie en cas de succès.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -840,7 +927,24 @@ en cookie en cas de succès.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Déconnexion réussie.
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1013,7 +1117,7 @@ en cookie en cas de succès.
     
 
     
-    <h4 class="name" id="~status"><span class="type-signature">(async, inner) </span>status<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~status"><span class="type-signature">(async, inner) </span>status<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -1040,6 +1144,8 @@ décodant le JWT présent dans le cookie `monToken`.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -1056,8 +1162,15 @@ décodant le JWT présent dans le cookie `monToken`.
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -1065,15 +1178,22 @@ décodant le JWT présent dans le cookie `monToken`.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, cookie `monToken` attendu.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -1081,7 +1201,7 @@ décodant le JWT présent dans le cookie `monToken`.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -1150,7 +1270,25 @@ décodant le JWT présent dans le cookie `monToken`.
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP (toujours 200) :
+  - `{ connection: false }` si aucun token ou token invalide (erreur journalisée via logError).
+  - `{ connection: true, id, prenom, nom }` si le token est valide.
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1180,7 +1318,7 @@ décodant le JWT présent dans le cookie `monToken`.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 11:02:48 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 14:39:59 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

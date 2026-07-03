@@ -18,9 +18,9 @@ import db from '../bdd/db.js';
  * Extrait toutes les annonces de la base de données.
  * @function getAnnonces
  * @async
- * @param {import('express').Request} req - Requête Express.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
@@ -40,9 +40,9 @@ export async function getAnnonces(req, res) {
  * Récupère une annonce à partir de son identifiant.
  * @function getAnnonceById
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce recherchée.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce recherchée.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Succès, retourne l'annonce trouvée.
  *   - 404 : Annonce introuvable.
  *   - 500 : Erreur interne du serveur (journalisée via logError).
@@ -67,9 +67,9 @@ export async function getAnnonceById(req, res) {
  * Crée une nouvelle annonce.
  * @function postAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ titre, descriptif, prix, categorie_id, utilisateur_id }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ titre, descriptif, prix, categorie_id, utilisateur_id }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 201 : Annonce créée, retourne son identifiant.
  *   - 400 : Champs obligatoires manquants.
  *   - 500 : Erreur interne du serveur (journalisée via logError).
@@ -97,9 +97,9 @@ export async function postAnnonce(req, res) {
  * Remplace intégralement une annonce existante.
  * @function putAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce mise à jour.
  *   - 400 : Champs obligatoires manquants.
  *   - 404 : Annonce introuvable.
@@ -132,9 +132,9 @@ export async function putAnnonce(req, res) {
  * colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
  * @function patchAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce mise à jour partiellement.
  *   - 400 : Aucun champ valide fourni.
  *   - 404 : Annonce introuvable.
@@ -177,9 +177,9 @@ export async function patchAnnonce(req, res) {
  * Supprime une annonce existante.
  * @function deleteAnnonce
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce à supprimer.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce à supprimer.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Annonce supprimée.
  *   - 404 : Annonce introuvable.
  *   - 500 : Erreur interne du serveur (journalisée via logError).

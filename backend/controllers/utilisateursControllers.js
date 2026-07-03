@@ -40,9 +40,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
  * cookie JWT et retourne son profil.
  * @function sInscrire
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, password }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, password }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Inscription réussie, retourne le token et le profil créé.
  *   - 400 : Champs manquants ou erreur lors de l'insertion.
  *   - 409 : Email déjà utilisé par un compte existant.
@@ -113,9 +113,9 @@ export async function sInscrire(req, res) {
  * cette action.
  * @function supprimerUtilisateur
  * @async
- * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'utilisateur à supprimer, `user` = utilisateur authentifié.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'utilisateur à supprimer, `user` = utilisateur authentifié.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Suppression réussie.
  *   - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
  *   - 404 : Utilisateur introuvable.

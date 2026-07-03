@@ -23,7 +23,7 @@ import { logError } from '../tools/logger.js';
  * `DB_PASSWORD`, `DB_NAME` et `DB_PORT`.
  * En cas d'échec de création du pool, l'erreur est journalisée via
  * `logError` puis relancée, ce qui interrompt le démarrage du serveur.
- * @type {import('mysql2/promise').Pool}
+ * @type {mysql2/promise.Pool}
  * @const
  */
 let db;
@@ -38,12 +38,11 @@ try {
       waitForConnections: true,
       connectionLimit  : 10,
    }).promise();
-
-   console.log(`✅  Connexion établie à la BDD : ${process.env.DB_NAME}`);
+   console.log(`✅  CreatePool crée sur : ${process.env.DB_NAME}`);
 
 } catch (error) {
    logError(error,'Échec de la connexion à la BDD');
-   throw error;
+   console.log(`⚠️  ATTENTION : Impossible de se connecter à la BDD (XAMPP est probablement éteint).`);
 }
 
 export default db;

@@ -64,9 +64,9 @@ function genererToken(payload) {
  * local stocké en cookie.
  * @function connexionGoogle
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ token }` (jeton d'identité Google).
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ token }` (jeton d'identité Google).
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Connexion réussie, retourne le token local et le profil utilisateur.
  *   - 400 : Jeton Google manquant.
  *   - 401 : Jeton Google invalide ou expiré (journalisé via logError).
@@ -155,9 +155,9 @@ console.error("Erreur verifyIdToken:", error.message);
  * en cookie en cas de succès.
  * @function connexionStandard
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ email, password }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ email, password }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Connexion réussie, retourne le token et le profil utilisateur.
  *   - 400 : Email ou mot de passe manquant.
  *   - 401 : Identifiants incorrects.
@@ -242,9 +242,9 @@ res.cookie('monToken', token, {
  * @async
  * @route POST /auth/logout
  * @access Public
- * @param {import('express').Request} req - Requête Express.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Déconnexion réussie.
  */
 export async function deconnexion(req, res) {
@@ -257,9 +257,9 @@ export async function deconnexion(req, res) {
  * décodant le JWT présent dans le cookie `monToken`.
  * @function status
  * @async
- * @param {import('express').Request} req - Requête Express, cookie `monToken` attendu.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP (toujours 200) :
+ * @param {express.Request} req - Requête Express, cookie `monToken` attendu.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP (toujours 200) :
  *   - `{ connection: false }` si aucun token ou token invalide (erreur journalisée via logError).
  *   - `{ connection: true, id, prenom, nom }` si le token est valide.
  */

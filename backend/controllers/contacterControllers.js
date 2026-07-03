@@ -21,7 +21,7 @@ import { logError } from '../tools/logger.js';
 /**
  * Transporteur Nodemailer configuré pour envoyer les notifications
  * de contact via un compte Gmail.
- * @type {import('nodemailer').Transporter}
+ * @type {nodemailer.Transporter}
  * @const
  */
 const transporter = nodemailer.createTransport({
@@ -42,9 +42,9 @@ const transporter = nodemailer.createTransport({
  * message est bien enregistré en base).
  * @function contacterAdmin
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, message }`.
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, message }`.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 201 : Message envoyé, retourne son identifiant.
  *   - 400 : Champs obligatoires manquants.
  *   - 500 : Erreur interne du serveur lors de l'insertion en base (journalisée via logError).

@@ -166,7 +166,7 @@ tests via Postman.</div>
     
 
     
-    <h4 class="name" id="~deleteAnnonce"><span class="type-signature">(async, inner) </span>deleteAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~deleteAnnonce"><span class="type-signature">(async, inner) </span>deleteAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -192,6 +192,8 @@ tests via Postman.</div>
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -208,8 +210,15 @@ tests via Postman.</div>
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -217,15 +226,22 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce à supprimer.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -233,7 +249,7 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -302,7 +318,26 @@ tests via Postman.</div>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce supprimée.
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -316,7 +351,7 @@ tests via Postman.</div>
     
 
     
-    <h4 class="name" id="~getAnnonceById"><span class="type-signature">(async, inner) </span>getAnnonceById<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAnnonceById"><span class="type-signature">(async, inner) </span>getAnnonceById<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -342,6 +377,8 @@ tests via Postman.</div>
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -358,8 +395,15 @@ tests via Postman.</div>
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -367,15 +411,22 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce recherchée.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -383,7 +434,7 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -452,7 +503,26 @@ tests via Postman.</div>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Succès, retourne l'annonce trouvée.
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -466,7 +536,7 @@ tests via Postman.</div>
     
 
     
-    <h4 class="name" id="~getAnnonces"><span class="type-signature">(async, inner) </span>getAnnonces<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAnnonces"><span class="type-signature">(async, inner) </span>getAnnonces<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -492,6 +562,8 @@ tests via Postman.</div>
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -508,8 +580,15 @@ tests via Postman.</div>
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -517,15 +596,22 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -533,7 +619,7 @@ tests via Postman.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -602,7 +688,25 @@ tests via Postman.</div>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -616,7 +720,7 @@ tests via Postman.</div>
     
 
     
-    <h4 class="name" id="~patchAnnonce"><span class="type-signature">(async, inner) </span>patchAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~patchAnnonce"><span class="type-signature">(async, inner) </span>patchAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -643,6 +747,8 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -659,8 +765,15 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -668,15 +781,22 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -684,7 +804,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -753,7 +873,27 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce mise à jour partiellement.
+  - 400 : Aucun champ valide fourni.
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -767,7 +907,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
     
 
     
-    <h4 class="name" id="~postAnnonce"><span class="type-signature">(async, inner) </span>postAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~postAnnonce"><span class="type-signature">(async, inner) </span>postAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -793,6 +933,8 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -809,8 +951,15 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -818,15 +967,22 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `body` attendu : `{ titre, descriptif, prix, categorie_id, utilisateur_id }`.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -834,7 +990,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -903,7 +1059,26 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 201 : Annonce créée, retourne son identifiant.
+  - 400 : Champs obligatoires manquants.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -917,7 +1092,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
     
 
     
-    <h4 class="name" id="~putAnnonce"><span class="type-signature">(async, inner) </span>putAnnonce<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~putAnnonce"><span class="type-signature">(async, inner) </span>putAnnonce<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -943,6 +1118,8 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -959,8 +1136,15 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
         <tr>
             
+                <td class="name"><code>req</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
             
             </td>
 
@@ -968,15 +1152,22 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.</td>
         </tr>
 
     
 
         <tr>
             
+                <td class="name"><code>res</code></td>
+            
 
             <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
             
             </td>
 
@@ -984,7 +1175,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Réponse Express.</td>
         </tr>
 
     
@@ -1053,7 +1244,27 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Annonce mise à jour.
+  - 400 : Champs obligatoires manquants.
+  - 404 : Annonce introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
 
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -1083,7 +1294,7 @@ colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 11:02:48 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 03 2026 14:39:59 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

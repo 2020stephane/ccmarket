@@ -17,6 +17,7 @@
  */
 
 import 'dotenv/config';
+import  db  from "./backend/bdd/db.js";
 import express           from 'express';
 import cors              from 'cors';
 import path              from 'path';
@@ -207,6 +208,17 @@ app.use('/fonts', express.static(path.join(__dirname, '/frontend/fonts')));
  * @function
  */
 app.use('/uploads', express.static(path.join(__dirname, '/frontend/uploads')));
+
+db.getConnection()
+   .then((connection) => {
+      // Si on arrive ici, la connexion a fonctionné !
+      console.log(`✅ Connexion établie à la BDD : ${process.env.DB_NAME}`);
+      connection.release(); // Là, ça fonctionne car 'connection' est le vrai objet MySQL
+   })
+   .catch((error) => {
+      // Si XAMPP est éteint, on affiche juste un avertissement sans faire planter le serveur
+      console.log(`⚠️  ATTENTION : Impossible de joindre la BDD (XAMPP est probablement éteint).`);
+   });
 
 /**
  * Démarre le serveur Express et écoute les connexions entrantes

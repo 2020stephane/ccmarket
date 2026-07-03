@@ -17,7 +17,7 @@ import jwt from 'jsonwebtoken';
  * un cookie `monToken` sécurisé (`httpOnly`, `sameSite: strict`,
  * `secure` en production).
  * @function setCookie
- * @param {import('express').Response} res - Réponse Express sur laquelle poser le cookie.
+ * @param {express.Response} res - Réponse Express sur laquelle poser le cookie.
  * @param {Object} user - Utilisateur pour lequel générer le token.
  * @param {number|string} user.utilisateur_id - Identifiant de l'utilisateur.
  * @param {string} user.prenom - Prénom de l'utilisateur.
@@ -44,7 +44,7 @@ export function setCookie(res, user, JWT_SECRET) {
  * options que celles utilisées lors de sa création (nécessaire pour
  * que la suppression soit bien prise en compte par le navigateur).
  * @function clearCookie
- * @param {import('express').Response} res - Réponse Express sur laquelle supprimer le cookie.
+ * @param {express.Response} res - Réponse Express sur laquelle supprimer le cookie.
  * @returns {void}
  */
 export function clearCookie(res) {

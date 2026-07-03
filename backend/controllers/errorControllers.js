@@ -17,9 +17,9 @@ import { logError } from '../tools/logger.js';
  * système de journalisation applicatif.
  * @function sauveError
  * @async
- * @param {import('express').Request} req - Requête Express, `body` attendu : `{ message, contexte, stack, url, extra }` (`message` obligatoire, le reste optionnel).
- * @param {import('express').Response} res - Réponse Express.
- * @returns {Promise<import('express').Response>} Réponse HTTP :
+ * @param {express.Request} req - Requête Express, `body` attendu : `{ message, contexte, stack, url, extra }` (`message` obligatoire, le reste optionnel).
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
  *   - 200 : Erreur enregistrée avec succès.
  *   - 400 : Champ `message` manquant.
  */
