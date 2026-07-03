@@ -72,20 +72,36 @@ export async function patchAnnonce(req, res) {
    );
 
    if (entrees.length === 0) {
-
       return res.status(400).json({ message: 'Aucun champ valide fourni' });
    }
 
-   const setClause = entrees.map(([col]) => `${col} = ?`).join(', ');
-   const valeurs = entrees.map(([, val]) => val);
-
    try {
+      // Vérification de propriété : l'annonce doit appartenir à l'utilisateur connecté
+      const [rows] = await db.execute(
+         'SELECT utilisateur_id FROM annonces WHERE annonce_id = ?',
+         [req.params.id]
+      );
+
+      if (rows.length === 0) {
+         return res.status(404).json({ message: 'Annonce introuvable' });
+      }
+
+      const estProprietaire = rows[0].utilisateur_id === req.user.id;
+      const estAdmin = !!req.user.administrateur;
+
+      if (!estProprietaire && !estAdmin) {
+         return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à modifier cette annonce.' });
+      }
+
+      const setClause = entrees.map(([col]) => `${col} = ?`).join(', ');
+      const valeurs = entrees.map(([, val]) => val);
+
       const [result] = await db.execute(
          `UPDATE annonces SET ${setClause} WHERE annonce_id = ?`,
          [...valeurs, req.params.id]
       );
-      if (result.affectedRows === 0) {
 
+      if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
 
@@ -95,17 +111,37 @@ export async function patchAnnonce(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
+
 // ==================================================
 // DELETE supprimer une annonce
 // ==================================================
 export async function supprimerAnnonce(req, res) {
    try {
+      // Vérification de propriété
+      const [rows] = await db.execute(
+         'SELECT utilisateur_id FROM annonces WHERE annonce_id = ?',
+         [req.params.id]
+      );
+
+      if (rows.length === 0) {
+         return res.status(404).json({ message: 'Annonce introuvable' });
+      }
+
+      const estProprietaire = rows[0].utilisateur_id === req.user.id;
+      const estAdmin = !!req.user.administrateur;
+
+      if (!estProprietaire && !estAdmin) {
+         return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer cette annonce.' });
+      }
+
       const [result] = await db.execute(
          'DELETE FROM annonces WHERE annonce_id = ?', [req.params.id]
       );
+
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
+
       res.json({ message: 'Annonce supprimée' });
    } catch (error) {
      logError(error, "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js");
@@ -222,22 +258,16 @@ if (orderClauses.length > 0) {
 // publier
 // ==================================================
 export async function publierAnnonce(req, res) {
-console.log("publierAnnonce appelée");
-console.log("body:", req.body);
-console.log("files:", req.files);
-console.log("cookies:", req.cookies);
    try {
-      const { titre, prix, descriptif, categorie, utilisateur_id } = req.body;
-console.log("champs:", { titre, prix, descriptif, categorie, utilisateur_id });
+      const { titre, prix, descriptif, categorie } = req.body;
+
       if (!titre || !prix || !descriptif || !categorie) {
             return res.status(400).json({ message: 'Champs obligatoires manquants' });
-        }
-      const token = req.cookies?.monToken;
-      let userid = utilisateur_id;
+      }
 
-        if (!userid) {
-            return res.status(401).json({ message: 'Utilisateur non identifié' });
-        }
+      // ✅ On utilise l'utilisateur authentifié, pas une valeur envoyée par le client
+      const userid = req.user.id;
+
       let image_nom = null;
       if (req.files && req.files.photo) {
             const photo = req.files.photo;
@@ -252,21 +282,23 @@ console.log("champs:", { titre, prix, descriptif, categorie, utilisateur_id });
             const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
 
             await photo.mv(chemin_final);
-        }
+      }
 
-      const [result]= await db.execute(
+      const [result] = await db.execute(
             'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
             [titre, prix, descriptif, userid, categorie]
-         );
+      );
+
       if (image_nom) {
             await db.execute(
                 'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
                 [image_nom, result.insertId]
             );
-        }
+      }
+
       return res.status(201).json({ message: 'Annonce publiée avec succès' });
-       } catch (error) {
-           logError(error, "FONCTION: publierAnnonce, MODULE: annoncesControllers.js");
-        return res.status(500).json({ message: 'Erreur serveur' });
-       }
+   } catch (error) {
+       logError(error, "FONCTION: publierAnnonce, MODULE: annoncesControllers.js");
+       return res.status(500).json({ message: 'Erreur serveur' });
+   }
 }

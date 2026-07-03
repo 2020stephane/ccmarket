@@ -1,13 +1,12 @@
 /**
- * =======================================================
+ *  Routes pour l'authentification
+ *
  *  @fileoverview  auth.js
  *  @project       ccmarket
- *  @description   Routes pour l'authentification
  *  @version       1.0.0
  *  @date          2026-06-27
  *  @author        Stephane Brisse
  *  @license       MIT
- * =======================================================
  */
 import express from 'express';
 import {

@@ -1,0 +1,122 @@
+<!--
+ * ==========================================================
+ *   @file         messages.html
+ *   @project      ccmarket
+ *   @description  Page de gestion des messages (tri par annonce / expéditeur)
+ *   @date         2026-07-03
+ *   @license      MIT
+ * ==========================================================
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Camping-Car Market - Gérez vos messages liés à vos annonces.">
+   <meta name="keywords" content="messages, annonces, camping-car, marketplace">
+
+   <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
+   <link rel="stylesheet" href="/css/monCompte.css">
+   <link rel="stylesheet" href="/css/messages.css">
+   <link rel="stylesheet" href="/css/footer.css">
+
+   <script src="/js/tools/menu_hamburger.js" defer></script>
+
+   <title>Messages - Camping-Car Market</title>
+</head>
+
+<body>
+
+<!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+    <header class="navbar">
+        <section class="container nav-container">
+            <figure>
+                <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+            </figure>
+
+            <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links" aria-label="Navigation principale">
+                <a href="index.html" class="nav-item">Accueil</a>
+                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+                <a href="messages.html" class="nav-item actif">Messages</a>
+                <a href="monCompte.html" class="nav-item">Mon compte</a>
+            </nav>
+        </section>
+    </header>
+<!--
+ * ==========================================================
+ * ======================  MAIN  =====================
+ * ==========================================================
+-->
+    <main class="container account-layout">
+
+        <!-- Colonne gauche : liste des conversations -->
+        <aside class="account-sidebar messages-sidebar">
+            <div class="user-summary">
+                <div id="sidebarAvatar" class="user-avatar">JM</div>
+                <h3 id="sidebarPrenom">Jean-Marc</h3>
+                <p id="sidebarDateInscription">Membre depuis juin 2026</p>
+            </div>
+
+            <div class="messages-toolbar">
+                <p class="toolbar-label">Provenance</p>
+                <div class="sort-chips" id="roleChips">
+                    <button type="button" class="chip active" data-role="toutes">Toutes</button>
+                    <button type="button" class="chip" data-role="recu">Mes annonces</button>
+                    <button type="button" class="chip" data-role="envoye">Mes demandes</button>
+                </div>
+
+                <p class="toolbar-label">Trier par</p>
+                <div class="sort-chips" id="sortChips">
+                    <button type="button" class="chip active" data-sort="annonce">Annonce</button>
+                    <button type="button" class="chip" data-sort="expediteur">Expéditeur</button>
+                    <button type="button" class="chip" data-sort="date">Date</button>
+                </div>
+                <input type="text" id="searchInput" class="msg-search" placeholder="Rechercher un message…">
+            </div>
+
+            <div class="conv-list" id="convList">
+                <!-- Rempli dynamiquement par messages.js -->
+            </div>
+        </aside>
+
+        <!-- Colonne droite : conversation ouverte -->
+        <section class="account-content">
+            <div class="account-card thread-card" id="threadPanel">
+                <div class="thread-empty">
+                    <h3>Aucune conversation sélectionnée</h3>
+                    <p>Cliquez sur un message dans la liste pour l'ouvrir.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+<!--
+ * ==========================================================
+ * ======================  FOOTER  =====================
+ * ==========================================================
+-->
+   <footer class="main-footer">
+      <nav class="footer-links">
+         <a href="contact.html">Contact</a>
+         <a href="mentions_legales.html">Mentions légales</a>
+      </nav>
+      <div class="footer-copyright">
+         2026 Camping-Car Market - Projet Professionnel BTS Web.
+      </div>
+   </footer>
+
+   <script type="module" src="/js/messages.js" defer></script>
+</body>
+</html>

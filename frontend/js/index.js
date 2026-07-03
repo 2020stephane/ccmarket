@@ -20,13 +20,11 @@ import { logError } from "/tools/logger.js";
  */
 let annonces_info = [];
 
-verifierConnection();
-init();
+const data = await verifierConnection();
 
-async function init() {
   await chargerAnnonces();
   afficheAnnonces();
-}
+
 
 /**
  * =======================================================

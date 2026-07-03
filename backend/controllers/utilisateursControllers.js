@@ -30,28 +30,11 @@ import { connexionStandard } from './authControllers.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
 /**
- * ========================================================
  *  @function     sInscrire
  *  @description  Inscription d'un nouvel utilisateur.
  *  @description  Valide les données reçues, vérifie l'unicité de l'email, hache le mot de passe.
  *  @description  Crée l'utilisateur en base de données, génère un cookie JWT et retourne le profil.
- *  @async
- * ========================================================
- *
- *  @param {import('express').Request} req - L'objet de requête Express.
- *  @param {Object} req.body          - Le corps de la requête.
- *  @param {string} req.body.prenom   - Le prénom de l'utilisateur.
- *  @param {string} req.body.nom      - Le nom de l'utilisateur.
- *  @param {string} req.body.email    - L'adresse email (unique).
- *  @param {string} req.body.password - Le mot de passe en clair à hacher.
- *  @param {import('express').Response} res - L'objet de réponse Express.
- *
- *  @returns {Promise<import('express').Response>} Une promesse résolue avec la réponse HTTP :
- * - 200: Succès, compte créé et utilisateur connecté (retourne l'id, prenom, nom).
- * - 400: Requête incorrecte (un ou plusieurs champs obligatoires sont manquants).
- * - 409: Conflit (l'adresse email est déjà utilisée).
- * - 500: Erreur interne du serveur (l'erreur est journalisée via logError).
- */
+  */
 export async function sInscrire(req, res) {
 
    const { prenom, nom, email, password } = req.body;
@@ -119,15 +102,25 @@ export async function sInscrire(req, res) {
   */
 export async function supprimerUtilisateur(req, res) {
    try {
-      const [result] = await db.execute(
-         'DELETE FROM utilisateurs WHERE utilisateur_id = ?', [req.params.id]
-      );
-      if (result.affectedRows === 0) {
-         return res.status(404).json({ message: 'Annonce introuvable' });
+      const idCible = Number(req.params.id);
+      const estProprietaire = req.user.id === idCible;
+      const estAdmin = !!req.user.administrateur;
+
+      if (!estProprietaire && !estAdmin) {
+         return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer ce compte.' });
       }
-      res.json({ message: 'Annonce supprimée' });
+
+      const [result] = await db.execute(
+         'DELETE FROM utilisateurs WHERE utilisateur_id = ?', [idCible]
+      );
+
+      if (result.affectedRows === 0) {
+         return res.status(404).json({ message: 'Utilisateur introuvable' });
+      }
+
+      res.json({ message: 'Utilisateur supprimé' });
    } catch (error) {
-     logError(error, "FONCTION: supprimerUtilisateur, MODULE: annoncesControllers.js");
+     logError(error, "FONCTION: supprimerUtilisateur, MODULE: utilisateursControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }

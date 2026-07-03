@@ -9,7 +9,7 @@
  *  @license       MIT
  * =======================================================
  */
-import { verifierConnection } from "/js/tools/authentification.js";
+import { verifierConnection } from "/tools/authentification.js";
 import { logError } from "/tools/logger.js";
 
 verifierConnection();

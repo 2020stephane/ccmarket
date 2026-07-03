@@ -1,10 +1,8 @@
 /**
- * ==========================================================
- * @file         google.js
+ * Authentification Standard, Google + JWT + MySQL
+ * @file         authControllers.js
  * @project      ccmarket
- * @description  Authentification Standard, Google + JWT + MySQL
  * @date         2026-06-25
- * ==========================================================
  */
 
 import express from 'express';
@@ -16,23 +14,22 @@ import db from '../bdd/db.js';
 import { logError } from "../tools/logger.js";
 
 const router = express.Router();
-
-// Remplplace par le Client ID obtenu sur ta Google Cloud Console
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
-
-// ==================================================
-// Fonction utilitaire : générer un JWT local
-// ==================================================
+/**
+ *  @function     genererToken
+ *  @description  Génère un JWT local signé avec la clé secrète de l'application
+ *  @param {Object} payload - Les données à encoder dans le token
+ *  @returns {string} Le token JWT signé, valide 7 jours.
+ */
 function genererToken(payload) {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 }
 
 // ==================================================
-// POST /auth/google
+// POST /auth/loginGoogle
 // ==================================================
 export async function connexionGoogle(req, res) {
- console.log("👉 connexionGoogle appelée, body:", req.body);
     const { token: googleToken } = req.body;
 
     if (!googleToken) {
@@ -197,13 +194,13 @@ export async function deconnexion(req, res) {
 export async function status(req, res) {
    const token = req.cookies.monToken;
    if (!token){
-    console.log('pas de token');
        return res.json({ connection: false, message: "pas de token" });
    }
    try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         return res.json({
             connection: true,
+            id: decoded.id,
             prenom: decoded.prenom,
             nom: decoded.nom
         });
@@ -212,5 +209,6 @@ export async function status(req, res) {
         res.json({ connection: false });
    }
 }
+
 export default router;
 

@@ -1,9 +1,11 @@
-//===========================================================
-//    FICHIER : annonces.js
-//    PROJET  : ccmarket
-//    DATE    : 16/06/2026
-//    AUTEUR  : Stephane Brisse
-//===========================================================
+/**
+ * @fileoverview  Routes por les annonces
+ * @project       ccmarket
+ * @version       1.0.0
+ * @date          2026-07-01
+ * @author        Stephane Brisse
+ * @license       MIT
+ */
 import express from 'express';
 import {
    getAjouts,
@@ -13,16 +15,20 @@ import {
    publierAnnonce,
    supprimerAnnonce
 } from '../controllers/annoncesControllers.js';
+import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 // ==================================================
-// routes ajoutées pour mon projet
+// routes publiques
 // ==================================================
 router.get('/derniers_ajouts', getAjouts);
-router.get('/mesannonces/:id', getAnnoncesByUser);
 router.get('/recherche', getAnnoncesByFilter);
-router.patch('/modifierannonce/:id',patchAnnonce);
-router.post('/publierannonce', publierAnnonce);
-router.delete('/supprimerannonce/:id', supprimerAnnonce);
+// ==================================================
+// Routes protégées — utilisateur connecté requis
+// ==================================================
+router.get('/mesannonces/:id', verifierAuthentification, getAnnoncesByUser);
+router.patch('/modifierannonce/:id', verifierAuthentification, patchAnnonce);
+router.post('/publierannonce', verifierAuthentification, publierAnnonce);
+router.delete('/supprimerannonce/:id', verifierAuthentification, supprimerAnnonce);
 
 export default router;

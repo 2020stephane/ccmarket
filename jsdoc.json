@@ -1,0 +1,23 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": [
+            "server.js"
+
+        ],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules|docs|frontend|uploads)"
+    },
+    "plugins": [],
+    "opts": {
+        "destination": "./docs/api",
+        "recurse": true,
+        "readme": "./README.md"
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    }
+}

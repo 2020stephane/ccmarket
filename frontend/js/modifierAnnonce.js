@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
     }
      try {
-        const response = await fetch(`/api/annonces/mesannonces/${idAnnonce}`);
+        const response = await fetch(`/api/annonces/mesannonces/${idAnnonce}`, {
+            credentials: "include"
+        });
         const annonce = await response.json();
 console.log("annonce = ", annonce);
         container.innerHTML = "";
@@ -90,14 +92,20 @@ console.log("annonce = ", annonce);
     const temp = document.querySelector(".btn_sauver");
     temp.addEventListener("click",async  () => {
         const jsonData = testFormulaire();
-        const response = await fetch(`/api/annonces/${idAnnonce}`,{
+        const response = await fetch(`/api/annonces/modifierannonce/${idAnnonce}`,{
             method: "PATCH",
+            credentials: "include",
             headers: {
                 "content-Type": "application/json"
             },
             body: JSON.stringify(jsonData)
         });
         const annonce = await response.json();
+        if (response.ok) {
+            window.location.href = "mesannonces.html";
+        } else {
+            alert(`Erreur : ${annonce.message || 'Erreur inconnue'}`);
+        }
     });
     document.querySelector(".btn_annuler").addEventListener("click",async  () => {
         window.location.href="mesannonces.html";

@@ -101,12 +101,12 @@
          <form id="formmodifier" enctype="multipart/form-data">
 
             <div class="form_group">
-               <label for="titre">Titre de l'annonce :</label>
+               <label for="editTitre">Titre de l'annonce :</label>
                <input type="text" name="titre" id="editTitre" maxlength="50" placeholder="Ex: Panneau solaire 200W" required>
             </div>
 
             <div class="form_group">
-               <label for="categorie">Catégorie :</label>
+               <label for="editCategorie">Catégorie :</label>
                <select type="number" name="categorie" id="editCategorie" placeholder="ID de la catégorie" required>
                   <option value="">-- Choisissez une catégorie --</option>
                   <option value="1">Mobilier intérieur</option>
@@ -120,12 +120,12 @@
             </div>
 
             <div class="form_group">
-               <label for="prix">Prix (€) :</label>
+               <label for="editPrix">Prix (€) :</label>
                <input type="number" step="0.01" name="prix" id="editPrix" min="0" max="999999" placeholder="Prix en €" required>
             </div>
 
             <div class="form_group">
-               <label for="descriptif">Description :</label>
+               <label for="editDescriptif">Description :</label>
                <textarea name="descriptif" id="editDescriptif" rows="5" maxlength="1000" placeholder="Décrivez votre produit en détail..." required></textarea>
             </div>
 

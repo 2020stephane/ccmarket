@@ -9,12 +9,14 @@ import {
    sInscrire,
    supprimerUtilisateur
 } from '../controllers/utilisateursControllers.js';
+import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
-// ==================================================
-// routes ajoutées pour mon projet
-// ==================================================
+
+// Route publique
 router.post('/inscription', sInscrire);
-router.delete('/delete/:id',supprimerUtilisateur);
+
+// Route protégée
+router.delete('/delete/:id', verifierAuthentification, supprimerUtilisateur);
 
 export default router;

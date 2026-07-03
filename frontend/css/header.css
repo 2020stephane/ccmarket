@@ -88,10 +88,6 @@
     transition: color 0.2s;
 }
 
-.nav-item.actif {
-    /* text-decoration: underline; */
-
-}
 .nav-item.actif::after {
     content: '';
     position: absolute;

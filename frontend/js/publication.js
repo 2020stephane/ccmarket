@@ -2,9 +2,9 @@
  * =======================================================
  *  @fileoverview  publication.js
  *  @project       ccmarket
- *  @description   Description du fichier
- *  @version       1.0.0
- *  @date          2026-06-29
+ *  @description   Gère la publication d'une nouvelle annonce.
+ *  @version       1.1.0
+ *  @date          2026-07-01
  *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
  * =======================================================
@@ -12,17 +12,19 @@
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/js/tools/logger.js";
 
-verifierConnection();
+// Vérifie la connexion et redirige automatiquement si non connecté
+// (voir authentification.js : "publication.html" fait partie des pagesPrivees)
+await verifierConnection();
 
 const formPublier = document.querySelector("form");
-const userinfo = JSON.parse(localStorage.getItem("userinfo") || "null");
-if (!userinfo) window.location.href = "index.html";
+
 document.getElementById('inputphoto').addEventListener('change', (e) => {
      const fichier = e.target.files[0];
      document.getElementById('file-nom').textContent = fichier
           ? fichier.name
           : 'Aucun fichier choisi';
 });
+
 formPublier.addEventListener("submit", (e) => {
      e.preventDefault();
      publier();
@@ -31,17 +33,20 @@ formPublier.addEventListener("submit", (e) => {
 /**
  * =======================================================
  *  @function     publier
- *  @description  publie une annonce
+ *  @description  Publie une nouvelle annonce pour l'utilisateur connecté.
+ *                L'identité de l'utilisateur est déduite côté serveur
+ *                à partir du token JWT (cookie monToken) — aucun identifiant
+ *                utilisateur n'est envoyé depuis le client.
  *  @async
  * =======================================================
  */
 async function publier() {
-
      const formData = new FormData(formPublier);
-     formData.append("utilisateur_id", userinfo.id);
+
      try {
           const res = await fetch("/api/annonces/publierannonce", {
                method: "POST",
+               credentials: "include",
                body: formData
           });
 

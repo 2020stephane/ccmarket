@@ -1,15 +1,12 @@
 /**
- * =======================================================
- *  @fileoverview  server.js
+ *  @fileoverview  Point d'entrée principal du serveur Express.
+ *                 Configure les middlewares, les routes et démarre le serveur.
  *  @module        server
  *  @project       ccmarket
- *  @description   Point d'entrée principal du serveur Express.
- *                 Configure les middlewares, les routes et démarre le serveur
  *  @version       1.0.0
  *  @date          2026-06-24
  *  @author        Stephane Brisse
  *  @license       MIT
- * =======================================================
  */
 
 /**
@@ -33,31 +30,59 @@ import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
 /**
  * =======================================================
- *  Déclaration des variables
+ *  Déclaration des variables globales
  * =======================================================
  */
-const app        = express();
-const PORT       = process.env.NS_PORT || 3000;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
 
+/**
+ * Instance principale de l'application Express.
+ * @type {express.Express}
+ */
+const app = express();
+
+/**
+ * Port d'écoute du serveur, défini via la variable d'environnement NS_PORT (3000 par défaut).
+ * @type {number}
+ */
+const PORT = process.env.NS_PORT || 3000;
+
+/**
+ * Chemin absolu du fichier courant (équivalent __filename en ESM).
+ * @type {string}
+ */
+const __filename = fileURLToPath(import.meta.url);
+
+/**
+ * Chemin absolu du répertoire courant (équivalent __dirname en ESM).
+ * @type {string}
+ */
+const __dirname = path.dirname(__filename);
 /**
  * =======================================================
  *  Configuration des middlewares
  * =======================================================
  */
+// Autorise les requêtes cross-origin depuis le front (localhost:3000) avec envoi des cookies.
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
 
+// Ajoute l'en-tête COOP pour autoriser les popups (ex: OAuth, fenêtres d'authentification).
 app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     next();
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Parsing du corps des requêtes en JSON (limite 2 Mo).
+app.use(express.json({ limit: '2mb' }));
+// Parsing du corps des requêtes URL-encodées (limite 2 Mo).
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+
+// Parsing des cookies entrants.
 app.use(cookieParser());
+
+// Gestion de l'upload de fichiers (multipart/form-data).
 app.use(fileUpload());
 
 /**
@@ -71,6 +96,7 @@ app.use('/api/utilisateurs', utilisateursRoutes);
 app.use('/api/contacter',    contactRoutes);
 app.use('/auth',             authentificationRoutes);
 app.use('/api/log_error',    logErrorRoutes);
+
 /**
  * =======================================================
  *  Déclaration des repertoires statiques
@@ -86,9 +112,10 @@ app.use('/uploads', express.static(path.join(__dirname, '/frontend/uploads')));
 
 /**
  * =======================================================
- *  Lancement du serveur
+ *  Démarre le serveur Express et écoute les connexions entrantes sur le port configuré
  * =======================================================
  */
+
 app.listen(PORT, () => {
-   console.log(`✅  Serveur démarré sur : http://localhost:${PORT}`);
+   console.log(`✅ Serveur démarré sur : http://localhost:${PORT}`);
 });

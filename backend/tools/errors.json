@@ -621,5 +621,37 @@
     "extra": {
       "url": "http://localhost:3000/contact.html"
     }
+  },
+  {
+    "source": "backend",
+    "date": "30/06/2026",
+    "heure": "16:00:04",
+    "timestamp": "2026-06-30T14:00:04.219Z",
+    "contexte": "FONCTION: contacterAdmin (envoi email), MODULE: contactControllers.js",
+    "message": "self-signed certificate in certificate chain",
+    "type": "Error",
+    "stack": [
+      "Error: self-signed certificate in certificate chain",
+      "at TLSSocket.onConnectSecure (node:_tls_wrap:1674:34)",
+      "at TLSSocket.emit (node:events:519:28)",
+      "at TLSSocket._finishInit (node:_tls_wrap:1085:8)",
+      "at ssl.onhandshakedone (node:_tls_wrap:871:12)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "30/06/2026",
+    "heure": "16:22:56",
+    "timestamp": "2026-06-30T14:22:56.333Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Cannot set properties of undefined (setting 'href')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot set properties of undefined (setting 'href')",
+      "at verifierConnection (http://localhost:3000/js/tools/authentification.js:21:32)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messagerie.html"
+    }
   }
 ]

@@ -226,7 +226,7 @@
  *  ===================================================
  */
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .nav-container {
         flex-direction: column;
         gap: 15px;
@@ -269,7 +269,7 @@
 }
   }
 
-@media (max-width: 600px) {
+@media (max-width: 620px) {
 
 .btn-hamburger {
     display: flex;
