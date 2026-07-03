@@ -1,19 +1,21 @@
 /**
- * =======================================================
- *  @fileoverview  utilisateursControllers.js
- *  @project       ccmarket
- *  @description   Contrôleur de gestion de l'utilisateur.
- *  @version       1.0.0
- *  @date          2026-06-24
- *  @author        Stephane Brisse
- *  @license       MIT
- * =======================================================
+ * @fileoverview Contrôleur de gestion de l'utilisateur
+ * (inscription, suppression de compte).
+ * @module utilisateursControllers
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-24
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires dotenv/config
+ * @requires bcrypt
+ * @requires jsonwebtoken
+ * @requires ../tools/logger.js
+ * @requires ../bdd/db.js
+ * @requires ../tools/cookie.js
+ * @requires ./authControllers.js
  */
-/**
- * =======================================================
- * IMPORTS
- * =======================================================
- */
+
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -22,19 +24,30 @@ import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
 import { setCookie, clearCookie } from '../tools/cookie.js';
 import { connexionStandard } from './authControllers.js';
+
 /**
- * =======================================================
- * VARIABLES
- * =======================================================
+ * Clé secrète utilisée pour signer les jetons JWT.
+ * Repliée sur une valeur par défaut si non définie en environnement.
+ * @type {string}
+ * @const
  */
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
 
 /**
- *  @function     sInscrire
- *  @description  Inscription d'un nouvel utilisateur.
- *  @description  Valide les données reçues, vérifie l'unicité de l'email, hache le mot de passe.
- *  @description  Crée l'utilisateur en base de données, génère un cookie JWT et retourne le profil.
-  */
+ * Inscrit un nouvel utilisateur.
+ * Valide les données reçues, vérifie l'unicité de l'email, hache le
+ * mot de passe, crée l'utilisateur en base de données, génère un
+ * cookie JWT et retourne son profil.
+ * @function sInscrire
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, password }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Inscription réussie, retourne le token et le profil créé.
+ *   - 400 : Champs manquants ou erreur lors de l'insertion.
+ *   - 409 : Email déjà utilisé par un compte existant.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function sInscrire(req, res) {
 
    const { prenom, nom, email, password } = req.body;
@@ -93,13 +106,21 @@ export async function sInscrire(req, res) {
          return res.status(500).json({ message: 'Erreur serveur.' });
       }
 }
+
 /**
- * =======================================================
- *  @function     supprimerUtilisateur
- *  @description  supprime le compte de l'utilisateur
- *  @async
- * =======================================================
-  */
+ * Supprime le compte d'un utilisateur.
+ * Seul le propriétaire du compte ou un administrateur peut effectuer
+ * cette action.
+ * @function supprimerUtilisateur
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'utilisateur à supprimer, `user` = utilisateur authentifié.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Suppression réussie.
+ *   - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
+ *   - 404 : Utilisateur introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function supprimerUtilisateur(req, res) {
    try {
       const idCible = Number(req.params.id);

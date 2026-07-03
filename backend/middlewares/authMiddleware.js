@@ -1,11 +1,14 @@
 /**
- * @fileoverview  Middleware de vérification d'authentification via JWT.
- *                Protège les routes nécessitant une connexion utilisateur.
- * @project       ccmarket
- * @version       1.0.0
- * @date          2026-07-01
- * @author        Stephane Brisse
- * @license       MIT
+ * @fileoverview Middleware de vérification d'authentification via JWT.
+ * Protège les routes nécessitant une connexion utilisateur.
+ * @module authMiddleware
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-07-01
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires jsonwebtoken
+ * @requires ../tools/logger.js
  */
 
 import jwt from 'jsonwebtoken';
@@ -16,7 +19,6 @@ import { logError } from '../tools/logger.js';
  * Si le token est valide, les informations utilisateur décodées sont attachées
  * à `req.user` et la requête continue vers le prochain middleware/controller.
  * Si le token est absent ou invalide, la requête est bloquée avec un code 401.
- *
  * @function verifierAuthentification
  * @param {import('express').Request} req - Requête Express entrante.
  * @param {import('express').Response} res - Réponse Express.
@@ -48,8 +50,7 @@ export function verifierAuthentification(req, res, next) {
 
 /**
  * Vérifie que l'utilisateur authentifié possède le statut administrateur.
- * Doit être utilisé après `verifierAuthentification` (nécessite req.user).
- *
+ * Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
  * @function verifierAdministrateur
  * @param {import('express').Request} req - Requête Express entrante.
  * @param {import('express').Response} res - Réponse Express.

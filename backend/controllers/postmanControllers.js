@@ -1,38 +1,28 @@
 /**
- * =======================================================
- *  @fileoverview  postmanControllers.js
- *  @project       ccmarket
- *  @description   Contrôleur pour tester postman
- *  @version       1.0.0
- *  @date          2026-06-24
- *  @author        Stephane Brisse
- *  @license       MIT
- * =======================================================
+ * @fileoverview Contrôleur CRUD sur les annonces, utilisé pour les
+ * tests via Postman.
+ * @module postmanControllers
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-24
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires ../tools/logger.js
+ * @requires ../bdd/db.js
  */
 
-/**
- * =======================================================
- * IMPORTS INTERNES
- * =======================================================
- */
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
+
 /**
- * =======================================================
- *  @function     getAnnonces
- *  @description  Extrait toutes les annonces de la base de données.
- *  @description  Triées par date de publication décroissante.
- *  @async
- * =======================================================
- *
- *  @param {import('express').Request}  req  - L'objet de requête Express
- *  @param {import('express').Response} res  - L'objet de réponse Express
- *
- *  @returns {Promise<import('express').Response>} Réponse HTTP :
- *    - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
- *    - 500 : Erreur interne du serveur (l'erreur est journalisée via logError).
- *
- * =======================================================
+ * Extrait toutes les annonces de la base de données.
+ * @function getAnnonces
+ * @async
+ * @param {import('express').Request} req - Requête Express.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Succès, retourne un tableau (json) contenant toutes les annonces.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function getAnnonces(req, res) {
    try {
@@ -45,9 +35,18 @@ export async function getAnnonces(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
-// ==================================================
-// GET une annonce par ID
-// ==================================================
+
+/**
+ * Récupère une annonce à partir de son identifiant.
+ * @function getAnnonceById
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce recherchée.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Succès, retourne l'annonce trouvée.
+ *   - 404 : Annonce introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function getAnnonceById(req, res) {
    try {
       const [rows] = await db.execute(
@@ -63,9 +62,18 @@ export async function getAnnonceById(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
-// ==================================================
-// POST créer une annonce
-// ==================================================
+
+/**
+ * Crée une nouvelle annonce.
+ * @function postAnnonce
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ titre, descriptif, prix, categorie_id, utilisateur_id }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 201 : Annonce créée, retourne son identifiant.
+ *   - 400 : Champs obligatoires manquants.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function postAnnonce(req, res) {
    const { titre, descriptif, prix, categorie_id, utilisateur_id } = req.body;
 
@@ -84,9 +92,19 @@ export async function postAnnonce(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
-// ==================================================
-//  PUT modifier une annonce
-// ==================================================
+
+/**
+ * Remplace intégralement une annonce existante.
+ * @function putAnnonce
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Annonce mise à jour.
+ *   - 400 : Champs obligatoires manquants.
+ *   - 404 : Annonce introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function putAnnonce(req, res) {
    const { titre, descriptif, prix, utilisateur_id, categorie_id } = req.body;
 
@@ -108,9 +126,20 @@ export async function putAnnonce(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
-// ==================================================
-// PATCH modifier partiellement une annonce
-// ==================================================
+
+/**
+ * Modifie partiellement une annonce existante (uniquement les
+ * colonnes autorisées : `titre`, `descriptif`, `prix`, `categorie_id`).
+ * @function patchAnnonce
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` = champs à mettre à jour.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Annonce mise à jour partiellement.
+ *   - 400 : Aucun champ valide fourni.
+ *   - 404 : Annonce introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function patchAnnonce(req, res) {
    const champs = req.body;
    const colonnesAutorisees = ['titre', 'descriptif', 'prix', 'categorie_id'];
@@ -143,9 +172,18 @@ export async function patchAnnonce(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
-// ==================================================
-// DELETE supprimer une annonce
-// ==================================================
+
+/**
+ * Supprime une annonce existante.
+ * @function deleteAnnonce
+ * @async
+ * @param {import('express').Request} req - Requête Express, `params.id` = identifiant de l'annonce à supprimer.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 200 : Annonce supprimée.
+ *   - 404 : Annonce introuvable.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function deleteAnnonce(req, res) {
    try {
       const [result] = await db.execute(

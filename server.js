@@ -1,19 +1,21 @@
 /**
- *  @fileoverview  Point d'entrée principal du serveur Express.
- *                 Configure les middlewares, les routes et démarre le serveur.
- *  @module        server
- *  @project       ccmarket
- *  @version       1.0.0
- *  @date          2026-06-24
- *  @author        Stephane Brisse
- *  @license       MIT
+ * @fileoverview Point d'entrée principal du serveur Express.
+ * Configure les middlewares, les routes et démarre le serveur.
+ * @module server
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-24
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires dotenv/config
+ * @requires express
+ * @requires cors
+ * @requires path
+ * @requires cookie-parser
+ * @requires express-fileupload
+ * @requires url
  */
 
-/**
- * =======================================================
- *  Importation des modules
- * =======================================================
- */
 import 'dotenv/config';
 import express           from 'express';
 import cors              from 'cors';
@@ -28,94 +30,191 @@ import utilisateursRoutes     from './backend/routes/utilisateurs.js';
 import contactRoutes          from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
-/**
- * =======================================================
- *  Déclaration des variables globales
- * =======================================================
- */
 
 /**
  * Instance principale de l'application Express.
  * @type {express.Express}
+ * @const
  */
 const app = express();
 
 /**
- * Port d'écoute du serveur, défini via la variable d'environnement NS_PORT (3000 par défaut).
+ * Port d'écoute du serveur, défini via la variable d'environnement
+ * NS_PORT (3000 par défaut).
  * @type {number}
+ * @const
  */
 const PORT = process.env.NS_PORT || 3000;
 
 /**
- * Chemin absolu du fichier courant (équivalent __filename en ESM).
+ * Chemin absolu du fichier courant (équivalent de `__filename` en ESM).
  * @type {string}
+ * @const
  */
 const __filename = fileURLToPath(import.meta.url);
 
 /**
- * Chemin absolu du répertoire courant (équivalent __dirname en ESM).
+ * Chemin absolu du répertoire courant (équivalent de `__dirname` en ESM).
  * @type {string}
+ * @const
  */
 const __dirname = path.dirname(__filename);
+
 /**
- * =======================================================
- *  Configuration des middlewares
- * =======================================================
+ * Middleware CORS : autorise les requêtes cross-origin depuis le
+ * front (`http://localhost:3000`) avec envoi des cookies (`credentials: true`).
+ * @function
+ * @name corsMiddleware
  */
-// Autorise les requêtes cross-origin depuis le front (localhost:3000) avec envoi des cookies.
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
 
-// Ajoute l'en-tête COOP pour autoriser les popups (ex: OAuth, fenêtres d'authentification).
+/**
+ * Middleware personnalisé : ajoute l'en-tête `Cross-Origin-Opener-Policy`
+ * pour autoriser les popups (ex : OAuth, fenêtres d'authentification).
+ * @function
+ * @name coopMiddleware
+ * @param {express.Request} req - Requête entrante.
+ * @param {express.Response} res - Réponse à renvoyer.
+ * @param {express.NextFunction} next - Passe la main au middleware suivant.
+ */
 app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     next();
 });
 
-// Parsing du corps des requêtes en JSON (limite 2 Mo).
+/**
+ * Middleware de parsing du corps des requêtes au format JSON
+ * (taille limitée à 2 Mo).
+ * @function
+ * @name jsonBodyParser
+ */
 app.use(express.json({ limit: '2mb' }));
-// Parsing du corps des requêtes URL-encodées (limite 2 Mo).
+
+/**
+ * Middleware de parsing du corps des requêtes au format URL-encodé
+ * (taille limitée à 2 Mo).
+ * @function
+ * @name urlencodedBodyParser
+ */
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
-// Parsing des cookies entrants.
+/**
+ * Middleware de parsing des cookies entrants.
+ * @function
+ * @name cookieParserMiddleware
+ */
 app.use(cookieParser());
 
-// Gestion de l'upload de fichiers (multipart/form-data).
+/**
+ * Middleware de gestion de l'upload de fichiers (`multipart/form-data`).
+ * @function
+ * @name fileUploadMiddleware
+ */
 app.use(fileUpload());
 
 /**
- * =======================================================
- *  Déclaration des routes API
- * =======================================================
+ * Route API dédiée aux tests Postman.
+ * @name /api/postman
+ * @function
  */
-app.use('/api/postman',      postmanRoutes);
-app.use('/api/annonces',     annoncesRoutes);
-app.use('/api/utilisateurs', utilisateursRoutes);
-app.use('/api/contacter',    contactRoutes);
-app.use('/auth',             authentificationRoutes);
-app.use('/api/log_error',    logErrorRoutes);
+app.use('/api/postman', postmanRoutes);
 
 /**
- * =======================================================
- *  Déclaration des repertoires statiques
- * =======================================================
+ * Route API dédiée à la gestion des annonces.
+ * @name /api/annonces
+ * @function
+ */
+app.use('/api/annonces', annoncesRoutes);
+
+/**
+ * Route API dédiée à la gestion des utilisateurs.
+ * @name /api/utilisateurs
+ * @function
+ */
+app.use('/api/utilisateurs', utilisateursRoutes);
+
+/**
+ * Route API dédiée à la mise en relation entre utilisateurs
+ * (contact au sujet d'une annonce).
+ * @name /api/contacter
+ * @function
+ */
+app.use('/api/contacter', contactRoutes);
+
+/**
+ * Route dédiée à l'authentification (connexion, déconnexion,
+ * vérification de session).
+ * @name /auth
+ * @function
+ */
+app.use('/auth', authentificationRoutes);
+
+/**
+ * Route API dédiée à la journalisation des erreurs côté client.
+ * @name /api/log_error
+ * @function
+ */
+app.use('/api/log_error', logErrorRoutes);
+
+/**
+ * Sert les fichiers HTML statiques du frontend à la racine du site.
+ * @name staticHtml
+ * @function
  */
 app.use(express.static(path.join(__dirname, '/frontend/html')));
-app.use('/css',     express.static(path.join(__dirname, '/frontend/css')));
-app.use('/tools',   express.static(path.join(__dirname, '/frontend/js/tools')));
-app.use('/js',      express.static(path.join(__dirname, '/frontend/js')));
-app.use('/img',     express.static(path.join(__dirname, '/frontend/img')));
-app.use('/fonts',   express.static(path.join(__dirname, '/frontend/fonts')));
+
+/**
+ * Sert les feuilles de style CSS statiques sous `/css`.
+ * @name staticCss
+ * @function
+ */
+app.use('/css', express.static(path.join(__dirname, '/frontend/css')));
+
+/**
+ * Sert les scripts utilitaires JavaScript statiques sous `/tools`.
+ * @name staticTools
+ * @function
+ */
+app.use('/tools', express.static(path.join(__dirname, '/frontend/js/tools')));
+
+/**
+ * Sert les scripts JavaScript statiques du frontend sous `/js`.
+ * @name staticJs
+ * @function
+ */
+app.use('/js', express.static(path.join(__dirname, '/frontend/js')));
+
+/**
+ * Sert les images statiques du frontend sous `/img`.
+ * @name staticImg
+ * @function
+ */
+app.use('/img', express.static(path.join(__dirname, '/frontend/img')));
+
+/**
+ * Sert les polices statiques du frontend sous `/fonts`.
+ * @name staticFonts
+ * @function
+ */
+app.use('/fonts', express.static(path.join(__dirname, '/frontend/fonts')));
+
+/**
+ * Sert les fichiers uploadés par les utilisateurs sous `/uploads`.
+ * @name staticUploads
+ * @function
+ */
 app.use('/uploads', express.static(path.join(__dirname, '/frontend/uploads')));
 
 /**
- * =======================================================
- *  Démarre le serveur Express et écoute les connexions entrantes sur le port configuré
- * =======================================================
+ * Démarre le serveur Express et écoute les connexions entrantes
+ * sur le port configuré.
+ * @listens PORT
+ * @param {number} PORT - Port d'écoute du serveur.
+ * @param {Function} callback - Fonction exécutée une fois le serveur démarré.
  */
-
 app.listen(PORT, () => {
-   console.log(`✅ Serveur démarré sur : http://localhost:${PORT}`);
+    console.log(`✅ Serveur démarré sur : http://localhost:${PORT}`);
 });

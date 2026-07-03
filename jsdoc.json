@@ -4,8 +4,8 @@
     },
     "source": {
         "include": [
-            "server.js"
-
+            "server.js",
+            "backend/routes"
         ],
         "includePattern": ".js$",
         "excludePattern": "(node_modules|docs|frontend|uploads)"

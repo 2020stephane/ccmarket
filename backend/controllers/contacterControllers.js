@@ -1,14 +1,29 @@
-//===========================================================
-//    FICHIER : contacterControllers.js
-//    PROJET  : ccmarket
-//    DATE    : 21/06/2026
-//    AUTEUR  : Stephane Brisse
-//===========================================================
+/**
+ * @fileoverview Contrôleur de contact : enregistre les messages
+ * envoyés à l'administrateur et lui transmet une notification par email.
+ * @module contacterControllers
+ * @project ccmarket
+ * @version 1.0.0
+ * @date 2026-06-21
+ * @author Stephane Brisse
+ * @license MIT
+ * @requires dotenv/config
+ * @requires nodemailer
+ * @requires ../bdd/db.js
+ * @requires ../tools/logger.js
+ */
+
 import 'dotenv/config';
 import nodemailer from 'nodemailer';
 import db from '../bdd/db.js';
 import { logError } from '../tools/logger.js';
 
+/**
+ * Transporteur Nodemailer configuré pour envoyer les notifications
+ * de contact via un compte Gmail.
+ * @type {import('nodemailer').Transporter}
+ * @const
+ */
 const transporter = nodemailer.createTransport({
    service: 'gmail',
    auth: {
@@ -20,6 +35,20 @@ const transporter = nodemailer.createTransport({
    }
 });
 
+/**
+ * Enregistre un message de contact en base de données et notifie
+ * l'administrateur par email. Si l'envoi de l'email échoue, l'erreur
+ * est journalisée mais la réponse au client reste un succès (le
+ * message est bien enregistré en base).
+ * @function contacterAdmin
+ * @async
+ * @param {import('express').Request} req - Requête Express, `body` attendu : `{ prenom, nom, email, message }`.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<import('express').Response>} Réponse HTTP :
+ *   - 201 : Message envoyé, retourne son identifiant.
+ *   - 400 : Champs obligatoires manquants.
+ *   - 500 : Erreur interne du serveur lors de l'insertion en base (journalisée via logError).
+ */
 export async function contacterAdmin(req, res) {
    const { prenom, nom, email, message } = req.body;
 
