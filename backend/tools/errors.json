@@ -3238,5 +3238,69 @@
       "at getAnnoncesByUser (file:///~/backend/controllers/annoncesControllers.js:234:30)",
       "at verifierAuthentification (file:///~/backend/middlewares/authMiddleware.js:41:9)"
     ]
+  },
+  {
+    "source": "backend",
+    "date": "06/07/2026",
+    "heure": "14:45:05",
+    "timestamp": "2026-07-06T12:45:05.576Z",
+    "contexte": "function getMessagesR dans le module:messagesControllers.js",
+    "message": "Unknown column 'a.id_utilisateur' in 'field list'",
+    "type": "Error",
+    "stack": [
+      "Error: Unknown column 'a.id_utilisateur' in 'field list'",
+      "at getMessagesR (file:///~/backend/controllers/messagesControllers.js:62:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "06/07/2026",
+    "heure": "14:45:05",
+    "timestamp": "2026-07-06T12:45:05.603Z",
+    "contexte": "function getMessagesE dans le module:messagesControllers.js",
+    "message": "Unknown column 'a.id_utilisateur' in 'field list'",
+    "type": "Error",
+    "stack": [
+      "Error: Unknown column 'a.id_utilisateur' in 'field list'",
+      "at getMessagesE (file:///~/backend/controllers/messagesControllers.js:77:31)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "06/07/2026",
+    "heure": "14:45:05",
+    "timestamp": "2026-07-06T12:45:05.611Z",
+    "contexte": "FONCTION: chargerMessagesR, MODULE: messages.js",
+    "message": "Réponse HTTP 500",
+    "type": "Error",
+    "stack": [
+      "Error: Réponse HTTP 500",
+      "at chargerMessagesR (http://localhost:3000/js/messages.js:120:33)",
+      "at async Promise.all (index 0)",
+      "at async chargerTousLesMessages (http://localhost:3000/js/messages.js:177:30)",
+      "at async HTMLDocument.init (http://localhost:3000/js/messages.js:463:24)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messages.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "06/07/2026",
+    "heure": "14:45:05",
+    "timestamp": "2026-07-06T12:45:05.616Z",
+    "contexte": "FONCTION: chargerMessagesE, MODULE: messages.js",
+    "message": "Réponse HTTP 500",
+    "type": "Error",
+    "stack": [
+      "Error: Réponse HTTP 500",
+      "at chargerMessagesE (http://localhost:3000/js/messages.js:134:33)",
+      "at async Promise.all (index 1)",
+      "at async chargerTousLesMessages (http://localhost:3000/js/messages.js:177:30)",
+      "at async HTMLDocument.init (http://localhost:3000/js/messages.js:463:24)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messages.html"
+    }
   }
 ]

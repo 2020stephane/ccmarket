@@ -99,14 +99,14 @@ export async function connexionGoogle(req, res) {
             // 3a. Nouvel utilisateur → inscription automatique
             const [result] = await db.query(
                 'INSERT INTO utilisateurs (nom, prenom, email, motdepasse, administrateur) VALUES (?, ?, ?, ?,?)',
-                [family_name, given_name, email, null, false]
+                [family_name, given_name, email, null, 0]
             );
             utilisateur = {
                 utilisateur_id: result.insertId,
                 nom: family_name,
                 prenom: given_name,
                 email: email,
-                administrateur: false
+                administrateur: 0
             }
         } else {
             // 3b. Utilisateur existant → récupération
@@ -135,7 +135,7 @@ res.cookie('monToken', token, {
                 nom: utilisateur.nom,
                 prenom: utilisateur.prenom,
                 email: utilisateur.email,
-                administrateur: utilisateur.administrateur
+                admin: utilisateur.administrateur
             }
         });
 
@@ -222,7 +222,8 @@ res.cookie('monToken', token, {
                 nom: utilisateur.nom,
                 prenom: utilisateur.prenom,
                 email: utilisateur.email,
-                date: utilisateur.date_inscription
+                date: utilisateur.date_inscription,
+                admin: utilisateur.administrateur
             }
         });
 

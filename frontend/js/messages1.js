@@ -236,7 +236,8 @@ function afficherInfoSidebar() {
 
 function otherParty(m) {
     if (m.expediteur_id === CURRENT_USER_ID) {
-        const nom = m.destinataire_nom || ("Utilisateur #" + m.destinataire_id);
+        const found = RAW_MESSAGES.find(x => x.expediteur_id === m.destinataire_id);
+        const nom = (found && found.expediteur_nom) || ("Utilisateur #" + m.destinataire_id);
         return { id: m.destinataire_id, nom };
     }
     return { id: m.expediteur_id, nom: m.expediteur_nom || ("Utilisateur #" + m.expediteur_id) };

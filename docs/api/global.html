@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: authMiddleware</title>
+    <title>JSDoc: Global</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: authMiddleware</h1>
+    <h1 class="page-title">Global</h1>
 
     
 
@@ -28,8 +28,7 @@
 
 <header>
     
-        
-            
+        <h2></h2>
         
     
 </header>
@@ -38,22 +37,87 @@
     <div class="container-overview">
     
         
-            <div class="description">Middleware de vérification d'authentification via JWT.
-Protège les routes nécessitant une connexion utilisateur.</div>
+
         
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
 
         
             
+<h4 class="name" id="JWT_SECRET"><span class="type-signature">(constant) </span>JWT_SECRET<span class="type-signature"> :string</span></h4>
 
 
 
 
+<div class="description">
+    Clé secrète utilisée pour signer/vérifier les jetons JWT.
+</div>
 
 
 
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
 
 
-
+        </li>
+    </ul>
 
 
 
@@ -62,9 +126,6 @@ Protège les routes nécessitant une connexion utilisateur.</div>
 <dl class="details">
 
     
-    <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
-    
 
     
 
@@ -81,19 +142,9 @@ Protège les routes nécessitant une connexion utilisateur.</div>
     
 
     
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Stephane Brisse</li>
-        </ul>
-    </dd>
-    
 
     
 
-    
-    <dt class="tag-license">License:</dt>
-    <dd class="tag-license"><ul class="dummy"><li>MIT</li></ul></dd>
     
 
     
@@ -101,7 +152,7 @@ Protège les routes nécessitant une connexion utilisateur.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_middlewares_authMiddleware.js.html">backend/middlewares/authMiddleware.js</a>, <a href="backend_middlewares_authMiddleware.js.html#line1">line 1</a>
+        <a href="backend_controllers_messagesControllers.js.html">backend/controllers/messagesControllers.js</a>, <a href="backend_controllers_messagesControllers.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -117,14 +168,72 @@ Protège les routes nécessitant une connexion utilisateur.</div>
 
 
 
+        
+            
+<h4 class="name" id="router"><span class="type-signature">(constant) </span>router<span class="type-signature"> :express.Router</span></h4>
+
+
+
+
+<div class="description">
+    Routeur Express dédié aux annonces.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">express.Router</span>
+
+
+        </li>
+    </ul>
 
 
 
 
 
+<dl class="details">
 
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_routes_messages.js.html">backend/routes/messages.js</a>, <a href="backend_routes_messages.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -132,29 +241,6 @@ Protège les routes nécessitant une connexion utilisateur.</div>
 
 
         
-    
-    </div>
-
-    
-
-    
-        <h3 class="subsection-title">Requires</h3>
-
-        <ul>
-            <li>module:jsonwebtoken</li>
-        
-            <li>module:../tools/logger.js</li>
-        </ul>
-    
-
-    
-
-    
-
-    
-
-    
-
     
 
     
@@ -166,7 +252,7 @@ Protège les routes nécessitant une connexion utilisateur.</div>
     
 
     
-    <h4 class="name" id="~verifierAdministrateur"><span class="type-signature">(inner) </span>verifierAdministrateur<span class="signature">(req, res, next)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id="GET/messages_envoyes"><span class="type-signature"></span>GET/messages_envoyes<span class="signature">(path, getAjouts)</span><span class="type-signature"></span></h4>
     
 
     
@@ -174,8 +260,7 @@ Protège les routes nécessitant une connexion utilisateur.</div>
 
 
 <div class="description">
-    Vérifie que l'utilisateur authentifié possède le statut administrateur.
-Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
+    Route publique : récupère les dernièrs messages envoyes.
 </div>
 
 
@@ -211,13 +296,13 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">express.Request</span>
+<span class="param-type">string</span>
 
 
             
@@ -227,20 +312,20 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
 
             
 
-            <td class="description last">Requête Express entrante.</td>
+            <td class="description last">`/derniers_ajouts`</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>getAjouts</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">express.Response</span>
+<span class="param-type">function</span>
 
 
             
@@ -250,30 +335,7 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
 
             
 
-            <td class="description last">Réponse Express.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.NextFunction</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback pour passer au middleware suivant.</td>
+            <td class="description last">Contrôleur renvoyant les annonces les plus récentes.</td>
         </tr>
 
     
@@ -314,7 +376,7 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_middlewares_authMiddleware.js.html">backend/middlewares/authMiddleware.js</a>, <a href="backend_middlewares_authMiddleware.js.html#line51">line 51</a>
+        <a href="backend_routes_messages.js.html">backend/routes/messages.js</a>, <a href="backend_routes_messages.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -339,24 +401,6 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -368,7 +412,7 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
     
 
     
-    <h4 class="name" id="~verifierAuthentification"><span class="type-signature">(inner) </span>verifierAuthentification<span class="signature">(req, res, next)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id="GET/messages_recus"><span class="type-signature"></span>GET/messages_recus<span class="signature">(path, getAjouts)</span><span class="type-signature"></span></h4>
     
 
     
@@ -376,10 +420,7 @@ Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
 
 
 <div class="description">
-    Vérifie la présence et la validité du token JWT stocké dans le cookie `monToken`.
-Si le token est valide, les informations utilisateur décodées sont attachées
-à `req.user` et la requête continue vers le prochain middleware/controller.
-Si le token est absent ou invalide, la requête est bloquée avec un code 401.
+    Route publique : récupère les dernièrs messages recus.
 </div>
 
 
@@ -415,13 +456,13 @@ Si le token est absent ou invalide, la requête est bloquée avec un code 401.
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>path</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">express.Request</span>
+<span class="param-type">string</span>
 
 
             
@@ -431,20 +472,20 @@ Si le token est absent ou invalide, la requête est bloquée avec un code 401.
 
             
 
-            <td class="description last">Requête Express entrante.</td>
+            <td class="description last">`/derniers_ajouts`</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>getAjouts</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">express.Response</span>
+<span class="param-type">function</span>
 
 
             
@@ -454,30 +495,7 @@ Si le token est absent ou invalide, la requête est bloquée avec un code 401.
 
             
 
-            <td class="description last">Réponse Express.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.NextFunction</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback pour passer au middleware suivant.</td>
+            <td class="description last">Contrôleur renvoyant les annonces les plus récentes.</td>
         </tr>
 
     
@@ -518,7 +536,7 @@ Si le token est absent ou invalide, la requête est bloquée avec un code 401.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_middlewares_authMiddleware.js.html">backend/middlewares/authMiddleware.js</a>, <a href="backend_middlewares_authMiddleware.js.html#line17">line 17</a>
+        <a href="backend_routes_messages.js.html">backend/routes/messages.js</a>, <a href="backend_routes_messages.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -543,24 +561,6 @@ Si le token est absent ou invalide, la requête est bloquée avec un code 401.
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

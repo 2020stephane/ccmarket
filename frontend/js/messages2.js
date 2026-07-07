@@ -4,19 +4,18 @@
  *  @project      ccmarket
  *  @description  Gestion de la messagerie : regroupement en
  *                 conversations, tri par annonce / expéditeur
- *                 / date, filtre reçu/envoyé, recherche,
- *                 affichage du fil et persistance locale.
- *  @date         2026-07-06
+ *                 / date, recherche et affichage du fil.
+ *  @date         2026-07-03
  *  @license      MIT
  * =======================================================
  *
  * IMPORTANT :
- * Le tableau SEED_MESSAGES simule le résultat d'une requête SQL
- * sur la table `messages` (message_id, contenu, date_envoi,
- * annonce_id, expediteur_id, destinataire_id), jointe aux tables
- * `annonces` et `utilisateurs` pour récupérer le titre de
- * l'annonce, le nom de l'expéditeur, ET le propriétaire de
- * l'annonce (annonce_proprietaire_id) — c'est cette dernière
+ * Le tableau RAW_MESSAGES ci-dessous simule le résultat d'une
+ * requête SQL sur la table `messages` (message_id, contenu,
+ * date_envoi, annonce_id, expediteur_id, destinataire_id),
+ * jointe aux tables `annonces` et `utilisateurs` pour récupérer
+ * le titre de l'annonce, le nom de l'expéditeur, ET le propriétaire
+ * de l'annonce (annonce_proprietaire_id) — c'est cette dernière
  * info qui permet de savoir si le message concerne UNE ANNONCE
  * QUE J'AI PUBLIÉE (on me contacte) ou UNE ANNONCE D'UN AUTRE
  * UTILISATEUR (je le contacte).
@@ -34,52 +33,20 @@
  *   WHERE m.expediteur_id = :userId OR m.destinataire_id = :userId
  *   ORDER BY m.date_envoi ASC;
  *
- * Une fois les routes /api/messages/messages_recus/:id et
- * /api/messages/messages_envoyes/:id opérationnelles côté back,
- * ce fichier les utilise automatiquement et ne retombe sur
- * SEED_MESSAGES que si l'API ne répond rien (mode démo).
+ * Il suffit de remplacer RAW_MESSAGES par le JSON renvoyé par
+ * votre API / contrôleur PHP.
  */
-
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/tools/logger.js";
 
-const STORAGE_KEY_SENT = "ccmarket_sent_messages"; // messages envoyés localement (en attendant confirmation back)
-
-/* -------------------------------------------------------
-   Références DOM (peuvent être absentes selon la page,
-   d'où les vérifications avant utilisation)
-------------------------------------------------------- */
+const infoUser = JSON.parse(localStorage.getItem("userinfo"));
 const ptrsidePrenom = document.getElementById("sidebarPrenom");
 const ptrsideDate = document.getElementById("sidebarDateInscription");
 const ptrSidebarAvatar = document.getElementById("sidebarAvatar");
+console.log('infoUser = ',infoUser);
+const CURRENT_USER_ID = 12; // id de l'utilisateur connecté
 
-/* -------------------------------------------------------
-   Utilisateur courant : lecture sécurisée du localStorage.
-   Si "userinfo" est absent ou invalide, on retombe sur un
-   profil de démo au lieu de planter toute la page.
-------------------------------------------------------- */
-function chargerInfoUser() {
-    try {
-        const raw = localStorage.getItem("userinfo");
-        if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed && parsed.id) return parsed;
-        }
-    } catch (error) {
-        logError(error, "FONCTION: chargerInfoUser, MODULE: messages.js");
-    }
-    // Fallback démo : évite un crash si l'utilisateur n'est pas encore chargé
-    return { id: 12, prenom: "Utilisateur", nom: "", date: new Date().toISOString(), avatarUrl: null };
-}
-
-const infoUser = chargerInfoUser();
-const CURRENT_USER_ID = infoUser.id;
-
-/* -------------------------------------------------------
-   Jeu de données de démonstration (utilisé si l'API ne
-   renvoie rien, par ex. pendant le développement du back)
-------------------------------------------------------- */
-const SEED_MESSAGES = [
+const RAW_MESSAGES = [
     // --- Annonces publiées PAR MOI (annonce_proprietaire_id = 12) : des acheteurs me contactent ---
     { message_id: 1, contenu: "Bonjour, votre vélo est-il toujours disponible ?", date_envoi: "2026-06-28T09:12:00", annonce_id: 101, annonce_titre: "VTT Rockrider 27,5\"", annonce_proprietaire_id: 12, expediteur_id: 34, expediteur_nom: "Julien Marchand", destinataire_id: 12 },
     { message_id: 2, contenu: "Oui il est disponible, vous pouvez passer le voir ce week-end.", date_envoi: "2026-06-28T10:03:00", annonce_id: 101, annonce_titre: "VTT Rockrider 27,5\"", annonce_proprietaire_id: 12, expediteur_id: 12, expediteur_nom: "Moi", destinataire_id: 34 },
@@ -97,149 +64,124 @@ const SEED_MESSAGES = [
     { message_id: 11, contenu: "D'accord, merci pour l'info, bonne journée.", date_envoi: "2026-06-30T19:05:00", annonce_id: 120, annonce_titre: "Appareil photo Canon EOS", annonce_proprietaire_id: 19, expediteur_id: 12, expediteur_nom: "Moi", destinataire_id: 19 },
 ];
 
-let RAW_MESSAGES = [];
 let sortMode = "annonce";
 let roleFilter = "toutes"; // "toutes" | "recu" | "envoye"
 let selectedKey = null;
 let conversations = [];
-
-/* -------------------- Chargement des messages (API + fallback + persistance locale) -------------------- */
-
-function afficherErreurListe(message) {
-    const container = document.getElementById("convList");
-    if (container) {
-        container.innerHTML = `<p class="conv-empty" style="color:#c53030;">${message}</p>`;
-    }
-}
 
 async function chargerMessagesR(idUtilisateur) {
     try {
         const response = await fetch(`/api/messages/messages_recus/${idUtilisateur}`, {
             credentials: "include"
         });
-        if (!response.ok) throw new Error("Réponse HTTP " + response.status);
         const messages_recus = await response.json();
-        return Array.isArray(messages_recus) ? messages_recus : [];
+
+        if (messages_recus && messages_recus.length > 0) {
+            localStorage.setItem("messages_recus", JSON.stringify(messages_recus));
+        } else {
+            localStorage.removeItem("messages_recus");
+        }
     } catch (error) {
-        logError(error, "FONCTION: chargerMessagesR, MODULE: messages.js");
-        return [];
+        logError(error, "FONCTION: chargermessagesR, MODULE: messages.js");
+        container.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center; color:red;">
+                    Impossible de charger les messages_recus.
+                </td>
+            </tr>`;
     }
 }
-
 async function chargerMessagesE(idUtilisateur) {
     try {
         const response = await fetch(`/api/messages/messages_envoyes/${idUtilisateur}`, {
             credentials: "include"
         });
-        if (!response.ok) throw new Error("Réponse HTTP " + response.status);
         const messages_envoyes = await response.json();
-        return Array.isArray(messages_envoyes) ? messages_envoyes : [];
-    } catch (error) {
-        logError(error, "FONCTION: chargerMessagesE, MODULE: messages.js");
-        return [];
-    }
-}
 
-function chargerMessagesEnvoyesLocalement() {
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY_SENT);
-        return stored ? JSON.parse(stored) : [];
+        if (messages_envoyes && messages_envoyes.length > 0) {
+            localStorage.setItem("messages_envoyes", JSON.stringify(messages_envoyes));
+        } else {
+            localStorage.removeItem("messages_envoyes");
+        }
     } catch (error) {
-        logError(error, "FONCTION: chargerMessagesEnvoyesLocalement, MODULE: messages.js");
-        return [];
+        logError(error, "FONCTION: chargermessagesE, MODULE: messages.js");
+        container.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center; color:red;">
+                    Impossible de charger les messages_envoyes.
+                </td>
+            </tr>`;
     }
-}
-
-function sauvegarderMessageEnvoyeLocalement(message) {
-    const existants = chargerMessagesEnvoyesLocalement();
-    existants.push(message);
-    try {
-        localStorage.setItem(STORAGE_KEY_SENT, JSON.stringify(existants));
-    } catch (error) {
-        logError(error, "FONCTION: sauvegarderMessageEnvoyeLocalement, MODULE: messages.js");
-    }
-}
-
-function dedupeMessages(messages) {
-    const map = new Map();
-    messages.forEach(m => map.set(m.message_id, m));
-    return Array.from(map.values());
 }
 
 /**
- * Construit RAW_MESSAGES à partir de l'API (messages reçus +
- * envoyés), complété par les réponses envoyées localement en
- * attendant confirmation back. Si l'API ne renvoie rien du tout
- * (back pas encore prêt), on retombe sur SEED_MESSAGES pour
- * pouvoir continuer à travailler l'interface en mode démo.
+ * =======================================================
+ *  @function     verifierImageExiste
+ *  @description  vérifier si une image existe sur le serveur
+ *  @async
+ * =======================================================
  */
-async function chargerTousLesMessages(idUtilisateur) {
-    const [recus, envoyes] = await Promise.all([
-        chargerMessagesR(idUtilisateur),
-        chargerMessagesE(idUtilisateur),
-    ]);
-
-    const localementEnvoyes = chargerMessagesEnvoyesLocalement();
-    let combined = dedupeMessages([...recus, ...envoyes, ...localementEnvoyes]);
-
-    if (combined.length === 0) {
-        combined = dedupeMessages([...SEED_MESSAGES, ...localementEnvoyes]);
-    }
-
-    return combined;
-}
-
-/* -------------------- Sidebar utilisateur -------------------- */
-
 async function verifierImageExiste(url) {
     try {
-        const response = await fetch(url, { method: "HEAD" });
-        return response.ok;
+        const response = await fetch(url, { method: 'HEAD' });
+        return response.ok; // Renvoie true si le statut est entre 200 et 299
     } catch (error) {
-        return false;
+        return false; // Renvoie false si le fichier n'existe pas ou s'il y a une erreur réseau
     }
 }
-
+/**
+ * =======================================================
+ *  @function     afficherAvatar
+ *  @description  Description de la fonction
+ *  @async
+ * =======================================================
+  */
 async function afficherAvatar() {
-    if (!ptrSidebarAvatar) return;
-
     const avatarTestUrl = "img/avatar/avatarSM.webp";
+    // 1. On vérifie d'abord si l'avatar de test existe dans le dossier frontend
     const imageExiste = await verifierImageExiste(avatarTestUrl);
 
     if (imageExiste) {
-        ptrSidebarAvatar.innerHTML = `<img src="${avatarTestUrl}" alt="Avatar de ${infoUser.prenom || "l'utilisateur"}" class="avatar-img">`;
-    } else if (infoUser.avatarUrl) {
-        ptrSidebarAvatar.innerHTML = `<img src="${infoUser.avatarUrl}" alt="Avatar de ${infoUser.prenom || "l'utilisateur"}" class="avatar-img">`;
-    } else {
+        // Si avatarSM.webp existe, on l'affiche
+        ptrSidebarAvatar.innerHTML = `<img src="${avatarTestUrl}" alt="Avatar de Sophie Martin" class="avatar-img">`;
+    }
+    // 2. Sinon, on se rabat sur l'avatar de l'utilisateur de la base de données (si présent)
+    else if (infoUser.avatarUrl) {
+        ptrSidebarAvatar.innerHTML = `<img src="${infoUser.avatarUrl}" alt="Avatar de ${infoUser.prenom}" class="avatar-img">`;
+    }
+    // 3. Si aucun des deux n'existe, on met les initiales
+    else {
         const prenom = infoUser.prenom || "";
         const nom = infoUser.nom || "";
         const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
+
         ptrSidebarAvatar.textContent = initiales || "??";
     }
 }
-
+/**
+ * =======================================================
+ *  @function     afficherInfoSidebar
+ *  @description  affiche les information de la sidebar
+ * =======================================================
+ */
 function afficherInfoSidebar() {
+
+    const dateInscription = new Date(infoUser.date);
+    const dateFormatee = dateInscription.toLocaleDateString('fr-FR');
+
     afficherAvatar();
+    ptrsidePrenom.textContent = infoUser.prenom;
+    ptrsideDate.textContent = "Membre depuis le : " + dateFormatee;
 
-    if (ptrsidePrenom) {
-        ptrsidePrenom.textContent = infoUser.prenom || "Utilisateur";
-    }
-    if (ptrsideDate) {
-        const dateInscription = infoUser.date ? new Date(infoUser.date) : null;
-        ptrsideDate.textContent = dateInscription && !isNaN(dateInscription)
-            ? "Membre depuis le : " + dateInscription.toLocaleDateString("fr-FR")
-            : "";
-    }
 }
-
 /* -------------------- Regroupement -------------------- */
 
 function otherParty(m) {
     if (m.expediteur_id === CURRENT_USER_ID) {
-        const nom = m.destinataire_nom || ("Utilisateur #" + m.destinataire_id);
-        return { id: m.destinataire_id, nom };
+        const found = RAW_MESSAGES.find(x => x.expediteur_id === m.destinataire_id);
+        return { id: m.destinataire_id, nom: found ? found.expediteur_nom : "Utilisateur #" + m.destinataire_id };
     }
-    return { id: m.expediteur_id, nom: m.expediteur_nom || ("Utilisateur #" + m.expediteur_id) };
+    return { id: m.expediteur_id, nom: m.expediteur_nom };
 }
 
 function buildConversations() {
@@ -275,8 +217,7 @@ function buildConversations() {
 /* -------------------- Utils -------------------- */
 
 function initials(name) {
-    if (!name || typeof name !== "string") return "??";
-    return name.trim().split(" ").filter(Boolean).map(p => p[0]).slice(0, 2).join("").toUpperCase();
+    return name.split(" ").map(p => p[0]).slice(0, 2).join("").toUpperCase();
 }
 
 function formatDate(iso) {
@@ -307,7 +248,7 @@ function groupLabel(c, mode) {
 
 function renderList() {
     const searchInput = document.getElementById("searchInput");
-    const q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const q = searchInput.value.trim().toLowerCase();
     let list = sortConversations(conversations, sortMode);
 
     if (roleFilter !== "toutes") {
@@ -323,7 +264,6 @@ function renderList() {
     }
 
     const container = document.getElementById("convList");
-    if (!container) return;
     container.innerHTML = "";
 
     if (list.length === 0) {
@@ -374,8 +314,6 @@ function renderList() {
 
 function renderThread(c) {
     const panel = document.getElementById("threadPanel");
-    if (!panel) return;
-
     const roleLabel = c.role === "recu" ? "Reçu · un acheteur vous contacte" : "Envoyé · vous contactez le vendeur";
     const roleClass = c.role === "recu" ? "role-recu" : "role-envoye";
     panel.innerHTML = `
@@ -412,34 +350,26 @@ function renderThread(c) {
     });
     body.scrollTop = body.scrollHeight;
 
-    // TODO : quand la route back sera prête, remplacer la sauvegarde
-    // locale par un vrai POST vers /api/messages/create, puis ne
-    // conserver sauvegarderMessageEnvoyeLocalement() qu'en repli
-    // (offline) le temps que la réponse serveur confirme l'envoi.
+    // Soumission du formulaire de réponse (à brancher sur /messages/create)
     panel.querySelector("#replyForm").addEventListener("submit", (e) => {
         e.preventDefault();
         const textarea = e.target.querySelector("textarea");
         const contenu = textarea.value.trim();
         if (!contenu) return;
 
+        // TODO : remplacer par un fetch/POST réel vers le back-end
         const newMsg = {
             message_id: Date.now(),
             contenu,
             date_envoi: new Date().toISOString(),
             annonce_id: c.annonce_id,
             annonce_titre: c.annonce_titre,
-            annonce_proprietaire_id: c.annonce_proprietaire_id,
             expediteur_id: CURRENT_USER_ID,
             expediteur_nom: "Moi",
             destinataire_id: c.expediteur_id,
         };
-
-        RAW_MESSAGES.push(newMsg);
-        sauvegarderMessageEnvoyeLocalement(newMsg);
-
         c.messages.push(newMsg);
         c.last = newMsg;
-
         textarea.value = "";
         renderThread(c);
         renderList();
@@ -450,23 +380,14 @@ function renderThread(c) {
 
 async function init() {
     try {
-        await verifierConnection();
-    } catch (error) {
-        logError(error, "FONCTION: init, MODULE: messages.js");
-        // On continue quand même : verifierConnection() gère déjà
-        // la redirection si l'utilisateur n'est pas connecté.
+        const data = await verifierConnection();
+    } catch (error){
+        logError(error, "FONCTION: init, MODULE:messages.js");
     }
 
     afficherInfoSidebar();
-
-    try {
-        RAW_MESSAGES = await chargerTousLesMessages(CURRENT_USER_ID);
-    } catch (error) {
-        logError(error, "FONCTION: init, MODULE: messages.js");
-        afficherErreurListe("Impossible de charger les messages pour le moment.");
-        return;
-    }
-
+    chargerMessagesR(infoUser.id);
+    chargerMessagesE(infoUser.id);
     conversations = buildConversations();
 
     document.querySelectorAll("#sortChips .chip").forEach(btn => {
@@ -487,8 +408,7 @@ async function init() {
         });
     });
 
-    const searchInput = document.getElementById("searchInput");
-    if (searchInput) searchInput.addEventListener("input", renderList);
+    document.getElementById("searchInput").addEventListener("input", renderList);
 
     renderList();
 }

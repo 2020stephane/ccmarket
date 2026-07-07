@@ -28,6 +28,7 @@ import { fileURLToPath } from 'url';
 import postmanRoutes          from './backend/routes/postman.js';
 import annoncesRoutes         from './backend/routes/annonces.js';
 import utilisateursRoutes     from './backend/routes/utilisateurs.js';
+import messagesRoutes         from './backend/routes/messages.js';
 import contactRoutes          from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
@@ -144,6 +145,14 @@ app.use('/api/utilisateurs', utilisateursRoutes);
  * @function
  */
 app.use('/api/contacter', contactRoutes);
+
+/**
+ * Route API dédiée à la gestion des messages
+ * (contact au sujet d'une annonce).
+ * @name /api/messages
+ * @function
+ */
+app.use('/api/messages', messagesRoutes);
 
 /**
  * Route dédiée à l'authentification (connexion, déconnexion,

@@ -26,11 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const data = await response.json();
-
+console.log(data.user)
                 if (response.ok) {
+                    if (data.user.admin) {
+                        window.location.href = 'admin.html';
+                    } else {
                     alert('Connexion réussie !');
                     localStorage.setItem('userinfo', JSON.stringify(data.user));
                     window.location.href = 'index.html';
+                   }
                 } else {
                     alert(data.message || 'Identifiants incorrects');
                 }
