@@ -14,7 +14,7 @@ import express from 'express';
 import {
    getMessagesR,
    getMessagesE,
-} from '../controllers/messagesControllers.js';
+} from '../controllers/messagesControllers2.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 /**
  * Routeur Express dédié aux annonces.

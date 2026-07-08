@@ -185,7 +185,7 @@ export async function supprimerAnnonce(req, res) {
 }
 
 /**
- * Récupère les 8 dernières annonces publiées, avec leurs photos associées.
+ * Récupère les dernières annonces publiées, avec leurs photos associées.
  * @function getAjouts
  * @async
  * @param {express.Request} req - Requête Express.
@@ -195,18 +195,19 @@ export async function supprimerAnnonce(req, res) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function getAjouts(req, res) {
-  try {
-    const [rows] = await db.execute(`
-      SELECT
-        a.*,
-        GROUP_CONCAT(p.photo_url) AS photos
-      FROM annonces a
-      LEFT JOIN photos p ON a.annonce_id = p.annonce_id
-      GROUP BY a.annonce_id
-      ORDER BY a.date_publication DESC
-      LIMIT 8
-    `);
-    const annonces = rows.map(row => ({
+     try {
+          const [rows] = await db.execute(`
+          SELECT
+          a.*,
+          c.nom AS nom_categorie,
+          GROUP_CONCAT(p.photo_url) AS photos
+          FROM annonces a
+          LEFT JOIN photos p ON a.annonce_id = p.annonce_id
+          JOIN categories c ON a.categorie_id = c.categorie_id
+          GROUP BY a.annonce_id
+          ORDER BY date_publication DESC
+          `);
+const annonces = rows.map(row => ({
       ...row,
       photos: row.photos ? row.photos.split(',') : []
     }));

@@ -1,11 +1,11 @@
 <!--
  * ==========================================================
- *  @file         index.html
- *  @project      ccmarket
- *  @description  Page d'accueil du site ccmarket, plateforme de vente/achat en ligne.
- *  @date         2026-02-15
- *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
- *  @license      MIT
+ *   @file         details.html
+ *   @project      ccmarket
+ *   @description  Description de la page
+ *   @date         2026-07-08
+ *   @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
+ *   @license      MIT
  * ==========================================================
 -->
 <!doctype html>
@@ -23,14 +23,13 @@
 
    <link rel="icon" href="/img/favicon.ico">
    <link rel="stylesheet" href="/css/header.css">
-   <link rel="stylesheet" href="/css/index.css">
+   <link rel="stylesheet" href="/css/details.css">
    <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
    <title>Camping-Car Market</title>
 </head>
-
 <body>
 <!--
  * ==========================================================
@@ -64,57 +63,27 @@
  * ==========================================================
 -->
    <main>
-      <section class="hero">
-        <div class="container hero-content">
-            <h1>Trouvez l'équipement idéal pour votre prochaine aventure</h1>
-            <p>Achetez et vendez vos accessoires d'occasion entre passionnés de la route.</p>
+     <div class="details">
+         <figure class="details-img">
+            <img src="#" loading="lazy">
+         </figure>
 
-            <form class="search-form" action="/search" method="GET">
-                <input type="text" name="keyword" placeholder="Ex: Panneau solaire, Porte-vélos Fiamma, Convertisseur..." required>
-                <select name="category">
-                    <option value="">Toutes les catégories</option>
-                    <option value="energie">⚡ Énergie & Solaire</option>
-                    <option value="cuisine">🍳 Cuisine & Vie à bord</option>
-                    <option value="portage">🚲 Porte-vélos & Attelages</option>
-                    <option value="hightech">📺 High-Tech & Antenne</option>
-                </select>
-                <button type="submit">Rechercher</button>
-            </form>
-        </div>
-      </section>
-
-      <section class="categories container">
-        <h2 class="section-title">Parcourir par univers :</h2>
-        <div class="categories-grid">
-            <div class="category-card">
-                <span class="category-icon">⚡</span>
-                <h3>Énergie & Solaire</h3>
-                <p>142 annonces</p>
+         <div class="details-content">
+            <div class="details-header">
+               <h3 class="details-title" id="titre"></h3>
+               <p class="details-price">prix : <span id="prix"></span>€</p>
             </div>
-            <div class="category-card">
-                <span class="category-icon">🍳</span>
-                <h3>Cuisine & Vie à bord</h3>
-                <p>98 annonces</p>
+            <div class="details-middle">
+               <p class="details-meta">Catégorie : <span id="categorie"></span></p>
+               <p class="details-date">Publié le : <span id="date"></span></p>
             </div>
-            <div class="category-card">
-                <span class="category-icon">🚲</span>
-                <h3>Porte-vélos & Attelages</h3>
-                <p>64 annonces</p>
-            </div>
-            <div class="category-card">
-                <span class="category-icon">📺</span>
-                <h3>High-Tech & Antenne</h3>
-                <p>41 annonces</p>
-            </div>
-        </div>
-      </section>
+            <p class="details-descriptif">Description : <span id="descriptif"></span></p>
+         </div>
 
-      <section class="recent-ads container">
-         <h2 class="section-title">Derniers ajouts :</h2>
-         <ul class="annonces-grid ads-list"></ul>
-      </section>
-
-
+         <div class="details-button">
+               <button type="button" class="btn-contact">Contacter le vendeur</button>
+         </div>
+     </div>
    </main>
 <!--
  * ==========================================================
@@ -130,6 +99,6 @@
          2026 Camping-Car Market - Projet Professionnel BTS Web.
       </div>
    </footer>
-   <script type="module" src="/js/index.js"></script>
+   <script type="module" src="/js/details.js"></script>
 </body>
 </html>

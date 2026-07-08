@@ -1,0 +1,81 @@
+CREATE VIEW viewMessages AS
+SELECT *
+FROM annonces
+WHERE utilisateur_id = 2;
+
+REPLACE VIEW viewMessages AS
+SELECT *
+FROM annonces
+WHERE utilisateur_id = 2;
+
+SELECT *
+FROM messages
+WHERE expediteur_id = 2 OR destinataire_id = 2;
+
+CREATE VIEW vue_messages_detail AS
+SELECT
+    m.message_id,
+    m.contenu,
+    m.date_envoi,
+    m.annonce_id,
+    m.expediteur_id,
+    m.destinataire_id,
+    a.titre           AS annonce_titre,
+    a.utilisateur_id  AS annonce_proprietaire_id,
+    CONCAT(ue.prenom, ' ', ue.nom) AS expediteur_nom,
+    CONCAT(ud.prenom, ' ', ud.nom) AS destinataire_nom
+FROM messages m
+JOIN annonces a        ON a.annonce_id = m.annonce_id
+JOIN utilisateurs ue   ON ue.utilisateur_id = m.expediteur_id
+JOIN utilisateurs ud   ON ud.utilisateur_id = m.destinataire_id;
+
+SELECT * FROM vue_messages_detail WHERE annonce_id = 5;
+
+
+CREATE VIEW vue_messages_par_utilisateur AS
+SELECT
+    m.message_id,
+    m.contenu,
+    m.date_envoi,
+    m.annonce_id,
+    m.expediteur_id,
+    m.destinataire_id,
+    a.titre           AS annonce_titre,
+    a.utilisateur_id  AS annonce_proprietaire_id,
+    CONCAT(ue.prenom, ' ', ue.nom) AS expediteur_nom,
+    CONCAT(ud.prenom, ' ', ud.nom) AS destinataire_nom,
+    m.expediteur_id   AS utilisateur_id,
+    'expediteur'      AS role
+FROM messages m
+JOIN annonces a      ON a.annonce_id = m.annonce_id
+JOIN utilisateurs ue ON ue.utilisateur_id = m.expediteur_id
+JOIN utilisateurs ud ON ud.utilisateur_id = m.destinataire_id
+
+UNION ALL
+
+SELECT
+    m.message_id,
+    m.contenu,
+    m.date_envoi,
+    m.annonce_id,
+    m.expediteur_id,
+    m.destinataire_id,
+    a.titre           AS annonce_titre,
+    a.utilisateur_id  AS annonce_proprietaire_id,
+    CONCAT(ue.prenom, ' ', ue.nom) AS expediteur_nom,
+    CONCAT(ud.prenom, ' ', ud.nom) AS destinataire_nom,
+    m.destinataire_id AS utilisateur_id,
+    'destinataire'    AS role
+FROM messages m
+JOIN annonces a      ON a.annonce_id = m.annonce_id
+JOIN utilisateurs ue ON ue.utilisateur_id = m.expediteur_id
+JOIN utilisateurs ud ON ud.utilisateur_id = m.destinataire_id;
+
+-- Tous les messages de l'utilisateur 2 (envoyés ou reçus)
+SELECT * FROM vue_messages_par_utilisateur WHERE utilisateur_id = 2;
+
+-- Uniquement ceux qu'il a envoyés
+SELECT * FROM vue_messages_par_utilisateur WHERE utilisateur_id = 2 AND role = 'expediteur';
+
+-- Triés par date, les plus récents en premier
+SELECT * FROM vue_messages_par_utilisateur WHERE utilisateur_id = 2 ORDER BY date_envoi DESC;

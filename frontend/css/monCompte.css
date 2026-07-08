@@ -9,35 +9,6 @@
  * =======================================================
  */
 
-:root {
-    --primary-color: #388E53;     /* Vert logo */
-    --primary-dark: #1E5E3A;      /* Vert sapin foncé (Header/Footer) */
-    --accent-color: #F5E076;      /* Jaune soleil de l'illustration */
-    --text-dark: #2A4033;         /* Gris-vert très foncé pour le texte */
-    --text-light: #607367;        /* Gris-vert adouci pour les détails */
-    --bg-light: #F4F7F5;          /* Fond de page ultra-léger */
-    --white: #ffffff;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-dark);
-    line-height: 1.6;
-    background-color: var(--white);
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 /* --- Barre de Navigation --- */
 .navbar {
     background-color: var(--white);
@@ -352,7 +323,51 @@ body {
     border-bottom: 1px solid #e2f0e7;
     margin-bottom: 20px;
 }
+.avatar {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px auto; /* le gap qui était sur .user-avatar passe ici */
+}
 
+.avatar .user-avatar {
+    margin-bottom: 0; /* évite que le badge se retrouve décalé par cette marge */
+}
+
+.avatar label {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background-color: var(--primary-color, #388E53);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.avatar label:hover {
+    background-color: var(--primary-dark, #1E5E3A);
+    transform: scale(1.1);
+}
+
+.avatar label:active {
+    transform: scale(0.95);
+}
+
+#modifAvatar {
+    display: none;
+}
 .user-avatar {
     width: 70px;
     height: 70px;

@@ -56,7 +56,7 @@ async function chargerAnnonces(idUtilisateur) {
 /**
  * =======================================================
  *  @function     afficheAnnonces
- *  @description  Affiche la liste des annonces de l'utilisateur dans le tableau.
+ *  @description  Affiche la liste des annonces de l'utilisateur
  * =======================================================
  */
 function afficheAnnonces() {

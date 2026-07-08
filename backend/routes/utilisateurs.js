@@ -15,7 +15,8 @@
 import express from 'express';
 import {
    sInscrire,
-   supprimerUtilisateur
+   supprimerUtilisateur,
+   getUtilisateurPublic
 } from '../controllers/utilisateursControllers.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
@@ -34,7 +35,7 @@ const router = express.Router();
  * @param {Function} sInscrire - Contrôleur créant l'utilisateur en base.
  */
 router.post('/inscription', sInscrire);
-
+router.get('/:id/public', getUtilisateurPublic);
 /**
  * Route protégée : suppression définitive d'un compte utilisateur.
  * Nécessite un utilisateur authentifié.

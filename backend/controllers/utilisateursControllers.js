@@ -32,7 +32,34 @@ import { connexionStandard } from './authControllers.js';
  * @const
  */
 const JWT_SECRET = process.env.JWT_SECRET || 'changez_cette_cle_en_prod';
+/**
+ *  @function     getUtilisateurPublic
+ *  @description  Retourne les informations publiques d'un utilisateur
+ *                (utilisées par exemple pour afficher la fiche du
+ *                vendeur sur la page détail d'une annonce).
+ *                Ne renvoie JAMAIS l'email, le mot de passe, ou le
+ *                statut administrateur.
+ *  @async
+ */
+export async function getUtilisateurPublic(req, res) {
+   try {
+      const userId = Number(req.params.id);
 
+      const [rows] = await db.execute(
+         'SELECT utilisateur_id, prenom, nom, date_inscription FROM utilisateurs WHERE utilisateur_id = ?',
+         [userId]
+      );
+
+      if (rows.length === 0) {
+         return res.status(404).json({ message: 'Utilisateur introuvable' });
+      }
+
+      res.json(rows[0]);
+   } catch (error) {
+      logError(error, "FONCTION: getUtilisateurPublic, MODULE: utilisateursControllers.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
+}
 /**
  * Inscrit un nouvel utilisateur.
  * Valide les données reçues, vérifie l'unicité de l'email, hache le

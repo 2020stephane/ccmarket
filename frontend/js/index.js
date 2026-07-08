@@ -18,13 +18,13 @@ import { logError } from "/tools/logger.js";
  *  Point d'entrée / Script principal
  * =======================================================
  */
-let annonces_info = [];
+let annoncesInfo = [];
 
 const data = await verifierConnection();
 
-  await chargerAnnonces();
-  afficheAnnonces();
-
+await chargerAnnonces();
+afficheAnnonces();
+initEventAnnonce();
 
 /**
  * =======================================================
@@ -38,13 +38,14 @@ async function chargerAnnonces() {
    try {
       const response = await fetch("/api/annonces/derniers_ajouts",);
       const tmp = await response.json();
-      localStorage.setItem("annonces", JSON.stringify(tmp));
-      annonces_info.length = 0;
-      tmp.forEach(item => annonces_info.push(item));
+
+      annoncesInfo.length = 0;
+      tmp.forEach(item => annoncesInfo.push(item));
+
    } catch (error){
       const pGrid = document.querySelector(".annonces-grid");
       pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
-      logError(error, "dans le module:index.js");
+      logError(error, "FONCTION: chargerAnnonces, MODULE: index.js");
    }
 }
 /**
@@ -56,22 +57,27 @@ async function chargerAnnonces() {
  */
 function afficheAnnonces() {
    const pGrid = document.querySelector(".annonces-grid");
-   if (annonces_info.length === 0) {
+
+   if (annoncesInfo.length === 0) {
       pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
       return;
     }
+
     pGrid.innerHTML = "";
-    annonces_info.forEach((annonce) => {
+
+    annoncesInfo.forEach((annonce) => {
         let imageNom;
+
         if (annonce.photos.length > 0 && annonce.photos[0] !== "") {
             imageNom = `/uploads/${annonce.photos[0]}`;
         } else {
             imageNom = "/uploads/default.png";
         }
+
       const datePub = new Date(annonce.date_publication);
       const fiche = `
                 <li>
-                    <article class="ad-card">
+                    <article data-annonceid="${annonce.annonce_id}" class="ad-card">
 
                         <figure class="li-img ad-image-placeholder">
                             <img src="${imageNom}" alt="${annonce.titre}" loading="lazy">
@@ -83,7 +89,7 @@ function afficheAnnonces() {
                                 <p class="ad-price">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</p>
                             </div>
                             <div class="ad-middle">
-                                <p class="ad-meta">Catégorie : ${annonce.categorie_id}</p>
+                                <p class="ad-meta">Catégorie : ${annonce.nom_categorie}</p>
                                 <p class="ad-date"> Publié le : <time datetime="${datePub.toISOString()}">
                                         ${datePub.toLocaleDateString()}</time></p>
                             </div>
@@ -93,5 +99,24 @@ function afficheAnnonces() {
                 </li>
             `;
       pGrid.insertAdjacentHTML("beforeend", fiche);
+    });
+}
+/**
+ * =======================================================
+ *  @function     initEventAnnonce
+ *  @description  Initialise le gestionnaire d'évenement
+ *                sur la liste des annonces
+ * =======================================================
+ */
+function initEventAnnonce() {
+    if (annoncesInfo.length === 0) { return; }
+
+    document.querySelector(".annonces-grid").addEventListener("click", (e) => {
+        const card = e.target.closest(".ad-card");
+        if (!card) { return };
+        const tmp = annoncesInfo.find(tmp => tmp.annonce_id ==  card.dataset.annonceid);
+
+        localStorage.setItem("annonceInfo", JSON.stringify(tmp));
+        window.location.href = `details.html`;
     });
 }

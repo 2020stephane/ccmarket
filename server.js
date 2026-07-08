@@ -17,7 +17,7 @@
  */
 
 import 'dotenv/config';
-import  db  from "./backend/bdd/db.js";
+import db from "./backend/bdd/db.js";
 import express           from 'express';
 import cors              from 'cors';
 import path              from 'path';
@@ -32,6 +32,7 @@ import messagesRoutes         from './backend/routes/messages.js';
 import contactRoutes          from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
+import avatarRoutes           from './backend/routes/avatar.js';
 
 /**
  * Instance principale de l'application Express.
@@ -153,6 +154,14 @@ app.use('/api/contacter', contactRoutes);
  * @function
  */
 app.use('/api/messages', messagesRoutes);
+
+/**
+ * Route API dédiée à la gestion des avatars
+ * (contact au sujet d'une annonce).
+ * @name /api/avatar
+ * @function
+ */
+app.use('/api/avatar', avatarRoutes);
 
 /**
  * Route dédiée à l'authentification (connexion, déconnexion,

@@ -17,7 +17,7 @@
 
    <link rel="icon" href="/img/favicon.ico">
    <link rel="stylesheet" href="/css/header.css">
-   <link rel="stylesheet" href="/css/monCompte.css">
+
    <link rel="stylesheet" href="/css/messages.css">
    <link rel="stylesheet" href="/css/footer.css">
 
@@ -46,12 +46,12 @@
             </button>
 
             <nav class="nav-links" aria-label="Navigation principale">
-                <a href="index.html" class="nav-item">Accueil</a>
-                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
-                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
-                <a href="messages.html" class="nav-item actif">Messages</a>
-                <a href="monCompte.html" class="nav-item">Mon compte</a>
-            </nav>
+            <a href="index.html" class="nav-item" >Accueil</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+            <a href="#" class="disabled nav-item actif" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
+         </nav>
         </section>
     </header>
 <!--
@@ -72,8 +72,7 @@
             <div class="messages-toolbar">
                 <p class="toolbar-label">Provenance</p>
                 <div class="sort-chips" id="roleChips">
-                    <button type="button" class="chip active" data-role="toutes">Toutes</button>
-                    <button type="button" class="chip" data-role="recu">Mes annonces</button>
+                    <button type="button" class="chip active" data-role="recu">Mes offres</button>
                     <button type="button" class="chip" data-role="envoye">Mes demandes</button>
                 </div>
 

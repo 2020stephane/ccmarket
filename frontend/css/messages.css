@@ -9,7 +9,49 @@
  *  @license      MIT
  * =======================================================
  */
+/* Barre latérale (Sidebar) */
+.account-sidebar {
+    flex: 1;
+    max-width: 280px;
+    background-color: var(--bg-light);
+    border: 1px solid #e2f0e7;
+    border-radius: 12px;
+    padding: 20px;
+    height: fit-content;
+    margin-top: 20px;
+}
 
+.user-summary {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2f0e7;
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    box-shadow: 0 4px 10px rgba(56, 142, 83, 0.2);
+}
+
+.user-summary h3 {
+    color: var(--primary-dark);
+    font-size: 1.2rem;
+}
+
+.user-summary p {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
 /* ------------------------------------------------------
    Layout général : on réutilise .account-layout mais on
    élargit la colonne de gauche pour accueillir la liste

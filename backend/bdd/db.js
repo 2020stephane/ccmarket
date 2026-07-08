@@ -39,10 +39,10 @@ try {
       connectionLimit  : 10,
    }).promise();
    console.log(`✅  CreatePool crée sur : ${process.env.DB_NAME}`);
-
 } catch (error) {
    logError(error,'Échec de la connexion à la BDD');
    console.log(`⚠️  ATTENTION : Impossible de se connecter à la BDD (XAMPP est probablement éteint).`);
 }
-
 export default db;
+
+

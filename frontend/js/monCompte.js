@@ -101,6 +101,28 @@ const liensSidebar = document.querySelectorAll('.sidebar-link');
             basculerAffichage(cible,sectionProfil,sectionSecurite);
         });
     });
+    const ptrfileAvatar = document.getElementById("modifAvatar");
+
+ptrfileAvatar.addEventListener("change", async () => {
+    // On vérifie qu'un fichier a bien été sélectionné
+    if (ptrfileAvatar.files && ptrfileAvatar.files[0]) {
+        const fichier = ptrfileAvatar.files[0];
+
+        const success = await enregistrerAvatar(fichier);
+        if (success) {
+            alert("Avatar mis à jour avec succès !");
+            // Optionnel : Prévisualiser l'image immédiatement dans le DOM
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const sidebarAvatar = document.getElementById("sidebarAvatar");
+                sidebarAvatar.innerHTML = `<img src="${e.target.result}" alt="Avatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+            };
+            reader.readAsDataURL(fichier);
+        } else {
+            alert("Erreur lors de l'envoi de l'avatar.");
+        }
+    }
+});
 }
 // 2. Fonction pour basculer l'affichage des sections
     function basculerAffichage(cible,sectionProfil,sectionSecurite) {
@@ -120,12 +142,43 @@ const liensSidebar = document.querySelectorAll('.sidebar-link');
  *  @async
  * =======================================================
  */
-async function verifierImageExiste(url) {
+async function verifierImageExiste() {
     try {
-        const response = await fetch(url, { method: 'HEAD' });
-        return response.ok; // Renvoie true si le statut est entre 200 et 299
+        const response = await fetch(`/api/avatar/${infoUser.id}`);
+        const data = await response.json();
+        if (response.ok) {
+            return data;
+        }
+        return false;
     } catch (error) {
         return false; // Renvoie false si le fichier n'existe pas ou s'il y a une erreur réseau
+    }
+}
+/**
+ * =======================================================
+ *  @function     enregistrerAvatar
+ *  @description  enregistre une image comme avatar
+ *  @async
+ * =======================================================
+ */
+async function enregistrerAvatar(file) {
+    try {
+        // FormData permet de créer un formulaire virtuel multipart/form-data
+        const formData = new FormData();
+        formData.append('fichier', file); // Le nom 'fichier' doit correspondre à celui attendu par Multer côté Express
+        formData.append('user_id', infoUser.id);
+
+        const response = await fetch('/api/avatar', {
+            method: "POST",
+            credentials: "include",
+            body: formData // On passe directement le FormData ici
+            // N'ajoute SURTOUT PAS 'Content-Type': 'multipart/form-data', le navigateur le génère avec le boundary !
+        });
+
+        return response.ok; // Renvoie true si statut HTTP 200-299
+    } catch (error) {
+        console.error("Erreur d'envoi avatar :", error);
+        return false;
     }
 }
 /**
@@ -136,19 +189,13 @@ async function verifierImageExiste(url) {
  * =======================================================
   */
 async function afficherAvatar() {
-    const avatarTestUrl = "img/avatar/avatarSM.webp";
-    // 1. On vérifie d'abord si l'avatar de test existe dans le dossier frontend
-    const imageExiste = await verifierImageExiste(avatarTestUrl);
+    const imageExiste = await verifierImageExiste();
 
     if (imageExiste) {
+        const imagePath = `/img/avatar/${imageExiste.avatar_url}`
         // Si avatarSM.webp existe, on l'affiche
-        ptrSidebarAvatar.innerHTML = `<img src="${avatarTestUrl}" alt="Avatar de Sophie Martin" class="avatar-img">`;
+        ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar de Sophie Martin" class="avatar-img">`;
     }
-    // 2. Sinon, on se rabat sur l'avatar de l'utilisateur de la base de données (si présent)
-    else if (infoUser.avatarUrl) {
-        ptrSidebarAvatar.innerHTML = `<img src="${infoUser.avatarUrl}" alt="Avatar de ${infoUser.prenom}" class="avatar-img">`;
-    }
-    // 3. Si aucun des deux n'existe, on met les initiales
     else {
         const prenom = infoUser.prenom || "";
         const nom = infoUser.nom || "";
