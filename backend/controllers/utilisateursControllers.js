@@ -60,6 +60,39 @@ export async function getUtilisateurPublic(req, res) {
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
+export async function  patchUtilisateur(req, res) {
+   const champs = req.body;
+   const colonnesAutorisees = ['nom', 'prenom', 'email'];
+
+   const entrees = Object.entries(champs).filter(([col]) =>
+      colonnesAutorisees.includes(col)
+   );
+
+   if (entrees.length === 0) {
+
+      return res.status(400).json({ message: 'Aucun champ valide fourni' });
+   }
+
+   const setClause = entrees.map(([col]) => `${col} = ?`).join(', ');
+   const valeurs = entrees.map(([, val]) => val);
+
+   try {
+      const [result] = await db.execute(
+         `UPDATE utilisateurs SET ${setClause} WHERE utilisateur_id = ?`,
+         [...valeurs, req.params.id]
+      );
+      if (result.affectedRows === 0) {
+
+         return res.status(404).json({ message: 'Utilisateur introuvable' });
+      }
+
+      res.json({ message: 'Utilisateur mise à jour' });
+   } catch (error) {
+      logError(error, "FONCTION: patchUtilisateur, MODULE:utilisateursControllers.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
+}
+
 /**
  * Inscrit un nouvel utilisateur.
  * Valide les données reçues, vérifie l'unicité de l'email, hache le

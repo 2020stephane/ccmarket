@@ -9793,5 +9793,22 @@
     "extra": {
       "url": "http://localhost:3000/details.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "09/07/2026",
+    "heure": "08:50:54",
+    "timestamp": "2026-07-09T06:50:54.334Z",
+    "contexte": "FONCTION: chargerAnnonces, MODULE: index.js",
+    "message": "annoncesInfo is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: annoncesInfo is not defined",
+      "at chargerAnnonces (http://localhost:3000/js/utils/annonces.js:27:7)",
+      "at async http://localhost:3000/js/index.js:25:1"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/index.html"
+    }
   }
 ]

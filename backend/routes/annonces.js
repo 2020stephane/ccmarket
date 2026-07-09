@@ -19,7 +19,9 @@ import {
    getAnnoncesByFilter,
    patchAnnonce,
    publierAnnonce,
-   supprimerAnnonce
+   supprimerAnnonce,
+   getCategories,
+   getStatistiquesAnnonces
 } from '../controllers/annoncesControllers.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
@@ -93,4 +95,14 @@ router.post('/publierannonce', verifierAuthentification, publierAnnonce);
  */
 router.delete('/supprimerannonce/:id', verifierAuthentification, supprimerAnnonce);
 
+/**
+ * Route publique : récupère les catégories.
+ * @name GET/
+ * @function
+ * @param {string} path - `/getCategories`
+ * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
+ */
+router.get('/getCategories', getCategories);
+
+router.get('/getStatistiques', getStatistiquesAnnonces);
 export default router;

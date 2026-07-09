@@ -196,26 +196,89 @@ export async function supprimerAnnonce(req, res) {
  */
 export async function getAjouts(req, res) {
      try {
-          const [rows] = await db.execute(`
-          SELECT
-          a.*,
-          c.nom AS nom_categorie,
-          GROUP_CONCAT(p.photo_url) AS photos
-          FROM annonces a
-          LEFT JOIN photos p ON a.annonce_id = p.annonce_id
-          JOIN categories c ON a.categorie_id = c.categorie_id
-          GROUP BY a.annonce_id
-          ORDER BY date_publication DESC
-          `);
-const annonces = rows.map(row => ({
-      ...row,
-      photos: row.photos ? row.photos.split(',') : []
-    }));
-    res.json(annonces);
-  } catch (error) {
-    logError(error, "function getAjouts dans le module:annoncesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
-  }
+          const { limite, categorie, keyword } = req.query;
+          const limitNb = parseInt(limite, 10) || 50;
+          const categorieNb = parseInt(categorie, 10) || 0;
+          let sql = `
+               SELECT
+                    a.*,
+                    c.nom AS nom_categorie,
+                    GROUP_CONCAT(p.photo_url) AS photos
+               FROM annonces a
+               LEFT JOIN photos p ON a.annonce_id = p.annonce_id
+               JOIN categories c ON a.categorie_id = c.categorie_id
+          `;
+          const conditions = [];
+        const queryParams = [];
+
+        // 1. Filtre par Catégorie
+        if (categorieNb > 0) {
+            conditions.push(`c.categorie_id = ?`);
+            queryParams.push(categorieNb);
+        }
+
+        // 2. Filtre par Mot-clé sur le titre
+        if (keyword && keyword.trim() !== "" && keyword !== "null") {
+            conditions.push(`a.titre LIKE ?`);
+            queryParams.push(`%${keyword.trim()}%`); // Cherche le mot-clé n'importe où dans le titre
+        }
+
+        // 3. Assemblage des conditions WHERE s'il y en a au moins une
+        if (conditions.length > 0) {
+            sql += ` WHERE ` + conditions.join(' AND ');
+        }
+
+          sql += `
+               GROUP BY a.annonce_id
+               ORDER BY a.date_publication DESC
+               LIMIT ?
+          `;
+
+          queryParams.push(limitNb);
+
+          const [rows] = await db.execute(sql, queryParams);
+
+          const annonces = rows.map(row => ({
+               ...row,
+               photos: row.photos ? row.photos.split(',') : []
+          }));
+          res.json(annonces);
+     } catch (error) {
+     logError(error, "function getAjouts dans le module:annoncesControllers.js");
+     res.status(500).json({ message: "Erreur serveur" });
+     }
+}
+
+export async function getStatistiquesAnnonces(req, res) {
+    try {
+        const sql = `
+            SELECT
+                c.categorie_id,
+                c.nom AS nom_categorie,
+                COUNT(a.annonce_id) AS total_categorie
+            FROM categories c
+            LEFT JOIN annonces a ON c.categorie_id = a.categorie_id
+            GROUP BY c.categorie_id WITH ROLLUP;
+        `;
+
+        const [rows] = await db.execute(sql);
+
+        // La dernière ligne générée par WITH ROLLUP contient le total général
+        const derniereLigne = rows[rows.length - 1];
+        const totalGeneral = derniereLigne ? derniereLigne.total_categorie : 0;
+
+        // On retire la ligne de ROLLUP pour garder un tableau propre des catégories
+        const statsParCategorie = rows.slice(0, -1);
+
+        return res.json({
+            totalGeneral: totalGeneral,
+            parCategorie: statsParCategorie
+        });
+
+    } catch (error) {
+        logError(error, "function getStatistiquesAnnonces dans annoncesControllers.js");
+        return res.status(500).json({ message: "Erreur serveur" });
+    }
 }
 
 /**
@@ -373,4 +436,13 @@ export async function publierAnnonce(req, res) {
        logError(error, "FONCTION: publierAnnonce, MODULE: annoncesControllers.js");
        return res.status(500).json({ message: 'Erreur serveur' });
    }
+}
+export async function getCategories(req, res) {
+     try {
+          const [rows] = await db.execute( 'SELECT * FROM categories' );
+          res.json(rows);
+     }catch (error) {
+          logError(error, "FONCTION: getCategories, MODULE: annoncesControllers.js");
+          return res.status(500).json({ message: 'Erreur serveur' });
+     }
 }

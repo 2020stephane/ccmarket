@@ -70,13 +70,16 @@
             <p>Achetez et vendez vos accessoires d'occasion entre passionnés de la route.</p>
 
             <form class="search-form" action="/search" method="GET">
-                <input type="text" name="keyword" placeholder="Ex: Panneau solaire, Porte-vélos Fiamma, Convertisseur..." required>
+                <input type="text" name="keyword" placeholder="Ex: Panneau solaire, Porte-vélos Fiamma, Convertisseur...">
                 <select name="category">
-                    <option value="">Toutes les catégories</option>
-                    <option value="energie">⚡ Énergie & Solaire</option>
-                    <option value="cuisine">🍳 Cuisine & Vie à bord</option>
-                    <option value="portage">🚲 Porte-vélos & Attelages</option>
-                    <option value="hightech">📺 High-Tech & Antenne</option>
+                    <option value="0">🔍<span id="option_0">Toutes les catégories</span></option>
+                    <option value="1">🪑<span id="option_1"></span></option>
+                    <option value="2">⚡<span id="option_2"></span></option>
+                    <option value="3">🍳<span id="option_3"></span></option>
+                    <option value="4">🚰<span id="option_4"></span></option>
+                    <option value="5">🛏️<span id="option_5"></span></option>
+                    <option value="6">📺<span id="option_6"></span></option>
+                    <option value="7">🏕️<span id="option_7"></span></option>
                 </select>
                 <button type="submit">Rechercher</button>
             </form>
@@ -86,31 +89,11 @@
       <section class="categories container">
         <h2 class="section-title">Parcourir par univers :</h2>
         <div class="categories-grid">
-            <div class="category-card">
-                <span class="category-icon">⚡</span>
-                <h3>Énergie & Solaire</h3>
-                <p>142 annonces</p>
-            </div>
-            <div class="category-card">
-                <span class="category-icon">🍳</span>
-                <h3>Cuisine & Vie à bord</h3>
-                <p>98 annonces</p>
-            </div>
-            <div class="category-card">
-                <span class="category-icon">🚲</span>
-                <h3>Porte-vélos & Attelages</h3>
-                <p>64 annonces</p>
-            </div>
-            <div class="category-card">
-                <span class="category-icon">📺</span>
-                <h3>High-Tech & Antenne</h3>
-                <p>41 annonces</p>
-            </div>
         </div>
       </section>
 
       <section class="recent-ads container">
-         <h2 class="section-title">Derniers ajouts :</h2>
+         <h2 class="section-title">Derniers ajouts : <span id="section-title-categorie"></span></h2>
          <ul class="annonces-grid ads-list"></ul>
       </section>
 

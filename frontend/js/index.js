@@ -12,7 +12,9 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/tools/logger.js";
-
+import { chargerAnnonces } from "/js/utils/annonces.js";
+import { chargerCategories } from "/js/utils/categories.js";
+import { chargerStat } from "/js/utils/annonces.js";
 /**
  * =======================================================
  *  Point d'entrée / Script principal
@@ -22,32 +24,16 @@ let annoncesInfo = [];
 
 const data = await verifierConnection();
 
-await chargerAnnonces();
-afficheAnnonces();
+
+await chargerAnnonces(50, 0, null);
+await afficheAnnonces();
+await chargerCategories();
+await afficherFormCategories();
+await afficherCategories();
+await chargerStat();
 initEventAnnonce();
-
-/**
- * =======================================================
- *  @function     chargerAnnonces
- *  @description  Extrait toutes les annonces de la base de données
- *  @description  Triées par date de publication décroissante
- *  @async
- * =======================================================
- */
-async function chargerAnnonces() {
-   try {
-      const response = await fetch("/api/annonces/derniers_ajouts",);
-      const tmp = await response.json();
-
-      annoncesInfo.length = 0;
-      tmp.forEach(item => annoncesInfo.push(item));
-
-   } catch (error){
-      const pGrid = document.querySelector(".annonces-grid");
-      pGrid.innerHTML = "<li>Impossible de charger les annonces.</li>";
-      logError(error, "FONCTION: chargerAnnonces, MODULE: index.js");
-   }
-}
+initEventRecherche();
+initEventCategories();
 /**
  * =======================================================
  *  @function     afficheAnnonces
@@ -55,51 +41,134 @@ async function chargerAnnonces() {
  *                la liste des annonces dans le DOM
  * =======================================================
  */
-function afficheAnnonces() {
-   const pGrid = document.querySelector(".annonces-grid");
+async function afficheAnnonces() {
+     const pGrid = document.querySelector(".annonces-grid");
+     const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts'));
+     if (annoncesInfo.length === 0) {
+          pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
+          return;
+     }
 
-   if (annoncesInfo.length === 0) {
-      pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
-      return;
-    }
+     pGrid.innerHTML = "";
 
-    pGrid.innerHTML = "";
+     annoncesInfo.forEach((annonce) => {
+          let imageNom;
 
-    annoncesInfo.forEach((annonce) => {
-        let imageNom;
+          if (annonce.photos.length > 0 && annonce.photos[0] !== "") {
+               imageNom = `/uploads/${annonce.photos[0]}`;
+          } else {
+               imageNom = "/uploads/default.png";
+          }
 
-        if (annonce.photos.length > 0 && annonce.photos[0] !== "") {
-            imageNom = `/uploads/${annonce.photos[0]}`;
-        } else {
-            imageNom = "/uploads/default.png";
-        }
+          const datePub = new Date(annonce.date_publication);
+          const fiche = `
+               <li>
+               <article data-annonceid="${annonce.annonce_id}" class="ad-card">
 
-      const datePub = new Date(annonce.date_publication);
-      const fiche = `
-                <li>
-                    <article data-annonceid="${annonce.annonce_id}" class="ad-card">
+                    <figure class="li-img ad-image-placeholder">
+                         <img src="${imageNom}" alt="${annonce.titre}" loading="lazy">
+                    </figure>
 
-                        <figure class="li-img ad-image-placeholder">
-                            <img src="${imageNom}" alt="${annonce.titre}" loading="lazy">
-                        </figure>
+                    <div class="annonce_content ad-details">
+                         <div class="ad-header">
+                              <h3 class="ad-title">${annonce.titre}</h3>
+                              <p class="ad-price">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</p>
+                         </div>
+                         <div class="ad-middle">
+                              <p class="ad-meta">Catégorie : ${annonce.nom_categorie}</p>
+                              <p class="ad-date"> Publié le : <time datetime="${datePub.toISOString()}">
+                                   ${datePub.toLocaleDateString()}</time></p>
+                         </div>
+                         <p class="ad_descriptif">${annonce.descriptif}</p>
+                    </div>
+               </article>
+               </li>
+          `;
+          pGrid.insertAdjacentHTML("beforeend", fiche);
+     });
+}
+/**
+ * =======================================================
+ *  @function     afficherFormCategories
+ *  @description
+ *
+ * =======================================================
+ */
+async function afficherFormCategories() {
+     const categories = JSON.parse(localStorage.getItem('categories'));
+     categories.forEach((categorie,index) => {
+          const ptrspan = document.getElementById(`option_${index+1}`);
+          ptrspan.textContent = categories[index].nom;
+     });
+}
 
-                        <div class="annonce_content ad-details">
-                            <div class="ad-header">
-                                <h3 class="ad-title">${annonce.titre}</h3>
-                                <p class="ad-price">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</p>
-                            </div>
-                            <div class="ad-middle">
-                                <p class="ad-meta">Catégorie : ${annonce.nom_categorie}</p>
-                                <p class="ad-date"> Publié le : <time datetime="${datePub.toISOString()}">
-                                        ${datePub.toLocaleDateString()}</time></p>
-                            </div>
-                            <p class="ad_descriptif">${annonce.descriptif}</p>
-                        </div>
-                    </article>
-                </li>
-            `;
-      pGrid.insertAdjacentHTML("beforeend", fiche);
-    });
+/**
+ * =======================================================
+ *  @function     afficheCategories
+ *  @description
+ *
+ * =======================================================
+ */
+async function afficherCategories() {
+     const ptrGrid = document.querySelector(".categories-grid");
+     const categories = JSON.parse(localStorage.getItem('categories'));
+     const stat = JSON.parse(localStorage.getItem('annoncesStat'));
+     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
+
+     ptrGrid.innerHTML = "";
+
+     categories.forEach((categorie, index) => {
+          const fiche = `
+               <div class="category-card" data-id="${categorie.categorie_id}">
+                    <span class="category-icon">${tabIcon[index]}</span>
+                    <h3>${categorie.nom}</h3>
+                    <p><span>${stat.parCategorie[index].total_categorie}</span> annonces</p>
+               </div>
+          `;
+          ptrGrid.insertAdjacentHTML("beforeend", fiche);
+     });
+}
+/**
+ * =======================================================
+ *  @function     afficherStat
+ *  @description
+ *
+ * =======================================================
+ */
+async function afficherStat() {
+     const ptrGrid = document.querySelector(".categories-grid");
+     const categories = JSON.parse(localStorage.getItem('categories'));
+     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
+
+     ptrGrid.innerHTML = "";
+
+     categories.forEach((categorie, index) => {
+          const fiche = `
+               <div class="category-card" data-id="${categorie.categorie_id}">
+                    <span class="category-icon">${tabIcon[index]}</span>
+                    <h3>${categorie.nom}</h3>
+                    <p>142 annonces</p>
+               </div>
+          `;
+          ptrGrid.insertAdjacentHTML("beforeend", fiche);
+     });
+}
+/**
+ * Gestionnaire d'événements sur la grille de catégories
+ */
+function initEventCategories() {
+     const ptrGrid = document.querySelector(".categories-grid");
+     if (!ptrGrid) return;
+
+     ptrGrid.addEventListener("click", async (e) => {
+          const card = e.target.closest(".category-card");
+          if (!card) return;
+          const categoryId = card.dataset.id;
+
+          await chargerAnnonces(50, categoryId, null);
+          await afficheAnnonces();
+          showTitleCategorie(categoryId);
+     });
 }
 /**
  * =======================================================
@@ -109,6 +178,7 @@ function afficheAnnonces() {
  * =======================================================
  */
 function initEventAnnonce() {
+     const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts')) || [];
     if (annoncesInfo.length === 0) { return; }
 
     document.querySelector(".annonces-grid").addEventListener("click", (e) => {
@@ -119,4 +189,41 @@ function initEventAnnonce() {
         localStorage.setItem("annonceInfo", JSON.stringify(tmp));
         window.location.href = `details.html`;
     });
+}
+
+/**
+ * =======================================================
+ *  Gestion de la recherche d'annonces
+ * =======================================================
+ */
+function initEventRecherche() {
+     const searchForm = document.querySelector(".search-form");
+
+     if (!searchForm) return;
+
+     searchForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(searchForm);
+          const keyword = formData.get("keyword").trim();
+          const category = formData.get("category");
+
+          const limite = 50;
+console.log('category = ',category);
+          await chargerAnnonces(limite, category, keyword);
+          await afficheAnnonces();
+          showTitleCategorie(category);
+          initEventAnnonce();
+     });
+     }
+function showTitleCategorie(categorie) {
+     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
+     const categories = JSON.parse(localStorage.getItem('categories'));
+     const ptrTitleCategorie = document.getElementById("section-title-categorie");
+     if (categorie > 0) {
+          ptrTitleCategorie.textContent = `${tabIcon[categorie-1]}${categories[categorie-1].nom}`;
+     } else {
+          ptrTitleCategorie.textContent = `Toutes les catégories`;
+     }
+
 }

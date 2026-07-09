@@ -28,7 +28,7 @@ export async function getAvatarByIdUser(req, res) {
       const tmp = rows[0];
       res.status(200).json(tmp);
    } catch (error) {
-      logError(error, "FONCTION: getAnnonceById, MODULE: postmanControllers.js");
+      logError(error, "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
    }
 }
