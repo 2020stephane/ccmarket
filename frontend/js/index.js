@@ -12,6 +12,7 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/tools/logger.js";
+
 import { chargerAnnonces } from "/js/utils/annonces.js";
 import { chargerCategories } from "/js/utils/categories.js";
 import { chargerStat } from "/js/utils/annonces.js";
@@ -34,6 +35,7 @@ await chargerStat();
 initEventAnnonce();
 initEventRecherche();
 initEventCategories();
+
 /**
  * =======================================================
  *  @function     afficheAnnonces

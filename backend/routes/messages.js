@@ -14,6 +14,7 @@ import express from 'express';
 import {
    getMessagesR,
    getMessagesE,
+   postMessage
 } from '../controllers/messagesControllers2.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 /**
@@ -39,5 +40,5 @@ router.get('/messages_recus/:id', getMessagesR);
  * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
  */
 router.get('/messages_envoyes/:id', getMessagesE);
-
+router.post('/postmessage', postMessage);
 export default router;

@@ -20,17 +20,16 @@ const ptrsideDate = document.getElementById("sidebarDateInscription");
 const ptrSidebarAvatar = document.getElementById("sidebarAvatar");
 const CURRENT_USER_ID = infoUser.id;
 
-console.log('infoUser = ',infoUser);
-console.log('CURRENT_USER_ID = ',CURRENT_USER_ID);
 afficherInfoSidebar();
 chargerMessages();
-
 
 async function chargerMessages() {
      await chargerMessagesR(CURRENT_USER_ID);
      await chargerMessagesE(CURRENT_USER_ID);
 
 }
+
+
 async function chargerMessagesR(idUtilisateur) {
     try {
         const response = await fetch(`/api/messages/messages_recus/${idUtilisateur}`, {

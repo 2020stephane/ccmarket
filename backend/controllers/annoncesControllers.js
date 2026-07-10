@@ -89,6 +89,7 @@ export async function putAnnonce(req, res) {
  */
 export async function patchAnnonce(req, res) {
    const champs = req.body;
+ console.log('champs = ', champs);
    const colonnesAutorisees = ['titre', 'descriptif', 'prix', 'categorie_id'];
 
    const entrees = Object.entries(champs).filter(([col]) =>
@@ -128,8 +129,28 @@ export async function patchAnnonce(req, res) {
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
+let image_nom = null;
+      if (req.files && req.files.photo) {
+            const photo = req.files.photo;
+            const extension = photo.name.split('.').pop().toLowerCase();
+            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-      res.json({ message: 'Annonce mise à jour partiellement' });
+            if (!extensions_autorisees.includes(extension)) {
+                return res.status(400).json({ message: 'Format de fichier non autorisé' });
+            }
+
+            image_nom = Date.now() + '_' + photo.name;
+            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
+
+            await photo.mv(chemin_final);
+      }
+       if (image_nom) {
+            await db.execute(
+                'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
+                [image_nom, req.params.id]
+            );
+      }
+      res.json({ message: 'Annonce mise à jour' });
    } catch (error) {
       logError(error, "function patchAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });

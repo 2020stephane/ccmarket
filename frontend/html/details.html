@@ -81,7 +81,7 @@
          </div>
 
          <div class="details-button">
-               <button type="button" class="btn-contact">Contacter le vendeur</button>
+               <button type="button" class="btn-contact" id="btn-contact" >Contacter le vendeur</button>
          </div>
      </div>
 
@@ -91,8 +91,17 @@
          <h3 class="seller-name" id="sellerNom">Chargement…</h3>
          <p class="seller-since" id="sellerDepuis"></p>
          <hr class="seller-divider">
-         <button type="button" class="btn-contact btn-seller-contact">Contacter le vendeur</button>
+         <button type="button" class="btn-contact btn-seller-contact" id="btnContact">Contacter le vendeur</button>
      </aside>
+     <div class="boiteContact">
+          <div class="boiteContent">
+          <label for="message">Votre message :</label>
+          <textarea id="message" name="message" rows="5">
+          </textarea>
+          <button id="btnEnregistrer">Enregistrer</button>
+          <button id="btnAnnuler">Annuler</button>
+          </div>
+     </div>
    </main>
 <!--
  * ==========================================================

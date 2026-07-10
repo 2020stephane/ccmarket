@@ -19,7 +19,6 @@ init();
 async function init() {
    await chargerAnnonces(data.id);
    afficheAnnonces();
-   afficheModale();
 }
 
 /**
@@ -109,6 +108,13 @@ function afficheAnnonces() {
                 const id = e.target.dataset.id;
                 dialog.showModal();
                 boiteDialogue(dialog, id);
+            });
+    });
+    annonces.forEach((annonce) => {
+        document.getElementById(`btn_modifier_${annonce.annonce_id}`)
+            .addEventListener("click", (e) => {
+                const id = e.target.dataset.id;
+                afficheModale(id);
             });
     });
 }

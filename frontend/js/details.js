@@ -20,12 +20,12 @@ import { logError } from "/tools/logger.js";
  */
 
 const data = await verifierConnection();
-const annonceId = Number(new URLSearchParams(window.location.search).get("id"));
 let annonceInfo = null;
 
 chargerAnnonce();
 afficherAnnonce();
 chargerVendeur();
+initBtnVendeur();
 
 function chargerAnnonce() {
      annonceInfo = JSON.parse(localStorage.getItem("annonceInfo"));
@@ -93,4 +93,61 @@ function afficherErreurVendeur() {
           document.getElementById("sellerNom").textContent = "Vendeur indisponible";
           document.getElementById("sellerDepuis").textContent = "";
      }
+}
+function initBtnVendeur() {
+     const ptrbtn = document.getElementById("btnContact");
+     ptrbtn.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          dialogContact();
+     });
+}
+function dialogContact() {
+     const ptrboite = document.querySelector(".boiteContact");
+     ptrboite.classList.add("active");
+     const ptrEnregistrer = document.getElementById("btnEnregistrer");
+     ptrEnregistrer.addEventListener("click", () => {
+          envoyerMessage();
+     });
+     const ptrAnnuler = document.getElementById("btnAnnuler");
+     ptrAnnuler.addEventListener("click", () => {
+          ptrboite.classList.remove("active");
+     });
+}
+async function envoyerMessage() {
+     const contenu = document.getElementById('message').value.trim();
+ console.log('contenu', contenu);
+ console.log('annonce_id', annonceInfo.annonce_id);
+ console.log('expediteur_id', data.id);
+ console.log('destinataire_id', annonceInfo.utilisateur_id);
+    // Petite sécurité : on n'envoie pas de message vide
+    if (!contenu) {
+        alert("Veuillez écrire un message avant d'envoyer.");
+        return;
+    }
+     try {
+     const response = await fetch("/api/messages/postmessage", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({
+               contenu:contenu,
+               annonce_id: annonceInfo.annonce_id,
+               expediteur_id: data.id,
+               destinataire_id: annonceInfo.utilisateur_id
+          })
+      });
+
+      if (response.ok) {
+            const data = await response.json();
+            alert("Message envoyé avec succès !");
+
+            // Optionnel : Vider le champ et fermer la boîte après l'envoi
+            document.getElementById('message').value = "";
+            document.querySelector('.boiteContact').classList.remove('active');
+        } else {
+            alert("Erreur lors de l'envoi du message.");
+        }
+    } catch (error) {
+        console.error("Erreur réseau :", error);
+    }
 }

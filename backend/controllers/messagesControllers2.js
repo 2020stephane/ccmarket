@@ -46,3 +46,21 @@ export async function getMessagesE(req, res) {
     res.status(500).json({ message: "Erreur serveur" });
   }
 }
+export async function postMessage(req, res) {
+   const { contenu, annonce_id, expediteur_id, destinataire_id } = req.body;
+
+   if (!contenu || !annonce_id || !expediteur_id || !destinataire_id ) {
+      return res.status(400).json({ message: 'Champs obligatoires manquants' });
+   }
+
+   try {
+      const [result] = await db.execute(
+         'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
+         [contenu, annonce_id, expediteur_id, destinataire_id]
+      );
+      res.status(201).json({ message: 'Message enregistré', id: result.insertId });
+   } catch (error) {
+      logError(error, "FONCTION: postMessage, MODULE: messagesControllers2.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
+}

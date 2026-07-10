@@ -38,7 +38,8 @@ deconnexion();
 /**
  * =======================================================
  *  @function     afficherInfoSidebar
- *  @description  affiche les information de la sidebar
+ *  @description  affiche les informations utilisateur
+ *                dans la sidebar
  * =======================================================
  */
 function afficherInfoSidebar() {
