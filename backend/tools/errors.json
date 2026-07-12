@@ -10028,5 +10028,53 @@
     "extra": {
       "url": "http://localhost:3000/details.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "12/07/2026",
+    "heure": "16:06:48",
+    "timestamp": "2026-07-12T14:06:48.400Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "Cannot read properties of null (reading 'id')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot read properties of null (reading 'id')",
+      "at http://localhost:3000/js/mesannonces.js:29:33"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html#"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "12/07/2026",
+    "heure": "16:07:24",
+    "timestamp": "2026-07-12T14:07:24.196Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "Cannot read properties of null (reading 'id')",
+    "type": "Error",
+    "stack": [
+      "TypeError: Cannot read properties of null (reading 'id')",
+      "at http://localhost:3000/js/mesannonces.js:29:33"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html#"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "12/07/2026",
+    "heure": "16:07:45",
+    "timestamp": "2026-07-12T14:07:45.212Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "Assignment to constant variable.",
+    "type": "Error",
+    "stack": [
+      "TypeError: Assignment to constant variable.",
+      "at http://localhost:3000/js/mesannonces.js:26:11"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/mesannonces.html#"
+    }
   }
 ]
