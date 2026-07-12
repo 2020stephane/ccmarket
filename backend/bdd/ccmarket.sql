@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 10 juil. 2026 à 11:29
+-- Généré le : dim. 12 juil. 2026 à 10:39
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -82,7 +82,8 @@ CREATE TABLE `avatar` (
 --
 
 INSERT INTO `avatar` (`avatar_id`, `avatar_url`, `utilisateur_id`) VALUES
-(1, '1783527596985_avatarSM.webp', 2);
+(1, '1783527596985_avatarSM.webp', 2),
+(2, '1783762068870_avatarSB.webp', 1);
 
 -- --------------------------------------------------------
 
@@ -141,7 +142,7 @@ INSERT INTO `contacts` (`contact_id`, `prenom`, `nom`, `email`, `message`, `date
 CREATE TABLE `messages` (
   `message_id` int(11) NOT NULL,
   `contenu` varchar(50) NOT NULL,
-  `date_envoi` date NOT NULL DEFAULT current_timestamp(),
+  `date_envoi` datetime NOT NULL DEFAULT current_timestamp(),
   `annonce_id` int(11) NOT NULL,
   `expediteur_id` int(11) NOT NULL,
   `destinataire_id` int(11) NOT NULL
@@ -152,32 +153,31 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `contenu`, `date_envoi`, `annonce_id`, `expediteur_id`, `destinataire_id`) VALUES
-(27, 'Bonjour, le panneau solaire est-il toujours dispon', '2026-07-06', 1, 3, 2),
-(28, 'Oui toujours disponible, il est en parfait état !', '2026-07-06', 1, 2, 3),
-(29, 'Est-ce que vous pouvez baisser un peu le prix ?', '2026-07-06', 1, 3, 2),
-(30, 'Je peux faire 160€, c est mon dernier prix.', '2026-07-06', 1, 2, 3),
-(31, 'Marché conclu ! Je vous contacte pour la récupérat', '2026-07-06', 1, 3, 2),
-(32, 'Bonjour, l auvent est compatible avec un Peugeot B', '2026-07-06', 2, 4, 2),
-(33, 'Oui compatible Boxer, longueur rail 3m50.', '2026-07-06', 2, 2, 4),
-(34, 'Il est livrable ou uniquement en main propre ?', '2026-07-06', 2, 4, 2),
-(35, 'Uniquement main propre, je suis sur Bordeaux.', '2026-07-06', 2, 2, 4),
-(36, 'Le frigo fonctionne bien en 220V aussi ?', '2026-07-06', 3, 5, 4),
-(37, 'Oui il fonctionne en 12V et 220V.', '2026-07-06', 3, 4, 5),
-(38, 'Quelle est sa consommation en 12V ?', '2026-07-06', 3, 6, 4),
-(39, 'Environ 2A en fonctionnement normal.', '2026-07-06', 3, 4, 6),
-(40, 'Est-il encore sous garantie ?', '2026-07-06', 3, 7, 4),
-(41, 'La garantie a expiré il y a 6 mois malheureusement', '2026-07-06', 3, 4, 7),
-(42, 'Le GPS a les cartes pour le Maroc ?', '2026-07-06', 7, 5, 4),
-(43, 'Non uniquement l Europe, désolé.', '2026-07-06', 7, 4, 5),
-(44, 'Dommage, merci quand même !', '2026-07-06', 7, 5, 4),
-(45, 'Le matelas fait bien 140x190 ?', '2026-07-06', 8, 6, 5),
-(46, 'Oui exactement 140x190, je confirme.', '2026-07-06', 8, 5, 6),
-(47, 'Il a été utilisé combien de saisons ?', '2026-07-06', 8, 6, 5),
-(48, 'Deux saisons seulement, très bon état.', '2026-07-06', 8, 5, 6),
-(49, 'La bouteille de gaz est incluse ?', '2026-07-06', 10, 7, 3),
-(50, 'Non la bouteille n est pas incluse.', '2026-07-06', 10, 3, 7),
-(51, 'Ok, est ce que vous acceptez 80€ ?', '2026-07-06', 10, 7, 3),
-(52, 'D accord pour 80€, venez le chercher ce weekend.', '2026-07-06', 10, 3, 7);
+(56, 'Bonjour, le panneau est-il toujours dispo ?', '2024-03-02 09:00:00', 11, 1, 2),
+(57, 'Oui il est encore disponible !', '2024-03-02 09:35:00', 11, 2, 1),
+(58, 'Auvent en bon état ? Photos svp', '2024-03-06 00:00:00', 12, 1, 3),
+(59, 'Bien sûr, je vous envoie ça', '2024-03-06 00:00:00', 12, 3, 1),
+(60, 'Le frigo consomme combien en 12V ?', '2024-03-09 00:00:00', 13, 5, 4),
+(61, 'Environ 40W en pointe', '2024-03-09 00:00:00', 13, 4, 5),
+(62, 'Convertisseur compatible 24V ?', '2024-03-11 10:00:00', 14, 6, 2),
+(63, 'Non uniquement 12V, désolé', '2024-03-11 10:20:00', 14, 2, 6),
+(64, 'Table et chaises encore à vendre ?', '2024-03-13 00:00:00', 15, 7, 5),
+(65, 'Oui toujours disponible', '2024-03-13 00:00:00', 15, 5, 7),
+(66, 'Douche solaire fuit-elle ?', '2024-03-16 00:00:00', 16, 8, 3),
+(67, 'Non aucune fuite constatée', '2024-03-16 00:00:00', 16, 3, 8),
+(68, 'GPS avec cartes UK incluses ?', '2024-03-19 00:00:00', 17, 9, 4),
+(69, 'Oui Europe complète incluse', '2024-03-19 00:00:00', 17, 4, 9),
+(70, 'Matelas encore emballé ou déjà utilisé ?', '2024-03-21 00:00:00', 18, 10, 5),
+(71, 'Utilisé une saison seulement', '2024-03-21 00:00:00', 18, 5, 10),
+(72, 'Barbecue Weber dispo pour ce weekend ?', '2024-03-26 00:00:00', 20, 1, 3),
+(73, 'Oui possible, je vous contacte', '2024-03-26 00:00:00', 20, 3, 1),
+(74, 'Régulateur MPPT compatible LiFePO4 ?', '2024-04-02 00:00:00', 33, 2, 6),
+(75, 'Oui totalement compatible', '2024-04-02 00:00:00', 33, 6, 2),
+(76, 'Store fait bien 120cm de large ?', '2024-04-04 00:00:00', 34, 4, 7),
+(77, 'Oui exactement 120x90cm', '2024-04-04 00:00:00', 34, 7, 4),
+(78, 'Batterie lithium encore sous garantie ?', '2024-04-08 00:00:00', 36, 3, 9),
+(79, 'Non garantie expirée mais fonctionne bien', '2024-04-08 00:00:00', 36, 9, 3),
+(80, 'Vélos Brompton pliés tiennent où ?', '2024-04-10 00:00:00', 37, 8, 10);
 
 -- --------------------------------------------------------
 
@@ -229,7 +229,8 @@ INSERT INTO `photos` (`photo_id`, `photo_url`, `annonce_id`) VALUES
 (44, '1783611113489_batterie3.webp', 36),
 (45, '1783611134274_parbrise.webp', 41),
 (46, '1783611260501_velo.webp', 37),
-(47, '1783611277593_groupeelectrogene.webp', 42);
+(47, '1783611277593_groupeelectrogene.webp', 42),
+(48, '1783677410634_victron.webp', 44);
 
 -- --------------------------------------------------------
 
@@ -261,8 +262,7 @@ INSERT INTO `utilisateurs` (`utilisateur_id`, `nom`, `prenom`, `email`, `motdepa
 (7, 'moreau', 'lucas', 'lucasmoreau@email.com', '$2b$10$Yc96/1x5KdnkgPC9oe.kSOi.yXMBYLbzmy1Jf917.eEICxeCRyxt.', 0, '2026-06-28 08:37:54'),
 (8, 'girard', 'francois', 'francoisgirard@email.com', '$2b$10$GOeU725iHzs05jvoY2wTheuoLtInJoW9RfLpPP9zOAivs70.AmHny', 0, '2026-06-28 08:37:54'),
 (9, 'laurent', 'nathalie', 'nathalielaurent@email.com', '$2b$10$GdRad1b91fcQIrzThBOSR.bwlNnvRbzObO09ThboTvrFPaNhwhGJi', 0, '2026-06-28 08:37:54'),
-(10, 'simon', 'thierry', 'thierrysimon@email.com', '$2b$10$LrUdh3FrJB8Swmq1k3GnCecGMxqEBkcHzDCrQdQfvg8IDXisEOulq', 0, '2026-06-28 08:37:54'),
-(19, 'titi', 'titi', 'titi@gmail.com', '$2b$10$RbNyxn/aPLJEiyhCVRx3V.Zr9eVQn9LwJagp.kEzhpB0A3z6IDg0W', NULL, '2026-06-30 14:48:52');
+(10, 'simon', 'thierry', 'thierrysimon@email.com', '$2b$10$LrUdh3FrJB8Swmq1k3GnCecGMxqEBkcHzDCrQdQfvg8IDXisEOulq', 0, '2026-06-28 08:37:54');
 
 --
 -- Index pour les tables déchargées
@@ -326,13 +326,13 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
-  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT pour la table `avatar`
 --
 ALTER TABLE `avatar`
-  MODIFY `avatar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `avatar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -350,13 +350,13 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT pour la table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
