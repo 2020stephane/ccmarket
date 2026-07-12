@@ -39,7 +39,7 @@ des accéssoires pour camping car"\*
 
 - Pour faire tourner le projet localement :
 - Dans vscode :
-  - npm install express cors mysql2 bcrypt jsonwebtoken cookie-parser express-fileupload 
+  - npm install express cors mysql2 bcrypt jsonwebtoken cookie-parser express-fileupload @google/genai
   - node server/server.js
 - Dans xampp :
   - start MySql
