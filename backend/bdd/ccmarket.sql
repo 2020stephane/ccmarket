@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 03 juil. 2026 à 16:04
+-- Généré le : ven. 10 juil. 2026 à 11:29
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -52,7 +52,37 @@ INSERT INTO `annonces` (`annonce_id`, `titre`, `descriptif`, `prix`, `date_publi
 (18, 'Matelas mémoire de forme 140x190', 'Matelas mémoire de forme 2 places, épaisseur 12cm, housse lavable incluse.', 120, '2024-03-20 00:00:00', 5, 5),
 (20, 'Barbecue gaz portable Weber', 'Barbecue gaz 2 brûleurs Weber Q1200, utilisé 2 étés, très bon état.', 95, '2024-03-25 00:00:00', 3, 7),
 (25, 'convertisseur', 'super etat', 35, '2026-06-28 15:49:50', 1, 2),
-(26, 'barbecue auchan', 'tres bien', 75, '2026-06-29 09:10:14', 1, 7);
+(26, 'barbecue auchan', 'tres bien', 75, '2026-06-29 09:10:14', 1, 7),
+(33, 'Régulateur de charge MPPT 30A', 'Régulateur solaire MPPT 30A marque Victron, compatible panneaux jusqu à 400W, très peu utilisé.', 95, '2024-04-01 00:00:00', 6, 2),
+(34, 'Store intérieur occultant', 'Store enrouleur occultant sur mesure 120x90cm, couleur beige, fixation velcro, parfait état.', 35, '2024-04-03 00:00:00', 7, 1),
+(35, 'Chauffe eau instantané gaz 6L', 'Chauffe eau instantané au gaz 6L/min, marque Campingaz, fonctionne parfaitement, vendu car upgrade.', 75, '2024-04-05 00:00:00', 8, 4),
+(36, 'Batterie lithium 100Ah', 'Batterie lithium LiFePO4 100Ah avec BMS intégré, 2 saisons d utilisation, capacité intacte.', 420, '2024-04-07 00:00:00', 9, 2),
+(37, 'Vélos pliants Brompton x2', 'Paire de vélos pliants Brompton 3 vitesses, parfaits pour explorer depuis le camping car.', 680, '2024-04-09 00:00:00', 10, 7),
+(38, 'Camping gaz réchaud 2 feux', 'Réchaud 2 feux Campingaz avec couvercle, grilles en fonte, idéal extérieur, bon état général.', 45, '2024-04-11 00:00:00', 6, 3),
+(39, 'Antenne TV omnidirectionnelle', 'Antenne TV omnidirectionnelle 360°, amplifiée, réception HD, avec câble coaxial 5m inclus.', 60, '2024-04-13 00:00:00', 7, 6),
+(40, 'Sac de couchage grand froid -15°', 'Sac de couchage duvet grand froid confort -15°, taille XL, utilisé 3 fois seulement.', 110, '2024-04-15 00:00:00', 8, 5),
+(41, 'Pare brise isolant sur mesure', 'Kit pare brise isolant 5 pièces pour Fiat Ducato, aluminium réfléchissant, avec housse de rangement.', 85, '2024-04-17 00:00:00', 9, 1),
+(42, 'Groupe électrogène Honda 1kW', 'Groupe électrogène Honda EU10i 1kW, silencieux, très économique, parfait état avec housse.', 390, '2024-04-19 00:00:00', 10, 2),
+(43, 'Batterie lithium 200Ah', 'Batterie lithium LiFePO4 200Ah avec BMS intégré', 65, '2026-07-09 15:33:05', 3, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avatar`
+--
+
+CREATE TABLE `avatar` (
+  `avatar_id` int(11) NOT NULL,
+  `avatar_url` varchar(255) NOT NULL,
+  `utilisateur_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `avatar`
+--
+
+INSERT INTO `avatar` (`avatar_id`, `avatar_url`, `utilisateur_id`) VALUES
+(1, '1783527596985_avatarSM.webp', 2);
 
 -- --------------------------------------------------------
 
@@ -99,7 +129,8 @@ CREATE TABLE `contacts` (
 
 INSERT INTO `contacts` (`contact_id`, `prenom`, `nom`, `email`, `message`, `date_envoi`) VALUES
 (3, 'titi', 'titi', 'titi@gmail.com', 'test', '2026-06-30 16:08:18'),
-(4, 'toto', 'toto', 'toto@gmail.com', 'test', '2026-07-03 13:32:07');
+(4, 'toto', 'toto', 'toto@gmail.com', 'test', '2026-07-03 13:32:07'),
+(5, 'titi', 'titi', 'titi@gmail.com', 'test', '2026-07-06 13:19:10');
 
 -- --------------------------------------------------------
 
@@ -110,11 +141,43 @@ INSERT INTO `contacts` (`contact_id`, `prenom`, `nom`, `email`, `message`, `date
 CREATE TABLE `messages` (
   `message_id` int(11) NOT NULL,
   `contenu` varchar(50) NOT NULL,
-  `date_envoi` date DEFAULT NULL,
-  `annonce_id` int(11) DEFAULT NULL,
+  `date_envoi` date NOT NULL DEFAULT current_timestamp(),
+  `annonce_id` int(11) NOT NULL,
   `expediteur_id` int(11) NOT NULL,
   `destinataire_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`message_id`, `contenu`, `date_envoi`, `annonce_id`, `expediteur_id`, `destinataire_id`) VALUES
+(27, 'Bonjour, le panneau solaire est-il toujours dispon', '2026-07-06', 1, 3, 2),
+(28, 'Oui toujours disponible, il est en parfait état !', '2026-07-06', 1, 2, 3),
+(29, 'Est-ce que vous pouvez baisser un peu le prix ?', '2026-07-06', 1, 3, 2),
+(30, 'Je peux faire 160€, c est mon dernier prix.', '2026-07-06', 1, 2, 3),
+(31, 'Marché conclu ! Je vous contacte pour la récupérat', '2026-07-06', 1, 3, 2),
+(32, 'Bonjour, l auvent est compatible avec un Peugeot B', '2026-07-06', 2, 4, 2),
+(33, 'Oui compatible Boxer, longueur rail 3m50.', '2026-07-06', 2, 2, 4),
+(34, 'Il est livrable ou uniquement en main propre ?', '2026-07-06', 2, 4, 2),
+(35, 'Uniquement main propre, je suis sur Bordeaux.', '2026-07-06', 2, 2, 4),
+(36, 'Le frigo fonctionne bien en 220V aussi ?', '2026-07-06', 3, 5, 4),
+(37, 'Oui il fonctionne en 12V et 220V.', '2026-07-06', 3, 4, 5),
+(38, 'Quelle est sa consommation en 12V ?', '2026-07-06', 3, 6, 4),
+(39, 'Environ 2A en fonctionnement normal.', '2026-07-06', 3, 4, 6),
+(40, 'Est-il encore sous garantie ?', '2026-07-06', 3, 7, 4),
+(41, 'La garantie a expiré il y a 6 mois malheureusement', '2026-07-06', 3, 4, 7),
+(42, 'Le GPS a les cartes pour le Maroc ?', '2026-07-06', 7, 5, 4),
+(43, 'Non uniquement l Europe, désolé.', '2026-07-06', 7, 4, 5),
+(44, 'Dommage, merci quand même !', '2026-07-06', 7, 5, 4),
+(45, 'Le matelas fait bien 140x190 ?', '2026-07-06', 8, 6, 5),
+(46, 'Oui exactement 140x190, je confirme.', '2026-07-06', 8, 5, 6),
+(47, 'Il a été utilisé combien de saisons ?', '2026-07-06', 8, 6, 5),
+(48, 'Deux saisons seulement, très bon état.', '2026-07-06', 8, 5, 6),
+(49, 'La bouteille de gaz est incluse ?', '2026-07-06', 10, 7, 3),
+(50, 'Non la bouteille n est pas incluse.', '2026-07-06', 10, 3, 7),
+(51, 'Ok, est ce que vous acceptez 80€ ?', '2026-07-06', 10, 7, 3),
+(52, 'D accord pour 80€, venez le chercher ce weekend.', '2026-07-06', 10, 3, 7);
 
 -- --------------------------------------------------------
 
@@ -139,13 +202,34 @@ INSERT INTO `photos` (`photo_id`, `photo_url`, `annonce_id`) VALUES
 (4, '1782654425450_victron.webp', 24),
 (5, '1782654590482_victron.webp', 25),
 (19, '1782201017165_pompe.webp', 14),
-(20, '1782215581230_ps2.webp', 15),
+(20, '1782215581230_ps2.webp', 11),
 (21, '1782717014627_barbecue1.webp', 26),
-(22, '1782728436186_ps1.webp', 27),
-(23, '1782742257590_ps2.webp', 28),
-(24, '1782742674405_ps2.webp', 29),
+(22, '1782728436186_ps1.webp', 15),
+(23, '1782742257590_ps2.webp', 11),
+(24, '1782742674405_ps2.webp', 11),
 (25, '1782743017771_ps2.webp', 30),
-(26, '1783077492655_ps2.webp', 31);
+(26, '1783077492655_ps2.webp', 31),
+(27, '1783336661849_douchesolaire1.webp', 32),
+(28, '1783603985013_batterie1.webp', 43),
+(29, '1783608931270_auvent1.webp', 0),
+(30, '1783609054011_auvent2.webp', 0),
+(31, '1783609151994_auvent1.webp', 0),
+(32, '1783610222906_auvent1.webp', 12),
+(33, '1783610246369_douchesolaire1.webp', 16),
+(34, '1783610263828_barbecue2.webp', 20),
+(35, '1783610352994_frigo1.webp', 13),
+(36, '1783610367303_gps1.webp', 17),
+(37, '1783610415804_matelas1.webp', 18),
+(38, '1783610465589_regulateur.webp', 33),
+(39, '1783610482787_barbecue2.webp', 38),
+(40, '1783610646869_store1.webp', 34),
+(41, '1783610659972_antenne1.webp', 39),
+(42, '1783610818578_chauffeeau.webp', 35),
+(43, '1783610831779_saccouchage.webp', 40),
+(44, '1783611113489_batterie3.webp', 36),
+(45, '1783611134274_parbrise.webp', 41),
+(46, '1783611260501_velo.webp', 37),
+(47, '1783611277593_groupeelectrogene.webp', 42);
 
 -- --------------------------------------------------------
 
@@ -193,6 +277,13 @@ ALTER TABLE `annonces`
   ADD KEY `categorie_id` (`categorie_id`);
 
 --
+-- Index pour la table `avatar`
+--
+ALTER TABLE `avatar`
+  ADD PRIMARY KEY (`avatar_id`),
+  ADD UNIQUE KEY `utilisateur_id` (`utilisateur_id`);
+
+--
 -- Index pour la table `categories`
 --
 ALTER TABLE `categories`
@@ -235,7 +326,13 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
-  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT pour la table `avatar`
+--
+ALTER TABLE `avatar`
+  MODIFY `avatar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -247,25 +344,35 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT pour la table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
   MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `avatar`
+--
+ALTER TABLE `avatar`
+  ADD CONSTRAINT `fk_avatar_utilisateur` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`utilisateur_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

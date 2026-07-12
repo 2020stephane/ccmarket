@@ -2,8 +2,10 @@
  * =======================================================
  *  @fileoverview  index.js
  *  @project       ccmarket
- *  @description   Gestion de la navigation et du menu
- *  @version       1.0.0
+ *  @description   Chargement et affichage des annonces et
+ *                  des catégories, gestion de la recherche
+ *                  et de la navigation sur la page d'accueil
+ *  @version       1.0.1
  *  @date          2026-06-24
  *  @author        Stephane Brisse
  *  @license       MIT
@@ -11,30 +13,44 @@
  */
 
 import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/tools/logger.js";
+import { logError } from "/js/tools/logger.js";
 
 import { chargerAnnonces } from "/js/utils/annonces.js";
 import { chargerCategories } from "/js/utils/categories.js";
 import { chargerStat } from "/js/utils/annonces.js";
+
+/**
+ * =======================================================
+ *  Constantes partagées
+ * =======================================================
+ */
+const TAB_ICON = [`🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️`];
+
 /**
  * =======================================================
  *  Point d'entrée / Script principal
  * =======================================================
  */
-let annoncesInfo = [];
+try {
+     await verifierConnection();
 
-const data = await verifierConnection();
+     /** ===== MODEL ===== */
+     await chargerAnnonces(50, 0, null);
+     await chargerCategories();
+     await chargerStat();
 
+     /** ===== VIEW =====*/
+     await afficheAnnonces();
+     await afficherFormCategories();
+     await afficherCategories();
 
-await chargerAnnonces(50, 0, null);
-await afficheAnnonces();
-await chargerCategories();
-await afficherFormCategories();
-await afficherCategories();
-await chargerStat();
-initEventAnnonce();
-initEventRecherche();
-initEventCategories();
+     /** ===== CONTROLLERS ===== */
+     initEventAnnonce();
+     initEventRecherche();
+     initEventCategories();
+} catch (error) {
+     logError(error);
+}
 
 /**
  * =======================================================
@@ -45,7 +61,8 @@ initEventCategories();
  */
 async function afficheAnnonces() {
      const pGrid = document.querySelector(".annonces-grid");
-     const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts'));
+     const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts')) || [];
+
      if (annoncesInfo.length === 0) {
           pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
           return;
@@ -81,7 +98,7 @@ async function afficheAnnonces() {
                               <p class="ad-date"> Publié le : <time datetime="${datePub.toISOString()}">
                                    ${datePub.toLocaleDateString()}</time></p>
                          </div>
-                         <p class="ad_descriptif">${annonce.descriptif}</p>
+                         <p class="ad-descriptif">${annonce.descriptif}</p>
                     </div>
                </article>
                </li>
@@ -89,42 +106,44 @@ async function afficheAnnonces() {
           pGrid.insertAdjacentHTML("beforeend", fiche);
      });
 }
+
 /**
  * =======================================================
  *  @function     afficherFormCategories
- *  @description
- *
+ *  @description  Remplit les options du <select> de recherche
+ *                avec le nom de chaque catégorie
  * =======================================================
  */
 async function afficherFormCategories() {
-     const categories = JSON.parse(localStorage.getItem('categories'));
-     categories.forEach((categorie,index) => {
-          const ptrspan = document.getElementById(`option_${index+1}`);
-          ptrspan.textContent = categories[index].nom;
+     const categories = JSON.parse(localStorage.getItem('categories')) || [];
+
+     categories.forEach((categorie, index) => {
+          const ptrspan = document.getElementById(`option_${index + 1}`);
+          ptrspan.textContent = categorie.nom;
      });
 }
 
 /**
  * =======================================================
- *  @function     afficheCategories
- *  @description
- *
+ *  @function     afficherCategories
+ *  @description  Affiche la grille des catégories avec leur
+ *                icône et le nombre d'annonces associées
  * =======================================================
  */
 async function afficherCategories() {
      const ptrGrid = document.querySelector(".categories-grid");
-     const categories = JSON.parse(localStorage.getItem('categories'));
+     const categories = JSON.parse(localStorage.getItem('categories')) || [];
      const stat = JSON.parse(localStorage.getItem('annoncesStat'));
-     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
 
      ptrGrid.innerHTML = "";
 
      categories.forEach((categorie, index) => {
+          const total = stat?.parCategorie?.[index]?.total_categorie ?? 0;
           const fiche = `
                <div class="category-card" data-id="${categorie.categorie_id}">
-                    <span class="category-icon">${tabIcon[index]}</span>
+                    <span class="category-icon">${TAB_ICON[index]}</span>
                     <h3>${categorie.nom}</h3>
-                    <p><span>${stat.parCategorie[index].total_categorie}</span> annonces</p>
+                    <p><span>${total}</span> annonces</p>
                </div>
           `;
           ptrGrid.insertAdjacentHTML("beforeend", fiche);
@@ -132,31 +151,9 @@ async function afficherCategories() {
 }
 /**
  * =======================================================
- *  @function     afficherStat
- *  @description
- *
+ *  @function     initEventRecherche
+ *  @description  Gestionnaire d'événements sur la grille de catégories
  * =======================================================
- */
-async function afficherStat() {
-     const ptrGrid = document.querySelector(".categories-grid");
-     const categories = JSON.parse(localStorage.getItem('categories'));
-     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
-
-     ptrGrid.innerHTML = "";
-
-     categories.forEach((categorie, index) => {
-          const fiche = `
-               <div class="category-card" data-id="${categorie.categorie_id}">
-                    <span class="category-icon">${tabIcon[index]}</span>
-                    <h3>${categorie.nom}</h3>
-                    <p>142 annonces</p>
-               </div>
-          `;
-          ptrGrid.insertAdjacentHTML("beforeend", fiche);
-     });
-}
-/**
- * Gestionnaire d'événements sur la grille de catégories
  */
 function initEventCategories() {
      const ptrGrid = document.querySelector(".categories-grid");
@@ -172,6 +169,7 @@ function initEventCategories() {
           showTitleCategorie(categoryId);
      });
 }
+
 /**
  * =======================================================
  *  @function     initEventAnnonce
@@ -181,21 +179,22 @@ function initEventCategories() {
  */
 function initEventAnnonce() {
      const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts')) || [];
-    if (annoncesInfo.length === 0) { return; }
+     if (annoncesInfo.length === 0) { return; }
 
-    document.querySelector(".annonces-grid").addEventListener("click", (e) => {
-        const card = e.target.closest(".ad-card");
-        if (!card) { return };
-        const tmp = annoncesInfo.find(tmp => tmp.annonce_id ==  card.dataset.annonceid);
+     document.querySelector(".annonces-grid").addEventListener("click", (e) => {
+          const card = e.target.closest(".ad-card");
+          if (!card) { return; }
+          const tmp = annoncesInfo.find(tmp => tmp.annonce_id == card.dataset.annonceid);
 
-        localStorage.setItem("annonceInfo", JSON.stringify(tmp));
-        window.location.href = `details.html`;
-    });
+          localStorage.setItem("annonceInfo", JSON.stringify(tmp));
+          window.location.href = `details.html`;
+     });
 }
 
 /**
  * =======================================================
- *  Gestion de la recherche d'annonces
+ *  @function     initEventRecherche
+ *  @description  Gestion de la recherche d'annonces
  * =======================================================
  */
 function initEventRecherche() {
@@ -211,21 +210,28 @@ function initEventRecherche() {
           const category = formData.get("category");
 
           const limite = 50;
-console.log('category = ',category);
+
           await chargerAnnonces(limite, category, keyword);
           await afficheAnnonces();
           showTitleCategorie(category);
           initEventAnnonce();
      });
-     }
+}
+
+/**
+ * =======================================================
+ *  @function     showTitleCategorie
+ *  @description  Met à jour le titre de la section
+ *                "Derniers ajouts" selon la catégorie choisie
+ * =======================================================
+ */
 function showTitleCategorie(categorie) {
-     const tabIcon = [ `🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️` ];
-     const categories = JSON.parse(localStorage.getItem('categories'));
+     const categories = JSON.parse(localStorage.getItem('categories')) || [];
      const ptrTitleCategorie = document.getElementById("section-title-categorie");
+
      if (categorie > 0) {
-          ptrTitleCategorie.textContent = `${tabIcon[categorie-1]}${categories[categorie-1].nom}`;
+          ptrTitleCategorie.textContent = `${TAB_ICON[categorie - 1]}${categories[categorie - 1].nom}`;
      } else {
           ptrTitleCategorie.textContent = `Toutes les catégories`;
      }
-
 }
