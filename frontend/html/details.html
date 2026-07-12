@@ -36,72 +36,105 @@
  * ======================  HEADER  =====================
  * ==========================================================
 -->
-   <header class="navbar">
-      <section class="container nav-container">
-         <figure>
-            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-         </figure>
+     <header class="navbar">
+          <section class="container nav-container">
+          <figure>
+               <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+          </figure>
 
-         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-         </button>
+          <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+               <span></span>
+               <span></span>
+               <span></span>
+          </button>
 
-         <nav class="nav-links" aria-label="Navigation principale">
-            <a href="index.html" class="nav-item actif" >Accueil</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
-            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
-            <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
-         </nav>
-      </section>
-   </header>
+          <nav class="nav-links" aria-label="Navigation principale">
+               <a href="index.html" class="nav-item actif" >Accueil</a>
+               <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+               <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+               <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+               <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
+          </nav>
+          </section>
+     </header>
 <!--
  * ==========================================================
  * ======================  MAIN  =====================
  * ==========================================================
 -->
-   <main class="container details-layout">
-     <div class="details">
-         <figure class="details-img">
-            <img src="#" loading="lazy">
-         </figure>
+     <main class="container details-layout">
+          <div class="details">
+               <figure class="details-img">
+                    <button type="button" class="btn-retour" id="btn-retour" aria-label="Retour">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M19 12H5"/>
+                              <path d="M12 19l-7-7 7-7"/>
+                         </svg>
+                    </button>
+                    <img src="#" loading="lazy">
+               </figure>
 
-         <div class="details-content">
-            <div class="details-header">
-               <h3 class="details-title" id="titre"></h3>
-               <p class="details-price">prix : <span id="prix"></span>€</p>
-            </div>
-            <div class="details-middle">
-               <p class="details-meta">Catégorie : <span id="categorie"></span></p>
-               <p class="details-date">Publié le : <span id="date"></span></p>
-            </div>
-            <p class="details-descriptif">Description : <span id="descriptif"></span></p>
-         </div>
-
-         <div class="details-button">
-               <button type="button" class="btn-contact" id="btn-contact" >Contacter le vendeur</button>
-         </div>
-     </div>
+               <div class="details-content">
+                    <div class="details-header">
+                         <h3 class="details-title" id="titre"></h3>
+                         <p class="details-price"><span id="prix"></span> €</p>
+                    </div>
+                    <div class="details-middle">
+                         <p class="details-meta">Catégorie : <span id="categorie"></span></p>
+                         <p class="details-date">Publié le : <span id="date"></span></p>
+                    </div>
+                    <p class="details-descriptif">Description : </p>
+                    <span id="descriptif"></span>
+               </div>
+               <div class="map-container">
+                    <p>Adresse de livraison :</p>
+               <iframe id="iframe-map"
+                    width="100%"
+                    height="400"
+                    style="border:0; border-radius: 10px;"
+                    loading="lazy"
+                    allowfullscreen
+                    src="https://maps.google.com/maps?q=Montpellier&t=&z=13&ie=UTF8&iwloc=&output=embed">
+               </iframe>
+               </div>
+               <div class="details-button">
+                    <button type="button" class="btn-contact" id="btn-contact" >Contacter le vendeur</button>
+               </div>
+          </div>
 
      <!-- Fiche du vendeur (style repris de la sidebar de monCompte.html) -->
-     <aside class="seller-card" id="sellerCard">
-         <div class="seller-avatar" id="sellerAvatar">--</div>
-         <h3 class="seller-name" id="sellerNom">Chargement…</h3>
-         <p class="seller-since" id="sellerDepuis"></p>
-         <hr class="seller-divider">
-         <button type="button" class="btn-contact btn-seller-contact" id="btnContact">Contacter le vendeur</button>
-     </aside>
+          <aside class="account-sidebar">
+               <div class="user-summary">
+                    <div class="avatar">
+                         <div id="sidebarAvatar" class="user-avatar"></div>
+                    </div>
+                    <h3 id="sidebarPrenom" ></h3>
+                    <p id="sidebarDateInscription" ></p>
+               </div>
+               <button type="button" class="btn-contact btn-seller-contact" id="btnContact">Contacter le vendeur</button>
+          </aside>
+
      <div class="boiteContact">
-          <div class="boiteContent">
+     <div class="boiteContent">
+          <div class="boiteContact-header">
+               <h3>Contacter le vendeur</h3>
+               <button type="button" class="btn-fermer" id="btnFermer" aria-label="Fermer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                         <path d="M18 6L6 18"/>
+                         <path d="M6 6l12 12"/>
+                    </svg>
+               </button>
+          </div>
+
           <label for="message">Votre message :</label>
-          <textarea id="message" name="message" rows="5">
-          </textarea>
-          <button id="btnEnregistrer">Enregistrer</button>
-          <button id="btnAnnuler">Annuler</button>
+          <textarea id="message" name="message" rows="5" placeholder="Bonjour, votre annonce m'intéresse..." required></textarea>
+
+          <div class="boiteContact-actions">
+               <button type="button" id="btnAnnuler" class="btn-annuler">Annuler</button>
+               <button type="button" id="btnEnregistrer" class="btn-envoyer">Envoyer</button>
           </div>
      </div>
+</div>
    </main>
 <!--
  * ==========================================================

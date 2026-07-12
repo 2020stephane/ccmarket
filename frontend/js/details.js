@@ -11,7 +11,7 @@
  */
 
 import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/tools/logger.js";
+import { logError } from "/js/tools/logger.js";
 
 /**
  * =======================================================
@@ -25,11 +25,12 @@ let annonceInfo = null;
 chargerAnnonce();
 afficherAnnonce();
 chargerVendeur();
-initBtnVendeur();
-
+initBoiteContact();
+document.getElementById("btn-retour").addEventListener("click", () => {
+     window.history.back();
+});
 function chargerAnnonce() {
      annonceInfo = JSON.parse(localStorage.getItem("annonceInfo"));
-     console.log('annonce = ', annonceInfo);
 }
 function afficherAnnonce() {
      if (annonceInfo) {
@@ -38,15 +39,29 @@ function afficherAnnonce() {
                ? `/uploads/${annonceInfo.photos[0]}`
                : '/uploads/default.png';
           const datePub = new Date(annonceInfo.date_publication);
+          const dateFormatee = datePub.toLocaleDateString('fr-FR');
           document.getElementById("titre").textContent = annonceInfo.titre;
           document.getElementById("prix").textContent = annonceInfo.prix;
           document.getElementById("categorie").textContent = annonceInfo.nom_categorie;
           document.getElementById("descriptif").textContent = annonceInfo.descriptif;
-          document.getElementById("date").textContent = datePub;
+          document.getElementById("date").textContent = dateFormatee;
           document.querySelector(".details-img img").src = imagePath;
           document.querySelector(".details-img img").alt = annonceInfo.titre;
+          // Exemple d'utilisation :
+const adresse = "220 rue du Marechal Juin 34500 sete";
+afficherCarteAnnonce(adresse);
      }
 }
+function afficherCarteAnnonce(adresseComplete) {
+    const iframeMap = document.getElementById('iframe-map');
+
+    // Encode automatiquement les espaces, virgules et caractères spéciaux
+    const adresseEncodee = encodeURIComponent(adresseComplete);
+
+    // Mise à jour de la source de l'iframe
+    iframeMap.src = `https://maps.google.com/maps?q=${adresseEncodee}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+}
+
 
 /**
  * Récupère les infos publiques du vendeur (celui qui a publié
@@ -69,7 +84,6 @@ async function chargerVendeur() {
           afficherVendeur(vendeur);
      } catch (error) {
           logError(error, "FONCTION: chargerVendeur, MODULE: details.js");
-          afficherErreurVendeur();
      }
 }
 
@@ -78,76 +92,106 @@ function afficherVendeur(vendeur) {
      const nom = vendeur.nom || "";
      const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase() || "??";
 
-     document.getElementById("sellerAvatar").textContent = initiales;
-     document.getElementById("sellerNom").textContent = `${prenom} ${nom}`.trim() || "Utilisateur";
+     document.getElementById("sidebarAvatar").textContent = initiales;
+     document.getElementById("sidebarPrenom").textContent = `${prenom} ${nom}`.trim() || "Utilisateur";
 
      const dateInscription = vendeur.date_inscription ? new Date(vendeur.date_inscription) : null;
-     document.getElementById("sellerDepuis").textContent = dateInscription && !isNaN(dateInscription)
+     document.getElementById("sidebarDateInscription").textContent = dateInscription && !isNaN(dateInscription)
           ? "Membre depuis " + dateInscription.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
           : "";
 }
 
-function afficherErreurVendeur() {
-     const card = document.getElementById("sellerCard");
-     if (card) {
-          document.getElementById("sellerNom").textContent = "Vendeur indisponible";
-          document.getElementById("sellerDepuis").textContent = "";
-     }
-}
-function initBtnVendeur() {
-     const ptrbtn = document.getElementById("btnContact");
-     ptrbtn.addEventListener("click", (e) => {
-          e.preventDefault();
+function initBoiteContact() {
+     const boite       = document.querySelector(".boiteContact");
+     const boiteContent = document.querySelector(".boiteContent");
+     const message      = document.getElementById("message");
 
-          dialogContact();
+     const btnsOuvrir  = [
+          document.getElementById("btn-contact"),   // bouton dans .details-button
+          document.getElementById("btnContact"),    // bouton dans la sidebar vendeur
+     ].filter(Boolean); // enlève les null si un des deux boutons n'existe pas sur la page
+
+     const btnFermer   = document.getElementById("btnFermer");
+     const btnAnnuler  = document.getElementById("btnAnnuler");
+     const btnEnvoyer  = document.getElementById("btnEnregistrer");
+
+     if (!boite) return;
+function ouvrirBoite() {
+          boite.classList.add("active");
+          message.value = "";
+          message.focus();
+          document.body.style.overflow = "hidden"; // empêche le scroll derrière la modale
+     }
+
+     function fermerBoite() {
+          boite.classList.remove("active");
+          document.body.style.overflow = "";
+     }
+
+     // Ouverture depuis les boutons "Contacter le vendeur"
+     btnsOuvrir.forEach((btn) => btn.addEventListener("click", ouvrirBoite));
+// Fermeture : croix, bouton Annuler
+     btnFermer?.addEventListener("click", fermerBoite);
+     btnAnnuler?.addEventListener("click", fermerBoite);
+
+     // Fermeture en cliquant sur le fond sombre (mais pas sur le contenu)
+     boite.addEventListener("click", (e) => {
+          if (e.target === boite) {
+               fermerBoite();
+          }
+     });
+
+     // Fermeture avec la touche Échap
+     document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && boite.classList.contains("active")) {
+               fermerBoite();
+          }
+     });
+// Empêche la fermeture si on clique dans le contenu (sécurité en plus du check ci-dessus)
+     boiteContent.addEventListener("click", (e) => e.stopPropagation());
+
+     // Envoi du message
+     btnEnvoyer?.addEventListener("click", async () => {
+          const texte = message.value.trim();
+
+          if (texte === "") {
+               message.focus();
+               return;
+          }
+
+          try {
+               await envoyerMessage(texte);
+               fermerBoite();
+          } catch (error) {
+               logError(error, "FONCTION: initBoiteContact, MODULE: details.js");
+          }
      });
 }
-function dialogContact() {
-     const ptrboite = document.querySelector(".boiteContact");
-     ptrboite.classList.add("active");
-     const ptrEnregistrer = document.getElementById("btnEnregistrer");
-     ptrEnregistrer.addEventListener("click", () => {
-          envoyerMessage();
-     });
-     const ptrAnnuler = document.getElementById("btnAnnuler");
-     ptrAnnuler.addEventListener("click", () => {
-          ptrboite.classList.remove("active");
-     });
-}
-async function envoyerMessage() {
-     const contenu = document.getElementById('message').value.trim();
- console.log('contenu', contenu);
- console.log('annonce_id', annonceInfo.annonce_id);
- console.log('expediteur_id', data.id);
- console.log('destinataire_id', annonceInfo.utilisateur_id);
-    // Petite sécurité : on n'envoie pas de message vide
-    if (!contenu) {
-        alert("Veuillez écrire un message avant d'envoyer.");
-        return;
-    }
+
+async function envoyerMessage(texte) {
+     if (!texte) {
+          alert("Veuillez écrire un message avant d'envoyer.");
+          return;
+     }
      try {
      const response = await fetch("/api/messages/post", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({
-               contenu:contenu,
-               annonce_id: annonceInfo.annonce_id,
-               expediteur_id: data.id,
-               destinataire_id: annonceInfo.utilisateur_id
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+                    contenu:texte,
+                    annonce_id: annonceInfo.annonce_id,
+                    expediteur_id: data.id,
+                    destinataire_id: annonceInfo.utilisateur_id
           })
-      });
+     });
 
-      if (response.ok) {
-            const data = await response.json();
-            alert("Message envoyé avec succès !");
-
-            // Optionnel : Vider le champ et fermer la boîte après l'envoi
-            document.getElementById('message').value = "";
-            document.querySelector('.boiteContact').classList.remove('active');
-        } else {
-            alert("Erreur lors de l'envoi du message.");
-        }
-    } catch (error) {
-        console.error("Erreur réseau :", error);
-    }
+     if (response.ok) {
+          alert("Message envoyé avec succès !");
+     } else {
+          alert("Erreur lors de l'envoi du message.");
+     }
+     } catch (error) {
+          logError(error, "FONCTION: envoyerMessage, MODULE: details.js");
+          console.error("Erreur réseau :", error);
+     }
 }

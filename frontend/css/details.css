@@ -35,11 +35,12 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .details:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border-color: var(--primary-color);
 }
 
 /* Image de l'annonce */
@@ -52,15 +53,39 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .details-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Permet d'adapter l'image proprement sans la déformer */
-    transition: transform 0.3s ease;
+    object-fit: cover;
+
+}
+.btn-retour {
+     position: absolute;
+     top: 15px;
+     left: 15px;
+     z-index: 10;
+
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 40px;
+     height: 40px;
+ background-color: rgba(255, 255, 255, 0.85);
+     color: var(--text-dark);
+     border: none;
+     border-radius: 50%;
+     cursor: pointer;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+     transition: background-color 0.2s, transform 0.2s;
 }
 
+.btn-retour:hover {
+     background-color: var(--white);
+     transform: translateX(-2px);
+}
 /* Bloc de contenu texte */
 .details-content {
     padding: 24px;
@@ -89,7 +114,7 @@
 .details-price {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--primary-color, #388E53); /* Ta couleur verte */
+    color: var(--primary-color, #388E53);
     margin: 0;
     white-space: nowrap;
 }
@@ -106,11 +131,6 @@
     margin: 0;
     display: flex;
     align-items: center;
-}
-
-.details-meta strong, .details-date strong {
-    color: #334155;
-    margin-left: 4px;
 }
 
 /* Description de l'annonce */
@@ -142,7 +162,7 @@
 }
 
 .btn-contact:hover {
-    background-color: #2e7343; /* Un vert légèrement plus sombre au survol */
+    background-color: var(--primary-dark); /* Un vert légèrement plus sombre au survol */
     transform: translateY(-1px);
 }
 
@@ -154,54 +174,65 @@
    FICHE VENDEUR (sidebar à droite, style repris
    de .account-sidebar / .user-summary de monCompte.css)
    ========================================== */
-.seller-card {
+.account-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.account-sidebar {
     flex: 1;
     max-width: 280px;
-    min-width: 220px;
-    background-color: #F4F7F5; /* équivalent --bg-light */
+    background-color: var(--bg-light);
     border: 1px solid #e2f0e7;
     border-radius: 12px;
-    padding: 24px 20px;
-    text-align: center;
+    padding: 20px;
     height: fit-content;
 }
 
-.seller-avatar {
+.user-summary {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2f0e7;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px auto;
+}
+
+.avatar .user-avatar {
+    margin-bottom: 0;
+}
+
+.user-avatar {
     width: 70px;
     height: 70px;
-    background-color: var(--primary-color, #388E53);
-    color: #ffffff;
-    font-size: 1.4rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 1.5rem;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    margin: 0 auto 12px auto;
+    margin: 0 auto 10px auto;
     box-shadow: 0 4px 10px rgba(56, 142, 83, 0.2);
 }
 
-.seller-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--primary-dark, #1E5E3A);
-    margin: 0 0 4px 0;
+.user-summary h3 {
+    color: var(--primary-dark);
+    font-size: 1.2rem;
 }
 
-.seller-since {
+.user-summary p {
+    color: var(--text-light);
     font-size: 0.85rem;
-    color: #64748b;
-    margin: 0;
-}
-
-.seller-divider {
-    border: none;
-    border-top: 1px solid #e2f0e7;
-    margin: 18px 0;
-}
-
-.btn-seller-contact {
-    width: 100%;
 }
 
 .boiteContact {
@@ -212,22 +243,130 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(19, 28, 23, 0.55); /* teinte var(--text-dark) plutôt que noir pur */
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
+
 .boiteContact.active {
      display: flex;
 }
+
 .boiteContent {
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 12px;
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 16px;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 480px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     position: relative;
-    border: 2px solid var(--primary-color, #388E53);
+    border: 1px solid #e2f0e7;
+}
+
+.boiteContact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    border-left: 5px solid var(--primary-color);
+    padding-left: 12px;
+}
+
+.boiteContact-header h3 {
+    font-size: 1.15rem;
+    color: var(--primary-dark);
+}
+
+.btn-fermer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-fermer:hover {
+    background-color: #eaf6ed;
+    color: var(--primary-color);
+}
+
+.boiteContent label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.boiteContent textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2f0e7;
+    border-radius: 12px;
+    font-family: "Roboto", sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.boiteContent textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.boiteContact-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.btn-annuler,
+.btn-envoyer {
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-annuler {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    border: 1px solid #e2f0e7;
+}
+
+.btn-annuler:hover {
+    background-color: #eaf6ed;
+}
+
+.btn-envoyer {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-envoyer:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 500px) {
+    .boiteContact-actions {
+        flex-direction: column-reverse;
+    }
+    .btn-annuler, .btn-envoyer {
+        width: 100%;
+    }
 }
 /* ==========================================
    ADAPTATION POUR ÉCRANS MOBILES (Responsive)

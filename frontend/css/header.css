@@ -103,23 +103,6 @@
    opacity: 0.6;
 }
 
-/* Bouton "Se connecter" (correspond à #seconnecter dans index.html) */
-#seconnecter {
-   background-color: var(--b_color_base);
-   color: #000;
-   padding: 10px 25px;
-   border-radius: 10px;
-   font-weight: 500;
-   border: none;
-   cursor: pointer;
-   transition: all 0.3s, transform 0.3s;
-}
-
-#seconnecter:hover {
-   background-color: var(--b_color_hover);
-   transform: translateY(-2px);
-}
-
 .btn-hamburger {
    display: none;
    flex-direction: column;

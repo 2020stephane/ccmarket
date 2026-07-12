@@ -1,0 +1,221 @@
+/**
+ * =======================================================
+ *  @fileoverview  adresses.routes.js
+ *  @project       ccmarket
+ *  @description   Endpoints CRUD pour les adresses de
+ *                  livraison d'un utilisateur connecté
+ *  @version       1.0.0
+ *  @author        Stephane Brisse
+ *  @license       MIT
+ * =======================================================
+ */
+
+import { Router } from "express";
+import { pool } from "../db/pool.js";          // pool mysql2/promise déjà configuré
+import { verifierAuth } from "../middlewares/verifierAuth.js"; // pose req.utilisateurId
+
+const router = Router();
+
+/**
+ * Toutes les routes ci-dessous exigent un utilisateur connecté.
+ * verifierAuth doit renvoyer 401 si le token/session est invalide,
+ * et poser req.utilisateurId sinon.
+ */
+router.use(verifierAuth);
+
+/**
+ * =======================================================
+ *  GET /api/adresses
+ *  Liste toutes les adresses de l'utilisateur connecté
+ * =======================================================
+ */
+router.get("/", async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            `SELECT a.adresse_id, a.nom_destinataire, a.telephone,
+                    a.ligne1, a.ligne2, a.code_postal, a.ville,
+                    p.nom AS pays, a.est_par_defaut, a.date_creation
+             FROM adresse_livraison a
+             JOIN pays p ON p.pays_id = a.pays_id
+             WHERE a.utilisateur_id = ?
+             ORDER BY a.est_par_defaut DESC, a.date_creation DESC`,
+            [req.utilisateurId]
+        );
+        res.json(rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération des adresses." });
+    }
+});
+
+/**
+ * =======================================================
+ *  GET /api/adresses/:id
+ *  Détail d'une adresse (uniquement si elle appartient
+ *  à l'utilisateur connecté -> protection IDOR)
+ * =======================================================
+ */
+router.get("/:id", async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            `SELECT a.adresse_id, a.nom_destinataire, a.telephone,
+                    a.ligne1, a.ligne2, a.code_postal, a.ville,
+                    a.pays_id, a.est_par_defaut
+             FROM adresse_livraison a
+             WHERE a.adresse_id = ? AND a.utilisateur_id = ?`,
+            [req.params.id, req.utilisateurId]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Adresse introuvable." });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération de l'adresse." });
+    }
+});
+
+/**
+ * =======================================================
+ *  POST /api/adresses
+ *  Création d'une nouvelle adresse
+ * =======================================================
+ */
+router.post("/", async (req, res) => {
+    const { nom_destinataire, telephone, ligne1, ligne2, code_postal, ville, pays_id, est_par_defaut } = req.body;
+
+    // Validation minimale des champs obligatoires
+    if (!nom_destinataire || !ligne1 || !code_postal || !ville || !pays_id) {
+        return res.status(400).json({ message: "Champs obligatoires manquants." });
+    }
+
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        // Si la nouvelle adresse est définie par défaut,
+        // on retire le flag des autres adresses de l'utilisateur
+        if (est_par_defaut) {
+            await connection.query(
+                `UPDATE adresse_livraison SET est_par_defaut = FALSE WHERE utilisateur_id = ?`,
+                [req.utilisateurId]
+            );
+        }
+
+        const [result] = await connection.query(
+            `INSERT INTO adresse_livraison
+                (utilisateur_id, nom_destinataire, telephone, ligne1, ligne2, code_postal, ville, pays_id, est_par_defaut)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                req.utilisateurId,
+                nom_destinataire,
+                telephone ?? null,
+                ligne1,
+                ligne2 ?? null,
+                code_postal,
+                ville,
+                pays_id,
+                Boolean(est_par_defaut),
+            ]
+        );
+
+        await connection.commit();
+        res.status(201).json({ adresse_id: result.insertId });
+    } catch (error) {
+        await connection.rollback();
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la création de l'adresse." });
+    } finally {
+        connection.release();
+    }
+});
+
+/**
+ * =======================================================
+ *  PUT /api/adresses/:id
+ *  Modification d'une adresse existante
+ * =======================================================
+ */
+router.put("/:id", async (req, res) => {
+    const { nom_destinataire, telephone, ligne1, ligne2, code_postal, ville, pays_id, est_par_defaut } = req.body;
+
+    if (!nom_destinataire || !ligne1 || !code_postal || !ville || !pays_id) {
+        return res.status(400).json({ message: "Champs obligatoires manquants." });
+    }
+
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        // Vérifie que l'adresse appartient bien à l'utilisateur
+        const [rows] = await connection.query(
+            `SELECT adresse_id FROM adresse_livraison WHERE adresse_id = ? AND utilisateur_id = ?`,
+            [req.params.id, req.utilisateurId]
+        );
+        if (rows.length === 0) {
+            await connection.rollback();
+            return res.status(404).json({ message: "Adresse introuvable." });
+        }
+
+        if (est_par_defaut) {
+            await connection.query(
+                `UPDATE adresse_livraison SET est_par_defaut = FALSE WHERE utilisateur_id = ?`,
+                [req.utilisateurId]
+            );
+        }
+
+        await connection.query(
+            `UPDATE adresse_livraison
+             SET nom_destinataire = ?, telephone = ?, ligne1 = ?, ligne2 = ?,
+                 code_postal = ?, ville = ?, pays_id = ?, est_par_defaut = ?
+             WHERE adresse_id = ? AND utilisateur_id = ?`,
+            [
+                nom_destinataire,
+                telephone ?? null,
+                ligne1,
+                ligne2 ?? null,
+                code_postal,
+                ville,
+                pays_id,
+                Boolean(est_par_defaut),
+                req.params.id,
+                req.utilisateurId,
+            ]
+        );
+
+        await connection.commit();
+        res.json({ message: "Adresse mise à jour." });
+    } catch (error) {
+        await connection.rollback();
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la mise à jour de l'adresse." });
+    } finally {
+        connection.release();
+    }
+});
+
+/**
+ * =======================================================
+ *  DELETE /api/adresses/:id
+ *  Suppression d'une adresse (droit à l'effacement RGPD)
+ * =======================================================
+ */
+router.delete("/:id", async (req, res) => {
+    try {
+        const [result] = await pool.query(
+            `DELETE FROM adresse_livraison WHERE adresse_id = ? AND utilisateur_id = ?`,
+            [req.params.id, req.utilisateurId]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Adresse introuvable." });
+        }
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la suppression de l'adresse." });
+    }
+});
+
+export default router;

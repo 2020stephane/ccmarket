@@ -13,11 +13,7 @@
  */
 
 import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/js/tools/logger.js";
-
-import { chargerAnnonces } from "/js/utils/annonces.js";
-import { chargerCategories } from "/js/utils/categories.js";
-import { chargerStat } from "/js/utils/annonces.js";
+import { logError }           from "/js/tools/logger.js";
 
 /**
  * =======================================================
@@ -49,9 +45,70 @@ try {
      initEventRecherche();
      initEventCategories();
 } catch (error) {
-     logError(error);
+     logError(error,"Script principal, MODULE:index.js");
 }
 
+/**
+ * =======================================================
+ *  @function     chargerAnnonces
+ *  @description  Extrait (x) annonces de la base de données
+ *  @description  Triées par date de publication décroissante
+ *  @async
+ * =======================================================
+ */
+async function chargerAnnonces(nombreAnnonces, categorie, keyword) {
+   try {
+     const params = new URLSearchParams({
+          limite: nombreAnnonces,
+          categorie: categorie,
+          keyword: keyword
+     });
+     const response = await fetch(`/api/annonces/derniers_ajouts?${params}`);
+     const tmp = await response.json();
+
+     localStorage.setItem('derniersAjouts', JSON.stringify(tmp));
+
+   } catch (error){
+      logError(error, "FONCTION: chargerAnnonces, MODULE: /js/index.js");
+   }
+}
+/**
+ * =======================================================
+ *  @function     chargerCategories
+ *  @description  charge les différentes catégories
+ *  @async
+ * =======================================================
+ */
+export async function chargerCategories() {
+   try {
+     const response = await fetch(`/api/annonces/getCategories`);
+     const tmp = await response.json();
+
+     localStorage.setItem('categories', JSON.stringify(tmp));
+
+   } catch (error){
+      logError(error, "FONCTION: chargerCategories, MODULE: /js/index.js");
+   }
+}
+
+/**
+ * =======================================================
+ *  @function     chargerStat
+ *  @description  charge le nombre d'annonce par catégorie
+ *  @async
+ * =======================================================
+ */
+export async function chargerStat() {
+   try {
+     const response = await fetch(`/api/annonces/getStatistiques`);
+     const tmp = await response.json();
+
+     localStorage.setItem('annoncesStat', JSON.stringify(tmp));
+
+   } catch (error){
+      logError(error, "FONCTION: chargerStat, MODULE: /js/index.js");
+   }
+}
 /**
  * =======================================================
  *  @function     afficheAnnonces
@@ -149,6 +206,7 @@ async function afficherCategories() {
           ptrGrid.insertAdjacentHTML("beforeend", fiche);
      });
 }
+
 /**
  * =======================================================
  *  @function     initEventRecherche
