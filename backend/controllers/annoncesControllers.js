@@ -301,6 +301,91 @@ export async function getStatistiquesAnnonces(req, res) {
         return res.status(500).json({ message: "Erreur serveur" });
     }
 }
+// (SELECT COUNT(*) FROM categories) AS nb_categories,
+//         (SELECT COUNT(*) FROM avatar) AS nb_avatars,
+//         (SELECT COUNT(*) FROM contacts) AS nb_contacts,
+
+export async function getStatistiquesAdmin(req, res) {
+
+  try {
+    // Compteurs globaux
+    const [[compteurs]] = await db.execute(`
+      SELECT
+        (SELECT COUNT(*) FROM utilisateurs) AS nb_utilisateurs,
+        (SELECT COUNT(*) FROM annonces) AS nb_annonces,
+        (SELECT COUNT(*) FROM messages) AS nb_messages,
+        (SELECT COUNT(*) FROM photos) AS nb_photos,
+        (SELECT COUNT(*) FROM categories) AS nb_categories,
+        (SELECT COUNT(*) FROM avatar) AS nb_avatars,
+        (SELECT COUNT(*) FROM contacts) AS nb_contacts
+    `);
+
+    // Annonces par catégorie
+    const [parCategorie] = await db.execute(`
+      SELECT c.nom AS categorie, COUNT(a.annonce_id) AS nb_annonces
+      FROM annonces a
+      JOIN categories c ON a.categorie_id = c.categorie_id
+      GROUP BY c.nom
+      ORDER BY nb_annonces DESC
+    `);
+
+    // Top 10 utilisateurs les plus actifs (par nb d'annonces)
+    const [topUtilisateurs] = await db.execute(`
+      SELECT u.utilisateur_id, u.nom, u.prenom, COUNT(a.annonce_id) AS nb_annonces
+      FROM utilisateurs u
+      JOIN annonces a ON u.utilisateur_id = a.utilisateur_id
+      GROUP BY u.utilisateur_id
+      ORDER BY nb_annonces DESC
+      LIMIT 10
+    `);
+
+    // Inscriptions par mois
+    const [inscriptionsParMois] = await db.execute(`
+      SELECT DATE_FORMAT(date_inscription, '%Y-%m') AS mois, COUNT(*) AS nb_inscriptions
+      FROM utilisateurs
+      GROUP BY mois
+      ORDER BY mois
+    `);
+
+    // Annonces par mois
+    const [annoncesParMois] = await db.execute(`
+      SELECT DATE_FORMAT(date_publication, '%Y-%m') AS mois, COUNT(*) AS nb_annonces
+      FROM annonces
+      GROUP BY mois
+      ORDER BY mois
+    `);
+
+    // Prix moyen / min / max
+    const [[prixStats]] = await db.execute(`
+      SELECT AVG(prix) AS prix_moyen, MIN(prix) AS prix_min, MAX(prix) AS prix_max
+      FROM annonces
+    `);
+
+    // Top 10 annonces les plus contactées
+    const [annoncesPopulaires] = await db.execute(`
+      SELECT a.annonce_id, a.titre, COUNT(m.message_id) AS nb_messages
+      FROM annonces a
+      JOIN messages m ON a.annonce_id = m.annonce_id
+      GROUP BY a.annonce_id
+      ORDER BY nb_messages DESC
+      LIMIT 10
+    `);
+
+    res.status(200).json({
+      compteurs,
+      parCategorie,
+      topUtilisateurs,
+      inscriptionsParMois,
+      annoncesParMois,
+      prixStats,
+      annoncesPopulaires
+    });
+
+  } catch (error) {
+    logError(error, "FONCTION: getStats, MODULE: statsControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+}
 
 /**
  * Récupère toutes les annonces publiées par un utilisateur donné,

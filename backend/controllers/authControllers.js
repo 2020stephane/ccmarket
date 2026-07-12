@@ -135,6 +135,7 @@ res.cookie('monToken', token, {
                 nom: utilisateur.nom,
                 prenom: utilisateur.prenom,
                 email: utilisateur.email,
+                date: utilisateur.date_inscription,
                 admin: utilisateur.administrateur
             }
         });

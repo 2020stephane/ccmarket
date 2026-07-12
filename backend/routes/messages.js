@@ -12,33 +12,19 @@
 
 import express from 'express';
 import {
-   getMessagesR,
-   getMessagesE,
+   getMessages,
    postMessage
-} from '../controllers/messagesControllers2.js';
+} from '../controllers/messagesControllers.js';
+
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 /**
- * Routeur Express dédié aux annonces.
+ * Routeur Express dédié aux messages.
  * @type {express.Router}
  * @const
  */
 const router = express.Router();
 
-/**
- * Route publique : récupère les dernièrs messages recus.
- * @name GET/messages_recus
- * @function
- * @param {string} path - `/derniers_ajouts`
- * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
- */
-router.get('/messages_recus/:id', getMessagesR);
-/**
- * Route publique : récupère les dernièrs messages envoyes.
- * @name GET/messages_envoyes
- * @function
- * @param {string} path - `/derniers_ajouts`
- * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
- */
-router.get('/messages_envoyes/:id', getMessagesE);
-router.post('/postmessage', postMessage);
+router.get('/get/:id',getMessages);
+router.post('/post', postMessage);
+
 export default router;

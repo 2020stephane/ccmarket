@@ -2,11 +2,8 @@
  * =======================================================
  *  @fileoverview  messagesControllers.js
  *  @project       ccmarket
- *  @description   Contrôleurs de la messagerie : récupération
- *                  des messages reçus / envoyés, enrichis avec
- *                  le titre de l'annonce, son propriétaire, et
- *                  le nom de l'expéditeur / destinataire.
- *  @version       1.1.0
+ *  @description   Description du fichier
+ *  @version       1.0.0
  *  @date          2026-07-06
  *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
@@ -27,61 +24,52 @@ import db from '../bdd/db.js';
  */
 const JWT_SECRET = process.env.JWT_SECRET;
 
-/**
- * Requête commune aux deux routes : on joint `annonces` pour
- * récupérer le titre et le propriétaire (utile côté front pour
- * savoir si le message concerne une annonce que l'utilisateur a
- * publiée, ou une annonce d'un autre membre), et `utilisateurs`
- * (x2, alias) pour récupérer le nom de l'expéditeur ET du
- * destinataire.
- *
- * Adaptez les noms de colonnes (annonce_id, titre, id_utilisateur,
- * prenom, nom) s'ils diffèrent dans votre schéma réel.
- */
-const SELECT_MESSAGES_ENRICHIS = `
-  SELECT
-    m.message_id,
-    m.contenu,
-    m.date_envoi,
-    m.annonce_id,
-    m.expediteur_id,
-    m.destinataire_id,
-    a.titre           AS annonce_titre,
-    a.utilisateur_id  AS annonce_proprietaire_id,
-    CONCAT(ue.prenom, ' ', ue.nom) AS expediteur_nom,
-    CONCAT(ud.prenom, ' ', ud.nom) AS destinataire_nom
-  FROM messages m
-  JOIN annonces a        ON a.annonce_id = m.annonce_id
-  JOIN utilisateurs ue   ON ue.utilisateur_id = m.expediteur_id
-  JOIN utilisateurs ud   ON ud.utilisateur_id = m.destinataire_id
-`;
+export async function postMessage(req, res) {
+   const { contenu, annonce_id, expediteur_id, destinataire_id } = req.body;
 
-export async function getMessagesR(req, res) {
-  try {
-    const userid = req.params.id;
-    const [fiches] = await db.execute(
-      `${SELECT_MESSAGES_ENRICHIS} WHERE m.destinataire_id = ? ORDER BY m.date_envoi ASC`,
-      [userid]
-    );
+   if (!contenu || !annonce_id || !expediteur_id || !destinataire_id ) {
+      return res.status(400).json({ message: 'Champs obligatoires manquants' });
+   }
 
-    res.json(fiches);
-  } catch (error) {
-    logError(error, "function getMessagesR dans le module:messagesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
-  }
+   try {
+      const [result] = await db.execute(
+         'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
+         [contenu, annonce_id, expediteur_id, destinataire_id]
+      );
+      console.log('Insert result:', result);
+      res.status(201).json({ message: 'Message enregistré', id: result.insertId });
+   } catch (error) {
+      logError(error, "FONCTION: postMessage, MODULE: messagesControllers2.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
 }
-
-export async function getMessagesE(req, res) {
+export async function getMessages(req, res) {
   try {
-    const userid = req.params.id;
-    const [fiches] = await db.execute(
-      `${SELECT_MESSAGES_ENRICHIS} WHERE m.expediteur_id = ? ORDER BY m.date_envoi ASC`,
-      [userid]
-    );
+    const { id } = req.params;
 
-    res.json(fiches);
+    const sql = `SELECT m.*,
+          a.titre AS annonce_titre,
+          a.date_publication,
+        CASE
+            WHEN m.expediteur_id = ? THEN 'Envoyé'
+            WHEN m.destinataire_id = ? THEN 'Reçu'
+        END AS type_message,
+        CASE
+            WHEN a.utilisateur_id = ? THEN 'Offre'
+            ELSE 'Demande'
+        END AS type_annonce
+        FROM messages m
+        JOIN annonces a ON m.annonce_id = a.annonce_id
+        WHERE m.expediteur_id = ?
+           OR m.destinataire_id = ?
+        ORDER BY type_annonce, type_message, m.date_envoi DESC`;
+
+    const params = [ id, id, id, id, id];
+    const [result] = await db.execute(sql, params);
+
+    res.status(200).json({ result });
   } catch (error) {
-    logError(error, "function getMessagesE dans le module:messagesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
+    logError(error, "FONCTION: getMessages, MODULE: messagesControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 }

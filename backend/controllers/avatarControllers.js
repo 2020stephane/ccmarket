@@ -23,7 +23,7 @@ export async function getAvatarByIdUser(req, res) {
          'SELECT * FROM avatar WHERE utilisateur_id = ?', [req.params.id]
       );
       if (rows.length === 0) {
-         return res.status(404).json({ message: 'avatar introuvable' });
+         return res.status(200).json(null);
       }
       const tmp = rows[0];
       res.status(200).json(tmp);
@@ -60,7 +60,7 @@ export async function postAvatar(req, res) {
 
       return res.status(201).json({ message: 'Annonce publiée avec succès' });
    } catch (error) {
-       logError(error, "FONCTION: publierAnnonce, MODULE: annoncesControllers.js");
+       logError(error, "FONCTION: postAvatar, MODULE: avatarControllers.js");
        return res.status(500).json({ message: 'Erreur serveur' });
    }
 }

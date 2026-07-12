@@ -9810,5 +9810,87 @@
     "extra": {
       "url": "http://localhost:3000/index.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "11/07/2026",
+    "heure": "10:18:39",
+    "timestamp": "2026-07-11T08:18:39.237Z",
+    "contexte": "FONCTION: chargermessagesR, MODULE: messages.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messages.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "11/07/2026",
+    "heure": "10:18:39",
+    "timestamp": "2026-07-11T08:18:39.268Z",
+    "contexte": "FONCTION: chargermessagesE, MODULE: messages.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/messages.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "11/07/2026",
+    "heure": "10:35:14",
+    "timestamp": "2026-07-11T08:35:14.308Z",
+    "contexte": "FONCTION: getMessages, MODULE: messagesControllers.js",
+    "message": "Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+    "type": "Error",
+    "stack": [
+      "Error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+      "at getMessages (file:///~/backend/controllers/messagesControllers.js:88:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "12/07/2026",
+    "heure": "07:58:43",
+    "timestamp": "2026-07-12T05:58:43.561Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:308:36)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "12/07/2026",
+    "heure": "08:00:39",
+    "timestamp": "2026-07-12T06:00:39.336Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:308:36)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "12/07/2026",
+    "heure": "08:07:04",
+    "timestamp": "2026-07-12T06:07:04.225Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 8",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:308:36)"
+    ]
   }
 ]

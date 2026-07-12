@@ -126,7 +126,7 @@ async function envoyerMessage() {
         return;
     }
      try {
-     const response = await fetch("/api/messages/postmessage", {
+     const response = await fetch("/api/messages/post", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({

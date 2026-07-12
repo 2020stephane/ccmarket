@@ -63,8 +63,11 @@ window.handleCredentialResponse = async (response) => {
             alert('Connexion réussie avec Google !');
             localStorage.setItem('token', data.token);
             localStorage.setItem('userinfo', JSON.stringify(data.user));
-            // Redirection vers l'accueil ou le profil
-            window.location.href = 'index.html';
+            if (data.user.admin) {
+               window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'index.html';
+            }
         } else {
             alert('Erreur lors de la connexion : ' + data.message);
         }

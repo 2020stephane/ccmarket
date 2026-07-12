@@ -71,21 +71,13 @@
             <div class="messages-toolbar">
                 <p class="toolbar-label">Provenance</p>
                 <div class="sort-chips" id="roleChips">
-                    <button type="button" class="chip active" data-role="recu">Mes offres</button>
-                    <button type="button" class="chip" data-role="envoye">Mes demandes</button>
+                    <button type="button" class="chip active" data-role="offre">Mes offres</button>
+                    <button type="button" class="chip" data-role="demande">Mes demandes</button>
                 </div>
-
-                <p class="toolbar-label">Trier par</p>
-                <div class="sort-chips" id="sortChips">
-                    <button type="button" class="chip active" data-sort="annonce">Annonce</button>
-                    <button type="button" class="chip" data-sort="expediteur">Expéditeur</button>
-                    <button type="button" class="chip" data-sort="date">Date</button>
-                </div>
-                <input type="text" id="searchInput" class="msg-search" placeholder="Rechercher un message…">
             </div>
 
             <div class="conv-list" id="convList">
-                <!-- Rempli dynamiquement par messages.js -->
+                <p class="conv-empty">Aucun message pour le moment.</p>
             </div>
         </aside>
 
@@ -97,6 +89,9 @@
                     <p>Cliquez sur un message dans la liste pour l'ouvrir.</p>
                 </div>
             </div>
+            <div id="boiteContact">
+
+          </div>
         </section>
 
     </main>

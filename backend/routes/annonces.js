@@ -21,7 +21,8 @@ import {
    publierAnnonce,
    supprimerAnnonce,
    getCategories,
-   getStatistiquesAnnonces
+   getStatistiquesAnnonces,
+   getStatistiquesAdmin
 } from '../controllers/annoncesControllers.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
@@ -105,4 +106,5 @@ router.delete('/supprimerannonce/:id', verifierAuthentification, supprimerAnnonc
 router.get('/getCategories', getCategories);
 
 router.get('/getStatistiques', getStatistiquesAnnonces);
+router.get('/getStatAdmin', getStatistiquesAdmin);
 export default router;
