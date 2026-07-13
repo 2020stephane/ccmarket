@@ -24,6 +24,9 @@ import path              from 'path';
 import cookieParser      from 'cookie-parser';
 import fileUpload        from 'express-fileupload';
 import { fileURLToPath } from 'url';
+import cron              from "node-cron";
+
+import { lancerModeration } from "./backend/jobs/moderation.js";
 
 import postmanRoutes          from './backend/routes/postman.js';
 import annoncesRoutes         from './backend/routes/annonces.js';
@@ -33,6 +36,7 @@ import contactRoutes          from './backend/routes/contacter.js';
 import authentificationRoutes from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
 import avatarRoutes           from './backend/routes/avatar.js';
+import geminiRoutes           from './backend/routes/gemini.js';
 
 /**
  * Instance principale de l'application Express.
@@ -178,6 +182,7 @@ app.use('/auth', authentificationRoutes);
  */
 app.use('/api/log_error', logErrorRoutes);
 
+app.use("/api/gemini", geminiRoutes);
 /**
  * Sert les fichiers HTML statiques du frontend à la racine du site.
  * @name staticHtml
@@ -238,6 +243,9 @@ db.getConnection()
       console.log(`⚠️  ATTENTION : Impossible de joindre la BDD (XAMPP est probablement éteint).`);
    });
 
+//    cron.schedule("*/5 * * * *", () => {
+//      lancerModeration();
+// });
 /**
  * Démarre le serveur Express et écoute les connexions entrantes
  * sur le port configuré.

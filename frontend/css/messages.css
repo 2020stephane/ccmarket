@@ -13,7 +13,7 @@
      display: flex;
      flex-direction: row;
      justify-content: flex-start;
-     align-items: center;
+     align-items: flex-start;
      gap: 10px;
      flex-wrap: nowrap;
 
@@ -72,6 +72,8 @@
     flex-direction: column;
     padding: 20px 0 20px 0;
     overflow: hidden;
+    height: calc(100vh - 160px);
+    min-height: 480px;
 }
 
 .messages-sidebar .user-summary {
@@ -125,14 +127,186 @@
     border-color: var(--primary-color);
     color: var(--white);
 }
+
+/* ========================================================
+   AJOUT : Liste des conversations (sidebar)
+   Le HTML génère dynamiquement (js/messages.js) des
+   .message-item à l'intérieur de #convList — jusqu'ici
+   sans aucun style.
+======================================================== */
+.conv-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Fine barre de défilement, cohérente avec la charte verte du site */
+.conv-list::-webkit-scrollbar {
+    width: 6px;
+}
+.conv-list::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 10px;
+}
+.conv-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
+
+.conv-empty {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 24px 12px;
+}
+
+.message-item {
+    background-color: var(--white);
+    border: 1px solid #e2f0e7;
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.message-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(56, 142, 83, 0.12);
+    transform: translateY(-1px);
+}
+
+.message-item:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.message-item.active {
+    border-color: var(--primary-color);
+    background-color: #eef8f1;
+}
+
+.message-item h3 {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-item span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+.message-avatar {
+    width: 25px;
+    height: 25px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    box-shadow: 0 4px 10px rgba(56, 142, 83, 0.2);
+}
+/* ========================================================
+   AJOUT : Colonne de droite (fil de discussion + boîte d'envoi)
+======================================================== */
+.account-content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+    min-width: 0;
+}
+
+.thread-card {
+    background-color: var(--white);
+    border: 1px solid #e2f0e7;
+    border-radius: 12px;
+    height: calc(100vh - 160px - 190px);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* État "aucune conversation sélectionnée" */
+.thread-empty {
+    margin: auto;
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px;
+}
+
+.thread-empty h3 {
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.thread-empty p {
+    font-size: 0.9rem;
+}
+
+/* En-tête du fil : titre de l'annonce, fixe en haut du panneau */
+.thread-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2f0e7;
+    background-color: var(--bg-light);
+    flex-shrink: 0;
+    margin-bottom: 5px;
+}
+
+.thread-header h3 {
+    color: var(--primary-dark);
+    font-size: 1.05rem;
+}
+
 /* ------------------------------------------------------
-   converssation
+   conversation : bulles de messages
 ------------------------------------------------------- */
+#threadPanel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+#threadPanel::-webkit-scrollbar {
+    width: 6px;
+}
+#threadPanel::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 10px;
+}
+
 .thread-message {
     max-width: 70%;
     padding: 10px 14px;
     border-radius: 12px;
     margin-bottom: 8px;
+}
+
+.thread-message p {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.thread-date {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-top: 4px;
 }
 
 .message-sent {
@@ -144,4 +318,101 @@
 .message-received {
     margin-right: auto;
     background-color: #f0f0f0;
+}
+
+/* ------------------------------------------------------
+   Boîte d'envoi de message
+------------------------------------------------------- */
+#boiteContact {
+    background-color: var(--white);
+    border: 1px solid #e2f0e7;
+    border-radius: 12px;
+}
+
+#boiteContact:empty {
+    display: none;
+}
+
+.thread-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 20px;
+}
+
+.thread-footer label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.thread-footer textarea {
+    resize: none;
+    min-height: 70px;
+    max-height: 200px;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: var(--text-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.thread-footer textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(56, 142, 83, 0.15);
+}
+
+.thread-footer .envoie {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.15s;
+}
+
+.thread-footer .envoie:hover {
+    background-color: var(--primary-dark);
+}
+
+.thread-footer .envoie:active {
+    transform: scale(0.97);
+}
+
+/* ========================================================
+   AJOUT : Responsive — on empile les colonnes sur petit écran
+   (bug corrigé : flex-wrap: nowrap forçait 2 colonnes côte à
+   côte même sur mobile, provoquant un débordement horizontal).
+======================================================== */
+@media (max-width: 900px) {
+    .account-layout {
+        flex-wrap: wrap;
+    }
+
+    .messages-sidebar,
+    .account-content {
+        max-width: 100%;
+        flex: 1 1 100%;
+        height: auto;
+    }
+
+    .messages-sidebar {
+        min-height: 300px;
+    }
+
+    .thread-card {
+        height: 60vh;
+        min-height: 280px;
+    }
+
+    .thread-message {
+        max-width: 85%;
+    }
 }

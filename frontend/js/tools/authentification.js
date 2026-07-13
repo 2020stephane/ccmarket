@@ -15,7 +15,6 @@ export async function verifierConnection() {
       const pagesPrivees = ["mesannonces.html", "publication.html", "messages.html", "modifierAnnonce.html", "monCompte.html"];
 
       if (data.connection) {
-         // Utilisateur connecté → on met à jour l'UI
          const btnc = document.getElementById('seconnecter');
          if (btnc) {
              btnc.textContent = "Mon Compte";

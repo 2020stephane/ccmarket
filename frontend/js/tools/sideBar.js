@@ -39,12 +39,12 @@ export function afficherInfoSidebar() {
  * =======================================================
   */
 async function afficherAvatar() {
-    const imageExiste = await verifierImageExiste();
+    const imageExiste = await verifierImageExiste(infoUser.id);
 
     if (imageExiste) {
         const imagePath = `/img/avatar/${imageExiste.avatar_url}`
         // Si avatarSM.webp existe, on l'affiche
-        ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar de Sophie Martin" class="avatar-img">`;
+        ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar" class="avatar-img">`;
     }
     else {
         const prenom = infoUser.prenom || "";
@@ -61,9 +61,9 @@ async function afficherAvatar() {
  *  @async
  * =======================================================
  */
-async function verifierImageExiste() {
+export async function verifierImageExiste(id) {
     try {
-        const response = await fetch(`/api/avatar/${infoUser.id}`);
+        const response = await fetch(`/api/avatar/${id}`);
         const data = await response.json();
         if (response.ok) {
             return data;
@@ -71,5 +71,20 @@ async function verifierImageExiste() {
         return false;
     } catch (error) {
         return false; // Renvoie false si le fichier n'existe pas ou s'il y a une erreur réseau
+    }
+}
+export async function recupAvatar(userid) {
+     const imageExiste = await verifierImageExiste(userid);
+     if (imageExiste) {
+        const imagePath = `/img/avatar/${imageExiste.avatar_url}`
+        const avatar = `<img src="${imagePath}" alt="Avatar" class="avatar-img">`;
+        return avatar;
+    }
+    else {
+        const prenom = infoUser.prenom || "";
+        const nom = infoUser.nom || "";
+        const initiales = ((prenom.charAt(0) + nom.charAt(0)).toUpperCase()) || "??";
+          const avatar = `<p class="message-avatar">${initiales}</p>`;
+        return avatar;
     }
 }

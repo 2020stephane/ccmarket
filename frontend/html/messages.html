@@ -44,11 +44,12 @@
                 <span></span>
             </button>
 
-            <nav class="nav-links" aria-label="Navigation principale">
-            <a href="index.html" class="nav-item" >Accueil</a>
+            <nav id="nav-menu" class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item">Accueil</a>
             <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
             <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
             <a href="#" class="disabled nav-item actif" aria-disabled="true" tabindex="-1">Messages</a>
+
             <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
          </nav>
         </section>
@@ -60,7 +61,10 @@
 -->
     <main class="container account-layout">
 
-        <!-- Colonne gauche : liste des conversations -->
+        <h1 style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;">
+            Messagerie - Camping-Car Market
+        </h1>
+
         <aside class="account-sidebar messages-sidebar">
             <div class="user-summary">
                 <div id="sidebarAvatar" class="user-avatar">JM</div>
@@ -78,19 +82,21 @@
 
             <div class="conv-list" id="convList">
                 <p class="conv-empty">Aucun message pour le moment.</p>
+                <!-- messages insérés en js -->
             </div>
         </aside>
 
-        <!-- Colonne droite : conversation ouverte -->
         <section class="account-content">
             <div class="account-card thread-card" id="threadPanel">
                 <div class="thread-empty">
                     <h3>Aucune conversation sélectionnée</h3>
                     <p>Cliquez sur un message dans la liste pour l'ouvrir.</p>
+                    <!-- conversations insérées en js -->
                 </div>
             </div>
-            <div id="boiteContact">
 
+            <div id="boiteContact">
+               <!-- boîte construite en js -->
           </div>
         </section>
 

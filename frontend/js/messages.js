@@ -9,71 +9,129 @@
  *  @license      MIT
  * =======================================================
  */
-import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/js/tools/logger.js";
-import { afficherInfoSidebar } from "/js/tools/sideBar.js";
+import { verifierConnection }  from "/js/tools/authentification.js";
+import { logError }            from "/js/tools/logger.js";
+import { afficherInfoSidebar, recupAvatar } from "/js/tools/sideBar.js";
 
-await verifierConnection();
+/**
+ * =======================================================
+ *  variables partagées
+ * =======================================================
+ */
+let CURRENT_USER_ID = 0;
+let infoUser = null;
+let offres = [];
+let demandes = [];
 
-const infoUser = JSON.parse(localStorage.getItem("userinfo"));
-const ptrsidePrenom = document.getElementById("sidebarPrenom");
-const ptrsideDate = document.getElementById("sidebarDateInscription");
-const ptrSidebarAvatar = document.getElementById("sidebarAvatar");
-const CURRENT_USER_ID = infoUser.id;
+/**
+ * =======================================================
+ *  Point d'entrée / Script principal
+ * =======================================================
+ */
+try {
+     const data = await verifierConnection();
+     CURRENT_USER_ID = data.id;
 
-afficherInfoSidebar();
-const messages = await getMessages();
-const offres = messages.filter(msg => msg.type_annonce === "Offre");
-const demandes = messages.filter(msg => msg.type_annonce === "Demande");
+     /** ===== MODEL ===== */
+     infoUser = JSON.parse(localStorage.getItem("userinfo"));
+     await chargerMessages();
 
-console.log("messages", messages);
+     /** ===== VIEW =====*/
+     afficherInfoSidebar();
+     const roleChips = document.getElementById('roleChips');
+     const chips = roleChips.querySelectorAll('.chip');
+     afficherMessages('offre');
 
-const roleChips = document.getElementById('roleChips');
-const chips = roleChips.querySelectorAll('.chip');
-afficherMessages('offre');
+     /** ===== CONTROLLERS ===== */
+     initMenuSidebar();
 
-chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-        // Retire "active" de tous les boutons
-        chips.forEach(c => c.classList.remove('active'));
-        // Ajoute "active" au bouton cliqué
-        chip.classList.add('active');
-
-        // Récupère le rôle sélectionné
-        const role = chip.dataset.role;
-
-        afficherMessages(role);
-    });
-});
-
+} catch (error) {
+     logError(error,"Script principal, MODULE:messages.js");
+}
+/**
+ * =======================================================
+ *  @function     chargerMessages
+ *  @description  recupere les messages et les classes
+ *                par offre et demandes
+ *  @async
+ * =======================================================
+ */
+async function chargerMessages() {
+     try {
+    const messages = await getMessages();
+    offres = messages.filter(msg => msg.type_annonce === "Offre");
+    demandes = messages.filter(msg => msg.type_annonce === "Demande");
+} catch (error) {
+    logError(error, "messages.js: échec du chargement des messages");
+    const container = document.getElementById("convList");
+    if (container) {
+        container.innerHTML = `<p class="conv-empty">Impossible de charger vos messages pour le moment. Réessayez plus tard.</p>`;
+    }
+}
+}
+/**
+ * =======================================================
+ *  @function     afficherMessages
+ *  @description  affiche les messages dans la sidebar
+ * =======================================================
+ */
 function afficherMessages(role) {
-     const listeAAfficher = role === 'offre' ? offres : demandes;
-     const container = document.getElementById("convList");
-     container.innerHTML = '';
-     const annoncesUniques = [];
-     const idsVus = new Set();
+    const listeAAfficher = role === 'offre' ? offres : demandes;
+    const container = document.getElementById("convList");
+    container.innerHTML = '';
+    const annoncesUniques = [];
+    const idsVus = new Set();
 
-     listeAAfficher.forEach(msg => {
-          if (!idsVus.has(msg.annonce_id)) {
-               idsVus.add(msg.annonce_id);
-               annoncesUniques.push(msg);
+    listeAAfficher.forEach(msg => {
+        if (!idsVus.has(msg.annonce_id)) {
+            idsVus.add(msg.annonce_id);
+            annoncesUniques.push(msg);
         }
     });
-     annoncesUniques.forEach(msg => {
-          const dateInscription = new Date(msg.date_publication);
-          const dateFormatee = dateInscription.toLocaleDateString('fr-FR');
-          const div = document.createElement('div');
-          div.classList.add('message-item');
-          div.innerHTML = `
-               <h3>Titre :${msg.annonce_titre}</h3>
-               <span>Publé le :${dateFormatee}</span>
-          `;
-          div.addEventListener('click', () => afficherFilConversation(msg.annonce_id));
-          container.appendChild(div);
-     });
+
+    if (annoncesUniques.length === 0) {
+        container.innerHTML = '<p class="conv-empty">Aucun message pour le moment.</p>';
+        return;
+    }
+
+    annoncesUniques.forEach(msg => {
+        const dateInscription = new Date(msg.date_publication);
+        const dateFormatee = dateInscription.toLocaleDateString('fr-FR');
+        const div = document.createElement('div');
+        div.classList.add('message-item');
+        div.dataset.annonceId = msg.annonce_id;
+        div.setAttribute('role', 'button');
+        div.setAttribute('tabindex', '0');
+        div.innerHTML = `
+             <h3>Titre : ${echapperHTML(msg.annonce_titre)}</h3>
+             <span>Publié le : ${dateFormatee}</span>
+        `;
+        div.addEventListener('click', () => selectionnerConversation(msg.annonce_id));
+        div.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectionnerConversation(msg.annonce_id);
+            }
+        });
+        container.appendChild(div);
+    });
 }
+
+function selectionnerConversation(annonceId) {
+    const container = document.getElementById('convList');
+    container.querySelectorAll('.message-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.annonceId === String(annonceId));
+    });
+    afficherFilConversation(annonceId);
+}
+/**
+ * =======================================================
+ *  @function     afficherFilConversation
+ *  @description  affiche le fil de conversation
+ *  @param {int}  annonceId
+ * =======================================================
+ */
 function afficherFilConversation(annonceId) {
-    // Récupère tous les messages de cette annonce (envoyés + reçus), triés du plus ancien au plus récent
     const conversation = [...offres, ...demandes]
         .filter(msg => msg.annonce_id === annonceId)
         .sort((a, b) => new Date(a.date_envoi) - new Date(b.date_envoi));
@@ -90,86 +148,133 @@ function afficherFilConversation(annonceId) {
         return;
     }
 
-    // En-tête avec le titre de l'annonce
     const header = document.createElement('div');
     header.classList.add('thread-header');
-    header.innerHTML = `<h3>${conversation[0].annonce_titre}</h3>`;
+    header.innerHTML = `<h3>${echapperHTML(conversation[0].annonce_titre)}</h3>`;
     threadPanel.appendChild(header);
-
-    // Affichage de chaque message
+console.log('conversation =', conversation);
     conversation.forEach(msg => {
         const bulle = document.createElement('div');
         bulle.classList.add('thread-message');
         bulle.classList.add(msg.type_message === 'Envoyé' ? 'message-sent' : 'message-received');
+        const avatar = recupAvatar(msg.expediteur_id);
+console.log('avatar =', avatar);
         bulle.innerHTML = `
-            <p>${msg.contenu}</p>
+               ${avatar}
+            <p>${echapperHTML(msg.contenu)}</p>
             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
         `;
         threadPanel.appendChild(bulle);
     });
-    const threadbtn = document.getElementById('boiteContact');
-    threadbtn.innerHTML = "";
+
+    const boiteContact = document.getElementById('boiteContact');
+    boiteContact.innerHTML = "";
     const footer = document.createElement('div');
     footer.classList.add('thread-footer');
-    footer.innerHTML =  `<label for="message">Votre message :</label>
-                         <textarea id="message" name="message" rows="5">
-                         </textarea>
+    footer.innerHTML = `<label for="message">Votre message :</label>
+                         <textarea id="message" name="message" rows="5"></textarea>
                          <button type="button" class="envoie">Envoyer un message</button>`;
-    threadbtn.appendChild(footer);
-    document.querySelector('.envoie').addEventListener('click', () => envoyerMessage(conversation));
+    boiteContact.appendChild(footer);
+    footer.querySelector('.envoie').addEventListener('click', () => envoyerMessage(conversation, annonceId));
 }
+/**
+ * =======================================================
+ *  @function     getMessages
+ *  @description  charge les messages de la bdd
+ *  @async
+ * =======================================================
+ */
 async function getMessages() {
-  try {
-    const response = await fetch(`/api/messages/get/${CURRENT_USER_ID}`, { // adaptez le préfixe /api/messages à votre configuration
-      method: 'GET',
-    });
+    try {
+        const response = await fetch(`/api/messages/get/${CURRENT_USER_ID}`, {
+            method: 'GET',
+        });
 
-    if (!response.ok) {
-      throw new Error(`Erreur serveur: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`Erreur serveur: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.result;
+
+    } catch (error) {
+        logError('Erreur lors de la récupération des messages:', error);
+        throw error;
     }
-
-    const data = await response.json();
-    return data.result;
-
-  } catch (error) {
-    console.error('Erreur lors de la récupération des messages:', error);
-    throw error;
-  }
 }
-async function envoyerMessage(conversation) {
+/**
+ * =======================================================
+ *  @function     envoyerMessage
+ *  @description  sauvegarde un message dans la bdd
+ *  @async
+ * =======================================================
+ */
+async function envoyerMessage(conversation, annonceId) {
+    const dest = conversation[0].expediteur_id === CURRENT_USER_ID
+        ? conversation[0].destinataire_id
+        : conversation[0].expediteur_id;
+    const champMessage = document.getElementById('message');
+    const contenu = champMessage.value.trim();
 
- const dest = conversation[0].expediteur_id === CURRENT_USER_ID
-    ? conversation[0].destinataire_id
-    : conversation[0].expediteur_id;
-     const contenu = document.getElementById('message').value.trim();
-
-    // Petite sécurité : on n'envoie pas de message vide
     if (!contenu) {
         alert("Veuillez écrire un message avant d'envoyer.");
         return;
     }
-     try {
-     const response = await fetch("/api/messages/post", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({
-               contenu:contenu,
-               annonce_id: conversation[0].annonce_id,
-               expediteur_id: CURRENT_USER_ID,
-               destinataire_id: dest
-          })
-      });
 
-      if (response.ok) {
-            const data = await response.json();
+    try {
+        const response = await fetch("/api/messages/post", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contenu: contenu,
+                annonce_id: conversation[0].annonce_id,
+                expediteur_id: CURRENT_USER_ID,
+                destinataire_id: dest
+            })
+        });
+
+        if (response.ok) {
             alert("Message envoyé avec succès !");
-
-            // Optionnel : Vider le champ et fermer la boîte après l'envoi
-            document.getElementById('message').value = "";
+            champMessage.value = "";
+            const messages = await getMessages();
+            offres = messages.filter(msg => msg.type_annonce === "Offre");
+            demandes = messages.filter(msg => msg.type_annonce === "Demande");
+            afficherFilConversation(annonceId);
         } else {
             alert("Erreur lors de l'envoi du message.");
         }
     } catch (error) {
-        console.error("Erreur réseau :", error);
+        logError("Erreur réseau :", error);
+        alert("Erreur réseau lors de l'envoi du message.");
     }
+}
+/**
+ * =======================================================
+ *  @function     initMenuSidebar
+ *  @description  initialise le menu de la sidebar
+ * =======================================================
+ */
+function initMenuSidebar() {
+     const roleChips = document.getElementById('roleChips');
+     const chips = roleChips.querySelectorAll('.chip');
+
+     chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+               chips.forEach(c => c.classList.remove('active'));
+               chip.classList.add('active');
+               const role = chip.dataset.role;
+               afficherMessages(role);
+          });
+     });
+}
+/**
+ * =======================================================
+ *  @function     echapperHTML
+ *  @description  fonction echap pour faille xss
+ * =======================================================
+ */
+function echapperHTML(texte) {
+    const div = document.createElement('div');
+    div.textContent = texte ?? '';
+    return div.innerHTML;
 }

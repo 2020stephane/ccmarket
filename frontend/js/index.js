@@ -14,7 +14,7 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError }           from "/js/tools/logger.js";
-
+import { askGemini } from "/js/tools/askGemini.js";
 /**
  * =======================================================
  *  Constantes partagées
@@ -44,6 +44,7 @@ try {
      initEventAnnonce();
      initEventRecherche();
      initEventCategories();
+// askGemini(`quel est ton nom?`);
 } catch (error) {
      logError(error,"Script principal, MODULE:index.js");
 }
