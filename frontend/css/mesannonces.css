@@ -258,13 +258,14 @@ input:focus, textarea:focus {
 /* ==================================================
    BOITE DE DIALOGUE
    ================================================== */
+
 /* Style de la boîte elle-même */
 dialog {
-  padding: 20px;
-  border: none;
-  border-radius: 8px;
+  padding: 10px;
+  border: 2px solid var(--primary-color, #388E53);
+  border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
   position: fixed;
   top: 50%;

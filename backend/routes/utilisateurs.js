@@ -17,7 +17,9 @@ import {
    sInscrire,
    supprimerUtilisateur,
    getUtilisateurPublic,
-   patchUtilisateur
+   patchUtilisateur,
+   patchMotDePasse,
+   deleteUserAccount
 } from '../controllers/utilisateursControllers.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
@@ -37,7 +39,8 @@ const router = express.Router();
  */
 router.post('/inscription', sInscrire);
 router.get('/:id/public', getUtilisateurPublic);
-router.patch('/:id', patchUtilisateur);
+router.patch('/:id', verifierAuthentification, patchUtilisateur);
+router.patch('/mdp/:id', verifierAuthentification, patchMotDePasse);
 /**
  * Route protégée : suppression définitive d'un compte utilisateur.
  * Nécessite un utilisateur authentifié.
@@ -48,5 +51,5 @@ router.patch('/:id', patchUtilisateur);
  * @param {Function} supprimerUtilisateur - Contrôleur supprimant l'utilisateur ciblé par `id`.
  */
 router.delete('/delete/:id', verifierAuthentification, supprimerUtilisateur);
-
+router.delete('/:id', verifierAuthentification, deleteUserAccount);
 export default router;

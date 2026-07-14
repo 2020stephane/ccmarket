@@ -15,6 +15,21 @@ import { logError } from "/js/tools/logger.js";
  * =======================================================
  */
 const container = document.getElementById("annonces_body");
+
+/**
+ * Correction sécurité (XSS) : échappe tout contenu utilisateur avant de
+ * l'injecter en HTML (titre, description, nom de catégorie...). Sans ça,
+ * une annonce contenant du HTML/JS (ex: <img src=x onerror=...>) dans son
+ * titre ou sa description serait exécutée pour quiconque consulte la liste.
+ * NB : idéalement à extraire dans un module utilitaire partagé
+ * (ex: /js/tools/echapperHTML.js) et à réutiliser sur messages.js.
+ */
+function echapperHTML(texte) {
+    const div = document.createElement('div');
+    div.textContent = texte ?? '';
+    return div.innerHTML;
+}
+
 /**
  * =======================================================
  *  Point d'entrée / Script principal
@@ -87,28 +102,24 @@ function afficheAnnonces() {
     annonces.forEach((annonce) => {
         const aDesPhotos = annonce.photos && annonce.photos.length > 0;
         const imagePath = aDesPhotos
-            ? `/uploads/${annonce.photos[0].photo_url}`
+            ? `/uploads/${echapperHTML(annonce.photos[0].photo_url)}`
             : '/uploads/default.png';
         const datePub = new Date(annonce.date_publication);
         const fiche = `
                 <tr>
                     <td class="col_photo">
-                        <img src="${imagePath}" alt="${annonce.titre}" loading="lazy">
+                        <img src="${imagePath}" alt="${echapperHTML(annonce.titre)}" loading="lazy">
                     </td>
-                    <td class="col_titre"><strong>${annonce.titre}</strong></td>
+                    <td class="col_titre"><strong>${echapperHTML(annonce.titre)}</strong></td>
                     <td class="col_desc_cell">
-                        <div class="scroll_desc">${annonce.descriptif}</div>
+                        <div class="scroll_desc">${echapperHTML(annonce.descriptif)}</div>
                     </td>
                     <td class="col_prix">${parseFloat(annonce.prix).toLocaleString("fr-FR")} €</td>
-                    <td class="col_categorie"><strong>${annonce.categorie[0].nom}</strong></td>
+                    <td class="col_categorie"><strong>${echapperHTML(annonce.categorie[0].nom)}</strong></td>
                     <td class="col_date"><time datetime="${datePub.toISOString()}">${datePub.toLocaleDateString()}</time></td>
                     <td class="col_action">
-                        <a href="#">
-                            <button type="button" data-id="${annonce.annonce_id}" class="btn_modifier" id="btn_modifier_${annonce.annonce_id}">Modifier</button>
-                        </a>
-                        <a href="#">
-                            <button data-id="${annonce.annonce_id}" type="button" class="btn_supprimer" id="btn_supprimer_${annonce.annonce_id}">Supprimer</button>
-                        </a>
+                        <button type="button" data-id="${annonce.annonce_id}" class="btn_modifier" id="btn_modifier_${annonce.annonce_id}">Modifier</button>
+                        <button data-id="${annonce.annonce_id}" type="button" class="btn_supprimer" id="btn_supprimer_${annonce.annonce_id}">Supprimer</button>
                     </td>
                 </tr>
         `;
@@ -127,7 +138,6 @@ function afficheAnnonces() {
 function afficheModale(id) {
     const modal = document.getElementById('editModal');
     const closeBtn = document.querySelector('.close-modal');
-    const btnAnnuler = document.getElementById('btnannuler');
     const formEdit = document.getElementById('formmodifier');
 
     const tabAnnonces = JSON.parse(localStorage.getItem("userannonces")) || [];
@@ -146,8 +156,12 @@ function afficheModale(id) {
 
     // 3. Gestion de la fermeture
     const fermerModale = () => { modal.style.display = 'none'; };
+    // Correction : "btnM_annuler" est À L'INTÉRIEUR de #formmodifier, donc il
+    // sera détruit et recréé par le formClone.cloneNode(true) ci-dessous.
+    // Poser le listener ici (sur l'ancien bouton, avant le clonage) ne sert
+    // à rien : ce nœud est jeté juste après par replaceChild(). Le vrai
+    // rattachement se fait plus bas, une fois formClone inséré dans le DOM.
     if (closeBtn) closeBtn.onclick = fermerModale;
-    if (btnAnnuler) btnAnnuler.onclick = fermerModale;
 
     window.onclick = (e) => {
         if (e.target === modal) fermerModale();
@@ -156,6 +170,12 @@ function afficheModale(id) {
     // 4. Clonage propre du formulaire pour purger les évenements
     const formClone = formEdit.cloneNode(true);
     formEdit.parentNode.replaceChild(formClone, formEdit);
+
+    // Correction : on récupère le bouton "Annuler" du NOUVEAU formulaire
+    // (formClone), celui réellement affiché à l'écran, et on lui attache
+    // le listener maintenant.
+    const btnAnnuler = formClone.querySelector('#btnM_annuler');
+    if (btnAnnuler) btnAnnuler.onclick = fermerModale;
 
     // 5. Gestion du bouton "Choisir une photo" pour afficher le nom du fichier sélectionné
     const inputPhoto = formClone.querySelector('#inputphoto');
@@ -202,6 +222,11 @@ function afficheModale(id) {
 function initBtn() {
      const annonces = JSON.parse(localStorage.getItem("userannonces"));
      const dialog = document.getElementById("ma_boite_dialogue");
+
+     // Correction : si l'utilisateur n'a aucune annonce, chargerAnnonces()
+     // fait localStorage.removeItem("userannonces") -> annonces vaut null
+     // ici, et annonces.forEach() plantait avec une erreur JS.
+     if (!annonces || annonces.length === 0) return;
 
      annonces.forEach((annonce) => {
           document.getElementById(`btn_supprimer_${annonce.annonce_id}`)

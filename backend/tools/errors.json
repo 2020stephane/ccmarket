@@ -10396,5 +10396,90 @@
     "extra": {
       "url": "http://localhost:3000/messages.html"
     }
+  },
+  {
+    "source": "backend",
+    "date": "13/07/2026",
+    "heure": "17:51:14",
+    "timestamp": "2026-07-13T15:51:14.204Z",
+    "contexte": "FONCTION: patchMotDePasse, MODULE: utilisateursControllers.js",
+    "message": "data and hash arguments required",
+    "type": "Error",
+    "stack": [
+      "Error: data and hash arguments required",
+      "at new Promise (<anonymous>)",
+      "at patchMotDePasse (file:///~/backend/controllers/utilisateursControllers.js:138:38)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "13/07/2026",
+    "heure": "18:25:15",
+    "timestamp": "2026-07-13T16:25:15.931Z",
+    "contexte": "FONCTION: supprimerUtilisateur, MODULE: utilisateursControllers.js",
+    "message": "localStorage is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: localStorage is not defined",
+      "at supprimerUtilisateur (file:///~/backend/controllers/utilisateursControllers.js:272:7)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "07:48:49",
+    "timestamp": "2026-07-14T05:48:49.018Z",
+    "contexte": "function getAjouts dans le module:annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getAjouts (file:///~/backend/controllers/annoncesControllers.js:260:35)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "07:48:49",
+    "timestamp": "2026-07-14T05:48:49.051Z",
+    "contexte": "FONCTION: getCategories, MODULE: annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getCategories (file:///~/backend/controllers/annoncesControllers.js:548:35)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "07:48:49",
+    "timestamp": "2026-07-14T05:48:49.065Z",
+    "contexte": "function getStatistiquesAnnonces dans annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getStatistiquesAnnonces (file:///~/backend/controllers/annoncesControllers.js:285:33)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "14/07/2026",
+    "heure": "07:48:49",
+    "timestamp": "2026-07-14T05:48:49.097Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "annoncesInfo.forEach is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: annoncesInfo.forEach is not a function",
+      "at afficheAnnonces (http://localhost:3000/js/index.js:131:19)",
+      "at http://localhost:3000/js/index.js:39:12"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/"
+    }
   }
 ]

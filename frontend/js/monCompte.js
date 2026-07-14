@@ -35,6 +35,18 @@ afficherInfoSidebar();
 afficherInfoForm();
 selectionMenu();
 deconnexion();
+const formUpdateUser = document.getElementById('formUpdateUser');
+if (formUpdateUser) {
+    formUpdateUser.addEventListener('submit', mettreAJourUtilisateur);
+}
+const formUpdatePassword = document.getElementById('formUpdatePassword');
+if (formUpdatePassword) {
+    formUpdatePassword.addEventListener('submit', changerMotDePasse);
+}
+const formDeleteAccount = document.getElementById('formDeleteAccount');
+if (formDeleteAccount) {
+    formDeleteAccount.addEventListener('submit', supprimerCompte);
+}
 /**
  * =======================================================
  *  @function     afficherInfoSidebar
@@ -241,5 +253,153 @@ function deconnexion() {
                 console.error('Erreur réseau lors de la déconnexion :', error);
             }
         });
+    }
+}
+/**
+ * =======================================================
+ *  @function     mettreAJourUtilisateur
+ *  @description  Met à jour les informations du profil utilisateur via fetch
+ *  @async
+ * =======================================================
+ */
+async function mettreAJourUtilisateur(event) {
+    // Empêche le rechargement de la page par défaut lors de la soumission du formulaire
+    event.preventDefault();
+
+    if (!infoUser || !infoUser.id) {
+        alert("Erreur : Impossible d'identifier l'utilisateur connecté.");
+        return;
+    }
+
+    // Récupération des valeurs saisies dans le formulaire
+    const nom = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const email = document.getElementById('email').value;
+
+    const dataModifiee = { nom, prenom, email };
+
+    try {
+        const response = await fetch(`/api/utilisateurs/${infoUser.id}`, {
+            method: 'PATCH', // Ou 'PATCH' selon les routes de votre API backend
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(dataModifiee)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            alert("Informations mises à jour avec succès !");
+
+            // Optionnel : Mise à jour des données locales dans le localStorage
+            infoUser.nom = nom;
+            infoUser.prenom = prenom;
+            infoUser.email = email;
+            localStorage.setItem("userinfo", JSON.stringify(infoUser));
+
+            // Rafraîchit les informations sur la sidebar
+            afficherInfoSidebar();
+        } else {
+            const errorData = await response.json();
+            alert(`Erreur : ${errorData.message || "Impossible de mettre à jour le profil."}`);
+        }
+    } catch (error) {
+        console.error("Erreur réseau lors de la mise à jour :", error);
+        alert("Erreur réseau lors de la mise à jour.");
+    }
+}
+/**
+ * =======================================================
+ *  @function     changerMotDePasse
+ *  @description  Met à jour le mot de passe via fetch
+ *  @async
+ * =======================================================
+ */
+async function changerMotDePasse(event) {
+    event.preventDefault();
+
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Vérification côté client que les deux nouveaux mots de passe concordent
+    if (newPassword !== confirmPassword) {
+        alert("Le nouveau mot de passe et sa confirmation ne correspondent pas.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/utilisateurs/mdp/${infoUser.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+        });
+
+        if (response.ok) {
+            alert("Mot de passe mis à jour avec succès !");
+            // Réinitialise le formulaire
+            event.target.reset();
+        } else {
+            const errorData = await response.json();
+            alert(`Erreur : ${errorData.message || "Échec de la mise à jour du mot de passe."}`);
+        }
+    } catch (error) {
+        console.error("Erreur réseau lors du changement de mot de passe :", error);
+        alert("Erreur réseau lors de la mise à jour du mot de passe.");
+    }
+}
+/**
+ * =======================================================
+ *  @function     supprimerCompte
+ *  @description  Supprime le compte utilisateur connecté via fetch
+ *  @async
+ * =======================================================
+ */
+async function supprimerCompte(event) {
+    event.preventDefault();
+
+    if (!infoUser || !infoUser.id) {
+        alert("Erreur : Impossible d'identifier l'utilisateur connecté.");
+        return;
+    }
+
+    // Demande de confirmation préalable à l'utilisateur
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.");
+    if (!confirmation) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/utilisateurs/delete/${infoUser.id}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            alert("Votre compte a été supprimé avec succès.");
+
+            // Nettoyage de la session côté client
+
+  localStorage.clear();
+            if (typeof google !== 'undefined') {
+                google.accounts.id.disableAutoSelect();
+            }
+
+            // Redirection vers l'accueil
+            window.location.href = 'index.html';
+        } else {
+            const errorData = await response.json();
+            alert(`Erreur : ${errorData.message || "Impossible de supprimer le compte."}`);
+        }
+    } catch (error) {
+        console.error("Erreur réseau lors de la suppression du compte :", error);
+        alert("Erreur réseau lors de la suppression du compte.");
     }
 }

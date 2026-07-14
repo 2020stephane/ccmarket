@@ -88,7 +88,7 @@
         <section class="account-content">
             <div id="section-profil" class="account-card">
                 <h2 class="card-title">Modifier mes informations</h2>
-                <form action="/api/utilisateurs/" method="UPDATE" class="account-form">
+                <form id="formUpdateUser" class="account-form">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="nom">Nom</label>
@@ -103,7 +103,7 @@
                             <input type="email" id="email" name="email" value="" autocomplete="email" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn-submit">Enregistrer les modifications</button>
+                    <button type="submit" class="btn-submit" id="btn-modifier">Enregistrer les modifications</button>
                 </form>
             </div>
 
@@ -111,7 +111,7 @@
     <div class="password-change-block" style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
         <h2 class="card-title">Changer mon mot de passe</h2>
 
-        <form action="/user/update-password" method="POST" class="account-form">
+        <form id="formUpdatePassword" class="account-form">
             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
                 <div class="form-group">
                     <label for="currentPassword">Mot de passe actuel</label>
@@ -134,7 +134,7 @@
         <h2 class="card-title text-danger">Zone de danger</h2>
         <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
 
-        <form id="formDeleteAccount" action="/utilisateurs/delete/" method="DELETE" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.');">
+        <form id="formDeleteAccount">
             <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
         </form>
     </div>

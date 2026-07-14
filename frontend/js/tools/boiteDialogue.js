@@ -21,7 +21,7 @@ export function boiteDialogue(dialog, id) {
 console.log('id_confirmer = ',id);
     const response = await fetch(`/api/annonces/supprimerannonce/${id}`, {
       method: "DELETE",
-      credentials: "include" // ✅ obligatoire, sinon 401 systématique
+      credentials: "include"
     });
     dialog.close();
     window.location.reload();

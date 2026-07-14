@@ -1,6 +1,6 @@
 /**
  * @fileoverview Middleware de vérification d'authentification via JWT.
- * Protège les routes nécessitant une connexion utilisateur.
+ *               Protège les routes nécessitant une connexion utilisateur.
  * @module authMiddleware
  * @project ccmarket
  * @version 1.0.0
@@ -66,3 +66,41 @@ export function verifierAdministrateur(req, res, next) {
     }
     next();
 }
+/**
+ * =======================================================
+ *  @file         verifierRole.js
+ *  @description  Middleware de contrôle d'accès basé sur les rôles (RBAC)
+ * =======================================================
+ */
+
+/**
+ * @function verifierRole
+ * @param {...string} rolesAutorises - Liste des rôles autorisés à accéder à la route (ex: 'admin', 'moderateur')
+ * @returns {Function} Express middleware
+ */
+export const verifierRole = (...rolesAutorises) => {
+    return (req, res, next) => {
+        // 1. On récupère l'utilisateur injecté par le middleware verifierAuthentification
+        const user = req.user || req.session?.user;
+
+        // Si l'utilisateur n'est pas trouvé dans la requête
+        if (!user) {
+            return res.status(401).json({
+                message: "Accès refusé. Vous devez être connecté."
+            });
+        }
+
+        // 2. On vérifie si l'utilisateur possède le rôle requis
+        // (Assure-toi que la propriété 'role' existe bien sur ton objet utilisateur en BDD/session)
+        const userRole = user.role;
+
+        if (!rolesAutorises.includes(userRole)) {
+            return res.status(403).json({
+                message: "Accès interdit. Vous n'avez pas les permissions nécessaires pour effectuer cette action."
+            });
+        }
+
+        // 3. L'utilisateur a le bon rôle, on passe au contrôleur suivant
+        next();
+    };
+};
