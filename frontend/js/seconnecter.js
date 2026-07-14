@@ -4,7 +4,7 @@
 //    DATE    : 09/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { logError } from "/tools/logger.js";
+import { logError } from "/js//tools/logger.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const formConnection = document.getElementById('formConnection');

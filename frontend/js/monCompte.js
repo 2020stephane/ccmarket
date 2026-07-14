@@ -11,7 +11,7 @@
  */
 
 import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/tools/logger.js";
+import { logError } from "/js/tools/logger.js";
 
 const infoUser = JSON.parse(localStorage.getItem("userinfo"));
 const ptrsidePrenom = document.getElementById("sidebarPrenom");
@@ -245,7 +245,7 @@ function deconnexion() {
                     }
                     localStorage.removeItem("userinfo");
                     // 3. Redirection vers la page d'accueil ou de connexion
-                    window.location.href = 'index.html';
+                    window.location.href = '/html/index.html';
                 } else {
                     alert('Erreur lors de la déconnexion.');
                 }
@@ -393,7 +393,7 @@ async function supprimerCompte(event) {
             }
 
             // Redirection vers l'accueil
-            window.location.href = 'index.html';
+            window.location.href = '/html/index.html';
         } else {
             const errorData = await response.json();
             alert(`Erreur : ${errorData.message || "Impossible de supprimer le compte."}`);

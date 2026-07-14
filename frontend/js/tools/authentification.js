@@ -4,7 +4,7 @@
 //    DATE    : 04/04/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { logError } from "/tools/logger.js";
+import { logError } from "/js/tools/logger.js";
 
 export async function verifierConnection() {
    try {

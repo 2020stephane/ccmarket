@@ -6,10 +6,11 @@
     ===========================================================-->
 <!doctype html>
 <html lang="fr">
-
-  <!--==================================================
-======================  HEAD  ======================
-===================================================-->
+<!--
+ * ==========================================================
+ * ======================  HEAD  ============================
+ * ==========================================================
+-->
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +18,9 @@
    <meta name="keywords" content="pièces détachées, camping-car, accessoires, mécanique, carrosserie">
 
    <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/header.css">
    <link rel="stylesheet" href="/css/mentions_legales.css">
+   <link rel="stylesheet" href="/css/footer.css">
 
    <script src="/js/tools/menu_hamburger.js" defer></script>
 
@@ -25,37 +28,31 @@
 </head>
 
 <body>
-   <!--==================================================
-======================  HEADER  ======================
-===================================================-->
-   <header>
-      <img class="logo-img" src="/img/Logo_paysage.png" alt="Logo Camping-Car Market">
-      <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-      <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"
-         aria-controls="nav-menu">
-         <span></span>
-         <span></span>
-         <span></span>
-      </button>
-      <nav aria-label="Navigation principale">
-         <ul class="nav-menu">
-            <li>
-               <a href="index.html">Accueil</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Mes annonces</a>
-            </li>
-            <li>
-               <a href="#" class="disabled" aria-disabled="true" tabindex="-1">Messages</a>
-            </li>
-            <li>
-               <a href="rechercher.html" class="rechercher">Rechercher</a>
-            </li>
-            <li>
-               <a href="seconnecter.html" id="seconnecter">Se connecter</a>
-            </li>
-         </ul>
-      </nav>
+<!--
+ * ==========================================================
+ * ======================  HEADER  =====================
+ * ==========================================================
+-->
+   <header class="navbar">
+      <section class="container nav-container">
+         <figure>
+            <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+         </figure>
+
+         <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+         </button>
+
+         <nav class="nav-links" aria-label="Navigation principale">
+            <a href="index.html" class="nav-item actif" >Accueil</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+            <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+            <a href="seconnecter.html" id="seconnecter" class="nav-item">Se connecter</a>
+         </nav>
+      </section>
    </header>
    <!--==================================================
 ======================  MAIN  ========================

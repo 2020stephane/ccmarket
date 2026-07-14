@@ -113,7 +113,8 @@
 
         <form id="formUpdatePassword" class="account-form">
             <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
-                <div class="form-group">
+                <input type="email" name="username" autocomplete="username" value="user@email.com" style="display: none;" aria-hidden="true">
+               <div class="form-group">
                     <label for="currentPassword">Mot de passe actuel</label>
                     <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
                 </div>

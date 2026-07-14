@@ -11,7 +11,7 @@
  */
 
 import { verifierConnection } from "/js/tools/authentification.js";
-import { logError } from "/js/tools/logger.js";
+import { logError }           from "/js/tools/logger.js";
 
 /**
  * =======================================================

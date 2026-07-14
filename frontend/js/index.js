@@ -14,7 +14,7 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError }           from "/js/tools/logger.js";
-import { askGemini } from "/js/tools/askGemini.js";
+import { askGemini }          from "/js/tools/askGemini.js";
 /**
  * =======================================================
  *  Constantes partagées
@@ -246,7 +246,7 @@ function initEventAnnonce() {
           const tmp = annoncesInfo.find(tmp => tmp.annonce_id == card.dataset.annonceid);
 
           localStorage.setItem("annonceInfo", JSON.stringify(tmp));
-          window.location.href = `details.html`;
+          window.location.href = `/html/details.html`;
      });
 }
 

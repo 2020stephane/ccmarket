@@ -17,7 +17,8 @@
  */
 
 import 'dotenv/config';
-import db from "./backend/bdd/db.js";
+import db                from "./backend/bdd/db.js";
+import { testDatabaseConnection } from "./backend/bdd/testdb.js";
 import express           from 'express';
 import cors              from 'cors';
 import path              from 'path';
@@ -26,7 +27,7 @@ import fileUpload        from 'express-fileupload';
 import { fileURLToPath } from 'url';
 import cron              from "node-cron";
 
-import { lancerModeration } from "./backend/jobs/moderation.js";
+import { lancerModeration }   from "./backend/jobs/moderation.js";
 
 import postmanRoutes          from './backend/routes/postman.js';
 import annoncesRoutes         from './backend/routes/annonces.js';
@@ -144,8 +145,7 @@ app.use('/api/annonces', annoncesRoutes);
 app.use('/api/utilisateurs', utilisateursRoutes);
 
 /**
- * Route API dédiée à la mise en relation entre utilisateurs
- * (contact au sujet d'une annonce).
+ * Route API dédiée à la mise en relation avec l'administrateur
  * @name /api/contacter
  * @function
  */
@@ -153,7 +153,6 @@ app.use('/api/contacter', contactRoutes);
 
 /**
  * Route API dédiée à la gestion des messages
- * (contact au sujet d'une annonce).
  * @name /api/messages
  * @function
  */
@@ -161,7 +160,6 @@ app.use('/api/messages', messagesRoutes);
 
 /**
  * Route API dédiée à la gestion des avatars
- * (contact au sujet d'une annonce).
  * @name /api/avatar
  * @function
  */
@@ -176,73 +174,32 @@ app.use('/api/avatar', avatarRoutes);
 app.use('/auth', authentificationRoutes);
 
 /**
- * Route API dédiée à la journalisation des erreurs côté client.
+ * Route API dédiée à la journalisation des erreurs.
  * @name /api/log_error
  * @function
  */
 app.use('/api/log_error', logErrorRoutes);
 
+/**
+ * Route API dédiée gemini.
+ * @name /api/gemini
+ * @function
+ */
+
 app.use("/api/gemini", geminiRoutes);
+
 /**
  * Sert les fichiers HTML statiques du frontend à la racine du site.
  * @name staticHtml
  * @function
  */
-app.use(express.static(path.join(__dirname, '/frontend/html')));
+app.use(express.static(path.join(__dirname, '/frontend')));
 
-/**
- * Sert les feuilles de style CSS statiques sous `/css`.
- * @name staticCss
- * @function
- */
-app.use('/css', express.static(path.join(__dirname, '/frontend/css')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'html','index.html'));
+});
 
-/**
- * Sert les scripts utilitaires JavaScript statiques sous `/tools`.
- * @name staticTools
- * @function
- */
-app.use('/tools', express.static(path.join(__dirname, '/frontend/js/tools')));
-
-/**
- * Sert les scripts JavaScript statiques du frontend sous `/js`.
- * @name staticJs
- * @function
- */
-app.use('/js', express.static(path.join(__dirname, '/frontend/js')));
-
-/**
- * Sert les images statiques du frontend sous `/img`.
- * @name staticImg
- * @function
- */
-app.use('/img', express.static(path.join(__dirname, '/frontend/img')));
-
-/**
- * Sert les polices statiques du frontend sous `/fonts`.
- * @name staticFonts
- * @function
- */
-app.use('/fonts', express.static(path.join(__dirname, '/frontend/fonts')));
-
-/**
- * Sert les fichiers uploadés par les utilisateurs sous `/uploads`.
- * @name staticUploads
- * @function
- */
-app.use('/uploads', express.static(path.join(__dirname, '/frontend/uploads')));
-
-db.getConnection()
-   .then((connection) => {
-      // Si on arrive ici, la connexion a fonctionné !
-      console.log(`✅ Connexion établie à la BDD : ${process.env.DB_NAME}`);
-      connection.release(); // Là, ça fonctionne car 'connection' est le vrai objet MySQL
-   })
-   .catch((error) => {
-      // Si XAMPP est éteint, on affiche juste un avertissement sans faire planter le serveur
-      console.log(`⚠️  ATTENTION : Impossible de joindre la BDD (XAMPP est probablement éteint).`);
-   });
-
+ testDatabaseConnection();
 //    cron.schedule("*/5 * * * *", () => {
 //      lancerModeration();
 // });

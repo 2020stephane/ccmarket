@@ -33,7 +33,7 @@ form.addEventListener("submit", async (e) => {
 
       if (response.ok) {
          localStorage.setItem('userinfo', JSON.stringify(data.user));
-         window.location.href="index.html";
+         window.location.href="/html/index.html";
       }else {
          afficherErreur(data.message);
       }
