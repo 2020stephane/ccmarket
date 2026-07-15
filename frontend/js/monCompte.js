@@ -164,7 +164,7 @@ async function verifierImageExiste() {
         }
         return false;
     } catch (error) {
-        return false; // Renvoie false si le fichier n'existe pas ou s'il y a une erreur réseau
+        return false;
     }
 }
 /**
@@ -176,19 +176,17 @@ async function verifierImageExiste() {
  */
 async function enregistrerAvatar(file) {
     try {
-        // FormData permet de créer un formulaire virtuel multipart/form-data
-        const formData = new FormData();
-        formData.append('fichier', file); // Le nom 'fichier' doit correspondre à celui attendu par Multer côté Express
+         const formData = new FormData();
+        formData.append('fichier', file);
         formData.append('user_id', infoUser.id);
 
         const response = await fetch('/api/avatar', {
             method: "POST",
             credentials: "include",
-            body: formData // On passe directement le FormData ici
-            // N'ajoute SURTOUT PAS 'Content-Type': 'multipart/form-data', le navigateur le génère avec le boundary !
+            body: formData
         });
 
-        return response.ok; // Renvoie true si statut HTTP 200-299
+        return response.ok;
     } catch (error) {
         console.error("Erreur d'envoi avatar :", error);
         return false;
@@ -231,7 +229,7 @@ function deconnexion() {
            e.preventDefault();
             try {
                 // 1. On appelle la route de déconnexion de notre serveur Express
-                const response = await fetch('/auth/logout', {
+                const response = await fetch('/api/auth/logout', {
                     method: 'POST'
                 });
 
@@ -271,7 +269,6 @@ async function mettreAJourUtilisateur(event) {
         return;
     }
 
-    // Récupération des valeurs saisies dans le formulaire
     const nom = document.getElementById('nom').value;
     const prenom = document.getElementById('prenom').value;
     const email = document.getElementById('email').value;
@@ -280,7 +277,7 @@ async function mettreAJourUtilisateur(event) {
 
     try {
         const response = await fetch(`/api/utilisateurs/${infoUser.id}`, {
-            method: 'PATCH', // Ou 'PATCH' selon les routes de votre API backend
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -292,13 +289,11 @@ async function mettreAJourUtilisateur(event) {
             const result = await response.json();
             alert("Informations mises à jour avec succès !");
 
-            // Optionnel : Mise à jour des données locales dans le localStorage
             infoUser.nom = nom;
             infoUser.prenom = prenom;
             infoUser.email = email;
             localStorage.setItem("userinfo", JSON.stringify(infoUser));
 
-            // Rafraîchit les informations sur la sidebar
             afficherInfoSidebar();
         } else {
             const errorData = await response.json();

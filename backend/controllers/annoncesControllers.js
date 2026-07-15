@@ -101,7 +101,6 @@ export async function patchAnnonce(req, res) {
    }
 
    try {
-      // Vérification de propriété : l'annonce doit appartenir à l'utilisateur connecté
       const [rows] = await db.execute(
          'SELECT utilisateur_id FROM annonces WHERE annonce_id = ?',
          [req.params.id]
@@ -139,15 +138,15 @@ let image_nom = null;
                 return res.status(400).json({ message: 'Format de fichier non autorisé' });
             }
 
-            image_nom = Date.now() + '_' + photo.name;
+           image_nom = `${Date.now()}.${extension}`;
             const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
 
             await photo.mv(chemin_final);
       }
        if (image_nom) {
             await db.execute(
-                'INSERT INTO photos (photo_url, annonce_id) VALUES (?, ?)',
-                [image_nom, req.params.id]
+        `UPDATE photos SET photo_url = ? WHERE annonce_id = ?`,
+        [image_nom, req.params.id]
             );
       }
       res.json({ message: 'Annonce mise à jour' });

@@ -71,6 +71,11 @@ function genererToken(payload) {
  *   - 400 : Jeton Google manquant.
  *   - 401 : Jeton Google invalide ou expiré (journalisé via logError).
  */
+// uri1 http://localhost
+// uri2 http://127.0.0.1:3000
+// uri3 http://localhost:3000
+// uri1 http://localhost:3000/auth/google/callback
+
 export async function connexionGoogle(req, res) {
     const { token: googleToken } = req.body;
 

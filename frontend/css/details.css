@@ -146,7 +146,12 @@
 .details-button {
     padding: 0 24px 24px 24px;
 }
-
+.btn-contact:disabled {
+   color: #999;
+   background-color: var(--white);
+   pointer-events: none;
+   opacity: 0.6;
+}
 .btn-contact {
     width: 100%;
     background-color: var(--primary-color, #388E53);
@@ -157,19 +162,13 @@
     font-weight: 700;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s;
     box-shadow: 0 2px 5px rgba(56, 142, 83, 0.2);
 }
 
 .btn-contact:hover {
-    background-color: var(--primary-dark); /* Un vert légèrement plus sombre au survol */
-    transform: translateY(-1px);
+    background-color: var(--primary-dark);
 }
-
-.btn-contact:active {
-    transform: translateY(0);
-}
-
 /* ==========================================
    FICHE VENDEUR (sidebar à droite, style repris
    de .account-sidebar / .user-summary de monCompte.css)

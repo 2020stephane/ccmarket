@@ -4,7 +4,7 @@
 //    DATE    : 09/06/2026
 //    AUTEUR  : Stephane Brisse
 //===========================================================
-import { logError } from "/js//tools/logger.js";
+import { logError } from "/js/tools/logger.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const formConnection = document.getElementById('formConnection');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('/auth/loginStandard', {
+                const response = await fetch('/api/auth/loginStandard', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ window.handleCredentialResponse = async (response) => {
     const googleToken = response.credential;
     try {
         // On envoie le jeton à notre backend Express pour vérification
-        const res = await fetch('/auth/loginGoogle', {
+        const res = await fetch('/api/auth/google', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

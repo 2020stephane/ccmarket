@@ -65,7 +65,7 @@ export async function lancerModeration() {
 
      try {
           const [messages] = await db.query(
-               `SELECT message_id, contenu FROM messages WHERE statut_moderation = 'en_attente' LIMIT 1`
+               `SELECT message_id, contenu FROM messages WHERE statut_moderation = 'en_attente' LIMIT 5`
           );
 
           if (messages.length === 0) {

@@ -33,7 +33,7 @@ const router = express.Router();
  * @param {string} path - `/loginGoogle`
  * @param {Function} connexionGoogle - Contrôleur vérifiant le jeton Google et ouvrant la session.
  */
-router.post('/loginGoogle', connexionGoogle);
+router.post('/google', connexionGoogle);
 
 /**
  * Route publique : connexion via identifiant / mot de passe.

@@ -145,39 +145,26 @@ function afficheModale(id) {
 
     if (!monAnnonce) return;
 
-    // 1. Pré-remplissage des champs
     document.getElementById('editTitre').value = monAnnonce.titre;
     document.getElementById('editCategorie').value = monAnnonce.categorie_id; // ✅ Ajouté !
     document.getElementById('editPrix').value = monAnnonce.prix;
     document.getElementById('editDescriptif').value = monAnnonce.descriptif;
 
-    // 2. Affichage
     modal.style.display = 'flex';
 
-    // 3. Gestion de la fermeture
     const fermerModale = () => { modal.style.display = 'none'; };
-    // Correction : "btnM_annuler" est À L'INTÉRIEUR de #formmodifier, donc il
-    // sera détruit et recréé par le formClone.cloneNode(true) ci-dessous.
-    // Poser le listener ici (sur l'ancien bouton, avant le clonage) ne sert
-    // à rien : ce nœud est jeté juste après par replaceChild(). Le vrai
-    // rattachement se fait plus bas, une fois formClone inséré dans le DOM.
     if (closeBtn) closeBtn.onclick = fermerModale;
 
     window.onclick = (e) => {
         if (e.target === modal) fermerModale();
     };
 
-    // 4. Clonage propre du formulaire pour purger les évenements
     const formClone = formEdit.cloneNode(true);
     formEdit.parentNode.replaceChild(formClone, formEdit);
 
-    // Correction : on récupère le bouton "Annuler" du NOUVEAU formulaire
-    // (formClone), celui réellement affiché à l'écran, et on lui attache
-    // le listener maintenant.
     const btnAnnuler = formClone.querySelector('#btnM_annuler');
     if (btnAnnuler) btnAnnuler.onclick = fermerModale;
 
-    // 5. Gestion du bouton "Choisir une photo" pour afficher le nom du fichier sélectionné
     const inputPhoto = formClone.querySelector('#inputphoto');
     const fileNom = formClone.querySelector('#file-nom');
     if (inputPhoto && fileNom) {
@@ -186,11 +173,9 @@ function afficheModale(id) {
         });
     }
 
-    // 6. Soumission
     formClone.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Utilisation de FormData pour gérer le texte ET le fichier photo
         const formData = new FormData(formClone);
 
         try {

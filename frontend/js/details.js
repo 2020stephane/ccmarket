@@ -2,7 +2,7 @@
  * =======================================================
  *  @fileoverview  details.js
  *  @project       ccmarket
- *  @description   Description du fichier
+ *  @description   affiche le détails d'une annonce
  *  @version       1.0.0
  *  @date          2026-07-08
  *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
@@ -12,26 +12,60 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError }           from "/js/tools/logger.js";
-
+/**
+ * =======================================================
+ *  Constantes et variables globales
+ * =======================================================
+ */
+let annonceInfo = null;
+let data = null;
 /**
  * =======================================================
  *  Point d'entrée / Script principal
  * =======================================================
  */
+try {
+     data = await verifierConnection();
 
-const data = await verifierConnection();
-let annonceInfo = null;
+     /** ===== MODEL ===== */
+     annonceInfo = JSON.parse(localStorage.getItem("annonceInfo"));
+     chargerVendeur();
 
-chargerAnnonce();
-afficherAnnonce();
-chargerVendeur();
-initBoiteContact();
-document.getElementById("btn-retour").addEventListener("click", () => {
+     /** ===== VIEW =====*/
+     afficherAnnonce();
+
+     /** ===== CONTROLLERS ===== */
+     activerBouton();
+     initBoiteContact();
+     document.getElementById("btn-retour").addEventListener("click", () => {
      window.history.back();
 });
-function chargerAnnonce() {
-     annonceInfo = JSON.parse(localStorage.getItem("annonceInfo"));
+} catch (error) {
+     logError(error,"Script principal, MODULE:details.js");
 }
+
+/**
+ * =======================================================
+ *  @function     activerBouton
+ *  @description  Active les boutons contacter le vendeur
+ *  @description  si l'utilisateur est connecté.
+ * =======================================================
+ */
+function activerBouton() {
+     if (data.connection) {
+          const btnContact1 = document.getElementById('btn-contact');
+          const btnContact2 = document.getElementById('btnContact');
+          btnContact1.removeAttribute('disabled');
+          btnContact2.removeAttribute('disabled');
+     }
+
+}
+/**
+ * =======================================================
+ *  @function     afficherAnnonce
+ *  @description  affiche les infos de l'annonce choisis.
+ * =======================================================
+ */
 function afficherAnnonce() {
      if (annonceInfo) {
           const aDesPhotos = annonceInfo.photos && annonceInfo.photos.length > 0;
@@ -62,11 +96,12 @@ function afficherCarteAnnonce(adresseComplete) {
     iframeMap.src = `https://maps.google.com/maps?q=${adresseEncodee}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 }
 
-
 /**
- * Récupère les infos publiques du vendeur (celui qui a publié
- * l'annonce, identifié par annonceInfo.utilisateur_id) et les
- * affiche dans la fiche à droite de l'annonce.
+ * =======================================================
+ *  @function     chargerVendeur
+ *  @description  Récupère les infos publiques du vendeur
+ *  @async
+ * =======================================================
  */
 async function chargerVendeur() {
      if (!annonceInfo || !annonceInfo.utilisateur_id) {
@@ -86,7 +121,12 @@ async function chargerVendeur() {
           logError(error, "FONCTION: chargerVendeur, MODULE: details.js");
      }
 }
-
+/**
+ * =======================================================
+ *  @function     afficherVendeur
+ *  @description  affiche les infos publiques du vendeur
+ * =======================================================
+ */
 function afficherVendeur(vendeur) {
      const prenom = vendeur.prenom || "";
      const nom = vendeur.nom || "";
@@ -100,7 +140,12 @@ function afficherVendeur(vendeur) {
           ? "Membre depuis " + dateInscription.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
           : "";
 }
-
+/**
+ * =======================================================
+ *  @function     initBoiteContact
+ *  @description  affiche les infos publiques du vendeur
+ * =======================================================
+ */
 function initBoiteContact() {
      const boite       = document.querySelector(".boiteContact");
      const boiteContent = document.querySelector(".boiteContent");
@@ -116,7 +161,7 @@ function initBoiteContact() {
      const btnEnvoyer  = document.getElementById("btnEnregistrer");
 
      if (!boite) return;
-function ouvrirBoite() {
+     function ouvrirBoite() {
           boite.classList.add("active");
           message.value = "";
           message.focus();
@@ -128,29 +173,23 @@ function ouvrirBoite() {
           document.body.style.overflow = "";
      }
 
-     // Ouverture depuis les boutons "Contacter le vendeur"
      btnsOuvrir.forEach((btn) => btn.addEventListener("click", ouvrirBoite));
-// Fermeture : croix, bouton Annuler
      btnFermer?.addEventListener("click", fermerBoite);
      btnAnnuler?.addEventListener("click", fermerBoite);
 
-     // Fermeture en cliquant sur le fond sombre (mais pas sur le contenu)
      boite.addEventListener("click", (e) => {
           if (e.target === boite) {
                fermerBoite();
           }
      });
 
-     // Fermeture avec la touche Échap
      document.addEventListener("keydown", (e) => {
           if (e.key === "Escape" && boite.classList.contains("active")) {
                fermerBoite();
           }
      });
-// Empêche la fermeture si on clique dans le contenu (sécurité en plus du check ci-dessus)
      boiteContent.addEventListener("click", (e) => e.stopPropagation());
 
-     // Envoi du message
      btnEnvoyer?.addEventListener("click", async () => {
           const texte = message.value.trim();
 
@@ -167,7 +206,13 @@ function ouvrirBoite() {
           }
      });
 }
-
+/**
+ * =======================================================
+ *  @function     envoyerMessage
+ *  @description  Envoie un message au vendeur
+ *  @async
+ * =======================================================
+ */
 async function envoyerMessage(texte) {
      if (!texte) {
           alert("Veuillez écrire un message avant d'envoyer.");

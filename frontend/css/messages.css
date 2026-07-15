@@ -2,9 +2,7 @@
  * =======================================================
  *  @file         messages.css
  *  @project      ccmarket
- *  @description  Styles spécifiques à la page Messagerie
- *                 (s'appuie sur les variables et composants
- *                 définis dans monCompte.css)
+ *  @description  Styles spécifiques à la page Messages
  *  @date         2026-07-03
  *  @license      MIT
  * =======================================================
@@ -81,7 +79,7 @@
 }
 
 /* ------------------------------------------------------
-   Barre d'outils : tri + recherche
+   Barre d'outils
 ------------------------------------------------------- */
 .messages-toolbar {
     padding: 0 20px 16px;

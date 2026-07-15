@@ -2,11 +2,11 @@
   "name": "ccmarket",
   "version": "1.0.0",
   "description": "site de ventes d'accessoires pour camping car",
-  "main": "server.js",
+  "main": "server2.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server2.js",
     "inspect": "node --inspect server.js",
     "docs": "jsdoc -c jsdoc.json",
     "newfiles": "powershell -ExecutionPolicy Bypass -File nf.ps1"

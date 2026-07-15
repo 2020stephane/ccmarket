@@ -38,111 +38,111 @@
  * ======================  HEADER  =====================
  * ==========================================================
 -->
-    <header class="navbar">
-        <section class="container nav-container">
-            <figure>
-                <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
-            </figure>
+     <header class="navbar">
+          <section class="container nav-container">
+               <figure>
+                    <img class="logo-titre" src="/img/Titre_CC_Market.png" alt="Titre Camping-Car Market">
+               </figure>
 
-            <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+               <button class="btn-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+               </button>
 
-            <nav class="nav-links" aria-label="Navigation principale">
-                <a href="index.html" class="nav-item" >Accueil</a>
-                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
-                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
-                <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
-                <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
-            </nav>
-        </section>
-    </header>
+               <nav class="nav-links" aria-label="Navigation principale">
+                    <a href="index.html" class="nav-item" >Accueil</a>
+                    <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Mes annonces</a>
+                    <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Publier une annonce</a>
+                    <a href="#" class="disabled nav-item" aria-disabled="true" tabindex="-1">Messages</a>
+                    <a href="seconnecter.html" id="seconnecter" class="nav-item actif">Se connecter</a>
+               </nav>
+          </section>
+     </header>
 <!--
  * ==========================================================
  * ======================  MAIN  =====================
  * ==========================================================
 -->
-    <main class="container account-layout">
-
-        <aside class="account-sidebar">
-            <div class="user-summary">
-                <div class="avatar">
-                    <div id="sidebarAvatar" class="user-avatar">JM</div>
-                    <label for="modifAvatar">+</label>
-                    <input type="file" id="modifAvatar" name="modifAvatar">
-                </div>
-                <h3 id="sidebarPrenom" >Jean-Marc</h3>
-                <p id="sidebarDateInscription" >Membre depuis juin 2026</p>
-            </div>
-            <nav class="sidebar-menu">
-                <a href="#profil" class="sidebar-link active">⚙️ Informations personnelles</a>
-                <a href="#securite" class="sidebar-link danger-link">🔒 Sécurité & Suppression</a>
-            </nav>
-            <form action="/user/logout" method="POST" style="margin-top: 1.5rem;">
-                <button type="submit" id="btn-logout">Se déconnecter</button>
-            </form>
-        </aside>
-
-        <section class="account-content">
-            <div id="section-profil" class="account-card">
-                <h2 class="card-title">Modifier mes informations</h2>
-                <form id="formUpdateUser" class="account-form">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="nom">Nom</label>
-                            <input type="text" id="nom" name="nom" value="" autocomplete="family-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="prenom">Prenom</label>
-                            <input type="text" id="prenom" name="prenom" value="" autocomplete="given-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Adresse Email</label>
-                            <input type="email" id="email" name="email" value="" autocomplete="email" required>
-                        </div>
+     <main>
+          <div class="container account-layout">
+               <aside class="account-sidebar">
+                    <div class="user-summary">
+                         <div class="avatar">
+                              <div id="sidebarAvatar" class="user-avatar">JM</div>
+                              <label for="modifAvatar">+</label>
+                              <input type="file" id="modifAvatar" name="modifAvatar">
+                         </div>
+                         <h3 id="sidebarPrenom" >Jean-Marc</h3>
+                         <p id="sidebarDateInscription" >Membre depuis juin 2026</p>
                     </div>
-                    <button type="submit" class="btn-submit" id="btn-modifier">Enregistrer les modifications</button>
-                </form>
-            </div>
+                    <nav class="sidebar-menu">
+                         <a href="#profil" class="sidebar-link active">⚙️ Informations personnelles</a>
+                         <a href="#securite" class="sidebar-link danger-link">🔒 Sécurité & Suppression</a>
+                    </nav>
+                    <form action="/user/logout" method="POST" style="margin-top: 1.5rem;">
+                         <button type="submit" id="btn-logout">Se déconnecter</button>
+                    </form>
+               </aside>
 
-            <div id="section-securite" class="account-card border-danger">
-    <div class="password-change-block" style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-        <h2 class="card-title">Changer mon mot de passe</h2>
+               <section class="account-content">
+                    <div id="section-profil" class="account-card">
+                         <h2 class="card-title">Modifier mes informations</h2>
+                         <form id="formUpdateUser" class="account-form">
+                              <div class="form-grid">
+                              <div class="form-group">
+                                   <label for="nom">Nom</label>
+                                   <input type="text" id="nom" name="nom" value="" autocomplete="family-name" required>
+                              </div>
+                              <div class="form-group">
+                                   <label for="prenom">Prenom</label>
+                                   <input type="text" id="prenom" name="prenom" value="" autocomplete="given-name" required>
+                              </div>
+                              <div class="form-group">
+                                   <label for="email">Adresse Email</label>
+                                   <input type="email" id="email" name="email" value="" autocomplete="email" required>
+                              </div>
+                              </div>
+                              <button type="submit" class="btn-submit" id="btn-modifier">Enregistrer les modifications</button>
+                         </form>
+                    </div>
 
-        <form id="formUpdatePassword" class="account-form">
-            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
-                <input type="email" name="username" autocomplete="username" value="user@email.com" style="display: none;" aria-hidden="true">
-               <div class="form-group">
-                    <label for="currentPassword">Mot de passe actuel</label>
-                    <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Nouveau mot de passe</label>
-                    <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmer le nouveau mot de passe</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required>
-                </div>
-            </div>
-            <button type="submit" class="btn-submit">Mettre à jour le mot de passe</button>
-        </form>
-    </div>
+                    <div id="section-securite" class="account-card border-danger">
+                         <div class="password-change-block" style="margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
+                              <h2 class="card-title">Changer mon mot de passe</h2>
 
-    <div class="danger-zone-block">
-        <h2 class="card-title text-danger">Zone de danger</h2>
-        <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
+                              <form id="formUpdatePassword" class="account-form">
+                                   <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                        <input type="email" name="username" autocomplete="username" value="user@email.com" style="display: none;" aria-hidden="true">
+                                        <div class="form-group">
+                                             <label for="currentPassword">Mot de passe actuel</label>
+                                             <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
+                                        </div>
+                                        <div class="form-group">
+                                             <label for="newPassword">Nouveau mot de passe</label>
+                                             <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" required>
+                                        </div>
+                                        <div class="form-group">
+                                             <label for="confirmPassword">Confirmer le nouveau mot de passe</label>
+                                             <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required>
+                                        </div>
+                                   </div>
+                                   <button type="submit" class="btn-submit">Mettre à jour le mot de passe</button>
+                              </form>
+                         </div>
 
-        <form id="formDeleteAccount">
-            <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
-        </form>
-    </div>
-</div>
+                         <div class="danger-zone-block">
+                              <h2 class="card-title text-danger">Zone de danger</h2>
+                              <p class="warning-text">La suppression de votre compte est irréversible. Toutes vos annonces seront immédiatement retirées du site.</p>
 
-        </section>
-    </main>
+                              <form id="formDeleteAccount">
+                                   <button type="submit" class="btn-delete-account">Supprimer définitivement mon compte</button>
+                              </form>
+                         </div>
+                    </div>
+               </section>
+          </div>
+     </main>
 <!--
  * ==========================================================
  * ======================  FOOTER  =====================

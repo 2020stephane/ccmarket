@@ -17,7 +17,7 @@ import { logError }           from "/js/tools/logger.js";
 import { askGemini }          from "/js/tools/askGemini.js";
 /**
  * =======================================================
- *  Constantes partagées
+ *  Constantes et variables globales
  * =======================================================
  */
 const TAB_ICON = [`🪑 `, `⚡`, `🍳`, `🚰`, `🛏️`, `📺`, `🏕️`];
@@ -44,7 +44,7 @@ try {
      initEventAnnonce();
      initEventRecherche();
      initEventCategories();
-// askGemini(`quel est ton nom?`);
+//  askGemini(`quel est ton nom?`);
 } catch (error) {
      logError(error,"Script principal, MODULE:index.js");
 }
@@ -246,7 +246,7 @@ function initEventAnnonce() {
           const tmp = annoncesInfo.find(tmp => tmp.annonce_id == card.dataset.annonceid);
 
           localStorage.setItem("annonceInfo", JSON.stringify(tmp));
-          window.location.href = `/html/details.html`;
+          window.location.href = `details.html`;
      });
 }
 

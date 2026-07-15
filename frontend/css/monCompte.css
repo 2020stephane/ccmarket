@@ -2,24 +2,23 @@
  * =======================================================
  *  @file         monCompte.css
  *  @project      ccmarket
- *  @description  Description du fichier CSS
+ *  @description  feuille de style
  *  @date         2026-06-25
  *  @author       Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *  @license      MIT
  * =======================================================
  */
-
+main {
+    position: relative;
+    background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('../img/cc_lac.png') no-repeat center center/cover;
+    /* background-size: contain; */
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
 #section-securite {
     display: none;
 }
-/* --- Extensions pour la page Mon Compte --- */
-
-.active-nav {
-    color: var(--primary-color) !important;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 2px;
-}
-
 /* Layout en grille (Sidebar + Contenu) */
 .account-layout {
     display: flex;
@@ -50,11 +49,11 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 10px auto; /* le gap qui était sur .user-avatar passe ici */
+    margin: 0 auto 10px auto;
 }
 
 .avatar .user-avatar {
-    margin-bottom: 0; /* évite que le badge se retrouve décalé par cette marge */
+    margin-bottom: 0;
 }
 
 .avatar label {
@@ -129,13 +128,19 @@
     text-decoration: none;
     font-weight: 600;
     border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
+    border: 1.5px solid #cbd5e0;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 
-.sidebar-link:hover, .sidebar-link.active {
-    background-color: var(--white);
-    color: var(--primary-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.sidebar-link:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(56, 142, 83, 0.12);
+    transform: translateY(-1px);
+}
+.sidebar-link.active {
+   border-color: var(--primary-color);
+    background-color: #eef8f1;
 }
 #btn-logout {
             width: 100%;

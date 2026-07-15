@@ -8,11 +8,11 @@ import { logError } from "/js/tools/logger.js";
 
 export async function verifierConnection() {
    try {
-      const res = await fetch('/auth/status', { credentials: 'include' });
+      const res = await fetch('/api/auth/status', { credentials: 'include' });
       const data = await res.json();
 
       const pageActuelle = window.location.pathname.split("/").pop() || "index.html";
-      const pagesPrivees = ["mesannonces.html", "publication.html", "messages.html", "modifierAnnonce.html", "monCompte.html"];
+      const pagesPrivees = ["mesannonces.html", "publication.html", "messages.html", "monCompte.html"];
 
       if (data.connection) {
          const btnc = document.getElementById('seconnecter');

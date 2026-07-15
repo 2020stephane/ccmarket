@@ -10481,5 +10481,239 @@
     "extra": {
       "url": "http://localhost:3000/"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "14/07/2026",
+    "heure": "13:58:57",
+    "timestamp": "2026-07-14T11:58:57.464Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/details.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "14/07/2026",
+    "heure": "14:02:37",
+    "timestamp": "2026-07-14T12:02:37.646Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/details.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "14/07/2026",
+    "heure": "14:03:08",
+    "timestamp": "2026-07-14T12:03:08.040Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/index.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "14/07/2026",
+    "heure": "14:04:10",
+    "timestamp": "2026-07-14T12:04:10.658Z",
+    "contexte": "FONCTION : verifierConnection, MODULE: authentification.js",
+    "message": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "type": "Error",
+    "stack": [
+      "SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/index.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "15:17:57",
+    "timestamp": "2026-07-14T13:17:57.439Z",
+    "contexte": "function patchAnnonce dans le module:annoncesControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(photo_url) WHERE annonce_id = ?' at line 1",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(photo_url) WHERE annonce_id = ?' at line 1",
+      "at patchAnnonce (file:///~/backend/controllers/annoncesControllers.js:147:22)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:12:59",
+    "timestamp": "2026-07-14T15:12:59.607Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:12:59",
+    "timestamp": "2026-07-14T15:12:59.686Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:14:30",
+    "timestamp": "2026-07-14T15:14:30.622Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:14:34",
+    "timestamp": "2026-07-14T15:14:34.086Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:16:22",
+    "timestamp": "2026-07-14T15:16:22.968Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:17:28",
+    "timestamp": "2026-07-14T15:17:28.212Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:19:13",
+    "timestamp": "2026-07-14T15:19:13.358Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "14/07/2026",
+    "heure": "17:19:15",
+    "timestamp": "2026-07-14T15:19:15.557Z",
+    "contexte": "FONCTION: status, MODULE: authControllers.js",
+    "message": "invalid signature",
+    "type": "JsonWebTokenError",
+    "stack": [
+      "JsonWebTokenError: invalid signature",
+      "at status (file:///~/backend/controllers/authControllers.js:279:29)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "07:58:47",
+    "timestamp": "2026-07-15T05:58:47.081Z",
+    "contexte": "function getAjouts dans le module:annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getAjouts (file:///~/backend/controllers/annoncesControllers.js:259:35)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "07:58:47",
+    "timestamp": "2026-07-15T05:58:47.111Z",
+    "contexte": "FONCTION: getCategories, MODULE: annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getCategories (file:///~/backend/controllers/annoncesControllers.js:547:35)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "07:58:47",
+    "timestamp": "2026-07-15T05:58:47.122Z",
+    "contexte": "function getStatistiquesAnnonces dans annoncesControllers.js",
+    "message": "(aucun message — voir stack ou extra)",
+    "type": "Error",
+    "stack": [
+      "Error",
+      "at getStatistiquesAnnonces (file:///~/backend/controllers/annoncesControllers.js:284:33)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "15/07/2026",
+    "heure": "07:58:47",
+    "timestamp": "2026-07-15T05:58:47.148Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "annoncesInfo.forEach is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: annoncesInfo.forEach is not a function",
+      "at afficheAnnonces (http://localhost:3000/js/index.js:131:19)",
+      "at http://localhost:3000/js/index.js:39:12"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/"
+    }
   }
 ]

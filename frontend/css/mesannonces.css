@@ -8,7 +8,14 @@
  *  @license      MIT
  * =======================================================
  */
-
+main {
+    position: relative;
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)), url('../img/cc_mer.png') no-repeat center center/cover;
+    /* background-size: contain; */
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
 /* ====================
    ===== MAIN =========
    ==================== */
@@ -45,7 +52,7 @@ h2 {
 .annonces_table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.6);
   text-align: left;
 }
 
@@ -58,17 +65,12 @@ h2 {
 
 /* En-tête du tableau */
 .annonces_table th {
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
   font-weight: bold;
   color: #333;
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
-}
-
-/* Ligne au survol */
-.annonces_table tbody tr:hover {
-  background-color: #f9fffb; /* Teinte légère pour suivre la ligne */
 }
 
 /* Gestion de la colonne Photo */
@@ -153,16 +155,15 @@ h2 {
   font-weight: 500;
   border: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 }
 
 .btn_modifier {
-  background-color: var(--b_color_base, #05ffb4);
-  color: #000;
+  background-color: var(--primary-color);
+  color: var(--white);
 }
 .btn_modifier:hover {
-  background-color: var(--b_color_hover, #00d696);
-  transform: translateY(-1px);
+  background-color: var(--primary-dark);
 }
 
 .btn_supprimer {
@@ -171,7 +172,6 @@ h2 {
 }
 .btn_supprimer:hover {
   background-color: #ff1a1a;
-  transform: translateY(-1px);
 }
 /* ==================================================
    FORMULAIRE
