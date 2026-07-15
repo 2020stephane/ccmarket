@@ -10715,5 +10715,236 @@
     "extra": {
       "url": "http://localhost:3000/"
     }
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "11:41:12",
+    "timestamp": "2026-07-15T09:41:12.440Z",
+    "contexte": "connexionGoogle",
+    "message": "Unknown column 'administrateur' in 'field list'",
+    "type": "Error",
+    "stack": [
+      "Error: Unknown column 'administrateur' in 'field list'",
+      "at connexionGoogle (file:///~/backend/controllers/authControllers.js:105:39)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "13:02:05",
+    "timestamp": "2026-07-15T11:02:05.755Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "13:02:18",
+    "timestamp": "2026-07-15T11:02:18.636Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "13:02:33",
+    "timestamp": "2026-07-15T11:02:33.002Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "13:03:42",
+    "timestamp": "2026-07-15T11:03:42.741Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "15:43:16",
+    "timestamp": "2026-07-15T13:43:16.027Z",
+    "contexte": "FONCTION: postAvatar, MODULE: avatarControllers.js",
+    "message": "Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+    "type": "Error",
+    "stack": [
+      "Error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+      "at postAvatar (file:///~/backend/controllers/avatarControllers.js:55:39)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "15:55:30",
+    "timestamp": "2026-07-15T13:55:30.129Z",
+    "contexte": "FONCTION: postAvatar, MODULE: avatarControllers.js",
+    "message": "Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+    "type": "Error",
+    "stack": [
+      "Error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null",
+      "at postAvatar (file:///~/backend/controllers/avatarControllers.js:55:39)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:00:34",
+    "timestamp": "2026-07-15T14:00:34.400Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:04:34",
+    "timestamp": "2026-07-15T14:04:34.986Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:13:29",
+    "timestamp": "2026-07-15T14:13:29.646Z",
+    "contexte": "FONCTION: publierAnnonce, MODULE: annoncesControllers.js",
+    "message": "Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+    "type": "Error",
+    "stack": [
+      "Error: Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+      "at publierAnnonce (file:///~/backend/controllers/annoncesControllers.js:527:33)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:23:18",
+    "timestamp": "2026-07-15T14:23:18.510Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:24:06",
+    "timestamp": "2026-07-15T14:24:06.157Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:24:09",
+    "timestamp": "2026-07-15T14:24:09.938Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:27:46",
+    "timestamp": "2026-07-15T14:27:46.589Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "16:30:26",
+    "timestamp": "2026-07-15T14:30:26.868Z",
+    "contexte": "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getAvatarByIdUser (file:///~/backend/controllers/avatarControllers.js:22:31)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "15/07/2026",
+    "heure": "17:58:57",
+    "timestamp": "2026-07-15T15:58:57.274Z",
+    "contexte": "function getAjouts dans le module:annoncesControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'GROUP BY a.annonce_id\n               ORDER BY a.date_publication DESC\n       ...' at line 10",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'GROUP BY a.annonce_id",
+      "ORDER BY a.date_publication DESC",
+      "...' at line 10",
+      "at getAjouts (file:///~/backend/controllers/annoncesControllers.js:260:35)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "15/07/2026",
+    "heure": "17:58:57",
+    "timestamp": "2026-07-15T15:58:57.318Z",
+    "contexte": "Script principal, MODULE:index.js",
+    "message": "annoncesInfo.forEach is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: annoncesInfo.forEach is not a function",
+      "at afficheAnnonces (http://localhost:3000/js/index.js:131:19)",
+      "at http://localhost:3000/js/index.js:39:12"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/index.html"
+    }
   }
 ]

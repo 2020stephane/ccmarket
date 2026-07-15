@@ -62,7 +62,7 @@ export async function getUtilisateurPublic(req, res) {
 }
 export async function  patchUtilisateur(req, res) {
    const champs = req.body;
-   const colonnesAutorisees = ['nom', 'prenom', 'email', 'motdepasse'];
+   const colonnesAutorisees = ['nom', 'prenom', 'email', 'motdepasse', 'avatar_url'];
 
    const entrees = Object.entries(champs).filter(([col]) =>
       colonnesAutorisees.includes(col)
@@ -180,62 +180,55 @@ export async function  patchMotDePasse(req, res) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function sInscrire(req, res) {
-
-   const { prenom, nom, email, password } = req.body;
-
-      if (!prenom || !nom || !email || !password) {
-         return res.status(400).json({ message: 'Tous les champs sont requis.' });
-      }
-      try {
-         const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
-         const user = users[0];
-
-         if (users.length > 0) {
-            return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
-         }
-
-         const hashedPassword = await bcrypt.hash(password, 10);
-
-         const [result] = await db.query(
-            'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
-            [prenom, nom, email, hashedPassword]
-         );
-
-         if (result.affectedRows > 0) {
-
-            const payload = {
-        id: result.insertId,
-        email: email,
-        nom: nom,
-        prenom: prenom,
-        administrateur: 0
-    };
-             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
-            res.cookie('monToken', token, {
-                httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
-                secure: false,   // mettre true en production (HTTPS)
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
-            });
-             const [temps] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
-         const utilisateur = temps[0];       // 5. Réponse
-                    return res.status(200).json({
-                        success: true,
-                        token,
-                        user: {
-                            id: utilisateur.utilisateur_id,
-                            nom: utilisateur.nom,
-                            prenom: utilisateur.prenom,
-                            email: utilisateur.email,
-                            date: utilisateur.date_inscription
-                        }
-                    });
-        } else {
-            return res.status(400).json({ error: "Erreur lors de l'inscription" });
-        }
-      } catch (error) {
-          logError(error, "FONCTION: sInscrire, MODULE:utilisateursControllers.js");
-         return res.status(500).json({ message: 'Erreur serveur.' });
-      }
+     const { prenom, nom, email, password } = req.body;
+     if (!prenom || !nom || !email || !password) {
+          return res.status(400).json({ message: 'Tous les champs sont requis.' });
+     }
+     try {
+          const [users] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+          const user = users[0];
+          if (users.length > 0) {
+               return res.status(409).json({ message: 'Mot de passe ou email déjà existant.' });
+          }
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const [result] = await db.query(
+               'INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (?, ?, ?, ?)',
+               [prenom, nom, email, hashedPassword]
+          );
+          if (result.affectedRows > 0) {
+               const payload = {
+                    id: result.insertId,
+                    email: email,
+                    nom: nom,
+                    prenom: prenom,
+               };
+               const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+               res.cookie('monToken', token, {
+                    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
+                    secure: false,   // mettre true en production (HTTPS)
+                    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
+               });
+               const [temps] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+               const utilisateur = temps[0];
+               return res.status(200).json({
+                    success: true,
+                    token,
+                    user: {
+                         id: utilisateur.utilisateur_id,
+                         nom: utilisateur.nom,
+                         prenom: utilisateur.prenom,
+                         email: utilisateur.email,
+                         avatar_url: utilisateur.avatar_url,
+                         date: utilisateur.date_inscription
+                    }
+               });
+          } else {
+               return res.status(400).json({ error: "Erreur lors de l'inscription" });
+          }
+          } catch (error) {
+               logError(error, "FONCTION: sInscrire, MODULE:utilisateursControllers.js");
+               return res.status(500).json({ message: 'Erreur serveur.' });
+          }
 }
 
 /**

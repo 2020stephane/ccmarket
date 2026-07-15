@@ -1,0 +1,152 @@
+[
+{"type":"header","version":"5.2.1","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"ccmarket"},
+{"type":"table","name":"adresse","database":"ccmarket","data":
+[
+
+]
+}
+,{"type":"table","name":"annonces","database":"ccmarket","data":
+[
+{"annonce_id":"11","titre":"Panneau solaire 200W Victron","descriptif":"Panneau solaire rigide 200W, utilisé 1 saison, excellent état, avec câbles inclus.","prix":"160","date_publication":"2024-03-01 00:00:00","utilisateur_id":"2","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"12","titre":"Auvent latéral Fiamma F45","descriptif":"Auvent Fiamma F45 de 3m, couleur gris, très bon état, démonté avec soin.","prix":"350","date_publication":"2024-03-05 00:00:00","utilisateur_id":"3","categorie_id":"7","adresse_id":"0"},
+{"annonce_id":"13","titre":"Frigo à compression Dometic 50L","descriptif":"Réfrigérateur à compression 50L, fonctionne parfaitement, vendu car upgrade.","prix":"220","date_publication":"2024-03-08 00:00:00","utilisateur_id":"4","categorie_id":"3","adresse_id":"0"},
+{"annonce_id":"14","titre":"Convertisseur 12V\/230V 1000W","descriptif":"Convertisseur pur sinus 1000W, marque Victron, peu utilisé, avec notice.","prix":"150","date_publication":"2024-03-10 00:00:00","utilisateur_id":"2","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"15","titre":"Table et 4 chaises pliantes","descriptif":"Ensemble table aluminium + 4 chaises légères, idéal camping car, bon état.","prix":"85","date_publication":"2024-03-12 00:00:00","utilisateur_id":"5","categorie_id":"1","adresse_id":"0"},
+{"annonce_id":"16","titre":"Kit douche solaire 20L","descriptif":"Douche solaire portable 20L avec pommeau réglable, saison 2023.","prix":"25","date_publication":"2024-03-15 00:00:00","utilisateur_id":"3","categorie_id":"4","adresse_id":"0"},
+{"annonce_id":"17","titre":"GPS Garmin Camper 890","descriptif":"GPS spécial camping car, cartes Europe à jour 2023, état neuf.","prix":"280","date_publication":"2024-03-18 00:00:00","utilisateur_id":"4","categorie_id":"6","adresse_id":"0"},
+{"annonce_id":"18","titre":"Matelas mémoire de forme 140x190","descriptif":"Matelas mémoire de forme 2 places, épaisseur 12cm, housse lavable incluse.","prix":"120","date_publication":"2024-03-20 00:00:00","utilisateur_id":"5","categorie_id":"5","adresse_id":"0"},
+{"annonce_id":"20","titre":"Barbecue gaz portable Weber","descriptif":"Barbecue gaz 2 brûleurs Weber Q1200, utilisé 2 étés, très bon état.","prix":"95","date_publication":"2024-03-25 00:00:00","utilisateur_id":"3","categorie_id":"7","adresse_id":"0"},
+{"annonce_id":"25","titre":"convertisseur","descriptif":"super etat","prix":"35","date_publication":"2026-06-28 15:49:50","utilisateur_id":"1","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"26","titre":"barbecue auchan","descriptif":"tres bien","prix":"75","date_publication":"2026-06-29 09:10:14","utilisateur_id":"1","categorie_id":"7","adresse_id":"0"},
+{"annonce_id":"33","titre":"Régulateur de charge MPPT 30A","descriptif":"Régulateur solaire MPPT 30A marque Victron, compatible panneaux jusqu à 400W, très peu utilisé.","prix":"95","date_publication":"2024-04-01 00:00:00","utilisateur_id":"6","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"34","titre":"Store intérieur occultant","descriptif":"Store enrouleur occultant sur mesure 120x90cm, couleur beige, fixation velcro, parfait état.","prix":"35","date_publication":"2024-04-03 00:00:00","utilisateur_id":"7","categorie_id":"1","adresse_id":"0"},
+{"annonce_id":"35","titre":"Chauffe eau instantané gaz 6L","descriptif":"Chauffe eau instantané au gaz 6L\/min, marque Campingaz, fonctionne parfaitement, vendu car upgrade.","prix":"75","date_publication":"2024-04-05 00:00:00","utilisateur_id":"8","categorie_id":"4","adresse_id":"0"},
+{"annonce_id":"36","titre":"Batterie lithium 100Ah","descriptif":"Batterie lithium LiFePO4 100Ah avec BMS intégré, 2 saisons d utilisation, capacité intacte.","prix":"420","date_publication":"2024-04-07 00:00:00","utilisateur_id":"9","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"37","titre":"Vélos pliants Brompton x2","descriptif":"Paire de vélos pliants Brompton 3 vitesses, parfaits pour explorer depuis le camping car.","prix":"680","date_publication":"2024-04-09 00:00:00","utilisateur_id":"10","categorie_id":"7","adresse_id":"0"},
+{"annonce_id":"39","titre":"Antenne TV omnidirectionnelle","descriptif":"Antenne TV omnidirectionnelle 360°, amplifiée, réception HD, avec câble coaxial 5m inclus.","prix":"60","date_publication":"2024-04-13 00:00:00","utilisateur_id":"7","categorie_id":"6","adresse_id":"0"},
+{"annonce_id":"40","titre":"Sac de couchage grand froid -15°","descriptif":"Sac de couchage duvet grand froid confort -15°, taille XL, utilisé 3 fois seulement.","prix":"110","date_publication":"2024-04-15 00:00:00","utilisateur_id":"8","categorie_id":"5","adresse_id":"0"},
+{"annonce_id":"41","titre":"Pare brise isolant sur mesure","descriptif":"Kit pare brise isolant 5 pièces pour Fiat Ducato, aluminium réfléchissant, avec housse de rangement.","prix":"85","date_publication":"2024-04-17 00:00:00","utilisateur_id":"9","categorie_id":"1","adresse_id":"0"},
+{"annonce_id":"42","titre":"Groupe électrogène Honda 1kW","descriptif":"Groupe électrogène Honda EU10i 1kW, silencieux, très économique, parfait état avec housse.","prix":"390","date_publication":"2024-04-19 00:00:00","utilisateur_id":"10","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"43","titre":"Batterie lithium 200Ah","descriptif":"Batterie lithium LiFePO4 200Ah avec BMS intégré","prix":"65","date_publication":"2026-07-09 15:33:05","utilisateur_id":"3","categorie_id":"2","adresse_id":"0"},
+{"annonce_id":"45","titre":"barbecue auchan","descriptif":"super etat","prix":"45","date_publication":"2026-07-13 15:25:55","utilisateur_id":"2","categorie_id":"7","adresse_id":"0"}
+]
+}
+,{"type":"table","name":"avatar","database":"ccmarket","data":
+[
+{"avatar_id":"1","avatar_url":"1783527596985_avatarSM.webp","utilisateur_id":"2"},
+{"avatar_id":"2","avatar_url":"1783762068870_avatarSB.webp","utilisateur_id":"1"}
+]
+}
+,{"type":"table","name":"categories","database":"ccmarket","data":
+[
+{"categorie_id":"1","nom":"Mobilier intérieur"},
+{"categorie_id":"2","nom":"Énergie solaire"},
+{"categorie_id":"3","nom":"Cuisine & Électroménager"},
+{"categorie_id":"4","nom":"Sanitaire & Eau"},
+{"categorie_id":"5","nom":"Literie & Confort"},
+{"categorie_id":"6","nom":"Électronique & Navigation"},
+{"categorie_id":"7","nom":"Extérieur & Auvent"}
+]
+}
+,{"type":"table","name":"contacts","database":"ccmarket","data":
+[
+{"contact_id":"3","prenom":"titi","nom":"titi","email":"titi@gmail.com","message":"test","date_envoi":"2026-06-30 16:08:18"},
+{"contact_id":"4","prenom":"toto","nom":"toto","email":"toto@gmail.com","message":"test","date_envoi":"2026-07-03 13:32:07"},
+{"contact_id":"5","prenom":"titi","nom":"titi","email":"titi@gmail.com","message":"test","date_envoi":"2026-07-06 13:19:10"}
+]
+}
+,{"type":"table","name":"messages","database":"ccmarket","data":
+[
+{"message_id":"56","contenu":"Bonjour, le panneau est-il toujours dispo ?","date_envoi":"2024-03-02 09:00:00","annonce_id":"11","expediteur_id":"1","destinataire_id":"2","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:01"},
+{"message_id":"57","contenu":"Oui il est encore disponible !","date_envoi":"2024-03-02 09:35:00","annonce_id":"11","expediteur_id":"2","destinataire_id":"1","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:03"},
+{"message_id":"58","contenu":"Auvent en bon état ? Photos svp","date_envoi":"2024-03-06 00:00:00","annonce_id":"12","expediteur_id":"1","destinataire_id":"3","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:04"},
+{"message_id":"59","contenu":"Bien sûr, je vous envoie ça","date_envoi":"2024-03-06 00:00:00","annonce_id":"12","expediteur_id":"3","destinataire_id":"1","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:05"},
+{"message_id":"60","contenu":"Le frigo consomme combien en 12V ?","date_envoi":"2024-03-09 00:00:00","annonce_id":"13","expediteur_id":"5","destinataire_id":"4","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:07"},
+{"message_id":"61","contenu":"Environ 40W en pointe","date_envoi":"2024-03-09 00:00:00","annonce_id":"13","expediteur_id":"4","destinataire_id":"5","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:50:09"},
+{"message_id":"62","contenu":"Convertisseur compatible 24V ?","date_envoi":"2024-03-11 10:00:00","annonce_id":"14","expediteur_id":"6","destinataire_id":"2","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:01"},
+{"message_id":"63","contenu":"Non uniquement 12V, désolé","date_envoi":"2024-03-11 10:20:00","annonce_id":"14","expediteur_id":"2","destinataire_id":"6","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:03"},
+{"message_id":"64","contenu":"Table et chaises encore à vendre ?","date_envoi":"2024-03-13 00:00:00","annonce_id":"15","expediteur_id":"7","destinataire_id":"5","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:05"},
+{"message_id":"65","contenu":"Oui toujours disponible","date_envoi":"2024-03-13 00:00:00","annonce_id":"15","expediteur_id":"5","destinataire_id":"7","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:07"},
+{"message_id":"66","contenu":"Douche solaire fuit-elle ?","date_envoi":"2024-03-16 00:00:00","annonce_id":"16","expediteur_id":"8","destinataire_id":"3","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:08"},
+{"message_id":"67","contenu":"Non aucune fuite constatée","date_envoi":"2024-03-16 00:00:00","annonce_id":"16","expediteur_id":"3","destinataire_id":"8","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:52:10"},
+{"message_id":"68","contenu":"GPS avec cartes UK incluses ?","date_envoi":"2024-03-19 00:00:00","annonce_id":"17","expediteur_id":"9","destinataire_id":"4","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 07:56:01"},
+{"message_id":"69","contenu":"Oui Europe complète incluse","date_envoi":"2024-03-19 00:00:00","annonce_id":"17","expediteur_id":"4","destinataire_id":"9","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 08:00:01"},
+{"message_id":"70","contenu":"Matelas encore emballé ou déjà utilisé ?","date_envoi":"2024-03-21 00:00:00","annonce_id":"18","expediteur_id":"10","destinataire_id":"5","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-13 08:10:02"},
+{"message_id":"71","contenu":"Utilisé une saison seulement,sale arabe.","date_envoi":"2024-03-21 00:00:00","annonce_id":"18","expediteur_id":"5","destinataire_id":"10","statut_moderation":"signale","motif_moderation":"Propos racistes et injurieux (\"sale arabe\").","date_moderation":"2026-07-14 15:48:01"},
+{"message_id":"72","contenu":"Barbecue Weber dispo pour ce weekend ?\r\npetit emmerdeur ","date_envoi":"2024-03-26 00:00:00","annonce_id":"20","expediteur_id":"1","destinataire_id":"3","statut_moderation":"signale","motif_moderation":"Propos injurieux.","date_moderation":"2026-07-14 15:58:01"},
+{"message_id":"73","contenu":"Oui possible, je vous contacte ,gros pd","date_envoi":"2024-03-26 00:00:00","annonce_id":"20","expediteur_id":"3","destinataire_id":"1","statut_moderation":"signale","motif_moderation":"Contient des propos injurieux et discriminatoires (homophobes).","date_moderation":"2026-07-14 15:59:01"},
+{"message_id":"74","contenu":"Régulateur MPPT compatible LiFePO4 ?","date_envoi":"2024-04-02 00:00:00","annonce_id":"33","expediteur_id":"2","destinataire_id":"6","statut_moderation":"ok","motif_moderation":null,"date_moderation":"2026-07-14 16:00:01"},
+{"message_id":"75","contenu":"Oui totalement compatible","date_envoi":"2024-04-02 00:00:00","annonce_id":"33","expediteur_id":"6","destinataire_id":"2","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"76","contenu":"Store fait bien 120cm de large ?","date_envoi":"2024-04-04 00:00:00","annonce_id":"34","expediteur_id":"4","destinataire_id":"7","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"77","contenu":"Oui exactement 120x90cm","date_envoi":"2024-04-04 00:00:00","annonce_id":"34","expediteur_id":"7","destinataire_id":"4","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"78","contenu":"Batterie lithium encore sous garantie ?","date_envoi":"2024-04-08 00:00:00","annonce_id":"36","expediteur_id":"3","destinataire_id":"9","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"79","contenu":"Non garantie expirée mais fonctionne bien","date_envoi":"2024-04-08 00:00:00","annonce_id":"36","expediteur_id":"9","destinataire_id":"3","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"80","contenu":"Vélos Brompton pliés tiennent où ?","date_envoi":"2024-04-10 00:00:00","annonce_id":"37","expediteur_id":"8","destinataire_id":"10","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"84","contenu":"espece de fumier,sale con","date_envoi":"2026-07-13 07:57:56","annonce_id":"33","expediteur_id":"2","destinataire_id":"6","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null},
+{"message_id":"85","contenu":"le panneau est il en 12 ou 24v ?","date_envoi":"2026-07-15 09:40:01","annonce_id":"11","expediteur_id":"2","destinataire_id":"2","statut_moderation":"en_attente","motif_moderation":null,"date_moderation":null}
+]
+}
+,{"type":"table","name":"pays","database":"ccmarket","data":
+[
+{"pays_id":"1","nom":"France","code_iso":"FR"},
+{"pays_id":"2","nom":"Belgique","code_iso":"BE"},
+{"pays_id":"3","nom":"Suisse","code_iso":"CH"},
+{"pays_id":"4","nom":"Luxembourg","code_iso":"LU"}
+]
+}
+,{"type":"table","name":"photos","database":"ccmarket","data":
+[
+{"photo_id":"1","photo_url":"1782648232143_victron.webp","annonce_id":"21"},
+{"photo_id":"2","photo_url":"1782648456138_victron.webp","annonce_id":"22"},
+{"photo_id":"3","photo_url":"1782653806045_victron.webp","annonce_id":"23"},
+{"photo_id":"4","photo_url":"1782654425450_victron.webp","annonce_id":"24"},
+{"photo_id":"5","photo_url":"1782654590482_victron.webp","annonce_id":"25"},
+{"photo_id":"19","photo_url":"1784035742427.webp","annonce_id":"14"},
+{"photo_id":"20","photo_url":"1784035728540.webp","annonce_id":"11"},
+{"photo_id":"21","photo_url":"1782717014627_barbecue1.webp","annonce_id":"26"},
+{"photo_id":"22","photo_url":"1782728436186_ps1.webp","annonce_id":"15"},
+{"photo_id":"25","photo_url":"1782743017771_ps2.webp","annonce_id":"30"},
+{"photo_id":"26","photo_url":"1783077492655_ps2.webp","annonce_id":"31"},
+{"photo_id":"27","photo_url":"1783336661849_douchesolaire1.webp","annonce_id":"32"},
+{"photo_id":"28","photo_url":"1783603985013_batterie1.webp","annonce_id":"43"},
+{"photo_id":"29","photo_url":"1783608931270_auvent1.webp","annonce_id":"0"},
+{"photo_id":"30","photo_url":"1783609054011_auvent2.webp","annonce_id":"0"},
+{"photo_id":"31","photo_url":"1783609151994_auvent1.webp","annonce_id":"0"},
+{"photo_id":"32","photo_url":"1783610222906_auvent1.webp","annonce_id":"12"},
+{"photo_id":"33","photo_url":"1783610246369_douchesolaire1.webp","annonce_id":"16"},
+{"photo_id":"34","photo_url":"1783610263828_barbecue2.webp","annonce_id":"20"},
+{"photo_id":"35","photo_url":"1783610352994_frigo1.webp","annonce_id":"13"},
+{"photo_id":"36","photo_url":"1783610367303_gps1.webp","annonce_id":"17"},
+{"photo_id":"37","photo_url":"1783610415804_matelas1.webp","annonce_id":"18"},
+{"photo_id":"38","photo_url":"1783610465589_regulateur.webp","annonce_id":"33"},
+{"photo_id":"39","photo_url":"1783610482787_barbecue2.webp","annonce_id":"38"},
+{"photo_id":"40","photo_url":"1783610646869_store1.webp","annonce_id":"34"},
+{"photo_id":"41","photo_url":"1783610659972_antenne1.webp","annonce_id":"39"},
+{"photo_id":"42","photo_url":"1783610818578_chauffeeau.webp","annonce_id":"35"},
+{"photo_id":"43","photo_url":"1783610831779_saccouchage.webp","annonce_id":"40"},
+{"photo_id":"44","photo_url":"1783611113489_batterie3.webp","annonce_id":"36"},
+{"photo_id":"45","photo_url":"1783611134274_parbrise.webp","annonce_id":"41"},
+{"photo_id":"46","photo_url":"1783611260501_velo.webp","annonce_id":"37"},
+{"photo_id":"47","photo_url":"1783611277593_groupeelectrogene.webp","annonce_id":"42"},
+{"photo_id":"48","photo_url":"1783677410634_victron.webp","annonce_id":"44"},
+{"photo_id":"49","photo_url":"1784036670669.webp","annonce_id":"45"},
+{"photo_id":"50","photo_url":"1784035742427.webp","annonce_id":"14"},
+{"photo_id":"51","photo_url":"1784035742427.webp","annonce_id":"14"}
+]
+}
+,{"type":"table","name":"utilisateurs","database":"ccmarket","data":
+[
+{"utilisateur_id":"1","nom":"brisse","prenom":"stephane","email":"stephanebrisse@gmail.com","motdepasse":"$2b$10$OHZWPMw98aJoOrTCf5OSSuk16XKChbmbU1IKfnRwL451vvvNIgzsG","administrateur":"1","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"2","nom":"martin","prenom":"sophie","email":"sophiemartin@email.com","motdepasse":"$2b$10$c1auVCK5kZHOPduL70dKAe0pFSRoQ5N.MOYmMUogLwXTqsMuHg24e","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"3","nom":"dubois","prenom":"pierre","email":"pierredubois@email.com","motdepasse":"$2b$10$ODW3bwWIPW2zv4zYbTHG3O0jViYrzvxrAdrPnq2UAYt5g3l8SeXAm","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"4","nom":"bernard","prenom":"marie","email":"mariebernard@email.com","motdepasse":"$2b$10$LEBhJx560Mi7lBI\/pzwB1u7pUC1au190rWY1S.2wZ46x9qJrNeAVW","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"5","nom":"petit","prenom":"jean","email":"jeanpetit@email.com","motdepasse":"$2b$10$GVdn\/4yuhob7VGuDiY3k6eKowRSgml1aH6AQGXvP6AeO0\/dmVNxNa","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"6","nom":"durand","prenom":"isabelle","email":"isabelledurand@email.com","motdepasse":"$2b$10$gAxkGK4dFBamHM7q5JS.l.9ILYAnnQTu9Sz2VQMcKn0MpRUvTC8b.","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"7","nom":"moreau","prenom":"lucas","email":"lucasmoreau@email.com","motdepasse":"$2b$10$Yc96\/1x5KdnkgPC9oe.kSOi.yXMBYLbzmy1Jf917.eEICxeCRyxt.","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"8","nom":"girard","prenom":"francois","email":"francoisgirard@email.com","motdepasse":"$2b$10$GOeU725iHzs05jvoY2wTheuoLtInJoW9RfLpPP9zOAivs70.AmHny","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"9","nom":"laurent","prenom":"nathalie","email":"nathalielaurent@email.com","motdepasse":"$2b$10$GdRad1b91fcQIrzThBOSR.bwlNnvRbzObO09ThboTvrFPaNhwhGJi","administrateur":"0","date_inscription":"2026-06-28 08:37:54"},
+{"utilisateur_id":"10","nom":"simon","prenom":"thierry","email":"thierrysimon@email.com","motdepasse":"$2b$10$LrUdh3FrJB8Swmq1k3GnCecGMxqEBkcHzDCrQdQfvg8IDXisEOulq","administrateur":"0","date_inscription":"2026-06-28 08:37:54"}
+]
+}
+]

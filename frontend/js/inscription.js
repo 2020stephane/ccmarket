@@ -5,6 +5,7 @@
 //    AUTEUR  : Stephane Brisse
 //===========================================================
 import { verifierConnection} from "/js/tools/authentification.js";
+
 verifierConnection();
 
 const form = document.getElementById("formInscription");
@@ -23,7 +24,7 @@ form.addEventListener("submit", async (e) => {
    }
 
    try {
-      const response = await fetch("/api/utilisateurs/inscription", {
+      const response = await fetch("/api/utilisateurs", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ prenom:prenom, nom:nom,  email:email, password:password })
@@ -33,7 +34,7 @@ form.addEventListener("submit", async (e) => {
 
       if (response.ok) {
          localStorage.setItem('userinfo', JSON.stringify(data.user));
-         window.location.href="/html/index.html";
+         window.location.href="index.html";
       }else {
          afficherErreur(data.message);
       }

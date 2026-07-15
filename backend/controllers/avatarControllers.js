@@ -40,25 +40,25 @@ export async function postAvatar(req, res) {
          if (req.files && req.files.fichier) {
                const photo = req.files.fichier;
                const extension = photo.name.split('.').pop().toLowerCase();
-               const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+               const extensions_autorisees = ['webp'];
 
                if (!extensions_autorisees.includes(extension)) {
                    return res.status(400).json({ message: 'Format de fichier non autorisé' });
                }
 
-               image_nom = Date.now() + '_' + photo.name;
-               const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'img', 'avatar',image_nom);
+               image_nom = Date.now() + '.webp';
+               const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', 'avatar',image_nom);
 
                await photo.mv(chemin_final);
          }
          if (image_nom) {
-            await db.execute(
-                'INSERT INTO avatar (avatar_url, utilisateur_id) VALUES (?, ?)',
-                [image_nom, user_id]
-            );
+            const [result] = await db.execute(
+         `UPDATE utilisateurs SET avatar_url = ? WHERE utilisateur_id = ?`,
+         [image_nom, user_id]
+      );
       }
 
-      return res.status(201).json({ message: 'Annonce publiée avec succès' });
+      return res.status(201).json({ ok: true, avatar_url: image_nom });
    } catch (error) {
        logError(error, "FONCTION: postAvatar, MODULE: avatarControllers.js");
        return res.status(500).json({ message: 'Erreur serveur' });

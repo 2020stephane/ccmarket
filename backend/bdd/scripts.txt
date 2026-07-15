@@ -1,0 +1,328 @@
+******************************************************
+***** script création  ccmarket phpmyadmin       *****
+******************************************************
+
+CREATE TABLE roles(
+   role_id  INT AUTO_INCREMENT PRIMARY KEY,
+   nom      VARCHAR(30) NOT NULL,
+   UNIQUE(nom)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE utilisateurs(
+   utilisateur_id     INT AUTO_INCREMENT PRIMARY KEY,
+   nom                VARCHAR(50) NOT NULL,
+   prenom             VARCHAR(50) NOT NULL,
+   email              VARCHAR(255) NOT NULL,
+   motdepasse         VARCHAR(255) NOT NULL,
+   role_id            INT NOT NULL DEFAULT 3,
+   avatar_url         VARCHAR(255),
+   date_inscription   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   UNIQUE(email),
+   FOREIGN KEY(role_id) REFERENCES roles(role_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE categories(
+   categorie_id  INT AUTO_INCREMENT PRIMARY KEY,
+   nom           VARCHAR(50) NOT NULL,
+   UNIQUE(nom)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE moderations(
+   moderation_id  INT AUTO_INCREMENT PRIMARY KEY,
+   status         VARCHAR(20) NOT NULL DEFAULT 'en_attente',
+   motif          VARCHAR(255),
+   date          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE pays(
+   pays_id   INT AUTO_INCREMENT PRIMARY KEY,
+   nom       VARCHAR(50) NOT NULL,
+   code_iso  CHAR(2) NOT NULL,
+   UNIQUE(nom),
+   UNIQUE(code_iso)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE villes(
+   ville_id  INT AUTO_INCREMENT PRIMARY KEY,
+   nom       VARCHAR(50) NOT NULL,
+   pays_id   INT NOT NULL,
+   FOREIGN KEY(pays_id) REFERENCES pays(pays_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE code_postal(
+   code_postal_id INT AUTO_INCREMENT PRIMARY KEY,
+   code           VARCHAR(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE adresses(
+   adresse_id   INT AUTO_INCREMENT PRIMARY KEY,
+   numero       INT NOT NULL,
+   complement   VARCHAR(50),
+   rue          VARCHAR(100) NOT NULL,
+   code_postal_id  INT NOT NULL,
+   ville_id     INT NOT NULL,
+   pays_id      INT NOT NULL,
+   FOREIGN KEY(ville_id) REFERENCES villes(ville_id),
+   FOREIGN KEY(pays_id) REFERENCES pays(pays_id),
+   FOREIGN KEY(code_postal_id) REFERENCES code_postal(code_postal_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE annonces(
+   annonce_id         INT AUTO_INCREMENT PRIMARY KEY,
+   titre              VARCHAR(100) NOT NULL,
+   descriptif         TEXT,
+   prix               DECIMAL(10,2) NOT NULL,
+   date_publication   DATE NOT NULL DEFAULT (CURRENT_DATE),
+   adresse_id         INT NOT NULL,
+   utilisateur_id     INT NOT NULL,
+   categorie_id       INT NOT NULL,
+   FOREIGN KEY(adresse_id) REFERENCES adresses(adresse_id),
+   FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id) ON DELETE CASCADE,
+   FOREIGN KEY(categorie_id) REFERENCES categories(categorie_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE messages(
+   message_id      INT AUTO_INCREMENT PRIMARY KEY,
+   contenu         TEXT NOT NULL,
+   date_envoi      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   moderation_id   INT,
+   annonce_id      INT NOT NULL,
+   expediteur_id   INT NOT NULL,
+   destinataire_id INT NOT NULL,
+   UNIQUE(moderation_id),
+   FOREIGN KEY(moderation_id) REFERENCES moderations(moderation_id) ON DELETE SET NULL,
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id) ON DELETE CASCADE,
+   FOREIGN KEY(expediteur_id) REFERENCES utilisateurs(utilisateur_id),
+   FOREIGN KEY(destinataire_id) REFERENCES utilisateurs(utilisateur_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE photos(
+   photo_id    INT AUTO_INCREMENT PRIMARY KEY,
+   photo_url   VARCHAR(255) NOT NULL,
+   annonce_id  INT NOT NULL,
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+******************************************************
+*****            script jeu de test              *****
+******************************************************
+INSERT INTO roles (nom) VALUES
+   ('administrateur'),
+   ('moderateur'),
+   ('invite');
+
+
+******************************************************
+*****            script looping                  *****
+******************************************************
+
+CREATE TABLE utilisateurs(
+   utilisateur_id COUNTER,
+   nom VARCHAR(50) NOT NULL,
+   prenom VARCHAR(50) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   motdepasse VARCHAR(255),
+   administrateur LOGICAL,
+   date_inscription DATETIME NOT NULL,
+   avatar_url VARCHAR(255),
+   PRIMARY KEY(utilisateur_id),
+   UNIQUE(email)
+);
+
+CREATE TABLE categories(
+   categorie_id COUNTER,
+   nom VARCHAR(50) NOT NULL,
+   PRIMARY KEY(categorie_id)
+);
+
+CREATE TABLE contacts(
+   contact_id COUNTER,
+   date_envoi DATETIME NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   nom VARCHAR(50) NOT NULL,
+   prenom VARCHAR(50) NOT NULL,
+   PRIMARY KEY(contact_id)
+);
+
+CREATE TABLE pays(
+   pays_id COUNTER,
+   nom VARCHAR(50) NOT NULL,
+   code_iso VARCHAR(2) NOT NULL,
+   PRIMARY KEY(pays_id),
+   UNIQUE(nom),
+   UNIQUE(code_iso)
+);
+
+CREATE TABLE moderations(
+   moderation_id COUNTER,
+   status VARCHAR(50),
+   motif VARCHAR(255),
+   date_ DATETIME NOT NULL,
+   PRIMARY KEY(moderation_id)
+);
+
+CREATE TABLE villes(
+   ville_id COUNTER,
+   nom VARCHAR(50) NOT NULL,
+   PRIMARY KEY(ville_id)
+);
+
+CREATE TABLE code_postal(
+   code_postal_id COUNTER,
+   code VARCHAR(10) NOT NULL,
+   PRIMARY KEY(code_postal_id)
+);
+
+CREATE TABLE adresses(
+   adresse_id COUNTER,
+   numero INT NOT NULL,
+   complement VARCHAR(50),
+   rue VARCHAR(50) NOT NULL,
+   code_postal_id INT NOT NULL,
+   ville_id INT NOT NULL,
+   pays_id INT NOT NULL,
+   PRIMARY KEY(adresse_id),
+   FOREIGN KEY(code_postal_id) REFERENCES code_postal(code_postal_id),
+   FOREIGN KEY(ville_id) REFERENCES villes(ville_id),
+   FOREIGN KEY(pays_id) REFERENCES pays(pays_id)
+);
+
+CREATE TABLE annonces(
+   annonce_id COUNTER,
+   titre VARCHAR(100) NOT NULL,
+   descriptif VARCHAR(255),
+   prix DECIMAL(10,2) NOT NULL,
+   date_publication DATETIME NOT NULL,
+   adresse_id INT NOT NULL,
+   utilisateur_id INT NOT NULL,
+   categorie_id INT NOT NULL,
+   PRIMARY KEY(annonce_id),
+   FOREIGN KEY(adresse_id) REFERENCES adresses(adresse_id),
+   FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id),
+   FOREIGN KEY(categorie_id) REFERENCES categories(categorie_id)
+);
+
+CREATE TABLE messages(
+   message_id COUNTER,
+   contenu VARCHAR(50) NOT NULL,
+   date_envoi DATETIME NOT NULL,
+   moderation_id INT NOT NULL,
+   annonce_id INT NOT NULL,
+   utilisateur_id INT NOT NULL,
+   utilisateur_id_1 INT NOT NULL,
+   PRIMARY KEY(message_id),
+   UNIQUE(moderation_id),
+   FOREIGN KEY(moderation_id) REFERENCES moderations(moderation_id),
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id),
+   FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id),
+   FOREIGN KEY(utilisateur_id_1) REFERENCES utilisateurs(utilisateur_id)
+);
+
+CREATE TABLE photos(
+   photo_id COUNTER,
+   photo_url VARCHAR(50),
+   annonce_id INT NOT NULL,
+   PRIMARY KEY(photo_id),
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id)
+);
+
+******************************************************
+*****            script claude ia                *****
+******************************************************
+
+SET NAMES utf8mb4;
+
+CREATE TABLE utilisateurs(
+   utilisateur_id     INT AUTO_INCREMENT PRIMARY KEY,
+   nom                VARCHAR(50) NOT NULL,
+   prenom             VARCHAR(50) NOT NULL,
+   email              VARCHAR(255) NOT NULL,
+   motdepasse         VARCHAR(255) NOT NULL,
+   administrateur     BOOLEAN NOT NULL DEFAULT FALSE,
+   avatar_url         VARCHAR(255),
+   date_inscription   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   UNIQUE(email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE categories(
+   categorie_id  INT AUTO_INCREMENT PRIMARY KEY,
+   nom           VARCHAR(50) NOT NULL,
+   UNIQUE(nom)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE contacts(
+   contact_id  INT AUTO_INCREMENT PRIMARY KEY,
+   date_envoi  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   email       VARCHAR(255) NOT NULL,
+   nom         VARCHAR(50) NOT NULL,
+   prenom      VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE pays(
+   pays_id   INT AUTO_INCREMENT PRIMARY KEY,
+   nom       VARCHAR(50) NOT NULL,
+   code_iso  CHAR(2) NOT NULL,
+   UNIQUE(nom),
+   UNIQUE(code_iso)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE villes(
+   ville_id  INT AUTO_INCREMENT PRIMARY KEY,
+   nom       VARCHAR(50) NOT NULL,
+   pays_id   INT NOT NULL,
+   FOREIGN KEY(pays_id) REFERENCES pays(pays_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE moderations(
+   moderation_id  INT AUTO_INCREMENT PRIMARY KEY,
+   status         VARCHAR(20) NOT NULL DEFAULT 'en_attente',
+   motif          VARCHAR(255),
+   date_          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE adresses(
+   adresse_id   INT AUTO_INCREMENT PRIMARY KEY,
+   numero       INT NOT NULL,
+   complement   VARCHAR(50),
+   rue          VARCHAR(100) NOT NULL,
+   code_postal  VARCHAR(10) NOT NULL,
+   ville_id     INT NOT NULL,
+   pays_id      INT NOT NULL,
+   FOREIGN KEY(ville_id) REFERENCES villes(ville_id),
+   FOREIGN KEY(pays_id) REFERENCES pays(pays_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE annonces(
+   annonce_id         INT AUTO_INCREMENT PRIMARY KEY,
+   titre              VARCHAR(100) NOT NULL,
+   descriptif         TEXT,
+   prix               DECIMAL(10,2) NOT NULL,
+   date_publication   DATE NOT NULL DEFAULT (CURRENT_DATE),
+   adresse_id         INT NOT NULL,
+   utilisateur_id     INT NOT NULL,
+   categorie_id       INT NOT NULL,
+   FOREIGN KEY(adresse_id) REFERENCES adresses(adresse_id),
+   FOREIGN KEY(utilisateur_id) REFERENCES utilisateurs(utilisateur_id) ON DELETE CASCADE,
+   FOREIGN KEY(categorie_id) REFERENCES categories(categorie_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE messages(
+   message_id      INT AUTO_INCREMENT PRIMARY KEY,
+   contenu         TEXT NOT NULL,
+   date_envoi      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   moderation_id   INT,
+   annonce_id      INT NOT NULL,
+   expediteur_id   INT NOT NULL,
+   destinataire_id INT NOT NULL,
+   UNIQUE(moderation_id),
+   FOREIGN KEY(moderation_id) REFERENCES moderations(moderation_id) ON DELETE SET NULL,
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id) ON DELETE CASCADE,
+   FOREIGN KEY(expediteur_id) REFERENCES utilisateurs(utilisateur_id),
+   FOREIGN KEY(destinataire_id) REFERENCES utilisateurs(utilisateur_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE photos(
+   photo_id    INT AUTO_INCREMENT PRIMARY KEY,
+   photo_url   VARCHAR(255) NOT NULL,
+   annonce_id  INT NOT NULL,
+   FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

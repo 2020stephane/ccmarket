@@ -122,7 +122,7 @@ ptrfileAvatar.addEventListener("change", async () => {
         const fichier = ptrfileAvatar.files[0];
 
         const success = await enregistrerAvatar(fichier);
-        if (success) {
+        if (success.ok) {
             alert("Avatar mis à jour avec succès !");
             // Optionnel : Prévisualiser l'image immédiatement dans le DOM
             const reader = new FileReader();
@@ -131,7 +131,10 @@ ptrfileAvatar.addEventListener("change", async () => {
                 sidebarAvatar.innerHTML = `<img src="${e.target.result}" alt="Avatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
             };
             reader.readAsDataURL(fichier);
-        } else {
+console.log('success = ',success);
+               infoUser.avatar_url = success.avatar_url;
+               localStorage.setItem("userinfo", JSON.stringify(infoUser));
+        } else {success.avatar_url
             alert("Erreur lors de l'envoi de l'avatar.");
         }
     }
@@ -150,47 +153,29 @@ ptrfileAvatar.addEventListener("change", async () => {
     }
 /**
  * =======================================================
- *  @function     verifierImageExiste
- *  @description  vérifier si une image existe sur le serveur
- *  @async
- * =======================================================
- */
-async function verifierImageExiste() {
-    try {
-        const response = await fetch(`/api/avatar/${infoUser.id}`);
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        }
-        return false;
-    } catch (error) {
-        return false;
-    }
-}
-/**
- * =======================================================
  *  @function     enregistrerAvatar
  *  @description  enregistre une image comme avatar
  *  @async
  * =======================================================
  */
 async function enregistrerAvatar(file) {
-    try {
-         const formData = new FormData();
-        formData.append('fichier', file);
-        formData.append('user_id', infoUser.id);
-
-        const response = await fetch('/api/avatar', {
+console.log('file =', file);
+     try {
+          const formData = new FormData();
+          formData.append('fichier', file);
+          formData.append('user_id', infoUser.id);
+          const response = await fetch('/api/avatar', {
             method: "POST",
             credentials: "include",
             body: formData
         });
-
-        return response.ok;
-    } catch (error) {
-        console.error("Erreur d'envoi avatar :", error);
-        return false;
-    }
+        const data = await response.json();
+ console.log('data = ',data);
+          return data;
+     } catch (error) {
+          console.error("Erreur d'envoi avatar :", error);
+          return false;
+     }
 }
 /**
  * =======================================================
@@ -200,20 +185,16 @@ async function enregistrerAvatar(file) {
  * =======================================================
   */
 async function afficherAvatar() {
-    const imageExiste = await verifierImageExiste();
-
-    if (imageExiste) {
-        const imagePath = `/img/avatar/${imageExiste.avatar_url}`
-        // Si avatarSM.webp existe, on l'affiche
-        ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar de Sophie Martin" class="avatar-img">`;
-    }
-    else {
-        const prenom = infoUser.prenom || "";
-        const nom = infoUser.nom || "";
-        const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
-
-        ptrSidebarAvatar.textContent = initiales || "??";
-    }
+     if (infoUser.avatar_url) {
+          const imagePath = `/uploads/avatar/${infoUser.avatar_url}`
+          ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar" class="avatar-img">`;
+     }
+     else {
+          const prenom = infoUser.prenom || "";
+          const nom = infoUser.nom || "";
+          const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
+          ptrSidebarAvatar.textContent = initiales || "??";
+     }
 }
 /**
  * =======================================================

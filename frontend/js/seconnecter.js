@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const data = await response.json();
-console.log(data.user)
+
                 if (response.ok) {
                     if (data.user.admin) {
                         window.location.href = 'admin.html';

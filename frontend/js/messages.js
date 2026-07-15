@@ -34,6 +34,7 @@ try {
 
      /** ===== MODEL ===== */
      infoUser = JSON.parse(localStorage.getItem("userinfo"));
+console.log('infoUser= ',infoUser);
      await chargerMessages();
 
      /** ===== VIEW =====*/

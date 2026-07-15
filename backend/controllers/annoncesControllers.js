@@ -227,6 +227,7 @@ export async function getAjouts(req, res) {
                FROM annonces a
                LEFT JOIN photos p ON a.annonce_id = p.annonce_id
                JOIN categories c ON a.categorie_id = c.categorie_id
+
           `;
           const conditions = [];
         const queryParams = [];

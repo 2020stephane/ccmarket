@@ -34,15 +34,15 @@ export function afficherInfoSidebar() {
 /**
  * =======================================================
  *  @function     afficherAvatar
- *  @description  Description de la fonction
+ *  @description  affiche l'avatar dans la sidebar
  *  @async
  * =======================================================
   */
 async function afficherAvatar() {
-    const imageExiste = await verifierImageExiste(infoUser.id);
+    const image = infoUser.avatar_url;
 
-    if (imageExiste) {
-        const imagePath = `/img/avatar/${imageExiste.avatar_url}`
+    if (image) {
+        const imagePath = `/uploads/avatar/${image}`
         // Si avatarSM.webp existe, on l'affiche
         ptrSidebarAvatar.innerHTML = `<img src="${imagePath}" alt="Avatar" class="avatar-img">`;
     }
@@ -54,25 +54,7 @@ async function afficherAvatar() {
         ptrSidebarAvatar.textContent = initiales || "??";
     }
 }
-/**
- * =======================================================
- *  @function     verifierImageExiste
- *  @description  vérifier si une image existe sur le serveur
- *  @async
- * =======================================================
- */
-export async function verifierImageExiste(id) {
-    try {
-        const response = await fetch(`/api/avatar/${id}`);
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        }
-        return false;
-    } catch (error) {
-        return false; // Renvoie false si le fichier n'existe pas ou s'il y a une erreur réseau
-    }
-}
+
 export async function recupAvatar(userid) {
      const imageExiste = await verifierImageExiste(userid);
      if (imageExiste) {

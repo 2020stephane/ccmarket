@@ -140,6 +140,7 @@ res.cookie('monToken', token, {
                 nom: utilisateur.nom,
                 prenom: utilisateur.prenom,
                 email: utilisateur.email,
+                avatar_url: utilisateur.avatar_url,
                 date: utilisateur.date_inscription,
                 admin: utilisateur.administrateur
             }
@@ -170,76 +171,62 @@ console.error("Erreur verifyIdToken:", error.message);
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function connexionStandard(req, res) {
-    const { email, password } = req.body;
+     const { email, password } = req.body;
+     if (!email || !password) {
+          return res.status(400).json({
+               success: false,
+               message: 'Email et mot de passe requis.'
+          });
+     }
+     try  {
+          const [rows] = await db.query('SELECT * FROM utilisateurs WHERE email = ?', [email]);
+          if (rows.length === 0) {
+               return res.status(401).json({
+                    success: false,
+                    message: 'Identifiants incorrects.'
+               });
+          }
+          const utilisateur = rows[0];
+          const motDePasseValide = await bcrypt.compare(password, utilisateur.motdepasse);
 
-    // 1. Validation des champs
-    if (!email || !password) {
-        return res.status(400).json({
-            success: false,
-            message: 'Email et mot de passe requis.'
-        });
-    }
+          if (!motDePasseValide) {
+               return res.status(401).json({
+                    success: false,
+                    message: 'Identifiants incorrects.'
+               });
+          }
+          const token = genererToken({
+               id: utilisateur.utilisateur_id,
+               email: utilisateur.email,
+               nom: utilisateur.nom,
+               prenom: utilisateur.prenom,
+          });
+          res.cookie('monToken', token, {
+               httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
+               secure: false,   // mettre true en production (HTTPS)
+               maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
+          });
+          return res.status(200).json({
+               success: true,
+               token,
+               user: {
+                    id: utilisateur.utilisateur_id,
+                    nom: utilisateur.nom,
+                    prenom: utilisateur.prenom,
+                    email: utilisateur.email,
+                    date: utilisateur.date_inscription,
+                    avatar_url: utilisateur.avatar_url,
+                    role: utilisateur.role_id
+               }
+          });
 
-    try {
-        // 2. Chercher l'utilisateur par email
-        const [rows] = await db.query(
-            'SELECT * FROM utilisateurs WHERE email = ?',
-            [email]
-        );
-
-        if (rows.length === 0) {
-            return res.status(401).json({
-                success: false,
-                message: 'Identifiants incorrects.'
-            });
-        }
-
-        const utilisateur = rows[0];
-
-        // 3. Vérifier le mot de passe avec bcrypt
-        const motDePasseValide = await bcrypt.compare(password, utilisateur.motdepasse);
-
-        if (!motDePasseValide) {
-            return res.status(401).json({
-                success: false,
-                message: 'Identifiants incorrects.'
-            });
-        }
-
-        // 4. Générer le JWT
-        const token = genererToken({
-    id: utilisateur.utilisateur_id,
-    email: utilisateur.email,
-    nom: utilisateur.nom,
-    prenom: utilisateur.prenom,
-    administrateur: utilisateur.administrateur
-});
-res.cookie('monToken', token, {
-    httpOnly: true,  // inaccessible depuis le JS du navigateur (sécurité)
-    secure: false,   // mettre true en production (HTTPS)
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours en millisecondes
-});
-        // 5. Réponse
-        return res.status(200).json({
-            success: true,
-            token,
-            user: {
-                id: utilisateur.utilisateur_id,
-                nom: utilisateur.nom,
-                prenom: utilisateur.prenom,
-                email: utilisateur.email,
-                date: utilisateur.date_inscription,
-                admin: utilisateur.administrateur
-            }
-        });
-
-    } catch (error) {
-         logError(error, "fonction connexionStandard dans module authControllers");
-        return res.status(500).json({
-            success: false,
-            message: 'Erreur serveur.'
-        });
-    }
+     } catch (error) {
+          logError(error, "fonction: connexionStandard, MODULE: authControllers.js");
+          return res.status(500).json({
+               success: false,
+               message: 'Erreur serveur.'
+          });
+     }
 }
 
 /**
@@ -255,8 +242,8 @@ res.cookie('monToken', token, {
  *   - 200 : Déconnexion réussie.
  */
 export async function deconnexion(req, res) {
-        res.clearCookie('monToken');
-        return res.status(200).json({ success: true, message: 'Déconnecté avec succès.' });
+     res.clearCookie('monToken');
+     return res.status(200).json({ success: true, message: 'Déconnecté avec succès.' });
 }
 
 /**

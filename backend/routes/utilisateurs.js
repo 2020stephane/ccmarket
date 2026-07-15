@@ -1,6 +1,5 @@
 /**
  * @fileoverview Déclaration des routes liées aux utilisateurs
- * (inscription, suppression de compte).
  * @module utilisateurs
  * @project ccmarket
  * @version 1.0.0
@@ -14,12 +13,12 @@
 
 import express from 'express';
 import {
-   sInscrire,
-   supprimerUtilisateur,
-   getUtilisateurPublic,
-   patchUtilisateur,
-   patchMotDePasse,
-   deleteUserAccount
+     sInscrire,
+     supprimerUtilisateur,
+     getUtilisateurPublic,
+     patchUtilisateur,
+     patchMotDePasse,
+     deleteUserAccount
 } from '../controllers/utilisateursControllers.js';
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
 
@@ -32,12 +31,12 @@ const router = express.Router();
 
 /**
  * Route publique : inscription d'un nouvel utilisateur.
- * @name POST/inscription
+ * @name POST/
  * @function
- * @param {string} path - `/inscription`
- * @param {Function} sInscrire - Contrôleur créant l'utilisateur en base.
+ * @param {string} path - `/`
+ * @param {Function} sInscrire - Contrôleur créant l'utilisateur en bdd.
  */
-router.post('/inscription', sInscrire);
+router.post('/', sInscrire);
 router.get('/:id/public', getUtilisateurPublic);
 router.patch('/:id', verifierAuthentification, patchUtilisateur);
 router.patch('/mdp/:id', verifierAuthentification, patchMotDePasse);

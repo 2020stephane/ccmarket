@@ -2,50 +2,83 @@
  * =======================================================
  *  @fileoverview  messagesControllers.js
  *  @project       ccmarket
- *  @description   Description du fichier
- *  @version       1.0.0
+ *  @description   gestion de la messagerie
+ *  @version       1.0.1
  *  @date          2026-07-06
  *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
  * =======================================================
  */
-import bcrypt from 'bcrypt';
-import { fileURLToPath } from 'url';
-import path from 'path';
-import jwt from 'jsonwebtoken';
-
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
 
 /**
- * Clé secrète utilisée pour signer/vérifier les jetons JWT.
- * @type {string}
- * @const
+ * Crée un nouveau message entre deux utilisateurs, lié à une annonce,
+ * et initialise une entrée de modération associée avec le statut "en attente".
+ *
+ * @async
+ * @function postMessage
+ * @param {import('express').Request} req - Requête Express.
+ * @param {Object} req.body - Corps de la requête.
+ * @param {string} req.body.contenu - Contenu textuel du message.
+ * @param {number|string} req.body.annonce_id - Identifiant de l'annonce concernée.
+ * @param {number|string} req.body.expediteur_id - Identifiant de l'utilisateur expéditeur.
+ * @param {number|string} req.body.destinataire_id - Identifiant de l'utilisateur destinataire.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<void>} Envoie une réponse JSON :
+ *  - 201 avec l'identifiant du message créé en cas de succès,
+ *  - 400 si des champs obligatoires sont manquants,
+ *  - 500 en cas d'erreur serveur.
  */
-const JWT_SECRET = process.env.JWT_SECRET;
-
 export async function postMessage(req, res) {
-   const { contenu, annonce_id, expediteur_id, destinataire_id } = req.body;
+  const { contenu, annonce_id, expediteur_id, destinataire_id } = req.body;
 
-   if (!contenu || !annonce_id || !expediteur_id || !destinataire_id ) {
-      return res.status(400).json({ message: 'Champs obligatoires manquants' });
-   }
+  if (!contenu || !annonce_id || !expediteur_id || !destinataire_id) {
+    return res.status(400).json({ message: 'Champs obligatoires manquants' });
+  }
 
-   try {
-      const [result] = await db.execute(
-         'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
-         [contenu, annonce_id, expediteur_id, destinataire_id]
-      );
-      console.log('Insert result:', result);
-      res.status(201).json({ message: 'Message enregistré', id: result.insertId });
-   } catch (error) {
-      logError(error, "FONCTION: postMessage, MODULE: messagesControllers2.js");
-      res.status(500).json({ message: 'Erreur serveur' });
-   }
+  try {
+    const [resultModeration] = await db.execute(
+      'INSERT INTO moderations (status) VALUES (?)',
+      ['en attente']
+    );
+    const mod_id = resultModeration.insertId;
+
+    const [result] = await db.execute(
+      'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id, moderation_id) VALUES (?, ?, ?, ?, ?)',
+      [contenu, annonce_id, expediteur_id, destinataire_id, mod_id]
+    );
+
+    res.status(201).json({ message: 'Message enregistré', id: result.insertId });
+  } catch (error) {
+    logError(error, "FONCTION: postMessage, MODULE: messagesControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
 }
+
+/**
+ * Récupère l'ensemble des messages (envoyés et reçus) liés à un utilisateur donné,
+ * en précisant pour chaque message son type ("Envoyé"/"Reçu") ainsi que le type
+ * d'annonce associé ("Offre"/"Demande").
+ *
+ * @async
+ * @function getMessages
+ * @param {import('express').Request} req - Requête Express.
+ * @param {Object} req.params - Paramètres de route.
+ * @param {number|string} req.params.id - Identifiant de l'utilisateur dont on récupère les messages.
+ * @param {import('express').Response} res - Réponse Express.
+ * @returns {Promise<void>} Envoie une réponse JSON :
+ *  - 200 avec la liste des messages (`result`) en cas de succès,
+ *  - 400 si l'identifiant est manquant,
+ *  - 500 en cas d'erreur serveur.
+ */
 export async function getMessages(req, res) {
   try {
     const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Identifiant utilisateur manquant' });
+    }
 
     const sql = `SELECT m.*,
           a.titre AS annonce_titre,
@@ -64,7 +97,7 @@ export async function getMessages(req, res) {
            OR m.destinataire_id = ?
         ORDER BY type_annonce, type_message, m.date_envoi DESC`;
 
-    const params = [ id, id, id, id, id];
+    const params = [id, id, id, id, id];
     const [result] = await db.execute(sql, params);
 
     res.status(200).json({ result });
