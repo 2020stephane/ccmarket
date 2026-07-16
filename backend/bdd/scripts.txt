@@ -125,6 +125,15 @@ INSERT INTO categories (categorie_id, nom) VALUES
 (7, 'Extérieur & Auvent')
 ON DUPLICATE KEY UPDATE nom = VALUES(nom);
 
+INSERT INTO pays (pays_id, nom, code_iso) VALUES
+(1, 'France', 'FR'),
+(2, 'Belgique', 'BE'),
+(3, 'Suisse', 'CH'),
+(4, 'Luxembourg', 'LU')
+ON DUPLICATE KEY UPDATE
+    nom = VALUES(nom),
+    code_iso = VALUES(code_iso);
+
 ******************************************************
 *****            script looping                  *****
 ******************************************************
