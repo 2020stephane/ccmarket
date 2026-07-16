@@ -102,14 +102,28 @@ CREATE TABLE photos(
    annonce_id  INT NOT NULL,
    FOREIGN KEY(annonce_id) REFERENCES annonces(annonce_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE utilisateurs
+   ADD COLUMN methode_auth ENUM('local','google') NOT NULL DEFAULT 'local',
+   MODIFY motdepasse VARCHAR(255) NULL;
+
 ******************************************************
 *****            script jeu de test              *****
 ******************************************************
-INSERT INTO roles (nom) VALUES
-   ('administrateur'),
-   ('moderateur'),
-   ('invite');
+INSERT INTO roles (role_id, nom) VALUES
+   (1, 'administrateur'),
+   (2, 'moderateur'),
+   (3, 'invite');
 
+INSERT INTO categories (categorie_id, nom) VALUES
+(1, 'Mobilier intérieur'),
+(2, 'Énergie solaire'),
+(3, 'Cuisine & Électroménager'),
+(4, 'Sanitaire & Eau'),
+(5, 'Literie & Confort'),
+(6, 'Électronique & Navigation'),
+(7, 'Extérieur & Auvent')
+ON DUPLICATE KEY UPDATE nom = VALUES(nom);
 
 ******************************************************
 *****            script looping                  *****

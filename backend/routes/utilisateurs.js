@@ -13,7 +13,6 @@
 
 import express from 'express';
 import {
-     sInscrire,
      supprimerUtilisateur,
      getUtilisateurPublic,
      patchUtilisateur,
@@ -36,7 +35,6 @@ const router = express.Router();
  * @param {string} path - `/`
  * @param {Function} sInscrire - Contrôleur créant l'utilisateur en bdd.
  */
-router.post('/', sInscrire);
 router.get('/:id/public', getUtilisateurPublic);
 router.patch('/:id', verifierAuthentification, patchUtilisateur);
 router.patch('/mdp/:id', verifierAuthentification, patchMotDePasse);

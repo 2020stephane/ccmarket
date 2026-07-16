@@ -1,6 +1,6 @@
 /**
  * @fileoverview Déclaration des routes liées à l'authentification
- * (connexion standard, connexion Google, déconnexion, statut de session).
+ * (inscription, connexion standard, connexion Google, déconnexion, statut de session).
  * @module auth
  * @project ccmarket
  * @version 1.0.0
@@ -13,10 +13,11 @@
 
 import express from 'express';
 import {
-   connexionGoogle,
-   connexionStandard,
-   deconnexion,
-   status
+     sInscrire,
+     connexionGoogle,
+     connexionStandard,
+     deconnexion,
+     status
 } from '../controllers/authControllers.js';
 
 /**
@@ -25,6 +26,15 @@ import {
  * @const
  */
 const router = express.Router();
+
+/**
+ * Route publique : inscription d'un nouvel utilisateur.
+ * @name POST/
+ * @function
+ * @param {string} path - `/`
+ * @param {Function} sInscrire - Contrôleur créant l'utilisateur en bdd.
+ */
+router.post('/', sInscrire);
 
 /**
  * Route publique : connexion via un compte Google (OAuth).
