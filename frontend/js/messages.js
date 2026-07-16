@@ -149,20 +149,36 @@ function afficherFilConversation(annonceId) {
         return;
     }
 
+    const premierMsg = conversation[0];
+    const estExpediteur = premierMsg.expediteur_id === CURRENT_USER_ID;
+    const nomAutreUtilisateur = estExpediteur
+        ? `${premierMsg.destinataire_prenom} ${premierMsg.destinataire_nom}`
+        : `${premierMsg.expediteur_prenom} ${premierMsg.expediteur_nom}`;
+
     const header = document.createElement('div');
     header.classList.add('thread-header');
-    header.innerHTML = `<h3>${echapperHTML(conversation[0].annonce_titre)}</h3>`;
+    header.innerHTML = `
+        <h3>${echapperHTML(premierMsg.annonce_titre)}</h3>
+        <span class="thread-interlocuteur">Conversation avec ${echapperHTML(nomAutreUtilisateur)}</span>
+    `;
     threadPanel.appendChild(header);
-console.log('conversation =', conversation);
+
     conversation.forEach(msg => {
         const bulle = document.createElement('div');
         bulle.classList.add('thread-message');
         bulle.classList.add(msg.type_message === 'Envoyé' ? 'message-sent' : 'message-received');
-        const avatar = recupAvatar(msg.expediteur_id);
-console.log('avatar =', avatar);
+
+        // L'auteur d'un message est toujours son expéditeur, quel que soit le lecteur connecté
+        const nomAuteur = `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
+        const imagePath = msg.expediteur_avatar
+            ? `/uploads/avatar/${msg.expediteur_avatar}`
+            : '/uploads/avatar/default.png';
+
         bulle.innerHTML = `
-               ${avatar}
+            <div class="bull-content">
+            <img src="${imagePath}" alt="Avatar de ${echapperHTML(nomAuteur)}" class="avatar-img">
             <p>${echapperHTML(msg.contenu)}</p>
+            </div>
             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
         `;
         threadPanel.appendChild(bulle);

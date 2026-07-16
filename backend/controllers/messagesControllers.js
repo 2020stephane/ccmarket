@@ -83,6 +83,12 @@ export async function getMessages(req, res) {
     const sql = `SELECT m.*,
           a.titre AS annonce_titre,
           a.date_publication,
+          ue.nom AS expediteur_nom,
+          ue.prenom AS expediteur_prenom,
+          ue.avatar_url AS expediteur_avatar,
+          ud.nom AS destinataire_nom,
+          ud.prenom AS destinataire_prenom,
+          ud.avatar_url AS destinataire_avatar,
         CASE
             WHEN m.expediteur_id = ? THEN 'Envoyé'
             WHEN m.destinataire_id = ? THEN 'Reçu'
@@ -93,6 +99,8 @@ export async function getMessages(req, res) {
         END AS type_annonce
         FROM messages m
         JOIN annonces a ON m.annonce_id = a.annonce_id
+        JOIN utilisateurs ue ON m.expediteur_id = ue.utilisateur_id
+        JOIN utilisateurs ud ON m.destinataire_id = ud.utilisateur_id
         WHERE m.expediteur_id = ?
            OR m.destinataire_id = ?
         ORDER BY type_annonce, type_message, m.date_envoi DESC`;

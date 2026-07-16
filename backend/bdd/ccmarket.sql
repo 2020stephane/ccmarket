@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 16 juil. 2026 à 16:21
+-- Généré le : jeu. 16 juil. 2026 à 16:31
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -141,7 +141,8 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `contenu`, `date_envoi`, `moderation_id`, `annonce_id`, `expediteur_id`, `destinataire_id`) VALUES
-(1, 'Bonjour, le panneau est-il toujours dispo ?', '2026-07-16 16:19:08', 1, 3, 2, 3);
+(1, 'Bonjour, le panneau est-il toujours dispo ?', '2026-07-16 16:19:08', 1, 3, 2, 3),
+(2, 'Oui il est encore disponible !', '2026-07-16 16:23:48', 2, 3, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -161,7 +162,8 @@ CREATE TABLE `moderations` (
 --
 
 INSERT INTO `moderations` (`moderation_id`, `status`, `motif`, `date`) VALUES
-(1, 'en attente', NULL, '2026-07-16 16:19:08');
+(1, 'en attente', NULL, '2026-07-16 16:19:08'),
+(2, 'en attente', NULL, '2026-07-16 16:23:48');
 
 -- --------------------------------------------------------
 
@@ -396,13 +398,13 @@ ALTER TABLE `code_postal`
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `moderations`
 --
 ALTER TABLE `moderations`
-  MODIFY `moderation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `moderation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `pays`
