@@ -134,6 +134,26 @@ ON DUPLICATE KEY UPDATE
     nom = VALUES(nom),
     code_iso = VALUES(code_iso);
 
+INSERT INTO villes (nom, pays_id) VALUES
+('Montpellier', (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+('Lyon',        (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+('Bordeaux',    (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+('Nantes',      (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+('Lille',       (SELECT pays_id FROM pays WHERE code_iso = 'FR'));
+
+INSERT INTO code_postal (code) VALUES
+('34000'),
+('69001'),
+('33000'),
+('44000'),
+('59000');
+
+INSERT INTO adresses (numero, complement, rue, code_postal_id, ville_id, pays_id) VALUES
+(12, NULL,              'Rue des Oliviers',      (SELECT code_postal_id FROM code_postal WHERE code = '34000'), (SELECT ville_id FROM villes WHERE nom = 'Montpellier'), (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+(45, 'Appartement 3',   'Avenue Jean Jaurès',    (SELECT code_postal_id FROM code_postal WHERE code = '69001'), (SELECT ville_id FROM villes WHERE nom = 'Lyon'),        (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+(8,  NULL,              'Rue Sainte-Catherine',  (SELECT code_postal_id FROM code_postal WHERE code = '33000'), (SELECT ville_id FROM villes WHERE nom = 'Bordeaux'),    (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+(23, 'Résidence Le Parc','Boulevard de la Loire',(SELECT code_postal_id FROM code_postal WHERE code = '44000'), (SELECT ville_id FROM villes WHERE nom = 'Nantes'),      (SELECT pays_id FROM pays WHERE code_iso = 'FR')),
+(67, NULL,              'Rue de la République',  (SELECT code_postal_id FROM code_postal WHERE code = '59000'), (SELECT ville_id FROM villes WHERE nom = 'Lille'),       (SELECT pays_id FROM pays WHERE code_iso = 'FR'));
 ******************************************************
 *****            script looping                  *****
 ******************************************************

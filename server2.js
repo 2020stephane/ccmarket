@@ -14,6 +14,7 @@
  * @requires cookie-parser
  * @requires express-fileupload
  * @requires url
+ * @requires node-cron
  */
 
 import 'dotenv/config';
@@ -47,12 +48,18 @@ import geminiRoutes           from './backend/routes/gemini.js';
 const app = express();
 
 /**
+ * Environnement d'exécution (`development`, `production`, ...).
+ * @type {string}
+ * @const
+ */
+const NODE_ENV = process.env.NODE_ENV || 'development';
+/**
  * Port d'écoute du serveur, défini via la variable d'environnement
  * NS_PORT (3000 par défaut).
  * @type {number}
  * @const
  */
-const PORT = process.env.NS_PORT || 3000;
+const PORT = Number(process.env.NS_PORT) || 3000;
 
 /**
  * Chemin absolu du fichier courant (équivalent de `__filename` en ESM).
@@ -80,18 +87,19 @@ app.use(cors({
 }));
 
 /**
- * Middleware personnalisé : ajoute l'en-tête `Cross-Origin-Opener-Policy`
- * pour autoriser les popups (ex : OAuth, fenêtres d'authentification).
- * @function
- * @name coopMiddleware
+ * Ajoute l'en-tête `Cross-Origin-Opener-Policy` pour autoriser les
+ * popups (ex : OAuth, fenêtres d'authentification).
+ * @function coopMiddleware
  * @param {express.Request} req - Requête entrante.
  * @param {express.Response} res - Réponse à renvoyer.
  * @param {express.NextFunction} next - Passe la main au middleware suivant.
+ * @returns {void}
  */
-app.use((req, res, next) => {
+function coopMiddleware(req, res, next) {
     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     next();
-});
+}
+app.use(coopMiddleware);
 
 /**
  * Middleware de parsing du corps des requêtes au format JSON
@@ -111,17 +119,26 @@ app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 /**
  * Middleware de parsing des cookies entrants.
+ * Le secret permet de signer/vérifier les cookies sensibles.
  * @function
- * @name cookieParserMiddleware
  */
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 /**
  * Middleware de gestion de l'upload de fichiers (`multipart/form-data`).
+ * Limité à 10 Mo par fichier et utilise des fichiers temporaires sur
+ * disque plutôt que de tout charger en mémoire.
  * @function
  * @name fileUploadMiddleware
  */
-app.use(fileUpload());
+app.use(fileUpload({
+    limits: { fileSize: 10 * 1024 * 1024 },
+    abortOnLimit: true,
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+    safeFileNames: true,
+    preserveExtension: true,
+}));
 
 /**
  * Route API dédiée aux tests Postman.
@@ -166,7 +183,7 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/avatar', avatarRoutes);
 
 /**
- * Route dédiée à l'authentification (connexion, déconnexion,
+ * Route dédiée à l'authentification (inscription, connexion, déconnexion,
  * vérification de session).
  * @name /auth
  * @function
@@ -188,14 +205,28 @@ app.use('/api/log_error', logErrorRoutes);
 app.use("/api/gemini", geminiRoutes);
 
 /**
- * Sert les fichiers HTML statiques du frontend à la racine du site.
+ * Sert les fichiers statiques du frontend à la racine du site,
+ * avec mise en cache navigateur en production.
  * @name staticHtml
  * @function
  */
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, 'frontend'), {
+    maxAge: NODE_ENV === 'production' ? '1d' : 0,
+}));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'html','index.html'));
+});
+/**
+ * Gestionnaire pour toute route API inconnue (404 JSON plutôt que
+ * la page HTML par défaut d'Express).
+ * @function notFoundHandler
+ * @param {express.Request} req - Requête entrante.
+ * @param {express.Response} res - Réponse à renvoyer.
+ * @returns {void}
+ */
+app.use('/api', (req, res) => {
+    res.status(404).json({ error: 'Route introuvable.' });
 });
 
 //  testDatabaseConnection();
@@ -203,12 +234,70 @@ app.get('/', (req, res) => {
 //      lancerModeration();
 // });
 /**
- * Démarre le serveur Express et écoute les connexions entrantes
- * sur le port configuré.
- * @listens PORT
- * @param {number} PORT - Port d'écoute du serveur.
- * @param {Function} callback - Fonction exécutée une fois le serveur démarré.
+ * Démarre le serveur : vérifie la connexion à la base de données,
+ * planifie la tâche de modération quotidienne, puis met le serveur
+ * HTTP en écoute.
+ * @async
+ * @function startServer
+ * @returns {Promise<void>}
+ * @throws {Error} Si la connexion à la base de données échoue.
  */
-app.listen(PORT, () => {
-    console.log(`✅ Serveur démarré sur : http://localhost:${PORT}`);
+async function startServer() {
+    await testDatabaseConnection();
+
+    cron.schedule('0 8 * * *', async () => {
+        try {
+            await lancerModeration();
+        } catch (err) {
+            console.error('❌ Échec de la tâche de modération planifiée :', err);
+        }
+    });
+
+    const server = app.listen(PORT, () => {
+        console.log(`✅ Serveur démarré sur : http://localhost:${PORT} [${NODE_ENV}]`);
+    });
+
+    server.on('error', (err) => {
+        console.error('❌ Impossible de démarrer le serveur :', err);
+        process.exit(1);
+    });
+
+    /**
+     * Ferme proprement le serveur HTTP et la connexion à la base de
+     * données à la réception d'un signal d'arrêt.
+     * @function gracefulShutdown
+     * @param {string} signal - Signal reçu (SIGTERM, SIGINT...).
+     * @returns {void}
+     */
+    function gracefulShutdown(signal) {
+        console.log(`\n🛑 Signal ${signal} reçu, arrêt en cours...`);
+        server.close(async () => {
+            try {
+                if (db && typeof db.end === 'function') {
+                    await db.end();
+                }
+            } catch (err) {
+                console.error('Erreur lors de la fermeture de la base de données :', err);
+            } finally {
+                process.exit(0);
+            }
+        });
+    }
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+}
+
+process.on('unhandledRejection', (reason) => {
+    console.error('❌ Rejection non gérée :', reason);
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('❌ Exception non interceptée :', err);
+    process.exit(1);
+});
+
+startServer().catch((err) => {
+    console.error('❌ Échec du démarrage du serveur :', err);
+    process.exit(1);
 });

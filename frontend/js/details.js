@@ -70,8 +70,8 @@ function afficherAnnonce() {
      if (annonceInfo) {
           const aDesPhotos = annonceInfo.photos && annonceInfo.photos.length > 0;
           const imagePath = aDesPhotos
-               ? `/uploads/${annonceInfo.photos[0]}`
-               : '/uploads/default.png';
+               ? `/uploads/photos/${annonceInfo.photos[0]}`
+               : '/uploads/photos/default.png';
           const datePub = new Date(annonceInfo.date_publication);
           const dateFormatee = datePub.toLocaleDateString('fr-FR');
           document.getElementById("titre").textContent = annonceInfo.titre;

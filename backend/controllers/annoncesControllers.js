@@ -499,6 +499,7 @@ if (orderClauses.length > 0) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function publierAnnonce(req, res) {
+
    try {
       const { titre, prix, descriptif, categorie } = req.body;
 
@@ -508,26 +509,31 @@ export async function publierAnnonce(req, res) {
 
       // ✅ On utilise l'utilisateur authentifié, pas une valeur envoyée par le client
       const userid = req.user.id;
-
+const MIME_VERS_EXTENSION = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif',
+    'image/webp': 'webp'
+};
       let image_nom = null;
       if (req.files && req.files.photo) {
             const photo = req.files.photo;
-            const extension = photo.name.split('.').pop().toLowerCase();
-            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-            if (!extensions_autorisees.includes(extension)) {
-                return res.status(400).json({ message: 'Format de fichier non autorisé' });
-            }
+            const extension = MIME_VERS_EXTENSION[photo.mimetype];
 
-            image_nom = Date.now() + '_' + photo.name;
-            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
+    if (!extension) {
+        return res.status(400).json({ message: 'Format de fichier non autorisé' });
+    }
+
+    image_nom = Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + extension;
+            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', 'photos',image_nom);
 
             await photo.mv(chemin_final);
       }
 
       const [result] = await db.execute(
-            'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
-            [titre, prix, descriptif, userid, categorie]
+            'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, adresse_id, categorie_id) VALUES (?, ?, ?, ?, ?, ?)',
+            [titre, prix, descriptif, userid, 1, categorie]
       );
 
       if (image_nom) {

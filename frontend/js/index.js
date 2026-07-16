@@ -132,9 +132,9 @@ async function afficheAnnonces() {
           let imageNom;
 
           if (annonce.photos.length > 0 && annonce.photos[0] !== "") {
-               imageNom = `/uploads/${annonce.photos[0]}`;
+               imageNom = `/uploads/photos/${annonce.photos[0]}`;
           } else {
-               imageNom = "/uploads/default.png";
+               imageNom = "/uploads/photos/default.png";
           }
 
           const datePub = new Date(annonce.date_publication);

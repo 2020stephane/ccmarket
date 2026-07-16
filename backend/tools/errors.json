@@ -10946,5 +10946,31 @@
     "extra": {
       "url": "http://localhost:3000/html/index.html"
     }
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "15:54:19",
+    "timestamp": "2026-07-16T13:54:19.880Z",
+    "contexte": "FONCTION: publierAnnonce, MODULE: annoncesControllers.js",
+    "message": "Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+    "type": "Error",
+    "stack": [
+      "Error: Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+      "at publierAnnonce (file:///~/backend/controllers/annoncesControllers.js:534:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "15:54:50",
+    "timestamp": "2026-07-16T13:54:50.777Z",
+    "contexte": "FONCTION: publierAnnonce, MODULE: annoncesControllers.js",
+    "message": "Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+    "type": "Error",
+    "stack": [
+      "Error: Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+      "at publierAnnonce (file:///~/backend/controllers/annoncesControllers.js:534:33)"
+    ]
   }
 ]

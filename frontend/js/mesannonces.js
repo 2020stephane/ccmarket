@@ -102,8 +102,8 @@ function afficheAnnonces() {
     annonces.forEach((annonce) => {
         const aDesPhotos = annonce.photos && annonce.photos.length > 0;
         const imagePath = aDesPhotos
-            ? `/uploads/${echapperHTML(annonce.photos[0].photo_url)}`
-            : '/uploads/default.png';
+            ? `/uploads/photos/${echapperHTML(annonce.photos[0].photo_url)}`
+            : '/uploads/photos/default.png';
         const datePub = new Date(annonce.date_publication);
         const fiche = `
                 <tr>

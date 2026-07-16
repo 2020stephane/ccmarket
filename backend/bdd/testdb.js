@@ -38,6 +38,3 @@ export function testDatabaseConnection() {
 
   return finalPromise;
 }
-
-// 4. Exécution du test de connexion
-
