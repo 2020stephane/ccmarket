@@ -30,6 +30,6 @@ const router = express.Router();
  * @param {string} path - `/contacter`
  * @param {Function} contacterAdmin - Contrôleur traitant et transmettant le message à l'administrateur.
  */
-router.post('/contacter', contacterAdmin);
+router.post('/', contacterAdmin);
 
 export default router;

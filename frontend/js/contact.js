@@ -29,7 +29,7 @@ form.addEventListener("submit", async (e) => {
       return;
    }
 try {
-      const response = await fetch("/api/contacter/contacter", {
+      const response = await fetch("/api/contacter", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ prenom:prenom, nom:nom,  email:email, message:message })

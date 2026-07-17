@@ -11202,5 +11202,18 @@
     "extra": {
       "url": "http://localhost:3000/html/message_admin.html"
     }
+  },
+  {
+    "source": "backend",
+    "date": "17/07/2026",
+    "heure": "12:33:53",
+    "timestamp": "2026-07-17T10:33:53.303Z",
+    "contexte": "FONCTION: contacterAdmin (insertion BDD), MODULE: contactControllers.js",
+    "message": "Unknown column 'message' in 'field list'",
+    "type": "Error",
+    "stack": [
+      "Error: Unknown column 'message' in 'field list'",
+      "at contacterAdmin (file:///~/backend/controllers/contacterControllers.js:60:33)"
+    ]
   }
 ]
