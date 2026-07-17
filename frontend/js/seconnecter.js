@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    if (data.user.role == 1 ){
+                    if (data.user.role == `administrateur`){
                         window.location.href = 'admin.html';
                     } else {
                     alert('Connexion réussie !');
@@ -62,7 +62,7 @@ window.handleCredentialResponse = async (response) => {
         if (res.ok) {
             alert('Connexion réussie avec Google !');
             localStorage.setItem('userinfo', JSON.stringify(data.user));
-            if (data.user.admin) {
+            if (data.user.role == `administrateur`) {
                window.location.href = 'admin.html';
             } else {
                 window.location.href = 'index.html';

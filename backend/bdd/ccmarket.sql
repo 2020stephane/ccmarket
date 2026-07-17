@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 16 juil. 2026 à 16:31
+-- Généré le : jeu. 16 juil. 2026 à 18:06
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -119,6 +119,20 @@ INSERT INTO `code_postal` (`code_postal_id`, `code`) VALUES
 (3, '33000'),
 (4, '44000'),
 (5, '59000');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `contact_id` int(11) NOT NULL,
+  `date_envoi` datetime NOT NULL DEFAULT current_timestamp(),
+  `email` varchar(255) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `prenom` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -314,6 +328,12 @@ ALTER TABLE `code_postal`
   ADD PRIMARY KEY (`code_postal_id`);
 
 --
+-- Index pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`contact_id`);
+
+--
 -- Index pour la table `messages`
 --
 ALTER TABLE `messages`
@@ -380,7 +400,7 @@ ALTER TABLE `adresses`
 -- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
-  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -393,6 +413,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `code_postal`
   MODIFY `code_postal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `messages`

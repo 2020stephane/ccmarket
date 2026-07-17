@@ -211,7 +211,7 @@ app.use("/api/gemini", geminiRoutes);
  * @function
  */
 app.use(express.static(path.join(__dirname, 'frontend'), {
-    maxAge: NODE_ENV === 'production' ? '1d' : 0,
+     maxAge: NODE_ENV === 'production' ? '1d' : 0,
 }));
 
 app.get('/', (req, res) => {

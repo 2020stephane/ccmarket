@@ -18,13 +18,13 @@ export async function verifierConnection() {
          const btnc = document.getElementById('seconnecter');
          if (btnc) {
              btnc.textContent = "Mon Compte";
-             btnc.href = "monCompte.html";
+             btnc.href = "/html/monCompte.html";
          }
          const disabledLinks = document.querySelectorAll('.nav-links a.disabled');
          if (disabledLinks.length >= 3) {
-            disabledLinks[0].href = "mesannonces.html";
-            disabledLinks[1].href = "publication.html";
-            disabledLinks[2].href = "messages.html";
+            disabledLinks[0].href = "/html/mesannonces.html";
+            disabledLinks[1].href = "/html/publication.html";
+            disabledLinks[2].href = "/html/messages.html";
          }
          disabledLinks.forEach(link => {
             link.classList.remove('disabled');
@@ -33,7 +33,7 @@ export async function verifierConnection() {
          });
       } else if (pagesPrivees.includes(pageActuelle)) {
          // ✅ Utilisateur NON connecté sur une page privée → redirection
-         window.location.href = "index.html";
+         window.location.href = "/html/index.html";
       }
 
       return data;

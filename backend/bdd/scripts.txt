@@ -107,6 +107,13 @@ ALTER TABLE utilisateurs
    ADD COLUMN methode_auth ENUM('local','google') NOT NULL DEFAULT 'local',
    MODIFY motdepasse VARCHAR(255) NULL;
 
+CREATE TABLE contacts(
+   contact_id  INT AUTO_INCREMENT PRIMARY KEY,
+   date_envoi  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   email       VARCHAR(255) NOT NULL,
+   nom         VARCHAR(50) NOT NULL,
+   prenom      VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ******************************************************
 *****            script jeu de test              *****
 ******************************************************

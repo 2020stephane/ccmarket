@@ -10972,5 +10972,122 @@
       "Error: Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
       "at publierAnnonce (file:///~/backend/controllers/annoncesControllers.js:534:33)"
     ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "17:42:07",
+    "timestamp": "2026-07-16T15:42:07.041Z",
+    "contexte": "FONCTION: postAnnonce, MODULE: postmanControllers.js",
+    "message": "Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+    "type": "Error",
+    "stack": [
+      "Error: Cannot add or update a child row: a foreign key constraint fails (`ccmarket`.`annonces`, CONSTRAINT `annonces_ibfk_1` FOREIGN KEY (`adresse_id`) REFERENCES `adresses` (`adresse_id`))",
+      "at postAnnonce (file:///~/backend/controllers/postmanControllers.js:85:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "17:44:57",
+    "timestamp": "2026-07-16T15:44:57.028Z",
+    "contexte": "FONCTION: postAnnonce, MODULE: postmanControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?)' at line 1",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?)' at line 1",
+      "at postAnnonce (file:///~/backend/controllers/postmanControllers.js:85:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "17:45:25",
+    "timestamp": "2026-07-16T15:45:25.434Z",
+    "contexte": "FONCTION: postAnnonce, MODULE: postmanControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+      "at postAnnonce (file:///~/backend/controllers/postmanControllers.js:85:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "17:46:54",
+    "timestamp": "2026-07-16T15:46:54.870Z",
+    "contexte": "FONCTION: postAnnonce, MODULE: postmanControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+      "at postAnnonce (file:///~/backend/controllers/postmanControllers.js:85:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "17:50:44",
+    "timestamp": "2026-07-16T15:50:44.816Z",
+    "contexte": "FONCTION: postAnnonce, MODULE: postmanControllers.js",
+    "message": "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+    "type": "Error",
+    "stack": [
+      "Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)' at line 1",
+      "at postAnnonce (file:///~/backend/controllers/postmanControllers.js:85:33)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "18:12:33",
+    "timestamp": "2026-07-16T16:12:33.639Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:312:36)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "18:19:13",
+    "timestamp": "2026-07-16T16:19:13.927Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:312:36)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "18:20:00",
+    "timestamp": "2026-07-16T16:20:00.579Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:312:36)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "16/07/2026",
+    "heure": "18:21:48",
+    "timestamp": "2026-07-16T16:21:48.935Z",
+    "contexte": "FONCTION: getStats, MODULE: statsControllers.js",
+    "message": "Table 'ccmarket.avatar' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.avatar' doesn't exist",
+      "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:312:36)"
+    ]
   }
 ]

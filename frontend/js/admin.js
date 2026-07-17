@@ -18,15 +18,16 @@ const stat = JSON.parse(localStorage.getItem('statAdmin'));
 afficherStat();
 
 function afficherStat() {
+ console.log('afficherStat()');
      document.getElementById("totalUtilisateurs").textContent = stat.compteurs.nb_utilisateurs;
      document.getElementById("totalAnnonces").textContent = stat.compteurs.nb_annonces;
      document.getElementById("totalMessages").textContent = stat.compteurs.nb_messages;
      document.getElementById("totalCategories").textContent = stat.compteurs.nb_categories;
-     document.getElementById("totalAvatars").textContent = stat.compteurs.nb_avatars;
      document.getElementById("totalContacts").textContent = stat.compteurs.nb_contacts;
      document.getElementById("totalPhotos").textContent = stat.compteurs.nb_photos;
 }
 async function chargerStat() {
+console.log('chargerStat()');
    try {
      const response = await fetch(`/api/annonces/getStatAdmin`);
      const tmp = await response.json();

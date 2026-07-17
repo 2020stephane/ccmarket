@@ -306,7 +306,7 @@ export async function getStatistiquesAnnonces(req, res) {
 //         (SELECT COUNT(*) FROM contacts) AS nb_contacts,
 
 export async function getStatistiquesAdmin(req, res) {
-
+console.log('getStatistiquesAdmin');
   try {
     // Compteurs globaux
     const [[compteurs]] = await db.execute(`
@@ -316,7 +316,6 @@ export async function getStatistiquesAdmin(req, res) {
         (SELECT COUNT(*) FROM messages) AS nb_messages,
         (SELECT COUNT(*) FROM photos) AS nb_photos,
         (SELECT COUNT(*) FROM categories) AS nb_categories,
-        (SELECT COUNT(*) FROM avatar) AS nb_avatars,
         (SELECT COUNT(*) FROM contacts) AS nb_contacts
     `);
 

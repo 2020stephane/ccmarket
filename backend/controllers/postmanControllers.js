@@ -75,7 +75,7 @@ export async function getAnnonceById(req, res) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function postAnnonce(req, res) {
-   const { titre, descriptif, prix, categorie_id, utilisateur_id } = req.body;
+   const { titre, descriptif, prix, categorie_id, adresse_id, utilisateur_id } = req.body;
 
    if (!titre || !descriptif || !prix || !categorie_id || !utilisateur_id) {
       return res.status(400).json({ message: 'Champs obligatoires manquants' });
@@ -83,8 +83,8 @@ export async function postAnnonce(req, res) {
 
    try {
       const [result] = await db.execute(
-         'INSERT INTO annonces (titre, descriptif, prix, categorie_id, utilisateur_id) VALUES (?, ?, ?, ?, ?)',
-         [titre, descriptif, prix, categorie_id, utilisateur_id]
+         'INSERT INTO annonces (titre, descriptif, prix, categorie_id, adresse_id, utilisateur_id) VALUES (?, ?, ?, ?, ?, ?)',
+         [titre, descriptif, prix, categorie_id, adresse_id, utilisateur_id]
       );
       res.status(201).json({ message: 'Annonce créée', id: result.insertId });
    } catch (error) {
