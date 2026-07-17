@@ -1,0 +1,161 @@
+<!--
+ * =======================================================
+ *  @file         message.html
+ *  @project      ccmarket
+ *  @description  Page html pour la moderation des messages
+ *  @date         2026-07-17
+ *  @author       Stephane Brisse
+ *  @license      MIT
+ * =======================================================
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<!--
+ * ==========================================================
+ * ======================  HEAD  ============================
+ * ==========================================================
+-->
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Moderation des messages ccmarket">
+
+   <link rel="icon" href="/img/favicon.ico">
+   <link rel="stylesheet" href="/css/admin.css">
+
+   <title>Modération des messages — ccmarket</title>
+</head>
+<body>
+
+   <header>
+      <h1 class="admin-logo">ccmarket <span>Admin</span></h1>
+      <button class="btn-deconnexion" id="btnDeconnexion">Déconnexion</button>
+   </header>
+
+   <div class="admin-wrapper">
+
+      <!-- ===============================================
+           SIDEBAR NAVIGATION
+      ================================================ -->
+      <aside class="admin-sidebar">
+         <nav>
+            <ul>
+               <li><a href="/admin.html#dashboard">📊 Tableau de bord</a></li>
+               <li><a href="/admin.html#utilisateurs">👤 Utilisateurs</a></li>
+               <li><a href="/admin.html#annonces">📋 Annonces</a></li>
+               <li><a href="/message.html" class="nav-link active">✉️  Messages</a></li>
+               <li><a href="/admin.html#parametres">⚙️  Paramètres</a></li>
+            </ul>
+         </nav>
+      </aside>
+
+      <!-- ===============================================
+           CONTENU PRINCIPAL
+      ================================================ -->
+      <main class="admin-main">
+
+         <section id="moderation" class="admin-section">
+            <h2>Modération des messages</h2>
+
+            <!-- Compteurs rapides -->
+            <div class="stats-grid">
+               <div class="stat-card">
+                  <span class="stat-icon">✉️</span>
+                  <span class="stat-nombre" id="totalMessages">0</span>
+                  <span class="stat-label">Total messages</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">🚩</span>
+                  <span class="stat-nombre" id="totalSignales">0</span>
+                  <span class="stat-label">Signalés</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">🗑️</span>
+                  <span class="stat-nombre" id="totalSupprimes">0</span>
+                  <span class="stat-label">Supprimés</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">⏳</span>
+                  <span class="stat-nombre" id="totalEnAttente">0</span>
+                  <span class="stat-label">En attente</span>
+               </div>
+            </div>
+
+            <!-- Barre d'outils : recherche / filtres -->
+            <div class="section-toolbar">
+               <input type="search" id="rechercheMessage" placeholder="Rechercher par nom, email ou contenu...">
+
+               <select id="filtreStatut">
+                  <option value="">Tous les statuts</option>
+                  <option value="visible">Visible</option>
+                  <option value="signale">Signalé</option>
+                  <option value="supprime">Supprimé</option>
+               </select>
+
+               <select id="filtreAnnonce">
+                  <option value="">Toutes les annonces</option>
+                  <!-- Rempli dynamiquement via message.js -->
+               </select>
+
+               <button class="btn-sauvegarder" id="btnActualiser">🔄 Actualiser</button>
+            </div>
+
+            <!-- Tableau des messages -->
+            <table class="admin-table">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Expéditeur</th>
+                     <th>Destinataire</th>
+                     <th>Annonce</th>
+                     <th>Message</th>
+                     <th>Envoyé le</th>
+                     <th>Statut</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody id="listeMessages">
+                  <!-- Rempli dynamiquement via message.js -->
+               </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+               <button id="btnPagePrecedente" disabled>◀ Précédent</button>
+               <span id="pageActuelle">Page 1</span>
+               <button id="btnPageSuivante">Suivant ▶</button>
+            </div>
+         </section>
+
+      </main>
+   </div>
+
+   <!-- ===============================================
+        MODALE : détail d'un message signalé
+   ================================================ -->
+   <div class="modale hidden" id="modaleMessage">
+      <div class="modale-contenu">
+         <button class="modale-fermer" id="btnFermerModale">✕</button>
+         <h3>Détail du message</h3>
+         <p><strong>Expéditeur :</strong> <span id="modaleExpediteur"></span></p>
+         <p><strong>Destinataire :</strong> <span id="modaleDestinataire"></span></p>
+         <p><strong>Annonce concernée :</strong> <span id="modaleAnnonce"></span></p>
+         <p><strong>Envoyé le :</strong> <span id="modaleDate"></span></p>
+         <p><strong>Contenu :</strong></p>
+         <p id="modaleContenu" class="modale-message-contenu"></p>
+         <div class="modale-actions">
+            <button class="btn-approuver" id="btnApprouverModale">✅ Approuver</button>
+            <button class="btn-signaler" id="btnSignalerModale">🚩 Signaler</button>
+            <button class="btn-supprimer" id="btnSupprimerModale">🗑️ Supprimer</button>
+         </div>
+      </div>
+   </div>
+
+   <footer>
+      <p>ccmarket Admin — &copy; <span id="annee"></span></p>
+   </footer>
+
+   <script type="module" src="/js/message_admin.js"></script>
+</body>
+</html>

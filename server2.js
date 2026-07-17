@@ -245,7 +245,7 @@ app.use('/api', (req, res) => {
 async function startServer() {
     await testDatabaseConnection();
 
-    cron.schedule('0 8 * * *', async () => {
+    cron.schedule('* 10 * * *', async () => {
         try {
             await lancerModeration();
         } catch (err) {

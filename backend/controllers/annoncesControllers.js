@@ -301,9 +301,6 @@ export async function getStatistiquesAnnonces(req, res) {
         return res.status(500).json({ message: "Erreur serveur" });
     }
 }
-// (SELECT COUNT(*) FROM categories) AS nb_categories,
-//         (SELECT COUNT(*) FROM avatar) AS nb_avatars,
-//         (SELECT COUNT(*) FROM contacts) AS nb_contacts,
 
 export async function getStatistiquesAdmin(req, res) {
 console.log('getStatistiquesAdmin');

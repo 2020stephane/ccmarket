@@ -13,7 +13,8 @@
 import express from 'express';
 import {
    getMessages,
-   postMessage
+   postMessage,
+   getAllMessages
 } from '../controllers/messagesControllers.js';
 
 import { verifierAuthentification } from '../middlewares/authMiddleware.js';
@@ -24,6 +25,7 @@ import { verifierAuthentification } from '../middlewares/authMiddleware.js';
  */
 const router = express.Router();
 
+router.get('/get',getAllMessages);
 router.get('/get/:id',getMessages);
 router.post('/post', postMessage);
 

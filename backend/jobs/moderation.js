@@ -60,7 +60,7 @@ Réponds uniquement selon le schéma JSON demandé. Si le message est conforme, 
  *                fait analyser un par un par Gemini
  * =======================================================
  */
-export async function lancerModeration() {
+export async function lancerModeration2() {
      console.log(`[MODERATION] Démarrage — ${new Date().toISOString()}`);
 
      try {
@@ -92,6 +92,54 @@ export async function lancerModeration() {
                     }
 
                     // petite pause pour ne pas dépasser le quota gratuit de l'API
+                    await new Promise((r) => setTimeout(r, 300));
+               } catch (error) {
+                    logError(error, `FONCTION: analyserMessage, message_id=${msg.message_id}`);
+               }
+          }
+
+          console.log(`[MODERATION] Terminé — ${messages.length} message(s) traité(s).`);
+     } catch (error) {
+          logError(error, "FONCTION: lancerModeration, MODULE: moderation.js");
+     }
+}
+export async function lancerModeration() {
+     console.log(`[MODERATION] Démarrage — ${new Date().toISOString()}`);
+
+     try {
+          // Messages pas encore liés à une entrée de modération
+          const [messages] = await db.query(
+               `SELECT message_id, contenu FROM messages WHERE moderation_id IS NULL LIMIT 5`
+          );
+
+          if (messages.length === 0) {
+               console.log("[MODERATION] Aucun message à vérifier.");
+               return;
+          }
+
+          for (const msg of messages) {
+               try {
+                    const resultat = await analyserMessage(msg.contenu);
+
+                    const statut = resultat.conforme ? "ok" : "signale";
+
+                    // 1) Création de l'entrée de modération
+                    const [insertResult] = await db.query(
+                         `INSERT INTO moderations (status, motif, date)
+                          VALUES (?, ?, NOW())`,
+                         [statut, resultat.motif || null]
+                    );
+
+                    // 2) Liaison du message à cette modération
+                    await db.query(
+                         `UPDATE messages SET moderation_id = ? WHERE message_id = ?`,
+                         [insertResult.insertId, msg.message_id]
+                    );
+
+                    if (!resultat.conforme) {
+                         console.warn(`[MODERATION] Messages ${msg.message_id} signalé : ${resultat.motif}`);
+                    }
+
                     await new Promise((r) => setTimeout(r, 300));
                } catch (error) {
                     logError(error, `FONCTION: analyserMessage, message_id=${msg.message_id}`);

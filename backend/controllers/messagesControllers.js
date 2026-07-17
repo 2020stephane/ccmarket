@@ -38,15 +38,9 @@ export async function postMessage(req, res) {
   }
 
   try {
-    const [resultModeration] = await db.execute(
-      'INSERT INTO moderations (status) VALUES (?)',
-      ['en attente']
-    );
-    const mod_id = resultModeration.insertId;
-
-    const [result] = await db.execute(
-      'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id, moderation_id) VALUES (?, ?, ?, ?, ?)',
-      [contenu, annonce_id, expediteur_id, destinataire_id, mod_id]
+     const [result] = await db.execute(
+      'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
+      [contenu, annonce_id, expediteur_id, destinataire_id]
     );
 
     res.status(201).json({ message: 'Message enregistré', id: result.insertId });
@@ -113,4 +107,34 @@ export async function getMessages(req, res) {
     logError(error, "FONCTION: getMessages, MODULE: messagesControllers.js");
     res.status(500).json({ message: 'Erreur serveur' });
   }
+}
+export async function getAllMessages(req, res) {
+   console.log('getAllMessages');
+   try {
+      const [messages] = await db.execute(`
+         SELECT
+            m.message_id,
+            m.contenu,
+            m.date_envoi,
+            m.moderation_id,
+            m.annonce_id,
+            a.titre AS annonce_titre,
+            e.utilisateur_id AS expediteur_id,
+            CONCAT(e.prenom, ' ', e.nom) AS expediteur_nom,
+            e.email AS expediteur_email,
+            d.utilisateur_id AS destinataire_id,
+            CONCAT(d.prenom, ' ', d.nom) AS destinataire_nom
+         FROM messages m
+         LEFT JOIN annonces a ON m.annonce_id = a.annonce_id
+         LEFT JOIN utilisateurs e ON m.expediteur_id = e.utilisateur_id
+         LEFT JOIN utilisateurs d ON m.destinataire_id = d.utilisateur_id
+         ORDER BY m.date_envoi DESC
+      `);
+
+      res.status(200).json({ messages });
+
+   } catch (error) {
+      logError(error, "FONCTION: getAllMessages, MODULE: messagesController.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
 }

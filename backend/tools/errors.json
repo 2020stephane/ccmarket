@@ -11089,5 +11089,118 @@
       "Error: Table 'ccmarket.avatar' doesn't exist",
       "at getStatistiquesAdmin (file:///~/backend/controllers/annoncesControllers.js:312:36)"
     ]
+  },
+  {
+    "source": "backend",
+    "date": "17/07/2026",
+    "heure": "09:57:46",
+    "timestamp": "2026-07-17T07:57:46.477Z",
+    "contexte": "FONCTION: postMessage, MODULE: messagesControllers.js",
+    "message": "NULL is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: NULL is not defined",
+      "at postMessage (file:///~/backend/controllers/messagesControllers.js:43:61)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "17/07/2026",
+    "heure": "10:45:01",
+    "timestamp": "2026-07-17T08:45:01.206Z",
+    "contexte": "FONCTION: analyserMessage, message_id=4",
+    "message": "Table 'ccmarket.moderation' doesn't exist",
+    "type": "Error",
+    "stack": [
+      "Error: Table 'ccmarket.moderation' doesn't exist",
+      "at lancerModeration (file:///~/backend/jobs/moderation.js:127:53)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)",
+      "at async file:///~/server2.js:250:13"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "17/07/2026",
+    "heure": "11:30:13",
+    "timestamp": "2026-07-17T09:30:13.480Z",
+    "contexte": "FONCTION: chargerMessages, MODULE: /js/message.js",
+    "message": "messages.filter is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: messages.filter is not a function",
+      "at afficherCompteurs (http://localhost:3000/js/message_admin.js:61:68)",
+      "at chargerMessages (http://localhost:3000/js/message_admin.js:44:7)",
+      "at async http://localhost:3000/js/message_admin.js:28:1"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/message_admin.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "17/07/2026",
+    "heure": "11:31:22",
+    "timestamp": "2026-07-17T09:31:22.814Z",
+    "contexte": "FONCTION: chargerMessages, MODULE: /js/message.js",
+    "message": "messages.filter is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: messages.filter is not a function",
+      "at afficherCompteurs (http://localhost:3000/js/message_admin.js:61:68)",
+      "at chargerMessages (http://localhost:3000/js/message_admin.js:44:7)",
+      "at async http://localhost:3000/js/message_admin.js:28:1"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/message_admin.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "17/07/2026",
+    "heure": "11:34:00",
+    "timestamp": "2026-07-17T09:34:00.800Z",
+    "contexte": "FONCTION: chargerMessages, MODULE: /js/message.js",
+    "message": "messages.filter is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: messages.filter is not a function",
+      "at afficherCompteurs (http://localhost:3000/js/message_admin.js:61:68)",
+      "at chargerMessages (http://localhost:3000/js/message_admin.js:44:7)",
+      "at async http://localhost:3000/js/message_admin.js:28:1"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/message_admin.html"
+    }
+  },
+  {
+    "source": "backend",
+    "date": "17/07/2026",
+    "heure": "11:36:39",
+    "timestamp": "2026-07-17T09:36:39.387Z",
+    "contexte": "FONCTION: getAllMessages, MODULE: messagesController.js",
+    "message": "Unknown column 'm.statut' in 'field list'",
+    "type": "Error",
+    "stack": [
+      "Error: Unknown column 'm.statut' in 'field list'",
+      "at getAllMessages (file:///~/backend/controllers/messagesControllers.js:114:35)"
+    ]
+  },
+  {
+    "source": "frontend",
+    "date": "17/07/2026",
+    "heure": "11:36:39",
+    "timestamp": "2026-07-17T09:36:39.407Z",
+    "contexte": "FONCTION: chargerMessages, MODULE: /js/message.js",
+    "message": "messages.filter is not a function",
+    "type": "Error",
+    "stack": [
+      "TypeError: messages.filter is not a function",
+      "at afficherCompteurs (http://localhost:3000/js/message_admin.js:61:68)",
+      "at chargerMessages (http://localhost:3000/js/message_admin.js:44:7)",
+      "at async http://localhost:3000/js/message_admin.js:28:1"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/message_admin.html"
+    }
   }
 ]

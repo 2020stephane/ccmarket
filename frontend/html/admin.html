@@ -44,7 +44,7 @@
                <li><a href="#dashboard"   class="nav-link active">📊 Tableau de bord</a></li>
                <li><a href="#utilisateurs" class="nav-link">👤 Utilisateurs</a></li>
                <li><a href="#annonces"    class="nav-link">📋 Annonces</a></li>
-               <li><a href="#contacts"    class="nav-link">✉️  Messages</a></li>
+               <li><a href="/html/message_admin.html"    class="nav-link">✉️  Messages</a></li>
                <li><a href="#parametres"  class="nav-link">⚙️  Paramètres</a></li>
             </ul>
          </nav>
@@ -94,6 +94,108 @@
                   <span class="stat-nombre" id="totalContacts">0</span>
                   <span class="stat-label">Contacts</span>
                </div>
+            </div>
+
+            <!-- Statistiques sur les prix -->
+            <div class="stats-grid">
+               <div class="stat-card">
+                  <span class="stat-icon">💰</span>
+                  <span class="stat-nombre" id="prixMoyen">0</span>
+                  <span class="stat-label">Prix moyen</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">⬇️</span>
+                  <span class="stat-nombre" id="prixMin">0</span>
+                  <span class="stat-label">Prix min</span>
+               </div>
+               <div class="stat-card">
+                  <span class="stat-icon">⬆️</span>
+                  <span class="stat-nombre" id="prixMax">0</span>
+                  <span class="stat-label">Prix max</span>
+               </div>
+            </div>
+
+            <!-- Annonces par catégorie -->
+            <div class="dashboard-bloc">
+               <h3>Annonces par catégorie</h3>
+               <table class="admin-table">
+                  <thead>
+                     <tr>
+                        <th>Catégorie</th>
+                        <th>Nombre d'annonces</th>
+                     </tr>
+                  </thead>
+                  <tbody id="listeParCategorie">
+                     <!-- Rempli dynamiquement via admin.js -->
+                  </tbody>
+               </table>
+            </div>
+
+            <!-- Top utilisateurs -->
+            <div class="dashboard-bloc">
+               <h3>Top 10 utilisateurs les plus actifs</h3>
+               <table class="admin-table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Nombre d'annonces</th>
+                     </tr>
+                  </thead>
+                  <tbody id="listeTopUtilisateurs">
+                     <!-- Rempli dynamiquement via admin.js -->
+                  </tbody>
+               </table>
+            </div>
+
+            <!-- Annonces populaires -->
+            <div class="dashboard-bloc">
+               <h3>Top 10 annonces les plus contactées</h3>
+               <table class="admin-table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Nombre de messages</th>
+                     </tr>
+                  </thead>
+                  <tbody id="listeAnnoncesPopulaires">
+                     <!-- Rempli dynamiquement via admin.js -->
+                  </tbody>
+               </table>
+            </div>
+
+            <!-- Inscriptions par mois -->
+            <div class="dashboard-bloc">
+               <h3>Inscriptions par mois</h3>
+               <table class="admin-table">
+                  <thead>
+                     <tr>
+                        <th>Mois</th>
+                        <th>Nombre d'inscriptions</th>
+                     </tr>
+                  </thead>
+                  <tbody id="listeInscriptionsParMois">
+                     <!-- Rempli dynamiquement via admin.js -->
+                  </tbody>
+               </table>
+            </div>
+
+            <!-- Annonces par mois -->
+            <div class="dashboard-bloc">
+               <h3>Annonces publiées par mois</h3>
+               <table class="admin-table">
+                  <thead>
+                     <tr>
+                        <th>Mois</th>
+                        <th>Nombre d'annonces</th>
+                     </tr>
+                  </thead>
+                  <tbody id="listeAnnoncesParMois">
+                     <!-- Rempli dynamiquement via admin.js -->
+                  </tbody>
+               </table>
             </div>
          </section>
 
