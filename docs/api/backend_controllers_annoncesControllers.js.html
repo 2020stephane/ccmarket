@@ -117,6 +117,7 @@ export async function putAnnonce(req, res) {
  */
 export async function patchAnnonce(req, res) {
    const champs = req.body;
+ console.log('champs = ', champs);
    const colonnesAutorisees = ['titre', 'descriptif', 'prix', 'categorie_id'];
 
    const entrees = Object.entries(champs).filter(([col]) =>
@@ -128,7 +129,6 @@ export async function patchAnnonce(req, res) {
    }
 
    try {
-      // Vérification de propriété : l'annonce doit appartenir à l'utilisateur connecté
       const [rows] = await db.execute(
          'SELECT utilisateur_id FROM annonces WHERE annonce_id = ?',
          [req.params.id]
@@ -156,8 +156,28 @@ export async function patchAnnonce(req, res) {
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
+let image_nom = null;
+      if (req.files &amp;&amp; req.files.photo) {
+            const photo = req.files.photo;
+            const extension = photo.name.split('.').pop().toLowerCase();
+            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-      res.json({ message: 'Annonce mise à jour partiellement' });
+            if (!extensions_autorisees.includes(extension)) {
+                return res.status(400).json({ message: 'Format de fichier non autorisé' });
+            }
+
+           image_nom = `${Date.now()}.${extension}`;
+            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
+
+            await photo.mv(chemin_final);
+      }
+       if (image_nom) {
+            await db.execute(
+        `UPDATE photos SET photo_url = ? WHERE annonce_id = ?`,
+        [image_nom, req.params.id]
+            );
+      }
+      res.json({ message: 'Annonce mise à jour' });
    } catch (error) {
       logError(error, "function patchAnnonce dans le module:annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
@@ -213,7 +233,7 @@ export async function supprimerAnnonce(req, res) {
 }
 
 /**
- * Récupère les 8 dernières annonces publiées, avec leurs photos associées.
+ * Récupère les dernières annonces publiées, avec leurs photos associées.
  * @function getAjouts
  * @async
  * @param {express.Request} req - Requête Express.
@@ -223,25 +243,171 @@ export async function supprimerAnnonce(req, res) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function getAjouts(req, res) {
+     try {
+          const { limite, categorie, keyword } = req.query;
+          const limitNb = parseInt(limite, 10) || 50;
+          const categorieNb = parseInt(categorie, 10) || 0;
+          let sql = `
+               SELECT
+                    a.*,
+                    c.nom AS nom_categorie,
+                    GROUP_CONCAT(p.photo_url) AS photos
+               FROM annonces a
+               LEFT JOIN photos p ON a.annonce_id = p.annonce_id
+               JOIN categories c ON a.categorie_id = c.categorie_id
+
+          `;
+          const conditions = [];
+        const queryParams = [];
+
+        // 1. Filtre par Catégorie
+        if (categorieNb > 0) {
+            conditions.push(`c.categorie_id = ?`);
+            queryParams.push(categorieNb);
+        }
+
+        // 2. Filtre par Mot-clé sur le titre
+        if (keyword &amp;&amp; keyword.trim() !== "" &amp;&amp; keyword !== "null") {
+            conditions.push(`a.titre LIKE ?`);
+            queryParams.push(`%${keyword.trim()}%`); // Cherche le mot-clé n'importe où dans le titre
+        }
+
+        // 3. Assemblage des conditions WHERE s'il y en a au moins une
+        if (conditions.length > 0) {
+            sql += ` WHERE ` + conditions.join(' AND ');
+        }
+
+          sql += `
+               GROUP BY a.annonce_id
+               ORDER BY a.date_publication DESC
+               LIMIT ?
+          `;
+
+          queryParams.push(limitNb);
+
+          const [rows] = await db.execute(sql, queryParams);
+
+          const annonces = rows.map(row => ({
+               ...row,
+               photos: row.photos ? row.photos.split(',') : []
+          }));
+          res.json(annonces);
+     } catch (error) {
+     logError(error, "function getAjouts dans le module:annoncesControllers.js");
+     res.status(500).json({ message: "Erreur serveur" });
+     }
+}
+
+export async function getStatistiquesAnnonces(req, res) {
+    try {
+        const sql = `
+            SELECT
+                c.categorie_id,
+                c.nom AS nom_categorie,
+                COUNT(a.annonce_id) AS total_categorie
+            FROM categories c
+            LEFT JOIN annonces a ON c.categorie_id = a.categorie_id
+            GROUP BY c.categorie_id WITH ROLLUP;
+        `;
+
+        const [rows] = await db.execute(sql);
+
+        // La dernière ligne générée par WITH ROLLUP contient le total général
+        const derniereLigne = rows[rows.length - 1];
+        const totalGeneral = derniereLigne ? derniereLigne.total_categorie : 0;
+
+        // On retire la ligne de ROLLUP pour garder un tableau propre des catégories
+        const statsParCategorie = rows.slice(0, -1);
+
+        return res.json({
+            totalGeneral: totalGeneral,
+            parCategorie: statsParCategorie
+        });
+
+    } catch (error) {
+        logError(error, "function getStatistiquesAnnonces dans annoncesControllers.js");
+        return res.status(500).json({ message: "Erreur serveur" });
+    }
+}
+
+export async function getStatistiquesAdmin(req, res) {
+console.log('getStatistiquesAdmin');
   try {
-    const [rows] = await db.execute(`
+    // Compteurs globaux
+    const [[compteurs]] = await db.execute(`
       SELECT
-        a.*,
-        GROUP_CONCAT(p.photo_url) AS photos
-      FROM annonces a
-      LEFT JOIN photos p ON a.annonce_id = p.annonce_id
-      GROUP BY a.annonce_id
-      ORDER BY a.date_publication DESC
-      LIMIT 8
+        (SELECT COUNT(*) FROM utilisateurs) AS nb_utilisateurs,
+        (SELECT COUNT(*) FROM annonces) AS nb_annonces,
+        (SELECT COUNT(*) FROM messages) AS nb_messages,
+        (SELECT COUNT(*) FROM photos) AS nb_photos,
+        (SELECT COUNT(*) FROM categories) AS nb_categories,
+        (SELECT COUNT(*) FROM contacts) AS nb_contacts
     `);
-    const annonces = rows.map(row => ({
-      ...row,
-      photos: row.photos ? row.photos.split(',') : []
-    }));
-    res.json(annonces);
+
+    // Annonces par catégorie
+    const [parCategorie] = await db.execute(`
+      SELECT c.nom AS categorie, COUNT(a.annonce_id) AS nb_annonces
+      FROM annonces a
+      JOIN categories c ON a.categorie_id = c.categorie_id
+      GROUP BY c.nom
+      ORDER BY nb_annonces DESC
+    `);
+
+    // Top 10 utilisateurs les plus actifs (par nb d'annonces)
+    const [topUtilisateurs] = await db.execute(`
+      SELECT u.utilisateur_id, u.nom, u.prenom, COUNT(a.annonce_id) AS nb_annonces
+      FROM utilisateurs u
+      JOIN annonces a ON u.utilisateur_id = a.utilisateur_id
+      GROUP BY u.utilisateur_id
+      ORDER BY nb_annonces DESC
+      LIMIT 10
+    `);
+
+    // Inscriptions par mois
+    const [inscriptionsParMois] = await db.execute(`
+      SELECT DATE_FORMAT(date_inscription, '%Y-%m') AS mois, COUNT(*) AS nb_inscriptions
+      FROM utilisateurs
+      GROUP BY mois
+      ORDER BY mois
+    `);
+
+    // Annonces par mois
+    const [annoncesParMois] = await db.execute(`
+      SELECT DATE_FORMAT(date_publication, '%Y-%m') AS mois, COUNT(*) AS nb_annonces
+      FROM annonces
+      GROUP BY mois
+      ORDER BY mois
+    `);
+
+    // Prix moyen / min / max
+    const [[prixStats]] = await db.execute(`
+      SELECT AVG(prix) AS prix_moyen, MIN(prix) AS prix_min, MAX(prix) AS prix_max
+      FROM annonces
+    `);
+
+    // Top 10 annonces les plus contactées
+    const [annoncesPopulaires] = await db.execute(`
+      SELECT a.annonce_id, a.titre, COUNT(m.message_id) AS nb_messages
+      FROM annonces a
+      JOIN messages m ON a.annonce_id = m.annonce_id
+      GROUP BY a.annonce_id
+      ORDER BY nb_messages DESC
+      LIMIT 10
+    `);
+
+    res.status(200).json({
+      compteurs,
+      parCategorie,
+      topUtilisateurs,
+      inscriptionsParMois,
+      annoncesParMois,
+      prixStats,
+      annoncesPopulaires
+    });
+
   } catch (error) {
-    logError(error, "function getAjouts dans le module:annoncesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
+    logError(error, "FONCTION: getStats, MODULE: statsControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 }
 
@@ -357,6 +523,7 @@ if (orderClauses.length > 0) {
  *   - 500 : Erreur interne du serveur (journalisée via logError).
  */
 export async function publierAnnonce(req, res) {
+
    try {
       const { titre, prix, descriptif, categorie } = req.body;
 
@@ -366,26 +533,31 @@ export async function publierAnnonce(req, res) {
 
       // ✅ On utilise l'utilisateur authentifié, pas une valeur envoyée par le client
       const userid = req.user.id;
-
+const MIME_VERS_EXTENSION = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif',
+    'image/webp': 'webp'
+};
       let image_nom = null;
       if (req.files &amp;&amp; req.files.photo) {
             const photo = req.files.photo;
-            const extension = photo.name.split('.').pop().toLowerCase();
-            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-            if (!extensions_autorisees.includes(extension)) {
-                return res.status(400).json({ message: 'Format de fichier non autorisé' });
-            }
+            const extension = MIME_VERS_EXTENSION[photo.mimetype];
 
-            image_nom = Date.now() + '_' + photo.name;
-            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
+    if (!extension) {
+        return res.status(400).json({ message: 'Format de fichier non autorisé' });
+    }
+
+    image_nom = Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + extension;
+            const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', 'photos',image_nom);
 
             await photo.mv(chemin_final);
       }
 
       const [result] = await db.execute(
-            'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, categorie_id) VALUES (?, ?, ?, ?, ?)',
-            [titre, prix, descriptif, userid, categorie]
+            'INSERT INTO annonces (titre, prix, descriptif, utilisateur_id, adresse_id, categorie_id) VALUES (?, ?, ?, ?, ?, ?)',
+            [titre, prix, descriptif, userid, 1, categorie]
       );
 
       if (image_nom) {
@@ -401,6 +573,15 @@ export async function publierAnnonce(req, res) {
        return res.status(500).json({ message: 'Erreur serveur' });
    }
 }
+export async function getCategories(req, res) {
+     try {
+          const [rows] = await db.execute( 'SELECT * FROM categories' );
+          res.json(rows);
+     }catch (error) {
+          logError(error, "FONCTION: getCategories, MODULE: annoncesControllers.js");
+          return res.status(500).json({ message: 'Erreur serveur' });
+     }
+}
 </code></pre>
         </article>
     </section>
@@ -411,13 +592,13 @@ export async function publierAnnonce(req, res) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

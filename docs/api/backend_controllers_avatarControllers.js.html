@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: backend/routes/messages.js</title>
+    <title>JSDoc: Source: backend/controllers/avatarControllers.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: backend/routes/messages.js</h1>
+    <h1 class="page-title">Source: backend/controllers/avatarControllers.js</h1>
 
     
 
@@ -28,36 +28,70 @@
         <article>
             <pre class="prettyprint source linenums"><code>/**
  * =======================================================
- *  @fileoverview  messages.js
+ *  @fileoverview  avatarControllers.js
  *  @project       ccmarket
  *  @description   Description du fichier
  *  @version       1.0.0
- *  @date          2026-07-06
+ *  @date          2026-07-08
  *  @author        Stephane Brisse &lt;https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
  * =======================================================
  */
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { logError } from "../tools/logger.js";
+import db from '../bdd/db.js';
 
-import express from 'express';
-import {
-   getMessages,
-   postMessage,
-   getAllMessages
-} from '../controllers/messagesControllers.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-import { verifierAuthentification } from '../middlewares/authMiddleware.js';
-/**
- * Routeur Express dédié aux messages.
- * @type {express.Router}
- * @const
- */
-const router = express.Router();
+export async function getAvatarByIdUser(req, res) {
+     try {
+      const [rows] = await db.execute(
+         'SELECT * FROM avatar WHERE utilisateur_id = ?', [req.params.id]
+      );
+      if (rows.length === 0) {
+         return res.status(200).json(null);
+      }
+      const tmp = rows[0];
+      res.status(200).json(tmp);
+   } catch (error) {
+      logError(error, "FONCTION: getAvatarByIdUser, MODULE: avatarControllers.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
+}
+export async function postAvatar(req, res) {
+     try {
+   const { user_id } = req.body;
 
-router.get('/get',getAllMessages);
-router.get('/get/:id',getMessages);
-router.post('/post', postMessage);
+   let image_nom = null;
+         if (req.files &amp;&amp; req.files.fichier) {
+               const photo = req.files.fichier;
+               const extension = photo.name.split('.').pop().toLowerCase();
+               const extensions_autorisees = ['webp'];
 
-export default router;
+               if (!extensions_autorisees.includes(extension)) {
+                   return res.status(400).json({ message: 'Format de fichier non autorisé' });
+               }
+
+               image_nom = Date.now() + '.webp';
+               const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', 'avatar',image_nom);
+
+               await photo.mv(chemin_final);
+         }
+         if (image_nom) {
+            const [result] = await db.execute(
+         `UPDATE utilisateurs SET avatar_url = ? WHERE utilisateur_id = ?`,
+         [image_nom, user_id]
+      );
+      }
+
+      return res.status(201).json({ ok: true, avatar_url: image_nom });
+   } catch (error) {
+       logError(error, "FONCTION: postAvatar, MODULE: avatarControllers.js");
+       return res.status(500).json({ message: 'Erreur serveur' });
+   }
+}
 </code></pre>
         </article>
     </section>

@@ -38,7 +38,8 @@
     <div class="container-overview">
     
         
-            <div class="description">Point d'entrée principal du serveur Express.Configure les middlewares, les routes et démarre le serveur.</div>
+            <div class="description">Point d'entrée principal du serveur Express.
+Configure les middlewares, les routes et démarre le serveur.</div>
         
 
         
@@ -62,7 +63,7 @@
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -146,6 +147,12 @@
         
             <li>module:cors</li>
         
+            <li>module:helmet</li>
+        
+            <li>module:compression</li>
+        
+            <li>module:express-rate-limit</li>
+        
             <li>module:path</li>
         
             <li>module:cookie-parser</li>
@@ -153,6 +160,8 @@
             <li>module:express-fileupload</li>
         
             <li>module:url</li>
+        
+            <li>module:node-cron</li>
         </ul>
     
 
@@ -169,13 +178,719 @@
 
         
             
+<h4 class="name" id="~/api/annonces"><span class="type-signature">(inner) </span>/api/annonces<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la gestion des annonces.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line234">line 234</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/auth"><span class="type-signature">(inner) </span>/api/auth<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route dédiée à l'authentification (connexion, déconnexion,
+vérification de session). Soumise à un rate limiting renforcé.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line264">line 264</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/avatar"><span class="type-signature">(inner) </span>/api/avatar<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la gestion des avatars.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line258">line 258</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/contacter"><span class="type-signature">(inner) </span>/api/contacter<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la mise en relation avec l'administrateur.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line246">line 246</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/gemini"><span class="type-signature">(inner) </span>/api/gemini<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à Gemini.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line277">line 277</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/log_error"><span class="type-signature">(inner) </span>/api/log_error<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la journalisation des erreurs.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line271">line 271</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/messages"><span class="type-signature">(inner) </span>/api/messages<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la gestion des messages.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line252">line 252</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/postman"><span class="type-signature">(inner) </span>/api/postman<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée aux tests Postman.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line228">line 228</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~/api/utilisateurs"><span class="type-signature">(inner) </span>/api/utilisateurs<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Route API dédiée à la gestion des utilisateurs.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line240">line 240</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~ALLOWED_ORIGINS"><span class="type-signature">(inner, constant) </span>ALLOWED_ORIGINS<span class="type-signature"> :Array.&lt;string></span></h4>
+
+
+
+
+<div class="description">
+    Liste blanche des origines autorisées pour CORS, définie via la
+variable d'environnement CORS_ORIGINS (séparées par des virgules).
+En développement, retombe sur `http://localhost:3000`.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.&lt;string></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~NODE_ENV"><span class="type-signature">(inner, constant) </span>NODE_ENV<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Environnement d'exécution (`development`, `production`, ...).
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line61">line 61</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="~PORT"><span class="type-signature">(inner, constant) </span>PORT<span class="type-signature"> :number</span></h4>
 
 
 
 
 <div class="description">
-    Port d'écoute du serveur, défini via la variable d'environnementNS_PORT (3000 par défaut).
+    Port d'écoute du serveur, défini via la variable d'environnement
+NS_PORT (3000 par défaut).
 </div>
 
 
@@ -223,7 +938,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line49">line 49</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -295,7 +1010,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line63">line 63</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -367,7 +1082,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line56">line 56</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -439,7 +1154,70 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line41">line 41</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~staticHtml"><span class="type-signature">(inner) </span>staticHtml<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Sert les fichiers statiques du frontend à la racine du site,
+avec mise en cache navigateur en production.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -467,7 +1245,7 @@
     
 
     
-    <h4 class="name" id="~/api/annonces"><span class="type-signature">(inner) </span>/api/annonces<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~authLimiter"><span class="type-signature">(inner) </span>authLimiter<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -475,7 +1253,8 @@
 
 
 <div class="description">
-    Route API dédiée à la gestion des annonces.
+    Middleware de limitation de débit renforcé sur les routes
+d'authentification (protection contre le brute-force).
 </div>
 
 
@@ -519,7 +1298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line127">line 127</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -555,7 +1334,7 @@
     
 
     
-    <h4 class="name" id="~/api/contacter"><span class="type-signature">(inner) </span>/api/contacter<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~checkRequiredEnv"><span class="type-signature">(inner) </span>checkRequiredEnv<span class="signature">(keys)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -563,7 +1342,8 @@
 
 
 <div class="description">
-    Route API dédiée à la mise en relation entre utilisateurs(contact au sujet d'une annonce).
+    Vérifie que les variables d'environnement critiques sont présentes
+avant de démarrer le serveur (fail-fast).
 </div>
 
 
@@ -572,6 +1352,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Liste des noms de variables requises.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -607,7 +1436,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line141">line 141</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -630,184 +1459,55 @@
 
 
 
-
-
-
-
-
-
+<h5>Throws:</h5>
 
         
-            
 
-    
-
-    
-    <h4 class="name" id="~/api/log_error"><span class="type-signature">(inner) </span>/api/log_error<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Route API dédiée à la journalisation des erreurs côté client.
-</div>
-
-
-
+<dl>
+    <dt>
+        <div class="param-desc">
+        Si une variable requise est absente.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
 
 
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line165">line 165</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
 </dl>
 
 
+    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h5>Returns:</h5>
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="~/api/messages"><span class="type-signature">(inner) </span>/api/messages<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
-
-<div class="description">
-    Route API dédiée à la gestion des messages(contact au sujet d'une annonce).
-</div>
-
-
-
-
-
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
 
 
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line149">line 149</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -819,7 +1519,7 @@
     
 
     
-    <h4 class="name" id="~/api/postman"><span class="type-signature">(inner) </span>/api/postman<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~coopMiddleware"><span class="type-signature">(inner) </span>coopMiddleware<span class="signature">(req, res, next)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -827,359 +1527,8 @@
 
 
 <div class="description">
-    Route API dédiée aux tests Postman.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line120">line 120</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~/api/utilisateurs"><span class="type-signature">(inner) </span>/api/utilisateurs<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Route API dédiée à la gestion des utilisateurs.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line134">line 134</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~/auth"><span class="type-signature">(inner) </span>/auth<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Route dédiée à l'authentification (connexion, déconnexion,vérification de session).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line157">line 157</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~cookieParserMiddleware"><span class="type-signature">(inner) </span>cookieParserMiddleware<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Middleware de parsing des cookies entrants.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line106">line 106</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~coopMiddleware"><span class="type-signature">(inner) </span>coopMiddleware<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Middleware personnalisé : ajoute l'en-tête `Cross-Origin-Opener-Policy`pour autoriser les popups (ex : OAuth, fenêtres d'authentification).
+    Ajoute l'en-tête `Cross-Origin-Opener-Policy` pour autoriser les
+popups (ex : OAuth, fenêtres d'authentification).
 </div>
 
 
@@ -1318,7 +1667,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line76">line 76</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -1343,6 +1692,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1354,7 +1721,7 @@
     
 
     
-    <h4 class="name" id="~corsMiddleware"><span class="type-signature">(inner) </span>corsMiddleware<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~errorHandler"><span class="type-signature">(inner) </span>errorHandler<span class="signature">(err, req, res, next)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1362,7 +1729,570 @@
 
 
 <div class="description">
-    Middleware CORS : autorise les requêtes cross-origin depuis lefront (`http://localhost:3000`) avec envoi des cookies (`credentials: true`).
+    Middleware global de gestion des erreurs. Doit être déclaré en
+dernier et posséder 4 paramètres pour qu'Express le reconnaisse
+comme tel.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Erreur interceptée.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête entrante.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse à renvoyer.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.NextFunction</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Middleware suivant (non utilisé ici).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line308">line 308</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~gracefulShutdown"><span class="type-signature">(inner) </span>gracefulShutdown<span class="signature">(signal)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Ferme proprement le serveur HTTP et la connexion à la base de
+données à la réception d'un signal d'arrêt.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>signal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Signal reçu (SIGTERM, SIGINT...).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line357">line 357</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~notFoundHandler"><span class="type-signature">(inner) </span>notFoundHandler<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Gestionnaire pour toute route API inconnue (404 JSON plutôt que
+la page HTML par défaut d'Express).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête entrante.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse à renvoyer.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line296">line 296</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~startServer"><span class="type-signature">(async, inner) </span>startServer<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Démarre le serveur : vérifie la connexion à la base de données,
+planifie la tâche de modération quotidienne, puis met le serveur
+HTTP en écoute.
 </div>
 
 
@@ -1406,7 +2336,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line65">line 65</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -1429,888 +2359,55 @@
 
 
 
-
-
-
-
-
-
+<h5>Throws:</h5>
 
         
-            
 
-    
-
-    
-    <h4 class="name" id="~fileUploadMiddleware"><span class="type-signature">(inner) </span>fileUploadMiddleware<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Middleware de gestion de l'upload de fichiers (`multipart/form-data`).
-</div>
-
-
-
+<dl>
+    <dt>
+        <div class="param-desc">
+        Si la connexion à la base de données échoue.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
 
 
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line113">line 113</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
 </dl>
 
 
+    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h5>Returns:</h5>
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="~jsonBodyParser"><span class="type-signature">(inner) </span>jsonBodyParser<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
-
-<div class="description">
-    Middleware de parsing du corps des requêtes au format JSON(taille limitée à 2 Mo).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line90">line 90</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-            
-
-    
-
-    
-    <h4 class="name" id="~staticCss"><span class="type-signature">(inner) </span>staticCss<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
+<span class="param-type">Promise.&lt;void></span>
 
 
-
-<div class="description">
-    Sert les feuilles de style CSS statiques sous `/css`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line179">line 179</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
     
-
-    
-    <h4 class="name" id="~staticFonts"><span class="type-signature">(inner) </span>staticFonts<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les polices statiques du frontend sous `/fonts`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line207">line 207</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~staticHtml"><span class="type-signature">(inner) </span>staticHtml<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les fichiers HTML statiques du frontend à la racine du site.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line172">line 172</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~staticImg"><span class="type-signature">(inner) </span>staticImg<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les images statiques du frontend sous `/img`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line200">line 200</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~staticJs"><span class="type-signature">(inner) </span>staticJs<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les scripts JavaScript statiques du frontend sous `/js`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line193">line 193</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~staticTools"><span class="type-signature">(inner) </span>staticTools<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les scripts utilitaires JavaScript statiques sous `/tools`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line186">line 186</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~staticUploads"><span class="type-signature">(inner) </span>staticUploads<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sert les fichiers uploadés par les utilisateurs sous `/uploads`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line214">line 214</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~urlencodedBodyParser"><span class="type-signature">(inner) </span>urlencodedBodyParser<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Middleware de parsing du corps des requêtes au format URL-encodé(taille limitée à 2 Mo).
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2332,13 +2429,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

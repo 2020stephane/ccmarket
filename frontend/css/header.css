@@ -140,3 +140,18 @@
 main {
     flex: 1;
 }
+.avatar-initiales {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 25px;
+   height: 25px;
+   border-radius: 50%;
+   background-color:var(--primary-color);
+   color: #fff;
+   font-weight: bold;
+   font-size: 0.9rem;
+}
+.avatar-menu{
+    width: 40px;
+}

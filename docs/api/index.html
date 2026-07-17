@@ -80,7 +80,7 @@ des accéssoires pour camping car&quot;*</p>
 <li>Pour faire tourner le projet localement :</li>
 <li>Dans vscode :
 <ul>
-<li>npm install express cors mysql2 bcrypt jsonwebtoken cookie-parser express-fileupload</li>
+<li>npm install express cors mysql2 bcrypt jsonwebtoken cookie-parser express-fileupload @google/genai node-cron</li>
 <li>node server/server.js</li>
 </ul>
 </li>
@@ -113,7 +113,113 @@ des accéssoires pour camping car&quot;*</p>
 
 <header>
     
-        <h2>backend/controllers/messagesControllers.js</h2>
+        <h2>backend/controllers/adressesControllers.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Endpoints CRUD pour les adresses de                 livraison d'un utilisateur connecté</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Stephane Brisse</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+    <dt class="tag-license">License:</dt>
+    <dd class="tag-license"><ul class="dummy"><li>MIT=======================================================</li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_adressesControllers.js.html">backend/controllers/adressesControllers.js</a>, <a href="backend_controllers_adressesControllers.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>backend/controllers/avatarControllers.js</h2>
         
     
 </header>
@@ -170,7 +276,100 @@ des accéssoires pour camping car&quot;*</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_messagesControllers.js.html">backend/controllers/messagesControllers.js</a>, <a href="backend_controllers_messagesControllers.js.html#line1">line 1</a>
+        <a href="backend_controllers_avatarControllers.js.html">backend/controllers/avatarControllers.js</a>, <a href="backend_controllers_avatarControllers.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>backend/routes/gemini.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Endpoint pour interroger l'API Gemini=======================================================</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_routes_gemini.js.html">backend/routes/gemini.js</a>, <a href="backend_routes_gemini.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -321,13 +520,13 @@ des accéssoires pour camping car&quot;*</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

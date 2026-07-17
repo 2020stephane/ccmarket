@@ -30,49 +30,172 @@
  * =======================================================
  *  @fileoverview  messagesControllers.js
  *  @project       ccmarket
- *  @description   Description du fichier
- *  @version       1.0.0
- *  @date          2026-07-06
+ *  @description   Contrôleurs de gestion de la messagerie :
+ *                 création de messages, récupération des
+ *                 conversations d'un utilisateur, et
+ *                 récupération de l'ensemble des messages
+ *                 (vue administrateur/modération).
+ *  @module        messagesControllers
+ *  @version       1.0.2
+ *  @date          2026-07-17
  *  @author        Stephane Brisse &lt;https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
  * =======================================================
  */
-import bcrypt from 'bcrypt';
-import { fileURLToPath } from 'url';
-import path from 'path';
-import jwt from 'jsonwebtoken';
-
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
 
 /**
- * Clé secrète utilisée pour signer/vérifier les jetons JWT.
- * @type {string}
- * @const
+ * @typedef {Object} ExpressRequest
+ * @description Objet requête Express (voir la documentation officielle Express).
  */
-const JWT_SECRET = process.env.JWT_SECRET;
 
-export async function getMessagesR(req, res) {
+/**
+ * @typedef {Object} ExpressResponse
+ * @description Objet réponse Express (voir la documentation officielle Express).
+ */
+
+/**
+ * Crée un nouveau message entre deux utilisateurs, lié à une annonce.
+ * Le champ `moderation_id` reste `NULL` à la création : une modération
+ * n'est associée au message que si celui-ci est signalé ultérieurement.
+ *
+ * @async
+ * @function postMessage
+ * @param {ExpressRequest} req - Requête Express.
+ * @param {Object} req.body - Corps de la requête.
+ * @param {string} req.body.contenu - Contenu textuel du message.
+ * @param {number|string} req.body.annonce_id - Identifiant de l'annonce concernée.
+ * @param {number|string} req.body.expediteur_id - Identifiant de l'utilisateur expéditeur.
+ * @param {number|string} req.body.destinataire_id - Identifiant de l'utilisateur destinataire.
+ * @param {ExpressResponse} res - Réponse Express.
+ * @returns {Promise&lt;void>} Envoie une réponse JSON :
+ *  - 201 avec l'identifiant du message créé (`id`) en cas de succès,
+ *  - 400 si un champ obligatoire est manquant,
+ *  - 500 en cas d'erreur serveur.
+ */
+export async function postMessage(req, res) {
+  const { contenu, annonce_id, expediteur_id, destinataire_id } = req.body;
+
+  if (!contenu || !annonce_id || !expediteur_id || !destinataire_id) {
+    return res.status(400).json({ message: 'Champs obligatoires manquants' });
+  }
+
   try {
-   const userid = req.params.id;
-   const [fiches] = await db.execute(`SELECT * FROM messages WHERE destinataire_id = ?`,[userid]);
+    const [result] = await db.execute(
+      'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
+      [contenu, annonce_id, expediteur_id, destinataire_id]
+    );
 
-    res.json(fiches);
+    res.status(201).json({ message: 'Message enregistré', id: result.insertId });
   } catch (error) {
-    logError(error, "function getMessagesR dans le module:messagesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
+    logError(error, "FONCTION: postMessage, MODULE: messagesControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 }
-export async function getMessagesE(req, res) {
-  try {
-   const userid = req.params.id;
-   const [fiches] = await db.execute(`SELECT * FROM messages WHERE expediteur_id = ?`,[userid]);
 
-    res.json(fiches);
+/**
+ * Récupère l'ensemble des messages (envoyés et reçus) liés à un utilisateur donné,
+ * en précisant pour chaque message son type ("Envoyé"/"Reçu") ainsi que le type
+ * d'annonce associé ("Offre"/"Demande"), avec les informations (nom, prénom,
+ * avatar) de l'expéditeur et du destinataire.
+ *
+ * @async
+ * @function getMessages
+ * @param {ExpressRequest} req - Requête Express.
+ * @param {Object} req.params - Paramètres de route.
+ * @param {number|string} req.params.id - Identifiant de l'utilisateur dont on récupère les messages.
+ * @param {ExpressResponse} res - Réponse Express.
+ * @returns {Promise&lt;void>} Envoie une réponse JSON :
+ *  - 200 avec la liste des messages (`result`) en cas de succès,
+ *  - 400 si l'identifiant est manquant ou invalide,
+ *  - 500 en cas d'erreur serveur.
+ */
+export async function getMessages(req, res) {
+  try {
+    const { id } = req.params;
+
+    if (!id || isNaN(Number(id))) {
+      return res.status(400).json({ message: 'Identifiant utilisateur manquant ou invalide' });
+    }
+
+    const sql = `SELECT m.*,
+          a.titre AS annonce_titre,
+          a.date_publication,
+          ue.nom AS expediteur_nom,
+          ue.prenom AS expediteur_prenom,
+          ue.avatar_url AS expediteur_avatar,
+          ud.nom AS destinataire_nom,
+          ud.prenom AS destinataire_prenom,
+          ud.avatar_url AS destinataire_avatar,
+        CASE
+            WHEN m.expediteur_id = ? THEN 'Envoyé'
+            WHEN m.destinataire_id = ? THEN 'Reçu'
+        END AS type_message,
+        CASE
+            WHEN a.utilisateur_id = ? THEN 'Offre'
+            ELSE 'Demande'
+        END AS type_annonce
+        FROM messages m
+        JOIN annonces a ON m.annonce_id = a.annonce_id
+        JOIN utilisateurs ue ON m.expediteur_id = ue.utilisateur_id
+        JOIN utilisateurs ud ON m.destinataire_id = ud.utilisateur_id
+        WHERE m.expediteur_id = ?
+           OR m.destinataire_id = ?
+        ORDER BY type_annonce, type_message, m.date_envoi DESC`;
+
+    const params = [id, id, id, id, id];
+    const [result] = await db.execute(sql, params);
+
+    res.status(200).json({ result });
   } catch (error) {
-    logError(error, "function getMessagesR dans le module:messagesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
+    logError(error, "FONCTION: getMessages, MODULE: messagesControllers.js");
+    res.status(500).json({ message: 'Erreur serveur' });
   }
+}
+
+/**
+ * Récupère l'ensemble des messages de la plateforme, tous utilisateurs
+ * confondus, avec les informations essentielles de l'annonce concernée,
+ * de l'expéditeur et du destinataire. Destinée à un usage administrateur
+ * ou modération (pas de filtrage par utilisateur connecté).
+ *
+ * @async
+ * @function getAllMessages
+ * @param {ExpressRequest} req - Requête Express.
+ * @param {ExpressResponse} res - Réponse Express.
+ * @returns {Promise&lt;void>} Envoie une réponse JSON :
+ *  - 200 avec la liste complète des messages (`messages`) en cas de succès,
+ *  - 500 en cas d'erreur serveur.
+ */
+export async function getAllMessages(req, res) {
+   try {
+      const [messages] = await db.execute(`
+         SELECT
+            m.message_id,
+            m.contenu,
+            m.date_envoi,
+            m.moderation_id,
+            m.annonce_id,
+            a.titre AS annonce_titre,
+            e.utilisateur_id AS expediteur_id,
+            CONCAT(e.prenom, ' ', e.nom) AS expediteur_nom,
+            e.email AS expediteur_email,
+            d.utilisateur_id AS destinataire_id,
+            CONCAT(d.prenom, ' ', d.nom) AS destinataire_nom
+         FROM messages m
+         LEFT JOIN annonces a ON m.annonce_id = a.annonce_id
+         LEFT JOIN utilisateurs e ON m.expediteur_id = e.utilisateur_id
+         LEFT JOIN utilisateurs d ON m.destinataire_id = d.utilisateur_id
+         ORDER BY m.date_envoi DESC
+      `);
+
+      res.status(200).json({ messages });
+
+   } catch (error) {
+      logError(error, "FONCTION: getAllMessages, MODULE: messagesController.js");
+      res.status(500).json({ message: 'Erreur serveur' });
+   }
 }
 </code></pre>
         </article>
@@ -84,13 +207,13 @@ export async function getMessagesE(req, res) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

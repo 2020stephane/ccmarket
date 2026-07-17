@@ -2,9 +2,14 @@
  * =======================================================
  *  @fileoverview  messagesControllers.js
  *  @project       ccmarket
- *  @description   gestion de la messagerie
- *  @version       1.0.1
- *  @date          2026-07-06
+ *  @description   Contrôleurs de gestion de la messagerie :
+ *                 création de messages, récupération des
+ *                 conversations d'un utilisateur, et
+ *                 récupération de l'ensemble des messages
+ *                 (vue administrateur/modération).
+ *  @module        messagesControllers
+ *  @version       1.0.2
+ *  @date          2026-07-17
  *  @author        Stephane Brisse <https://github.com/2020stephane/ccmarket.git>
  *  @license       MIT
  * =======================================================
@@ -13,21 +18,32 @@ import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
 
 /**
- * Crée un nouveau message entre deux utilisateurs, lié à une annonce,
- * et initialise une entrée de modération associée avec le statut "en attente".
+ * @typedef {Object} ExpressRequest
+ * @description Objet requête Express (voir la documentation officielle Express).
+ */
+
+/**
+ * @typedef {Object} ExpressResponse
+ * @description Objet réponse Express (voir la documentation officielle Express).
+ */
+
+/**
+ * Crée un nouveau message entre deux utilisateurs, lié à une annonce.
+ * Le champ `moderation_id` reste `NULL` à la création : une modération
+ * n'est associée au message que si celui-ci est signalé ultérieurement.
  *
  * @async
  * @function postMessage
- * @param {import('express').Request} req - Requête Express.
+ * @param {ExpressRequest} req - Requête Express.
  * @param {Object} req.body - Corps de la requête.
  * @param {string} req.body.contenu - Contenu textuel du message.
  * @param {number|string} req.body.annonce_id - Identifiant de l'annonce concernée.
  * @param {number|string} req.body.expediteur_id - Identifiant de l'utilisateur expéditeur.
  * @param {number|string} req.body.destinataire_id - Identifiant de l'utilisateur destinataire.
- * @param {import('express').Response} res - Réponse Express.
+ * @param {ExpressResponse} res - Réponse Express.
  * @returns {Promise<void>} Envoie une réponse JSON :
- *  - 201 avec l'identifiant du message créé en cas de succès,
- *  - 400 si des champs obligatoires sont manquants,
+ *  - 201 avec l'identifiant du message créé (`id`) en cas de succès,
+ *  - 400 si un champ obligatoire est manquant,
  *  - 500 en cas d'erreur serveur.
  */
 export async function postMessage(req, res) {
@@ -38,7 +54,7 @@ export async function postMessage(req, res) {
   }
 
   try {
-     const [result] = await db.execute(
+    const [result] = await db.execute(
       'INSERT INTO messages (contenu, annonce_id, expediteur_id, destinataire_id) VALUES (?, ?, ?, ?)',
       [contenu, annonce_id, expediteur_id, destinataire_id]
     );
@@ -53,51 +69,42 @@ export async function postMessage(req, res) {
 /**
  * Récupère l'ensemble des messages (envoyés et reçus) liés à un utilisateur donné,
  * en précisant pour chaque message son type ("Envoyé"/"Reçu") ainsi que le type
- * d'annonce associé ("Offre"/"Demande").
+ * d'annonce associé ("Offre"/"Demande"), avec les informations (nom, prénom,
+ * avatar) de l'expéditeur et du destinataire.
  *
  * @async
  * @function getMessages
- * @param {import('express').Request} req - Requête Express.
+ * @param {ExpressRequest} req - Requête Express.
  * @param {Object} req.params - Paramètres de route.
  * @param {number|string} req.params.id - Identifiant de l'utilisateur dont on récupère les messages.
- * @param {import('express').Response} res - Réponse Express.
+ * @param {ExpressResponse} res - Réponse Express.
  * @returns {Promise<void>} Envoie une réponse JSON :
  *  - 200 avec la liste des messages (`result`) en cas de succès,
- *  - 400 si l'identifiant est manquant,
+ *  - 400 si l'identifiant est manquant ou invalide,
  *  - 500 en cas d'erreur serveur.
  */
 export async function getMessages(req, res) {
   try {
     const { id } = req.params;
 
-    if (!id) {
-      return res.status(400).json({ message: 'Identifiant utilisateur manquant' });
+    if (!id || isNaN(Number(id))) {
+      return res.status(400).json({ message: 'Identifiant utilisateur manquant ou invalide' });
     }
 
-    const sql = `SELECT m.*,
-          a.titre AS annonce_titre,
-          a.date_publication,
-          ue.nom AS expediteur_nom,
-          ue.prenom AS expediteur_prenom,
-          ue.avatar_url AS expediteur_avatar,
-          ud.nom AS destinataire_nom,
-          ud.prenom AS destinataire_prenom,
-          ud.avatar_url AS destinataire_avatar,
+    const sql = `
+      SELECT v.*,
         CASE
-            WHEN m.expediteur_id = ? THEN 'Envoyé'
-            WHEN m.destinataire_id = ? THEN 'Reçu'
+            WHEN v.expediteur_id = ? THEN 'Envoyé'
+            WHEN v.destinataire_id = ? THEN 'Reçu'
         END AS type_message,
         CASE
-            WHEN a.utilisateur_id = ? THEN 'Offre'
+            WHEN v.annonce_proprietaire_id = ? THEN 'Offre'
             ELSE 'Demande'
         END AS type_annonce
-        FROM messages m
-        JOIN annonces a ON m.annonce_id = a.annonce_id
-        JOIN utilisateurs ue ON m.expediteur_id = ue.utilisateur_id
-        JOIN utilisateurs ud ON m.destinataire_id = ud.utilisateur_id
-        WHERE m.expediteur_id = ?
-           OR m.destinataire_id = ?
-        ORDER BY type_annonce, type_message, m.date_envoi DESC`;
+      FROM vue_messages_detail v
+      WHERE v.expediteur_id = ?
+         OR v.destinataire_id = ?
+      ORDER BY type_annonce, type_message, v.date_envoi DESC`;
 
     const params = [id, id, id, id, id];
     const [result] = await db.execute(sql, params);
@@ -108,28 +115,27 @@ export async function getMessages(req, res) {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 }
+
+/**
+ * Récupère l'ensemble des messages de la plateforme, tous utilisateurs
+ * confondus, avec les informations essentielles de l'annonce concernée,
+ * de l'expéditeur et du destinataire. Destinée à un usage administrateur
+ * ou modération (pas de filtrage par utilisateur connecté).
+ *
+ * @async
+ * @function getAllMessages
+ * @param {ExpressRequest} req - Requête Express.
+ * @param {ExpressResponse} res - Réponse Express.
+ * @returns {Promise<void>} Envoie une réponse JSON :
+ *  - 200 avec la liste complète des messages (`messages`) en cas de succès,
+ *  - 500 en cas d'erreur serveur.
+ */
 export async function getAllMessages(req, res) {
-   console.log('getAllMessages');
    try {
       const [messages] = await db.execute(`
-         SELECT
-            m.message_id,
-            m.contenu,
-            m.date_envoi,
-            m.moderation_id,
-            m.annonce_id,
-            a.titre AS annonce_titre,
-            e.utilisateur_id AS expediteur_id,
-            CONCAT(e.prenom, ' ', e.nom) AS expediteur_nom,
-            e.email AS expediteur_email,
-            d.utilisateur_id AS destinataire_id,
-            CONCAT(d.prenom, ' ', d.nom) AS destinataire_nom
-         FROM messages m
-         LEFT JOIN annonces a ON m.annonce_id = a.annonce_id
-         LEFT JOIN utilisateurs e ON m.expediteur_id = e.utilisateur_id
-         LEFT JOIN utilisateurs d ON m.destinataire_id = d.utilisateur_id
-         ORDER BY m.date_envoi DESC
-      `);
+    SELECT * FROM vue_messages_complets
+    ORDER BY date_envoi DESC
+`);
 
       res.status(200).json({ messages });
 

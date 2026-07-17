@@ -28,7 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Middleware de vérification d'authentification via JWT.
- * Protège les routes nécessitant une connexion utilisateur.
+ *               Protège les routes nécessitant une connexion utilisateur.
  * @module authMiddleware
  * @project ccmarket
  * @version 1.0.0
@@ -54,46 +54,69 @@ import { logError } from '../tools/logger.js';
  * @returns {void}
  */
 export function verifierAuthentification(req, res, next) {
-    const token = req.cookies?.monToken;
+     const token = req.cookies?.monToken;
 
-    if (!token) {
-        return res.status(401).json({
-            success: false,
-            message: 'Authentification requise.'
-        });
-    }
+     if (!token) {
+          return res.status(401).json({
+               success: false,
+               message: 'Authentification requise.'
+          });
+     }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        logError(error, 'FONCTION: verifierAuthentification, MODULE: authMiddleware.js');
-        return res.status(401).json({
-            success: false,
-            message: 'Token invalide ou expiré.'
-        });
-    }
+     try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = decoded;
+          next();
+     } catch (error) {
+     res.clearCookie('monToken');
+
+          if (error.name === 'TokenExpiredError') {
+               return res.status(401).json({
+                    success: false,
+                    message: 'Session expirée, veuillez vous reconnecter.',
+                    code: 'TOKEN_EXPIRED'
+               });
+          }
+          logError(error, 'FONCTION: verifierAuthentification, MODULE: authMiddleware.js');
+          return res.status(401).json({
+               success: false,
+               message: 'Token invalide ou expiré.',
+                    code: 'TOKEN_INVALID'
+          });
+     }
 }
 
 /**
- * Vérifie que l'utilisateur authentifié possède le statut administrateur.
- * Doit être utilisé après `verifierAuthentification` (nécessite `req.user`).
- * @function verifierAdministrateur
- * @param {express.Request} req - Requête Express entrante.
- * @param {express.Response} res - Réponse Express.
- * @param {express.NextFunction} next - Callback pour passer au middleware suivant.
- * @returns {void}
+ * @function verifierRole
+ * @param {...string} rolesAutorises - Liste des rôles autorisés à accéder à la route (ex: 'admin', 'moderateur')
+ * @returns {Function} Express middleware
  */
-export function verifierAdministrateur(req, res, next) {
-    if (!req.user?.administrateur) {
-        return res.status(403).json({
-            success: false,
-            message: 'Accès réservé aux administrateurs.'
-        });
-    }
-    next();
-}
+export const verifierRole = (...rolesAutorises) => {
+     return (req, res, next) => {
+          // 1. On récupère l'utilisateur injecté par le middleware verifierAuthentification
+          const user = req.user || req.session?.user;
+
+          // Si l'utilisateur n'est pas trouvé dans la requête
+          if (!user) {
+               return res.status(401).json({
+                    message: "Accès refusé. Vous devez être connecté."
+               });
+          }
+
+          // 2. On vérifie si l'utilisateur possède le rôle requis
+          // (Assure-toi que la propriété 'role' existe bien sur ton objet utilisateur en BDD/session)
+          const userRole = user.role;
+
+          if (!rolesAutorises.includes(userRole)) {
+               return res.status(403).json({
+                    message: "Accès interdit. Vous n'avez pas les permissions nécessaires pour effectuer cette action."
+               });
+          }
+
+          // 3. L'utilisateur a le bon rôle, on passe au contrôleur suivant
+          next();
+     };
+};
 </code></pre>
         </article>
     </section>
@@ -104,13 +127,13 @@ export function verifierAdministrateur(req, res, next) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

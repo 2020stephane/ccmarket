@@ -253,7 +253,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
 
     
-    <h4 class="name" id="~sInscrire"><span class="type-signature">(async, inner) </span>sInscrire<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    <h4 class="name" id="~deleteUserAccount"><span class="type-signature">(inner) </span>deleteUserAccount<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -261,10 +261,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 <div class="description">
-    Inscrit un nouvel utilisateur.
-Valide les données reçues, vérifie l'unicité de l'email, hache le
-mot de passe, crée l'utilisateur en base de données, génère un
-cookie JWT et retourne son profil.
+    Supprime le compte d'un utilisateur et détruit sa session
 </div>
 
 
@@ -273,78 +270,6 @@ cookie JWT et retourne son profil.
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Request</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Requête Express, `body` attendu : `{ prenom, nom, email, password }`.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Response</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Réponse Express.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -380,7 +305,7 @@ cookie JWT et retourne son profil.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line36">line 36</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -405,32 +330,186 @@ cookie JWT et retourne son profil.
 
 
 
-<h5>Returns:</h5>
+
+
+
+
 
         
-<div class="param-desc">
-    Réponse HTTP :
-  - 200 : Inscription réussie, retourne le token et le profil créé.
-  - 400 : Champs manquants ou erreur lors de l'insertion.
-  - 409 : Email déjà utilisé par un compte existant.
-  - 500 : Erreur interne du serveur (journalisée via logError).
+            
+
+    
+
+    
+    <h4 class="name" id="~getUtilisateurPublic"><span class="type-signature">(async, inner) </span>getUtilisateurPublic<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Retourne les informations publiques d'un utilisateur
+               (utilisées par exemple pour afficher la fiche du
+               vendeur sur la page détail d'une annonce).
+               Ne renvoie JAMAIS l'email, le mot de passe, ou le
+               statut administrateur.
 </div>
 
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;express.Response></span>
 
 
-    </dd>
-</dl>
+
+
+
+
+
+
+
+
+<dl class="details">
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~patchMotDePasse"><span class="type-signature">(inner) </span>patchMotDePasse<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Modifie le mot de passe de l'utilisateur connecté
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -568,7 +647,7 @@ cette action.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line110">line 110</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -640,13 +719,13 @@ cette action.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#GET/messages_envoyes">GET/messages_envoyes</a></li><li><a href="global.html#GET/messages_recus">GET/messages_recus</a></li><li><a href="global.html#JWT_SECRET">JWT_SECRET</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Jul 06 2026 14:02:17 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
