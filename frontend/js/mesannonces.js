@@ -17,20 +17,6 @@ import { logError } from "/js/tools/logger.js";
 const container = document.getElementById("annonces_body");
 
 /**
- * Correction sécurité (XSS) : échappe tout contenu utilisateur avant de
- * l'injecter en HTML (titre, description, nom de catégorie...). Sans ça,
- * une annonce contenant du HTML/JS (ex: <img src=x onerror=...>) dans son
- * titre ou sa description serait exécutée pour quiconque consulte la liste.
- * NB : idéalement à extraire dans un module utilitaire partagé
- * (ex: /js/tools/echapperHTML.js) et à réutiliser sur messages.js.
- */
-function echapperHTML(texte) {
-    const div = document.createElement('div');
-    div.textContent = texte ?? '';
-    return div.innerHTML;
-}
-
-/**
  * =======================================================
  *  Point d'entrée / Script principal
  * =======================================================
@@ -228,4 +214,17 @@ function initBtn() {
                     afficheModale(id);
                });
      });
+}
+/**
+ * Correction sécurité (XSS) : échappe tout contenu utilisateur avant de
+ * l'injecter en HTML (titre, description, nom de catégorie...). Sans ça,
+ * une annonce contenant du HTML/JS (ex: <img src=x onerror=...>) dans son
+ * titre ou sa description serait exécutée pour quiconque consulte la liste.
+ * NB : idéalement à extraire dans un module utilitaire partagé
+ * (ex: /js/tools/echapperHTML.js) et à réutiliser sur messages.js.
+ */
+function echapperHTML(texte) {
+    const div = document.createElement('div');
+    div.textContent = texte ?? '';
+    return div.innerHTML;
 }

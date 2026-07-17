@@ -11,24 +11,48 @@
  */
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/js/tools/logger.js";
-
-// Vérifie la connexion et redirige automatiquement si non connecté
-// (voir authentification.js : "publication.html" fait partie des pagesPrivees)
-await verifierConnection();
-
+/**
+ * =======================================================
+ *  Constantes partagées
+ * =======================================================
+ */
 const formPublier = document.querySelector("form");
+/**
+ * =======================================================
+ *  Point d'entrée / Script principal
+ * =======================================================
+ */
+try {
+     await verifierConnection();
 
-document.getElementById('inputphoto').addEventListener('change', (e) => {
-     const fichier = e.target.files[0];
-     document.getElementById('file-nom').textContent = fichier
-          ? fichier.name
-          : 'Aucun fichier choisi';
-});
+     /** ===== MODEL ===== */
+     /** ===== VIEW =====*/
+     /** ===== CONTROLLERS ===== */
+     initListener();
 
-formPublier.addEventListener("submit", (e) => {
-     e.preventDefault();
-     publier();
-});
+} catch (error) {
+     logError(error,"Script principal, MODULE:publication.js");
+}
+/**
+ * =======================================================
+ *  @function     initListener
+ *  @description  initialise les listeners.
+ * =======================================================
+ */
+function initListener() {
+     document.getElementById('inputphoto').addEventListener('change', (e) => {
+          const fichier = e.target.files[0];
+          document.getElementById('file-nom').textContent = fichier
+               ? fichier.name
+               : 'Aucun fichier choisi';
+     });
+
+     formPublier.addEventListener("submit", (e) => {
+          e.preventDefault();
+          publier();
+     });
+}
+
 
 /**
  * =======================================================

@@ -17,7 +17,6 @@ const infoUser = JSON.parse(localStorage.getItem("userinfo"));
 const ptrsidePrenom = document.getElementById("sidebarPrenom");
 const ptrsideDate = document.getElementById("sidebarDateInscription");
 const ptrSidebarAvatar = document.getElementById("sidebarAvatar");
-console.log('infoUser = ',infoUser);
 /**
  * =======================================================
  *  Point d'entrée / Script principal
@@ -131,7 +130,7 @@ ptrfileAvatar.addEventListener("change", async () => {
                 sidebarAvatar.innerHTML = `<img src="${e.target.result}" alt="Avatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
             };
             reader.readAsDataURL(fichier);
-console.log('success = ',success);
+
                infoUser.avatar_url = success.avatar_url;
                localStorage.setItem("userinfo", JSON.stringify(infoUser));
         } else {success.avatar_url
@@ -170,7 +169,6 @@ console.log('file =', file);
             body: formData
         });
         const data = await response.json();
- console.log('data = ',data);
           return data;
      } catch (error) {
           console.error("Erreur d'envoi avatar :", error);

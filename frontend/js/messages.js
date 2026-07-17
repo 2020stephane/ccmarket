@@ -34,7 +34,7 @@ try {
 
      /** ===== MODEL ===== */
      infoUser = JSON.parse(localStorage.getItem("userinfo"));
-console.log('infoUser= ',infoUser);
+
      await chargerMessages();
 
      /** ===== VIEW =====*/
@@ -117,7 +117,13 @@ function afficherMessages(role) {
         container.appendChild(div);
     });
 }
-
+/**
+ * =======================================================
+ *  @function     selectionnerConversation
+ *  @description  selection d'une conversation
+ *  @param {int}  annonceId
+ * =======================================================
+ */
 function selectionnerConversation(annonceId) {
     const container = document.getElementById('convList');
     container.querySelectorAll('.message-item').forEach(item => {
