@@ -133,8 +133,19 @@ export async function getMessages(req, res) {
 export async function getAllMessages(req, res) {
    try {
       const [messages] = await db.execute(`
-    SELECT * FROM vue_messages_complets
-    ORDER BY date_envoi DESC
+    SELECT
+    m.message_id,
+    m.contenu,
+    m.date_envoi,
+    m.expediteur_id,
+    m.destinataire_id,
+    mo.status AS moderation_status,
+    mo.motif AS moderation_motif,
+    mo.date AS moderation_date
+FROM messages m
+LEFT JOIN moderations mo ON m.moderation_id = mo.moderation_id
+LIMIT 0, 25;
+
 `);
 
       res.status(200).json({ messages });

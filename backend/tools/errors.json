@@ -11215,5 +11215,53 @@
       "Error: Unknown column 'message' in 'field list'",
       "at contacterAdmin (file:///~/backend/controllers/contacterControllers.js:60:33)"
     ]
+  },
+  {
+    "source": "frontend",
+    "date": "17/07/2026",
+    "heure": "15:39:53",
+    "timestamp": "2026-07-17T13:39:53.304Z",
+    "contexte": "FONCTION: changerStatutMessage, MODULE: /js/message.js",
+    "message": "Erreur HTTP 404",
+    "type": "Error",
+    "stack": [
+      "Error: Erreur HTTP 404",
+      "at changerStatutMessage (http://localhost:3000/js/message_admin.js:297:31)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/message_admin.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "20/07/2026",
+    "heure": "15:08:12",
+    "timestamp": "2026-07-20T13:08:12.045Z",
+    "contexte": {},
+    "message": "Erreur réseau :",
+    "type": "Error",
+    "stack": [
+      "Error: Erreur réseau :",
+      "at sauveError (file:///~/backend/controllers/errorControllers.js:33:20)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/messages.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "20/07/2026",
+    "heure": "15:25:23",
+    "timestamp": "2026-07-20T13:25:23.793Z",
+    "contexte": "Erreur réseau :",
+    "message": "annonceId is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: annonceId is not defined",
+      "at envoyerMessage (http://localhost:3000/js/messages.js:360:37)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/messages.html"
+    }
   }
 ]

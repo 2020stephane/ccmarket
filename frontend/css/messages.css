@@ -213,6 +213,20 @@
     margin: 0 auto 10px auto;
     box-shadow: 0 4px 10px rgba(56, 142, 83, 0.2);
 }
+.message-initials {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    box-shadow: 0 4px 10px rgba(56, 142, 83, 0.2);
+}
 /* ========================================================
    AJOUT : Colonne de droite (fil de discussion + boîte d'envoi)
 ======================================================== */
@@ -224,7 +238,9 @@
     margin-top: 20px;
     min-width: 0;
 }
-
+.thread-interlocuteur {
+    display: block;
+}
 .thread-card {
     background-color: var(--white);
     border: 1px solid #e2f0e7;

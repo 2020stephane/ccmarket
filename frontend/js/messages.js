@@ -62,6 +62,8 @@ async function chargerMessages() {
     const messages = await getMessages();
     offres = messages.filter(msg => msg.type_annonce === "Offre");
     demandes = messages.filter(msg => msg.type_annonce === "Demande");
+console.log('offres = ',offres);
+console.log('demandes',demandes);
 } catch (error) {
     logError(error, "messages.js: échec du chargement des messages");
     const container = document.getElementById("convList");
@@ -139,10 +141,11 @@ function selectionnerConversation(annonceId) {
  * =======================================================
  */
 function afficherFilConversation(annonceId) {
+
     const conversation = [...offres, ...demandes]
         .filter(msg => msg.annonce_id === annonceId)
         .sort((a, b) => new Date(a.date_envoi) - new Date(b.date_envoi));
-
+console.log('conversation =',conversation);
     const threadPanel = document.getElementById('threadPanel');
     threadPanel.innerHTML = '';
 
@@ -154,31 +157,115 @@ function afficherFilConversation(annonceId) {
         `;
         return;
     }
+const header = document.createElement('div');
+header.classList.add('thread-header');
 
-    const premierMsg = conversation[0];
-    const estExpediteur = premierMsg.expediteur_id === CURRENT_USER_ID;
+const premierMsg = conversation[0];
+header.innerHTML = `<h3>${echapperHTML(premierMsg.annonce_titre)}</h3>`;
+
+// On extrait les interlocuteurs uniques (par id)
+const interlocuteursVus = new Map();
+
+conversation.forEach(msg => {
+    const estExpediteur = msg.expediteur_id === CURRENT_USER_ID;
+    const autreId = estExpediteur ? msg.destinataire_id : msg.expediteur_id;
     const nomAutreUtilisateur = estExpediteur
-        ? `${premierMsg.destinataire_prenom} ${premierMsg.destinataire_nom}`
-        : `${premierMsg.expediteur_prenom} ${premierMsg.expediteur_nom}`;
+        ? `${msg.destinataire_prenom} ${msg.destinataire_nom}`
+        : `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
 
-    const header = document.createElement('div');
-    header.classList.add('thread-header');
-    header.innerHTML = `
-        <h3>${echapperHTML(premierMsg.annonce_titre)}</h3>
-        <span class="thread-interlocuteur">Conversation avec ${echapperHTML(nomAutreUtilisateur)}</span>
-    `;
-    threadPanel.appendChild(header);
+    if (!interlocuteursVus.has(autreId)) {
+        interlocuteursVus.set(autreId, nomAutreUtilisateur);
+    }
+});
 
-    conversation.forEach(msg => {
+// Une ligne cliquable par interlocuteur unique
+interlocuteursVus.forEach((nom, id) => {
+    const ligne = document.createElement('span');
+    ligne.classList.add('thread-interlocuteur');
+    ligne.textContent = `Conversation avec ${nom}`;
+    ligne.style.cursor = 'pointer'; // indication visuelle que c'est cliquable
+
+    ligne.addEventListener('click', () => {
+        afficherMessagesDeConversation(conversation, id);
+    });
+
+    header.appendChild(ligne);
+});
+
+threadPanel.appendChild(header);
+const content = document.createElement('div');
+content.classList.add('thread-message');
+content.id = 'content-mess';
+threadPanel.appendChild(content);
+
+//     conversation.forEach(msg => {
+//         const bulle = document.createElement('div');
+//         bulle.classList.add('thread-message');
+//         bulle.classList.add(msg.type_message === 'Envoyé' ? 'message-sent' : 'message-received');
+
+//         // L'auteur d'un message est toujours son expéditeur, quel que soit le lecteur connecté
+//         const prenom = msg.expediteur_prenom || "";
+//         const nom = msg.expediteur_nom || "";
+//         const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
+
+//         const nomAuteur = `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
+//         let imagePath = msg.expediteur_avatar;
+//      if (imagePath) {
+//           imagePath = `/uploads/avatar/${msg.expediteur_avatar}`;
+
+//         bulle.innerHTML = `
+//             <div class="bull-content">
+//             <img src="${imagePath}" alt="Avatar de ${echapperHTML(nomAuteur)}" class="avatar-img">
+//             <p>${echapperHTML(msg.contenu)}</p>
+//             </div>
+//             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
+//         `;
+//      } else {
+//           bulle.innerHTML = `
+//             <div class="bull-content">
+//             <div class="message-initials">${initiales}</div>
+//             <p>${echapperHTML(msg.contenu)}</p>
+//             </div>
+//             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
+//         `;
+//      }
+//         threadPanel.appendChild(bulle);
+//     });
+
+//     const boiteContact = document.getElementById('boiteContact');
+//     boiteContact.innerHTML = "";
+//     const footer = document.createElement('div');
+//     footer.classList.add('thread-footer');
+//     footer.innerHTML = `<label for="message">Votre message :</label>
+//                          <textarea id="message" name="message" rows="5"></textarea>
+//                          <button type="button" class="envoie">Envoyer un message</button>`;
+//     boiteContact.appendChild(footer);
+//     footer.querySelector('.envoie').addEventListener('click', () => envoyerMessage(conversation, annonceId));
+}
+function afficherMessagesDeConversation(conversation, autreUtilisateurId) {
+    // On filtre les messages échangés avec cet interlocuteur précis
+    const messagesFiltres = conversation.filter(msg => {
+        const estExpediteur = msg.expediteur_id === CURRENT_USER_ID;
+        const autreId = estExpediteur ? msg.destinataire_id : msg.expediteur_id;
+        return autreId === autreUtilisateurId;
+    });
+
+    const messagesPanel = document.getElementById('content-mess');
+    messagesPanel.innerHTML = '';
+console.log('messagesFiltres = ',messagesFiltres);
+    messagesFiltres.forEach(msg => {
+        const estExpediteur = msg.expediteur_id === CURRENT_USER_ID;
+
         const bulle = document.createElement('div');
         bulle.classList.add('thread-message');
-        bulle.classList.add(msg.type_message === 'Envoyé' ? 'message-sent' : 'message-received');
-
-        // L'auteur d'un message est toujours son expéditeur, quel que soit le lecteur connecté
-        const nomAuteur = `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
-        const imagePath = msg.expediteur_avatar
-            ? `/uploads/avatar/${msg.expediteur_avatar}`
-            : '/uploads/avatar/default.png';
+        bulle.classList.add(estExpediteur ? 'message-sent' : 'message-received');
+const prenom = msg.expediteur_prenom || "";
+         const nom = msg.expediteur_nom || "";
+         const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
+         const nomAuteur = `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
+let imagePath = msg.expediteur_avatar;
+     if (imagePath) {
+          imagePath = `/uploads/avatar/${msg.expediteur_avatar}`;
 
         bulle.innerHTML = `
             <div class="bull-content">
@@ -187,10 +274,18 @@ function afficherFilConversation(annonceId) {
             </div>
             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
         `;
-        threadPanel.appendChild(bulle);
+     } else {
+          bulle.innerHTML = `
+            <div class="bull-content">
+            <div class="message-initials">${initiales}</div>
+            <p>${echapperHTML(msg.contenu)}</p>
+            </div>
+            <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
+        `;
+     }
+        messagesPanel.appendChild(bulle);
     });
-
-    const boiteContact = document.getElementById('boiteContact');
+        const boiteContact = document.getElementById('boiteContact');
     boiteContact.innerHTML = "";
     const footer = document.createElement('div');
     footer.classList.add('thread-footer');
@@ -198,7 +293,7 @@ function afficherFilConversation(annonceId) {
                          <textarea id="message" name="message" rows="5"></textarea>
                          <button type="button" class="envoie">Envoyer un message</button>`;
     boiteContact.appendChild(footer);
-    footer.querySelector('.envoie').addEventListener('click', () => envoyerMessage(conversation, annonceId));
+    footer.querySelector('.envoie').addEventListener('click', () => envoyerMessage(messagesFiltres));
 }
 /**
  * =======================================================
@@ -232,7 +327,7 @@ async function getMessages() {
  *  @async
  * =======================================================
  */
-async function envoyerMessage(conversation, annonceId) {
+async function envoyerMessage(conversation) {
     const dest = conversation[0].expediteur_id === CURRENT_USER_ID
         ? conversation[0].destinataire_id
         : conversation[0].expediteur_id;
@@ -262,12 +357,12 @@ async function envoyerMessage(conversation, annonceId) {
             const messages = await getMessages();
             offres = messages.filter(msg => msg.type_annonce === "Offre");
             demandes = messages.filter(msg => msg.type_annonce === "Demande");
-            afficherFilConversation(annonceId);
+            afficherFilConversation(conversation[0].annonce_id);
         } else {
             alert("Erreur lors de l'envoi du message.");
         }
     } catch (error) {
-        logError("Erreur réseau :", error);
+        logError(error,"Erreur réseau :");
         alert("Erreur réseau lors de l'envoi du message.");
     }
 }

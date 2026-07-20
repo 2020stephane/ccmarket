@@ -42,8 +42,8 @@ async function chargerMessages() {
       const tmp = await response.json();
       messages = tmp.messages ?? tmp; // selon la forme de la réponse API
       afficherCompteurs();
-      remplirFiltreAnnonces();
-      afficherMessages();
+     //  remplirFiltreAnnonces();
+     //  afficherMessages();
    } catch (error) {
       logError(error, "FONCTION: chargerMessages, MODULE: /js/message.js");
    }
@@ -59,7 +59,6 @@ function afficherCompteurs() {
    console.log('afficherCompteurs()');
    document.getElementById("totalMessages").textContent = messages.length;
    document.getElementById("totalSignales").textContent = messages.filter(m => m.statut === 'signale').length;
-   document.getElementById("totalSupprimes").textContent = messages.filter(m => m.statut === 'supprime').length;
    document.getElementById("totalEnAttente").textContent = messages.filter(m => m.statut === 'en_attente').length;
 }
 

@@ -118,15 +118,15 @@ export async function chargerStat() {
  * =======================================================
  */
 async function afficheAnnonces() {
-     const pGrid = document.querySelector(".annonces-grid");
+     const ptrGrid = document.querySelector(".annonces-grid");
      const annoncesInfo = JSON.parse(localStorage.getItem('derniersAjouts')) || [];
 
      if (annoncesInfo.length === 0) {
-          pGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
+          ptrGrid.innerHTML = "<li>Aucune annonce pour le moment.</li>";
           return;
      }
 
-     pGrid.innerHTML = "";
+     ptrGrid.innerHTML = "";
 
      annoncesInfo.forEach((annonce) => {
           let imageNom;
@@ -161,7 +161,7 @@ async function afficheAnnonces() {
                </article>
                </li>
           `;
-          pGrid.insertAdjacentHTML("beforeend", fiche);
+          ptrGrid.insertAdjacentHTML("beforeend", fiche);
      });
 }
 
