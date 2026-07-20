@@ -10,7 +10,7 @@
  */
 main {
     position: relative;
-    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)), url('../img/cc_mer.png') no-repeat center center/cover;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../img/cc_mer.png') no-repeat center center/cover;
     /* background-size: contain; */
     padding: 40px 0;
     text-align: center;
@@ -52,7 +52,7 @@ h2 {
 .annonces_table {
   width: 100%;
   border-collapse: collapse;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   text-align: left;
 }
 
