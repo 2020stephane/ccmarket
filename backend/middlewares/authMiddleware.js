@@ -65,18 +65,14 @@ export function verifierAuthentification(req, res, next) {
  */
 export const verifierRole = (...rolesAutorises) => {
      return (req, res, next) => {
-          // 1. On récupère l'utilisateur injecté par le middleware verifierAuthentification
           const user = req.user || req.session?.user;
 
-          // Si l'utilisateur n'est pas trouvé dans la requête
           if (!user) {
                return res.status(401).json({
                     message: "Accès refusé. Vous devez être connecté."
                });
           }
 
-          // 2. On vérifie si l'utilisateur possède le rôle requis
-          // (Assure-toi que la propriété 'role' existe bien sur ton objet utilisateur en BDD/session)
           const userRole = user.role;
 
           if (!rolesAutorises.includes(userRole)) {
@@ -85,7 +81,6 @@ export const verifierRole = (...rolesAutorises) => {
                });
           }
 
-          // 3. L'utilisateur a le bon rôle, on passe au contrôleur suivant
           next();
      };
 };

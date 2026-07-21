@@ -16,7 +16,7 @@ import express from 'express';
 import {
    getAjouts,
    getAnnoncesByUser,
-   getAnnoncesByFilter,
+   putAnnonce,
    patchAnnonce,
    publierAnnonce,
    supprimerAnnonce,
@@ -24,7 +24,7 @@ import {
    getStatistiquesAnnonces,
    getStatistiquesAdmin
 } from '../controllers/annoncesControllers.js';
-import { verifierAuthentification } from '../middlewares/authMiddleware.js';
+import { verifierAuthentification, verifierRole } from '../middlewares/authMiddleware.js';
 
 /**
  * Routeur Express dédié aux annonces.
@@ -41,16 +41,6 @@ const router = express.Router();
  * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
  */
 router.get('/derniers_ajouts', getAjouts);
-
-/**
- * Route publique : recherche des annonces selon des critères de filtre
- * (mots-clés, catégorie, prix, etc.).
- * @name GET/recherche
- * @function
- * @param {string} path - `/recherche`
- * @param {Function} getAnnoncesByFilter - Contrôleur renvoyant les annonces correspondant aux filtres.
- */
-router.get('/recherche', getAnnoncesByFilter);
 
 /**
  * Route protégée : récupère les annonces publiées par un utilisateur donné.
@@ -73,6 +63,8 @@ router.get('/mesannonces/:id', verifierAuthentification, getAnnoncesByUser);
  * @param {Function} patchAnnonce - Contrôleur mettant à jour l'annonce ciblée par `id`.
  */
 router.patch('/modifierannonce/:id', verifierAuthentification, patchAnnonce);
+
+router.put('/putannonce/:id',  putAnnonce);
 
 /**
  * Route protégée : publie une nouvelle annonce.
@@ -97,14 +89,45 @@ router.post('/publierannonce', verifierAuthentification, publierAnnonce);
 router.delete('/supprimerannonce/:id', verifierAuthentification, supprimerAnnonce);
 
 /**
- * Route publique : récupère les catégories.
- * @name GET/
+ * Route publique : récupère la liste des catégories d'annonces.
+ * @name GET/getCategories
  * @function
  * @param {string} path - `/getCategories`
- * @param {Function} getAjouts - Contrôleur renvoyant les annonces les plus récentes.
+ * @param {Function} getCategories - Contrôleur renvoyant la liste des catégories.
  */
 router.get('/getCategories', getCategories);
 
+/**
+ * Route publique : récupère des statistiques générales sur les annonces
+ * (ex. nombre total, répartition par catégorie...).
+ *
+ * ATTENTION : contrairement aux autres routes protégées de ce fichier,
+ * aucun middleware `verifierAuthentification` n'est appliqué ici. À confirmer
+ * si c'est volontaire (statistiques publiques) ou un oubli.
+ *
+ * @name GET/getStatistiques
+ * @function
+ * @param {string} path - `/getStatistiques`
+ * @param {Function} getStatistiquesAnnonces - Contrôleur renvoyant les statistiques des annonces.
+ */
 router.get('/getStatistiques', getStatistiquesAnnonces);
-router.get('/getStatAdmin', getStatistiquesAdmin);
+
+/**
+ * Route destinée à l'administration : récupère des statistiques avancées.
+ *
+ * ATTENTION : ni `verifierAuthentification`, ni de vérification du rôle
+ * administrateur ne sont appliqués sur cette route, alors que son nom
+ * suggère un accès réservé aux administrateurs. Cela permettrait
+ * actuellement à n'importe qui d'y accéder sans être connecté. À corriger
+ * en ajoutant `verifierAuthentification` ainsi qu'un middleware de
+ * vérification du rôle admin (à créer si besoin) avant de mettre en
+ * production.
+ *
+ * @name GET/getStatAdmin
+ * @function
+ * @param {string} path - `/getStatAdmin`
+ * @param {Function} getStatistiquesAdmin - Contrôleur renvoyant les statistiques réservées aux administrateurs.
+ */
+router.get('/getStatAdmin', verifierAuthentification, verifierRole('administrateur'), getStatistiquesAdmin);
+
 export default router;

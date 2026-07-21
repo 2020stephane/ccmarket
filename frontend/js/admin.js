@@ -9,22 +9,35 @@
  *  @license       MIT
  * =======================================================
  */
+/**
+ * =======================================================
+ *  Point d'entrée / Script principal
+ * =======================================================
+ */
+try {
+     /** ===== MODEL ===== */
+     await chargerStat();
+     const stat = JSON.parse(localStorage.getItem('statAdmin'));
 
+     /** ===== VIEW =====*/
+     afficherStat();
+     afficherPrixStats();
+     afficherParCategorie();
+     afficherTopUtilisateurs();
+     afficherAnnoncesPopulaires();
+     afficherInscriptionsParMois();
+     afficherAnnoncesParMois();
 
+     /** ===== CONTROLLERS ===== */
+     deconnexion();
 
-deconnexion();
-await chargerStat();
-const stat = JSON.parse(localStorage.getItem('statAdmin'));
-afficherStat();
-afficherPrixStats();
-afficherParCategorie();
-afficherTopUtilisateurs();
-afficherAnnoncesPopulaires();
-afficherInscriptionsParMois();
-afficherAnnoncesParMois();
+} catch (error) {
+     logError(error,"Script principal, MODULE:index.js");
+}
+
 
 function afficherStat() {
- console.log('afficherStat()');
+
      document.getElementById("totalUtilisateurs").textContent = stat.compteurs.nb_utilisateurs;
      document.getElementById("totalAnnonces").textContent = stat.compteurs.nb_annonces;
      document.getElementById("totalMessages").textContent = stat.compteurs.nb_messages;
@@ -40,7 +53,7 @@ function afficherStat() {
  * =======================================================
  */
 function afficherPrixStats() {
-   console.log('afficherPrixStats()');
+
    const prixStats = stat.prixStats;
    if (!prixStats) return;
 
@@ -61,7 +74,7 @@ function afficherPrixStats() {
  * =======================================================
  */
 function afficherParCategorie() {
-   console.log('afficherParCategorie()');
+
    const tbody = document.getElementById("listeParCategorie");
    const parCategorie = stat.parCategorie;
    if (!tbody || !parCategorie) return;
@@ -84,7 +97,7 @@ function afficherParCategorie() {
  * =======================================================
  */
 function afficherTopUtilisateurs() {
-   console.log('afficherTopUtilisateurs()');
+
    const tbody = document.getElementById("listeTopUtilisateurs");
    const topUtilisateurs = stat.topUtilisateurs;
    if (!tbody || !topUtilisateurs) return;
@@ -109,7 +122,7 @@ function afficherTopUtilisateurs() {
  * =======================================================
  */
 function afficherAnnoncesPopulaires() {
-   console.log('afficherAnnoncesPopulaires()');
+
    const tbody = document.getElementById("listeAnnoncesPopulaires");
    const annoncesPopulaires = stat.annoncesPopulaires;
    if (!tbody || !annoncesPopulaires) return;
@@ -133,7 +146,7 @@ function afficherAnnoncesPopulaires() {
  * =======================================================
  */
 function afficherInscriptionsParMois() {
-   console.log('afficherInscriptionsParMois()');
+
    const tbody = document.getElementById("listeInscriptionsParMois");
    const inscriptionsParMois = stat.inscriptionsParMois;
    if (!tbody || !inscriptionsParMois) return;
@@ -156,7 +169,7 @@ function afficherInscriptionsParMois() {
  * =======================================================
  */
 function afficherAnnoncesParMois() {
-   console.log('afficherAnnoncesParMois()');
+
    const tbody = document.getElementById("listeAnnoncesParMois");
    const annoncesParMois = stat.annoncesParMois;
    if (!tbody || !annoncesParMois) return;
@@ -173,7 +186,7 @@ function afficherAnnoncesParMois() {
 }
 
 async function chargerStat() {
-console.log('chargerStat()');
+
    try {
      const response = await fetch(`/api/annonces/getStatAdmin`);
      const tmp = await response.json();

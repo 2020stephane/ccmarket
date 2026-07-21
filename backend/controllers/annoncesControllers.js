@@ -7,28 +7,17 @@
  * @date 2026-06-24
  * @author Stephane Brisse
  * @license MIT
- * @requires bcrypt
  * @requires url
  * @requires path
- * @requires jsonwebtoken
  * @requires ../tools/logger.js
  * @requires ../bdd/db.js
  */
 
-import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import jwt from 'jsonwebtoken';
 
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
-
-/**
- * Clé secrète utilisée pour signer/vérifier les jetons JWT.
- * @type {string}
- * @const
- */
-const JWT_SECRET = process.env.JWT_SECRET;
 
 /**
  * Chemin absolu du répertoire courant (équivalent de `__dirname` en ESM).
@@ -38,7 +27,29 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 /**
+ * Table de correspondance entre types MIME d'image autorisés et
+ * extensions de fichier associées. Utilisée pour valider les photos
+ * uploadées à partir de leur type MIME réel plutôt que du nom de
+ * fichier fourni par le client (falsifiable).
+ * @type {Object<string, string>}
+ * @const
+ */
+const MIME_VERS_EXTENSION = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif',
+    'image/webp': 'webp'
+};
+
+/**
  * Remplace intégralement une annonce existante.
+ *
+ * ATTENTION : cette fonction n'est actuellement routée nulle part dans
+ * annonces.js (seul patchAnnonce y est importé) et ne vérifie ni la
+ * propriété de l'annonce, ni un statut administrateur, contrairement à
+ * patchAnnonce/supprimerAnnonce. Si elle doit être utilisée, ajoutez une
+ * vérification équivalente avant de la brancher à une route.
+ *
  * @function putAnnonce
  * @async
  * @param {express.Request} req - Requête Express, `params.id` = identifiant de l'annonce, `body` attendu : `{ titre, descriptif, prix, utilisateur_id, categorie_id }`.
@@ -58,7 +69,7 @@ export async function putAnnonce(req, res) {
 
    try {
       const [result] = await db.execute(
-         'UPDATE annonces SET titre = ?, descriptif = ?, prix = ?, utilisateur_id = ?,categorie_id = ? WHERE annonce_id = ?',
+        'UPDATE annonces SET titre = ?, descriptif = ?, prix = ?, utilisateur_id = ?,categorie_id = ? WHERE annonce_id = ?',
          [titre, descriptif, prix, utilisateur_id, categorie_id ?? null, req.params.id]
       );
       if (result.affectedRows === 0) {
@@ -89,7 +100,6 @@ export async function putAnnonce(req, res) {
  */
 export async function patchAnnonce(req, res) {
    const champs = req.body;
- console.log('champs = ', champs);
    const colonnesAutorisees = ['titre', 'descriptif', 'prix', 'categorie_id'];
 
    const entrees = Object.entries(champs).filter(([col]) =>
@@ -131,14 +141,16 @@ export async function patchAnnonce(req, res) {
 let image_nom = null;
       if (req.files && req.files.photo) {
             const photo = req.files.photo;
-            const extension = photo.name.split('.').pop().toLowerCase();
-            const extensions_autorisees = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            // Extension déterminée à partir du type MIME réel du fichier
+            // (et non du nom fourni par le client, qui peut être falsifié),
+            // par cohérence avec publierAnnonce.
+            const extension = MIME_VERS_EXTENSION[photo.mimetype];
 
-            if (!extensions_autorisees.includes(extension)) {
+            if (!extension) {
                 return res.status(400).json({ message: 'Format de fichier non autorisé' });
             }
 
-           image_nom = `${Date.now()}.${extension}`;
+            image_nom = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${extension}`;
             const chemin_final = path.join(__dirname, '..', '..', 'frontend', 'uploads', image_nom);
 
             await photo.mv(chemin_final);
@@ -270,6 +282,17 @@ export async function getAjouts(req, res) {
      }
 }
 
+/**
+ * Récupère le nombre total d'annonces ainsi que leur répartition par
+ * catégorie (via un ROLLUP SQL).
+ * @function getStatistiquesAnnonces
+ * @async
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
+ *   - 200 : Succès, retourne `{ totalGeneral, parCategorie }`.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function getStatistiquesAnnonces(req, res) {
     try {
         const sql = `
@@ -302,8 +325,21 @@ export async function getStatistiquesAnnonces(req, res) {
     }
 }
 
+/**
+ * Récupère un tableau de bord statistique complet réservé aux
+ * administrateurs : compteurs globaux, répartition par catégorie,
+ * top utilisateurs, inscriptions/annonces par mois, statistiques de
+ * prix et annonces les plus contactées.
+ * @function getStatistiquesAdmin
+ * @async
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
+ *   - 200 : Succès, retourne l'ensemble des statistiques.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function getStatistiquesAdmin(req, res) {
-console.log('getStatistiquesAdmin');
+
   try {
     // Compteurs globaux
     const [[compteurs]] = await db.execute(`
@@ -378,7 +414,7 @@ console.log('getStatistiquesAdmin');
     });
 
   } catch (error) {
-    logError(error, "FONCTION: getStats, MODULE: statsControllers.js");
+    logError(error, "FONCTION: getStatistiquesAdmin, MODULE: annoncesControllers.js");
     res.status(500).json({ message: 'Erreur serveur' });
   }
 }
@@ -420,69 +456,6 @@ export async function getAnnoncesByUser(req, res) {
 }
 
 /**
- * Recherche des annonces selon des critères de filtre (catégorie,
- * tri par date et/ou par prix).
- * @function getAnnoncesByFilter
- * @async
- * @param {express.Request} req - Requête Express, `body` attendu : `{ categorie, prixmin, prixmax, plus_ra, prix_cd }`.
- * @param {express.Response} res - Réponse Express.
- * @returns {Promise<express.Response>} Réponse HTTP :
- *   - 200 : Succès, retourne un tableau des annonces correspondant aux filtres.
- *   - 500 : Erreur interne du serveur (journalisée via logError).
- */
-export async function getAnnoncesByFilter(req, res) {
-   const { categorie, prixmin, prixmax, plus_ra, prix_cd } = req.body;
-  try {
-   let sql = 'SELECT * FROM annonces WHERE 1=1';
-      let params = [];
-
-      // Filtre Catégorie
-      if (categorie !== 'tout') {
-         sql += ' AND categorie = ?';
-         params.push(categorie);
-      }
-// Filtre Prix (on convertit en nombre pour plus de sécurité)
-      // if (prixmin && !isNaN(prixmin)) {
-      //    sql += ' AND prix >= ?';
-      //    params.push(Number(prixmin));
-      // }
-      // if (prixmax && !isNaN(prixmax)) {
-      //    sql += ' AND prix <= ?';
-      //    params.push(Number(prixmax));
-      // }
-      // if (plus_ra === 'recent') {
-      //    sql += ' ORDER BY date_publication DESC';
-      // }
-      // else if (plus_ra === 'ancien') {
-      //     sql += ' ORDER BY date_publication ASC';
-      // }
-      // if (prix_cd === 'crois') sql += ' ORDER BY prix ASC';
-      // else if (prix_cd === 'decrois') sql += ' ORDER BY prix DESC';
-      let orderClauses = [];
-
-// Gestion de la date
-if (plus_ra === 'recent') orderClauses.push('date_publication DESC');
-else if (plus_ra === 'ancien') orderClauses.push('date_publication ASC');
-
-// Gestion du prix
-if (prix_cd === 'crois') orderClauses.push('prix ASC');
-else if (prix_cd === 'decrois') orderClauses.push('prix DESC');
-
-// Si on a des tris, on les ajoute à la requête
-if (orderClauses.length > 0) {
-    sql += ' ORDER BY ' + orderClauses.join(', ');
-}
-
-      const [rows] = await db.query(sql, params);
-      res.json(rows);
-
-  } catch (error) {
-    logError(error, "function getAnnoncesByFilter dans le module:annoncesControllers.js");
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-}
-
-/**
  * Publie une nouvelle annonce pour l'utilisateur authentifié, avec
  * gestion optionnelle d'une photo uploadée.
  * @function publierAnnonce
@@ -505,12 +478,6 @@ export async function publierAnnonce(req, res) {
 
       // ✅ On utilise l'utilisateur authentifié, pas une valeur envoyée par le client
       const userid = req.user.id;
-const MIME_VERS_EXTENSION = {
-    'image/jpeg': 'jpg',
-    'image/png': 'png',
-    'image/gif': 'gif',
-    'image/webp': 'webp'
-};
       let image_nom = null;
       if (req.files && req.files.photo) {
             const photo = req.files.photo;
@@ -545,6 +512,16 @@ const MIME_VERS_EXTENSION = {
        return res.status(500).json({ message: 'Erreur serveur' });
    }
 }
+/**
+ * Récupère la liste complète des catégories d'annonces.
+ * @function getCategories
+ * @async
+ * @param {express.Request} req - Requête Express.
+ * @param {express.Response} res - Réponse Express.
+ * @returns {Promise<express.Response>} Réponse HTTP :
+ *   - 200 : Succès, retourne un tableau des catégories.
+ *   - 500 : Erreur interne du serveur (journalisée via logError).
+ */
 export async function getCategories(req, res) {
      try {
           const [rows] = await db.execute( 'SELECT * FROM categories' );
