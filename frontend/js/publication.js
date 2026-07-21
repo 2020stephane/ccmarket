@@ -66,7 +66,6 @@ function initListener() {
  */
 async function publier() {
      const formData = new FormData(formPublier);
-console.log('publier() :');
      try {
           const res = await fetch("/api/annonces/publierannonce", {
                method: "POST",

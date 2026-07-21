@@ -194,9 +194,6 @@ function initBtn() {
      const annonces = JSON.parse(localStorage.getItem("userannonces"));
      const dialog = document.getElementById("ma_boite_dialogue");
 
-     // Correction : si l'utilisateur n'a aucune annonce, chargerAnnonces()
-     // fait localStorage.removeItem("userannonces") -> annonces vaut null
-     // ici, et annonces.forEach() plantait avec une erreur JS.
      if (!annonces || annonces.length === 0) return;
 
      annonces.forEach((annonce) => {
@@ -216,12 +213,10 @@ function initBtn() {
      });
 }
 /**
- * Correction sécurité (XSS) : échappe tout contenu utilisateur avant de
- * l'injecter en HTML (titre, description, nom de catégorie...). Sans ça,
- * une annonce contenant du HTML/JS (ex: <img src=x onerror=...>) dans son
- * titre ou sa description serait exécutée pour quiconque consulte la liste.
- * NB : idéalement à extraire dans un module utilitaire partagé
- * (ex: /js/tools/echapperHTML.js) et à réutiliser sur messages.js.
+ * =======================================================
+ *  @function     echapperHTML
+ *  @description  securité
+  * =======================================================
  */
 function echapperHTML(texte) {
     const div = document.createElement('div');

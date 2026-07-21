@@ -95,59 +95,59 @@
                </div>
           </dialog>
 
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Modifier mon annonce</h2>
+          <div id="editModal" class="modal">
+          <div class="modal-content">
+               <span class="close-modal">&times;</span>
+               <h2>Modifier mon annonce</h2>
 
-              <section class="formEditAnnonce">
-         <form id="formmodifier" enctype="multipart/form-data">
+                    <section class="formEditAnnonce">
+               <form id="formmodifier" enctype="multipart/form-data">
 
-            <div class="form_group">
-               <label for="editTitre">Titre de l'annonce :</label>
-               <input type="text" name="titre" id="editTitre" maxlength="50" placeholder="Ex: Panneau solaire 200W" required>
-            </div>
+                    <div class="form_group">
+                         <label for="editTitre">Titre de l'annonce :</label>
+                         <input type="text" name="titre" id="editTitre" maxlength="50" placeholder="Ex: Panneau solaire 200W" required>
+                    </div>
 
-            <div class="form_group">
-               <label for="editCategorie">Catégorie :</label>
-               <select name="categorie" id="editCategorie" placeholder="ID de la catégorie" required>
-                  <option value="">-- Choisissez une catégorie --</option>
-                  <option value="1">Mobilier intérieur</option>
-                  <option value="2">Énergie solaire</option>
-                  <option value="3">Cuisine & Électroménage</option>
-                  <option value="4">Sanitaire & Eau</option>
-                  <option value="5">Literie & Confort</option>
-                  <option value="6">Électronique & Navigation</option>
-                  <option value="7">Extérieur & Auvent</option>
-               </select>
-            </div>
+                    <div class="form_group">
+                         <label for="editCategorie">Catégorie :</label>
+                         <select name="categorie" id="editCategorie" placeholder="ID de la catégorie" required>
+                         <option value="">-- Choisissez une catégorie --</option>
+                         <option value="1">Mobilier intérieur</option>
+                         <option value="2">Énergie solaire</option>
+                         <option value="3">Cuisine & Électroménage</option>
+                         <option value="4">Sanitaire & Eau</option>
+                         <option value="5">Literie & Confort</option>
+                         <option value="6">Électronique & Navigation</option>
+                         <option value="7">Extérieur & Auvent</option>
+                         </select>
+                    </div>
 
-            <div class="form_group">
-               <label for="editPrix">Prix (€) :</label>
-               <input type="number" step="0.01" name="prix" id="editPrix" min="0" max="999999" placeholder="Prix en €" required>
-            </div>
+                    <div class="form_group">
+                         <label for="editPrix">Prix (€) :</label>
+                         <input type="number" step="0.01" name="prix" id="editPrix" min="0" max="999999" placeholder="Prix en €" required>
+                    </div>
 
-            <div class="form_group">
-               <label for="editDescriptif">Description :</label>
-               <textarea name="descriptif" id="editDescriptif" rows="5" maxlength="1000" placeholder="Décrivez votre produit en détail..." required></textarea>
-            </div>
+                    <div class="form_group">
+                         <label for="editDescriptif">Description :</label>
+                         <textarea name="descriptif" id="editDescriptif" rows="5" maxlength="1000" placeholder="Décrivez votre produit en détail..." required></textarea>
+                    </div>
 
-            <div class="form_group">
-               <label for="inputphoto">Photo :</label>
-               <div class="file-upload">
-                  <input type="file" id="inputphoto" name="photo" accept="image/*">
-                  <label for="inputphoto" class="btn-file">Choisir une photo</label>
-                  <span id="file-nom">Aucun fichier choisi</span>
-               </div>
-            </div>
-            <div class="modal-btn">
-               <button type="submit" id="btnM_enregistrer">Enregistrer l'annonce</button>
-               <button type="button" id="btnM_annuler">Annuler</button>
-            </div>
-         </form>
-      </section>
-    </div>
-</div>
+                    <div class="form_group">
+                         <label for="inputphoto">Photo :</label>
+                         <div class="file-upload">
+                         <input type="file" id="inputphoto" name="photo" accept="image/*">
+                         <label for="inputphoto" class="btn-file">Choisir une photo</label>
+                         <span id="file-nom">Aucun fichier choisi</span>
+                         </div>
+                    </div>
+                    <div class="modal-btn">
+                         <button type="submit" id="btnM_enregistrer">Enregistrer l'annonce</button>
+                         <button type="button" id="btnM_annuler">Annuler</button>
+                    </div>
+               </form>
+               </section>
+          </div>
+          </div>
    </main>
    <!--=====================================================
 ======================  FOOTER  =========================

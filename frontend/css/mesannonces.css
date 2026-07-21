@@ -268,9 +268,8 @@ dialog {
   max-width: 500px;
   width: 100%;
   position: fixed;
-  top: 50%;
-  left: 50%;
-
+  inset: 0;
+  margin: auto;
 }
 
 /* Style de l'arrière-plan (l'effet sombre derrière) */
