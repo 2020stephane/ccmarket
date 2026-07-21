@@ -83,7 +83,7 @@ function initListener() {
           }
 
           try {
-               const response = await fetch("/api/auth", {
+               const response = await fetch("/api/utilisateurs", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ prenom:prenom, nom:nom,  email:email, password:password })

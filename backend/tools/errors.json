@@ -11295,5 +11295,21 @@
     "extra": {
       "url": "http://localhost:3000/html/seconnecter.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "21/07/2026",
+    "heure": "10:09:16",
+    "timestamp": "2026-07-21T08:09:16.651Z",
+    "contexte": "Script principal, MODULE:publication.js",
+    "message": "initListener is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: initListener is not defined",
+      "at http://localhost:3000/js/monCompte.js:35:6"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/monCompte.html"
+    }
   }
 ]

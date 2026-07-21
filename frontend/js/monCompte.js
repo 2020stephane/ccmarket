@@ -12,40 +12,53 @@
 
 import { verifierConnection } from "/js/tools/authentification.js";
 import { logError } from "/js/tools/logger.js";
-
+/**
+ * =======================================================
+ *  Constantes partagées
+ * =======================================================
+ */
 const infoUser = JSON.parse(localStorage.getItem("userinfo"));
 const ptrsidePrenom = document.getElementById("sidebarPrenom");
 const ptrsideDate = document.getElementById("sidebarDateInscription");
 const ptrSidebarAvatar = document.getElementById("sidebarAvatar");
+const formDelete = document.getElementById('formDeleteAccount');
+const formUpdateUser = document.getElementById('formUpdateUser');
+const formUpdatePassword = document.getElementById('formUpdatePassword');
+const formDeleteAccount = document.getElementById('formDeleteAccount');
 /**
  * =======================================================
  *  Point d'entrée / Script principal
  * =======================================================
  */
+try {
+     await verifierConnection();
 
-verifierConnection();
-const formDelete = document.getElementById('formDeleteAccount');
+     /** ===== MODEL ===== */
 
-    if (infoUser && infoUser.id) {
-        // On concatène l'URL de base avec l'ID de l'utilisateur
-        formDelete.action = `/utilisateur/delete/${infoUser.id}`;
-    }
-afficherInfoSidebar();
-afficherInfoForm();
-selectionMenu();
-deconnexion();
-const formUpdateUser = document.getElementById('formUpdateUser');
-if (formUpdateUser) {
-    formUpdateUser.addEventListener('submit', mettreAJourUtilisateur);
+     /** ===== VIEW =====*/
+     if (infoUser && infoUser.id) {
+          formDelete.action = `/utilisateur/delete/${infoUser.id}`;
+     }
+     afficherInfoSidebar();
+     afficherInfoForm();
+     selectionMenu();
+     deconnexion();
+
+     /** ===== CONTROLLERS ===== */
+    if (formUpdateUser) {
+          formUpdateUser.addEventListener('submit', mettreAJourUtilisateur);
+     }
+     if (formUpdatePassword) {
+          formUpdatePassword.addEventListener('submit', changerMotDePasse);
+     }
+     if (formDeleteAccount) {
+          formDeleteAccount.addEventListener('submit', supprimerCompte);
+     }
+
+} catch (error) {
+     logError(error,"Script principal, MODULE:publication.js");
 }
-const formUpdatePassword = document.getElementById('formUpdatePassword');
-if (formUpdatePassword) {
-    formUpdatePassword.addEventListener('submit', changerMotDePasse);
-}
-const formDeleteAccount = document.getElementById('formDeleteAccount');
-if (formDeleteAccount) {
-    formDeleteAccount.addEventListener('submit', supprimerCompte);
-}
+
 /**
  * =======================================================
  *  @function     afficherInfoSidebar
@@ -207,8 +220,7 @@ function deconnexion() {
         btnDeconnexion.addEventListener('click', async (e) => {
            e.preventDefault();
             try {
-                // 1. On appelle la route de déconnexion de notre serveur Express
-                const response = await fetch('/api/auth/logout', {
+                const response = await fetch('/api/utilisateurs/logout', {
                     method: 'POST'
                 });
 
@@ -351,7 +363,7 @@ async function supprimerCompte(event) {
     }
 
     try {
-        const response = await fetch(`/api/utilisateurs/delete/${infoUser.id}`, {
+        const response = await fetch(`/api/utilisateurs/${infoUser.id}`, {
             method: 'DELETE',
             credentials: 'include'
         });

@@ -35,7 +35,6 @@ import annoncesRoutes         from './backend/routes/annonces.js';
 import utilisateursRoutes     from './backend/routes/utilisateurs.js';
 import messagesRoutes         from './backend/routes/messages.js';
 import contactRoutes          from './backend/routes/contacter.js';
-import authRoutes             from './backend/routes/auth.js';
 import logErrorRoutes         from './backend/routes/logError.js';
 import avatarRoutes           from './backend/routes/avatar.js';
 import geminiRoutes           from './backend/routes/gemini.js';
@@ -181,14 +180,6 @@ app.use('/api/messages', messagesRoutes);
  * @function
  */
 app.use('/api/avatar', avatarRoutes);
-
-/**
- * Route dédiée à l'authentification (inscription, connexion, déconnexion,
- * vérification de session).
- * @name /auth
- * @function
- */
-app.use('/api/auth', authRoutes);
 
 /**
  * Route API dédiée à la journalisation des erreurs.

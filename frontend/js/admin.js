@@ -197,7 +197,7 @@ function deconnexion() {
           e.preventDefault();
           try {
                // 1. On appelle la route de déconnexion de notre serveur Express
-               const response = await fetch('/api/auth/logout', {
+               const response = await fetch('/api/utilisateurs/logout', {
                method: 'POST'
                });
 

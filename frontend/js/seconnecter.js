@@ -58,7 +58,7 @@ function initListener() {
                const email = emailInput.value;
                const password = passwordInput.value;
                try {
-                    const response = await fetch('/api/auth/loginStandard', {
+                    const response = await fetch('/api/utilisateurs/loginStandard', {
                          method: 'POST',
                          headers: {
                          'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ function initListener() {
 window.handleCredentialResponse = async (response) => {
      const googleToken = response.credential;
      try {
-          const res = await fetch('/api/auth/google', {
+          const res = await fetch('/api/utilisateurs/google', {
                method: 'POST',
                headers: {
                     'Content-Type': 'application/json'
