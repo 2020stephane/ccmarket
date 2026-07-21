@@ -10,7 +10,7 @@
  */
  main {
     position: relative;
-    background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.9)), url('../img/cc_lac.png') no-repeat center center/cover;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../img/cc_lac.png') no-repeat center center/cover;
     /* background-size: contain; */
     padding: 40px 0;
     text-align: center;

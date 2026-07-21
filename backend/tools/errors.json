@@ -11263,5 +11263,37 @@
     "extra": {
       "url": "http://localhost:3000/html/messages.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "21/07/2026",
+    "heure": "09:06:03",
+    "timestamp": "2026-07-21T07:06:03.857Z",
+    "contexte": "Script principal, MODULE:publication.js",
+    "message": "verifierConnection is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: verifierConnection is not defined",
+      "at http://localhost:3000/js/seconnecter.js:14:6"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/seconnecter.html"
+    }
+  },
+  {
+    "source": "frontend",
+    "date": "21/07/2026",
+    "heure": "09:09:45",
+    "timestamp": "2026-07-21T07:09:45.306Z",
+    "contexte": "Script principal, MODULE:publication.js",
+    "message": "verifierConnection is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: verifierConnection is not defined",
+      "at http://localhost:3000/js/seconnecter.js:14:6"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/seconnecter.html"
+    }
   }
 ]
