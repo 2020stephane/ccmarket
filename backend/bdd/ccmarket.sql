@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 16 juil. 2026 à 18:06
+-- Généré le : mar. 21 juil. 2026 à 15:33
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -72,7 +72,7 @@ CREATE TABLE `annonces` (
 INSERT INTO `annonces` (`annonce_id`, `titre`, `descriptif`, `prix`, `date_publication`, `adresse_id`, `utilisateur_id`, `categorie_id`) VALUES
 (3, 'Panneau solaire 200W', 'Panneau solaire rigide 200W, utilisé 1 saison, excellent état, avec câbles inclus.', 160.00, '2026-07-16', 1, 3, 2),
 (4, 'Frigo à compression Dometic 50L', 'Réfrigérateur à compression 50L, fonctionne parfaitement, vendu car upgrade.', 350.00, '2026-07-16', 1, 2, 3),
-(5, 'Barbecue gaz portable Weber', 'Barbecue gaz 2 brûleurs Weber Q1200, utilisé 2 étés, très bon état.', 95.00, '2026-07-16', 1, 2, 7);
+(5, 'Barbecue gaz auchan', 'Barbecue gaz 2 brûleurs Weber Q1200', 150.00, '2026-07-16', 1, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -130,9 +130,17 @@ CREATE TABLE `contacts` (
   `contact_id` int(11) NOT NULL,
   `date_envoi` datetime NOT NULL DEFAULT current_timestamp(),
   `email` varchar(255) NOT NULL,
+  `message` varchar(255) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `contacts`
+--
+
+INSERT INTO `contacts` (`contact_id`, `date_envoi`, `email`, `message`, `nom`, `prenom`) VALUES
+(2, '2026-07-21 10:05:01', 'toto@toto', 'un test', 'toto', 'toto');
 
 -- --------------------------------------------------------
 
@@ -155,8 +163,17 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `contenu`, `date_envoi`, `moderation_id`, `annonce_id`, `expediteur_id`, `destinataire_id`) VALUES
-(1, 'Bonjour, le panneau est-il toujours dispo ?', '2026-07-16 16:19:08', 1, 3, 2, 3),
-(2, 'Oui il est encore disponible !', '2026-07-16 16:23:48', 2, 3, 3, 2);
+(4, 'est il dispo?', '2026-07-17 10:36:31', 4, 4, 3, 2),
+(5, 'oui.', '2026-07-17 10:39:57', 5, 4, 2, 3),
+(6, 'pouvez vous baisser le prix?', '2026-07-17 10:41:12', 6, 4, 3, 2),
+(7, 'oui,je peux le laisser à 300', '2026-07-17 12:32:42', 7, 4, 2, 3),
+(8, 'est il encore dispo.', '2026-07-17 12:40:47', 8, 3, 2, 3),
+(9, 'oui,il est encore dispo.', '2026-07-17 15:36:42', 9, 3, 3, 2),
+(10, 'bonjour,fonctionne t il avec les cubes butagaz', '2026-07-20 08:55:53', 10, 5, 1, 2),
+(11, 'le frigo possede t il un freezer?', '2026-07-20 08:56:43', 11, 4, 1, 2),
+(12, 'vas te faire voir!!!', '2026-07-20 08:59:41', 12, 5, 2, 1),
+(15, 'pouvez vous baisser le prix?', '2026-07-20 09:24:22', 13, 4, 6, 2),
+(19, 'je le prends', '2026-07-20 15:43:21', 14, 4, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -176,8 +193,17 @@ CREATE TABLE `moderations` (
 --
 
 INSERT INTO `moderations` (`moderation_id`, `status`, `motif`, `date`) VALUES
-(1, 'en attente', NULL, '2026-07-16 16:19:08'),
-(2, 'en attente', NULL, '2026-07-16 16:23:48');
+(4, 'ok', NULL, '2026-07-17 10:46:01'),
+(5, 'ok', NULL, '2026-07-17 10:46:03'),
+(6, 'ok', NULL, '2026-07-17 10:46:04'),
+(7, 'ok', NULL, '2026-07-20 09:05:01'),
+(8, 'ok', NULL, '2026-07-20 09:05:03'),
+(9, 'ok', NULL, '2026-07-20 09:05:05'),
+(10, 'ok', NULL, '2026-07-20 09:05:07'),
+(11, 'ok', NULL, '2026-07-20 09:05:09'),
+(12, 'signale', 'Propos injurieux', '2026-07-21 09:05:01'),
+(13, 'ok', NULL, '2026-07-21 09:05:03'),
+(14, 'ok', NULL, '2026-07-21 09:05:05');
 
 -- --------------------------------------------------------
 
@@ -267,7 +293,8 @@ CREATE TABLE `utilisateurs` (
 INSERT INTO `utilisateurs` (`utilisateur_id`, `nom`, `prenom`, `email`, `motdepasse`, `role_id`, `avatar_url`, `date_inscription`, `methode_auth`) VALUES
 (1, 'brisse', 'stephane', 'stephanebrisse@gmail.com', NULL, 1, '1784192301215.webp', '2026-07-16 10:21:03', 'google'),
 (2, 'martin', 'sophie', 'sophiemartin@email.com', '$2b$10$Lv04QGVx/8CujEoBNm/YA.myzzUqrTKX6XmGVizCx7RRSd509WXkq', 3, '1784204305308.webp', '2026-07-16 14:18:06', 'local'),
-(3, 'durand', 'isabelle', 'isabelledurand@email.com', '$2b$10$f0B6JeDEcjwKSn3LxmNo9ud52mLLQLjWo3GlX6c4Lz//h7aEpVEY.', 3, '1784204411250.webp', '2026-07-16 14:19:36', 'local');
+(3, 'durand', 'isabelle', 'isabelledurand@email.com', '$2b$10$5eMTCljtl744rAd6cGt.KeYUAypdqvwbIsKO3iLcwrpFBRkaD4ska', 3, '1784204411250.webp', '2026-07-16 14:19:36', 'local'),
+(6, 'bernard', 'marie', 'mariebernard@email.com', '$2b$10$k0BCtUpujFRp6juT0lK5wutjQnE.b/K/zX.235kotoCoXjo3jZ8xu', 3, NULL, '2026-07-20 09:23:43', 'local');
 
 -- --------------------------------------------------------
 
@@ -291,6 +318,69 @@ INSERT INTO `villes` (`ville_id`, `nom`, `pays_id`) VALUES
 (3, 'Bordeaux', 1),
 (4, 'Nantes', 1),
 (5, 'Lille', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `vue_messages_complets`
+-- (Voir ci-dessous la vue réelle)
+--
+CREATE TABLE `vue_messages_complets` (
+`message_id` int(11)
+,`contenu` text
+,`date_envoi` datetime
+,`moderation_id` int(11)
+,`annonce_id` int(11)
+,`annonce_titre` varchar(100)
+,`expediteur_id` int(11)
+,`expediteur_nom` varchar(101)
+,`expediteur_email` varchar(255)
+,`destinataire_id` int(11)
+,`destinataire_nom` varchar(101)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `vue_messages_detail`
+-- (Voir ci-dessous la vue réelle)
+--
+CREATE TABLE `vue_messages_detail` (
+`message_id` int(11)
+,`contenu` text
+,`date_envoi` datetime
+,`moderation_id` int(11)
+,`annonce_id` int(11)
+,`expediteur_id` int(11)
+,`destinataire_id` int(11)
+,`annonce_titre` varchar(100)
+,`date_publication` date
+,`annonce_proprietaire_id` int(11)
+,`expediteur_nom` varchar(50)
+,`expediteur_prenom` varchar(50)
+,`expediteur_avatar` varchar(255)
+,`destinataire_nom` varchar(50)
+,`destinataire_prenom` varchar(50)
+,`destinataire_avatar` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `vue_messages_complets`
+--
+DROP TABLE IF EXISTS `vue_messages_complets`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_messages_complets`  AS SELECT `m`.`message_id` AS `message_id`, `m`.`contenu` AS `contenu`, `m`.`date_envoi` AS `date_envoi`, `m`.`moderation_id` AS `moderation_id`, `m`.`annonce_id` AS `annonce_id`, `a`.`titre` AS `annonce_titre`, `e`.`utilisateur_id` AS `expediteur_id`, concat(`e`.`prenom`,' ',`e`.`nom`) AS `expediteur_nom`, `e`.`email` AS `expediteur_email`, `d`.`utilisateur_id` AS `destinataire_id`, concat(`d`.`prenom`,' ',`d`.`nom`) AS `destinataire_nom` FROM (((`messages` `m` left join `annonces` `a` on(`m`.`annonce_id` = `a`.`annonce_id`)) left join `utilisateurs` `e` on(`m`.`expediteur_id` = `e`.`utilisateur_id`)) left join `utilisateurs` `d` on(`m`.`destinataire_id` = `d`.`utilisateur_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `vue_messages_detail`
+--
+DROP TABLE IF EXISTS `vue_messages_detail`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vue_messages_detail`  AS SELECT `m`.`message_id` AS `message_id`, `m`.`contenu` AS `contenu`, `m`.`date_envoi` AS `date_envoi`, `m`.`moderation_id` AS `moderation_id`, `m`.`annonce_id` AS `annonce_id`, `m`.`expediteur_id` AS `expediteur_id`, `m`.`destinataire_id` AS `destinataire_id`, `a`.`titre` AS `annonce_titre`, `a`.`date_publication` AS `date_publication`, `a`.`utilisateur_id` AS `annonce_proprietaire_id`, `ue`.`nom` AS `expediteur_nom`, `ue`.`prenom` AS `expediteur_prenom`, `ue`.`avatar_url` AS `expediteur_avatar`, `ud`.`nom` AS `destinataire_nom`, `ud`.`prenom` AS `destinataire_prenom`, `ud`.`avatar_url` AS `destinataire_avatar` FROM (((`messages` `m` join `annonces` `a` on(`m`.`annonce_id` = `a`.`annonce_id`)) join `utilisateurs` `ue` on(`m`.`expediteur_id` = `ue`.`utilisateur_id`)) join `utilisateurs` `ud` on(`m`.`destinataire_id` = `ud`.`utilisateur_id`)) ;
 
 --
 -- Index pour les tables déchargées
@@ -400,7 +490,7 @@ ALTER TABLE `adresses`
 -- AUTO_INCREMENT pour la table `annonces`
 --
 ALTER TABLE `annonces`
-  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `annonce_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -418,19 +508,19 @@ ALTER TABLE `code_postal`
 -- AUTO_INCREMENT pour la table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `moderations`
 --
 ALTER TABLE `moderations`
-  MODIFY `moderation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `moderation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `pays`
@@ -442,7 +532,7 @@ ALTER TABLE `pays`
 -- AUTO_INCREMENT pour la table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `roles`
@@ -454,7 +544,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `villes`
