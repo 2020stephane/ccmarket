@@ -119,30 +119,20 @@ export async function getMessages(req, res) {
       return res.status(400).json({ message: 'Identifiant utilisateur manquant ou invalide' });
     }
 
-    const sql = `SELECT m.*,
-          a.titre AS annonce_titre,
-          a.date_publication,
-          ue.nom AS expediteur_nom,
-          ue.prenom AS expediteur_prenom,
-          ue.avatar_url AS expediteur_avatar,
-          ud.nom AS destinataire_nom,
-          ud.prenom AS destinataire_prenom,
-          ud.avatar_url AS destinataire_avatar,
+    const sql = `
+      SELECT v.*,
         CASE
-            WHEN m.expediteur_id = ? THEN 'Envoyé'
-            WHEN m.destinataire_id = ? THEN 'Reçu'
+            WHEN v.expediteur_id = ? THEN 'Envoyé'
+            WHEN v.destinataire_id = ? THEN 'Reçu'
         END AS type_message,
         CASE
-            WHEN a.utilisateur_id = ? THEN 'Offre'
+            WHEN v.annonce_proprietaire_id = ? THEN 'Offre'
             ELSE 'Demande'
         END AS type_annonce
-        FROM messages m
-        JOIN annonces a ON m.annonce_id = a.annonce_id
-        JOIN utilisateurs ue ON m.expediteur_id = ue.utilisateur_id
-        JOIN utilisateurs ud ON m.destinataire_id = ud.utilisateur_id
-        WHERE m.expediteur_id = ?
-           OR m.destinataire_id = ?
-        ORDER BY type_annonce, type_message, m.date_envoi DESC`;
+      FROM vue_messages_detail v
+      WHERE v.expediteur_id = ?
+         OR v.destinataire_id = ?
+      ORDER BY type_annonce, type_message, v.date_envoi DESC`;
 
     const params = [id, id, id, id, id];
     const [result] = await db.execute(sql, params);
@@ -171,24 +161,20 @@ export async function getMessages(req, res) {
 export async function getAllMessages(req, res) {
    try {
       const [messages] = await db.execute(`
-         SELECT
-            m.message_id,
-            m.contenu,
-            m.date_envoi,
-            m.moderation_id,
-            m.annonce_id,
-            a.titre AS annonce_titre,
-            e.utilisateur_id AS expediteur_id,
-            CONCAT(e.prenom, ' ', e.nom) AS expediteur_nom,
-            e.email AS expediteur_email,
-            d.utilisateur_id AS destinataire_id,
-            CONCAT(d.prenom, ' ', d.nom) AS destinataire_nom
-         FROM messages m
-         LEFT JOIN annonces a ON m.annonce_id = a.annonce_id
-         LEFT JOIN utilisateurs e ON m.expediteur_id = e.utilisateur_id
-         LEFT JOIN utilisateurs d ON m.destinataire_id = d.utilisateur_id
-         ORDER BY m.date_envoi DESC
-      `);
+    SELECT
+    m.message_id,
+    m.contenu,
+    m.date_envoi,
+    m.expediteur_id,
+    m.destinataire_id,
+    mo.status AS moderation_status,
+    mo.motif AS moderation_motif,
+    mo.date AS moderation_date
+FROM messages m
+LEFT JOIN moderations mo ON m.moderation_id = mo.moderation_id
+LIMIT 0, 25;
+
+`);
 
       res.status(200).json({ messages });
 
@@ -207,13 +193,13 @@ export async function getAllMessages(req, res) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Jul 21 2026 16:13:35 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

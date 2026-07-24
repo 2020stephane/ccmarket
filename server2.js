@@ -220,10 +220,6 @@ app.use('/api', (req, res) => {
     res.status(404).json({ error: 'Route introuvable.' });
 });
 
-//  testDatabaseConnection();
-//    cron.schedule("0 10 * * *", () => {
-//      lancerModeration();
-// });
 /**
  * Démarre le serveur : vérifie la connexion à la base de données,
  * planifie la tâche de modération quotidienne, puis met le serveur

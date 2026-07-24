@@ -141,19 +141,11 @@
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li>module:dotenv/config</li>
-        
-            <li>module:bcrypt</li>
-        
-            <li>module:jsonwebtoken</li>
-        
             <li>module:../tools/logger.js</li>
         
             <li>module:../bdd/db.js</li>
         
-            <li>module:../tools/cookie.js</li>
-        
-            <li>module:./authControllers.js</li>
+            <li>module:bcrypt</li>
         </ul>
     
 
@@ -170,14 +162,13 @@
 
         
             
-<h4 class="name" id="~JWT_SECRET"><span class="type-signature">(inner, constant) </span>JWT_SECRET<span class="type-signature"> :string</span></h4>
+<h4 class="name" id="~GOOGLE_CLIENT_ID"><span class="type-signature">(inner, constant) </span>GOOGLE_CLIENT_ID<span class="type-signature"> :string</span></h4>
 
 
 
 
 <div class="description">
-    Clé secrète utilisée pour signer les jetons JWT.
-Repliée sur une valeur par défaut si non définie en environnement.
+    Identifiant client OAuth2 fourni par Google.
 </div>
 
 
@@ -187,6 +178,78 @@ Repliée sur une valeur par défaut si non définie en environnement.
         <li>
             
 <span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~client"><span class="type-signature">(inner, constant) </span>client<span class="type-signature"> :OAuth2Client</span></h4>
+
+
+
+
+<div class="description">
+    Client OAuth2 Google utilisé pour vérifier les jetons d'identité.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">OAuth2Client</span>
 
 
         </li>
@@ -253,7 +316,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
 
     
-    <h4 class="name" id="~deleteUserAccount"><span class="type-signature">(inner) </span>deleteUserAccount<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~connexionGoogle"><span class="type-signature">(async, inner) </span>connexionGoogle<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -261,7 +324,10 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 <div class="description">
-    Supprime le compte d'un utilisateur et détruit sa session
+    Connecte un utilisateur via son compte Google.
+Vérifie le jeton d'identité auprès de Google, crée automatiquement
+l'utilisateur en base s'il n'existe pas encore, puis génère un JWT
+local stocké en cookie.
 </div>
 
 
@@ -270,6 +336,78 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, `body` attendu : `{ token }` (jeton d'identité Google).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -305,7 +443,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line208">line 208</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -330,6 +468,31 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Connexion réussie, retourne le token local et le profil utilisateur.
+  - 400 : Jeton Google manquant.
+  - 401 : Jeton Google invalide ou expiré (journalisé via logError).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -341,7 +504,538 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
 
     
-    <h4 class="name" id="~getUtilisateurPublic"><span class="type-signature">(async, inner) </span>getUtilisateurPublic<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~connexionStandard"><span class="type-signature">(async, inner) </span>connexionStandard<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Connecte un utilisateur via son email et son mot de passe.
+Vérifie les identifiants en base et génère un JWT local stocké
+en cookie en cas de succès.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, `body` attendu : `{ email, password }`.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line156">line 156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Connexion réussie, retourne le token et le profil utilisateur.
+  - 400 : Email ou mot de passe manquant.
+  - 401 : Identifiants incorrects.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~deconnexion"><span class="type-signature">(async, inner) </span>deconnexion<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Déconnecte l'utilisateur, quel que soit son mode de connexion
+(standard ou Google), en supprimant le cookie de session.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line246">line 246</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Déconnexion réussie.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~genererToken"><span class="type-signature">(inner) </span>genererToken<span class="signature">(utilisateur)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Génère un JWT signé pour un utilisateur authentifié.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>utilisateur</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">doit contenir id, email, nom, prenom, role</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    token JWT
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~getUtilisateurPublic"><span class="type-signature">(async, inner) </span>getUtilisateurPublic<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -364,6 +1058,78 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, `params.id` = identifiant de l'utilisateur.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -397,7 +1163,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line35">line 35</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -422,6 +1188,29 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    200 avec les données publiques,
+ 404 si introuvable, 500 en cas d'erreur serveur.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -433,7 +1222,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
 
     
-    <h4 class="name" id="~patchMotDePasse"><span class="type-signature">(inner) </span>patchMotDePasse<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~patchMotDePasse"><span class="type-signature">(async, inner) </span>patchMotDePasse<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
     
 
     
@@ -441,7 +1230,10 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 <div class="description">
-    Modifie le mot de passe de l'utilisateur connecté
+    Modifie le mot de passe de l'utilisateur connecté.
+
+Vérifie que le mot de passe actuel fourni correspond au hash stocké
+avant de hasher et enregistrer le nouveau mot de passe.
 </div>
 
 
@@ -450,6 +1242,80 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express. L'identifiant de l'utilisateur
+est déterminé via la session/l'authentification (`req.session.user.id` ou
+`req.user.id`), le paramètre d'URL `:id` n'est pas utilisé ici.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -485,7 +1351,7 @@ Repliée sur une valeur par défaut si non définie en environnement.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line95">line 95</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line456">line 456</a>
     </li></ul></dd>
     
 
@@ -510,6 +1376,598 @@ Repliée sur une valeur par défaut si non définie en environnement.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Mot de passe mis à jour.
+  - 400 : Champs manquants, ou nouveau mot de passe trop court, ou mot de passe actuel incorrect.
+  - 401 : Utilisateur non authentifié.
+  - 404 : Utilisateur introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~patchUtilisateur"><span class="type-signature">(async, inner) </span>patchUtilisateur<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Met à jour les informations d'un utilisateur (hors mot de passe, qui doit
+obligatoirement passer par <code>patchMotDePasse</code> pour être hashé).
+
+Seul le propriétaire du compte ou un administrateur peut effectuer
+cette action.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, `params.id` = identifiant de l'utilisateur ciblé, `user` = utilisateur authentifié, `body` = champs à mettre à jour.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line397">line 397</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Mise à jour réussie.
+  - 400 : Aucun champ valide fourni.
+  - 403 : Utilisateur non autorisé (ni propriétaire, ni administrateur).
+  - 404 : Utilisateur introuvable.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~sInscrire"><span class="type-signature">(async, inner) </span>sInscrire<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Inscrit un nouvel utilisateur.
+Valide les données reçues, vérifie l'unicité de l'email, hache le
+mot de passe, crée l'utilisateur en base de données, génère un
+cookie JWT et retourne son profil.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, `body` attendu : `{ prenom, nom, email, password }`.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line325">line 325</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP :
+  - 200 : Inscription réussie, retourne le token et le profil créé.
+  - 400 : Champs manquants ou erreur lors de l'insertion.
+  - 409 : Email déjà utilisé par un compte existant.
+  - 500 : Erreur interne du serveur (journalisée via logError).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~status"><span class="type-signature">(async, inner) </span>status<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;express.Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Renvoie le statut de connexion de l'utilisateur courant, en
+décodant le JWT présent dans le cookie `monToken`.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Request</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Requête Express, cookie `monToken` attendu.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Response</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Réponse Express.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line263">line 263</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Réponse HTTP (toujours 200) :
+  - `{ connection: false }` si aucun token ou token invalide (erreur journalisée via logError).
+  - `{ connection: true, id, prenom, nom }` si le token est valide.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;express.Response></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -647,7 +2105,7 @@ cette action.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line168">line 168</a>
+        <a href="backend_controllers_utilisateursControllers.js.html">backend/controllers/utilisateursControllers.js</a>, <a href="backend_controllers_utilisateursControllers.js.html#line535">line 535</a>
     </li></ul></dd>
     
 
@@ -719,13 +2177,13 @@ cette action.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-auth.html">auth</a></li><li><a href="module-authControllers.html">authControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-annonces.html">annonces</a></li><li><a href="module-annoncesControllers.html">annoncesControllers</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li><li><a href="module-contacter.html">contacter</a></li><li><a href="module-contacterControllers.html">contacterControllers</a></li><li><a href="module-cookie.html">cookie</a></li><li><a href="module-db.html">db</a></li><li><a href="module-errorControllers.html">errorControllers</a></li><li><a href="module-logError.html">logError</a></li><li><a href="module-logger.html">logger</a></li><li><a href="module-messagesControllers.html">messagesControllers</a></li><li><a href="module-postman.html">postman</a></li><li><a href="module-postmanControllers.html">postmanControllers</a></li><li><a href="module-server.html">server</a></li><li><a href="module-utilisateurs.html">utilisateurs</a></li><li><a href="module-utilisateursControllers.html">utilisateursControllers</a></li></ul><h3>Global</h3><ul><li><a href="global.html#POST/">POST/</a></li><li><a href="global.html#router">router</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Jul 17 2026 13:41:40 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Jul 21 2026 16:13:35 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
