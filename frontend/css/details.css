@@ -123,16 +123,23 @@
 .details-middle {
     display: flex;
     gap: 20px;
-    font-size: 0.9rem;
+
     color: #64748b;
 }
 
 .details-meta, .details-date {
     margin: 0;
+    font-size: 1rem;
+    color: #475569;
     display: flex;
     align-items: center;
 }
-
+#categorie {
+     color: black;
+}
+#date {
+     color: black;
+}
 /* Description de l'annonce */
 .details-descriptif {
     font-size: 1rem;

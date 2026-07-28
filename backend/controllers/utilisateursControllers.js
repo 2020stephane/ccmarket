@@ -307,7 +307,7 @@ export async function getUtilisateurPublic(req, res) {
       const userId = Number(req.params.id);
 
       const [rows] = await db.execute(
-         'SELECT utilisateur_id, prenom, nom, date_inscription FROM utilisateurs WHERE utilisateur_id = ?',
+         'SELECT utilisateur_id, prenom, nom, date_inscription,avatar_url FROM utilisateurs WHERE utilisateur_id = ?',
          [userId]
       );
 
@@ -512,8 +512,8 @@ export async function patchMotDePasse(req, res) {
          });
       }
 
-      const saltRounds = 10;
-      const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
+      const nbrPass = 10;
+      const hashedNewPassword = await bcrypt.hash(newPassword, nbrPass);
 
       await db.query(
          "UPDATE utilisateurs SET motdepasse = ? WHERE utilisateur_id = ?",

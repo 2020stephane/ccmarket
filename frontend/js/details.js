@@ -83,6 +83,7 @@ function afficherAnnonce() {
           document.querySelector(".details-img img").alt = annonceInfo.titre;
           // Exemple d'utilisation :
 const adresse = "220 rue du Marechal Juin 34500 sete";
+document.getElementById("map_adresse").textContent = adresse;
 afficherCarteAnnonce(adresse);
      }
 }
@@ -128,13 +129,18 @@ async function chargerVendeur() {
  * =======================================================
  */
 function afficherVendeur(vendeur) {
-     const prenom = vendeur.prenom || "";
-     const nom = vendeur.nom || "";
-     const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase() || "??";
+     if (vendeur.avatar_url) {
+          const imagePath = `/uploads/avatar/${vendeur.avatar_url}`
+          document.getElementById("sidebarAvatar").innerHTML = `<img src="${imagePath}" alt="Avatar" class="avatar-img">`;
+     }
+     else {
+          const prenom = vendeur.prenom || "";
+          const nom = vendeur.nom || "";
+          const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase() || "??";
 
-     document.getElementById("sidebarAvatar").textContent = initiales;
-     document.getElementById("sidebarPrenom").textContent = `${prenom} ${nom}`.trim() || "Utilisateur";
-
+          document.getElementById("sidebarAvatar").textContent = initiales;
+          document.getElementById("sidebarPrenom").textContent = `${prenom} ${nom}`.trim() || "Utilisateur";
+     }
      const dateInscription = vendeur.date_inscription ? new Date(vendeur.date_inscription) : null;
      document.getElementById("sidebarDateInscription").textContent = dateInscription && !isNaN(dateInscription)
           ? "Membre depuis " + dateInscription.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })

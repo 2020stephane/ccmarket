@@ -64,7 +64,16 @@ router.get('/mesannonces/:id', verifierAuthentification, getAnnoncesByUser);
  */
 router.patch('/modifierannonce/:id', verifierAuthentification, patchAnnonce);
 
-router.put('/putannonce/:id',  putAnnonce);
+/**
+ * Route protégée : modifie totalement une annonce existante.
+ * Nécessite un utilisateur authentifié.
+ * @name PUT/putAnnonce/:id
+ * @function
+ * @param {string} path - `/putAnnonce/:id`
+ * @param {Function} verifierAuthentification - Middleware vérifiant que l'utilisateur est connecté.
+ * @param {Function} putAnnonce - Contrôleur mettant à jour l'annonce ciblée par `id`.
+ */
+router.put('/putannonce/:id', verifierAuthentification, putAnnonce);
 
 /**
  * Route protégée : publie une nouvelle annonce.
@@ -101,10 +110,6 @@ router.get('/getCategories', getCategories);
  * Route publique : récupère des statistiques générales sur les annonces
  * (ex. nombre total, répartition par catégorie...).
  *
- * ATTENTION : contrairement aux autres routes protégées de ce fichier,
- * aucun middleware `verifierAuthentification` n'est appliqué ici. À confirmer
- * si c'est volontaire (statistiques publiques) ou un oubli.
- *
  * @name GET/getStatistiques
  * @function
  * @param {string} path - `/getStatistiques`
@@ -114,14 +119,6 @@ router.get('/getStatistiques', getStatistiquesAnnonces);
 
 /**
  * Route destinée à l'administration : récupère des statistiques avancées.
- *
- * ATTENTION : ni `verifierAuthentification`, ni de vérification du rôle
- * administrateur ne sont appliqués sur cette route, alors que son nom
- * suggère un accès réservé aux administrateurs. Cela permettrait
- * actuellement à n'importe qui d'y accéder sans être connecté. À corriger
- * en ajoutant `verifierAuthentification` ainsi qu'un middleware de
- * vérification du rôle admin (à créer si besoin) avant de mettre en
- * production.
  *
  * @name GET/getStatAdmin
  * @function

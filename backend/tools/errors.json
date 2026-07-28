@@ -11311,5 +11311,22 @@
     "extra": {
       "url": "http://localhost:3000/html/monCompte.html"
     }
+  },
+  {
+    "source": "frontend",
+    "date": "27/07/2026",
+    "heure": "12:35:29",
+    "timestamp": "2026-07-27T10:35:29.937Z",
+    "contexte": "FONCTION: chargerVendeur, MODULE: details.js",
+    "message": "ptrSidebarAvatar is not defined",
+    "type": "Error",
+    "stack": [
+      "ReferenceError: ptrSidebarAvatar is not defined",
+      "at afficherVendeur (http://localhost:3000/js/details.js:133:11)",
+      "at chargerVendeur (http://localhost:3000/js/details.js:119:11)"
+    ],
+    "extra": {
+      "url": "http://localhost:3000/html/details.html"
+    }
   }
 ]
