@@ -37,6 +37,7 @@ import messagesRoutes         from './backend/routes/messages.js';
 import contactRoutes          from './backend/routes/contacter.js';
 import logErrorRoutes         from './backend/routes/logError.js';
 import avatarRoutes           from './backend/routes/avatar.js';
+
 import geminiRoutes           from './backend/routes/gemini.js';
 
 /**
@@ -173,14 +174,12 @@ app.use('/api/contacter', contactRoutes);
  * @function
  */
 app.use('/api/messages', messagesRoutes);
-
 /**
  * Route API dédiée à la gestion des avatars
  * @name /api/avatar
  * @function
  */
 app.use('/api/avatar', avatarRoutes);
-
 /**
  * Route API dédiée à la journalisation des erreurs.
  * @name /api/log_error

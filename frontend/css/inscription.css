@@ -49,6 +49,7 @@ input:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
+
 #b_submit {
    background-color: var(--b_color_base);
    color: #000;

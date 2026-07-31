@@ -63,25 +63,28 @@
           <h1>Créer un compte</h1>
           <form id="formInscription">
                <div>
-                    <label for="prenom">Prénom :</label>
+                    <label for="prenom">Prénom* :</label>
                     <input type="text" id="prenom" name="prenom" required>
                </div>
 
                <div>
-                    <label for="nom">Nom :</label>
+                    <label for="nom">Nom* :</label>
                     <input type="text" id="nom" name="nom" required>
                </div>
 
                <div>
-                    <label for="email">e-mail :</label>
+                    <label for="email">e-mail* :</label>
                     <input type="email" id="email" name="email" autocomplete="email" required>
                </div>
 
                <div>
-                    <label for="password">Mot de passe :</label>
+                    <label for="password">Mot de passe* :</label>
                     <input type="password" id="password" name="password" autocomplete="new-password" required>
                </div>
-
+               <div>
+                    <input type="checkbox" id="politique" name="politique" required>
+                    <label for="politique">J'accepte la <a href="mentions_legales.html" target="_blank">politique de confidentialité</a>*</label>
+               </div>
                <button id="b_submit" type="submit">S'inscrire</button>
           </form>
           <p>Déjà un compte ? <a href="/html/seconnecter.html">Se connecter</a></p>

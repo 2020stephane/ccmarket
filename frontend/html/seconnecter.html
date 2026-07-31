@@ -71,17 +71,20 @@
             <h1>CONNEXION</h1>
             <form action="#" id="formConnection">
                <p>
-                  <label for="email">Email :</label>
+                  <label for="email">Email* :</label>
                   <input type="email" id="email" name="email" autocomplete="email"
                      placeholder="Email" required>
                </p>
 
                <p>
-                  <label for="password">Mot de passe :</label>
+                  <label for="password">Mot de passe* :</label>
                   <input type="password" id="password" name="password" autocomplete="current-password"
                      placeholder="Mot de passe" required>
                </p>
-
+               <p class="champ-checkbox">
+                    <input type="checkbox" id="rester" name="rester">
+                    <label for="rester">rester connecter</label>
+               </p>
                <button id="b_submit" type="submit">CONNEXION</button>
 
                <p>Pas encore de compte ? <a href="inscription.html">S'inscrire</a></p>
