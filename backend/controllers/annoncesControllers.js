@@ -216,7 +216,7 @@ await Promise.all(
          photos.map(async (photo) => {
             if (!photo.photo_url) return;
             const filePath = path.join(process.cwd(),'frontend', 'uploads', 'photos', photo.photo_url);
-console.log("filePath = ", filePath);
+
             try {
                await fs.unlink(filePath);
             } catch (err) {
