@@ -196,53 +196,8 @@ const content = document.createElement('div');
 content.classList.add('thread-message');
 content.id = 'content-mess';
 threadPanel.appendChild(content);
-
-//     conversation.forEach(msg => {
-//         const bulle = document.createElement('div');
-//         bulle.classList.add('thread-message');
-//         bulle.classList.add(msg.type_message === 'Envoyé' ? 'message-sent' : 'message-received');
-
-//         // L'auteur d'un message est toujours son expéditeur, quel que soit le lecteur connecté
-//         const prenom = msg.expediteur_prenom || "";
-//         const nom = msg.expediteur_nom || "";
-//         const initiales = (prenom.charAt(0) + nom.charAt(0)).toUpperCase();
-
-//         const nomAuteur = `${msg.expediteur_prenom} ${msg.expediteur_nom}`;
-//         let imagePath = msg.expediteur_avatar;
-//      if (imagePath) {
-//           imagePath = `/uploads/avatar/${msg.expediteur_avatar}`;
-
-//         bulle.innerHTML = `
-//             <div class="bull-content">
-//             <img src="${imagePath}" alt="Avatar de ${echapperHTML(nomAuteur)}" class="avatar-img">
-//             <p>${echapperHTML(msg.contenu)}</p>
-//             </div>
-//             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
-//         `;
-//      } else {
-//           bulle.innerHTML = `
-//             <div class="bull-content">
-//             <div class="message-initials">${initiales}</div>
-//             <p>${echapperHTML(msg.contenu)}</p>
-//             </div>
-//             <span class="thread-date">${new Date(msg.date_envoi).toLocaleString()}</span>
-//         `;
-//      }
-//         threadPanel.appendChild(bulle);
-//     });
-
-//     const boiteContact = document.getElementById('boiteContact');
-//     boiteContact.innerHTML = "";
-//     const footer = document.createElement('div');
-//     footer.classList.add('thread-footer');
-//     footer.innerHTML = `<label for="message">Votre message :</label>
-//                          <textarea id="message" name="message" rows="5"></textarea>
-//                          <button type="button" class="envoie">Envoyer un message</button>`;
-//     boiteContact.appendChild(footer);
-//     footer.querySelector('.envoie').addEventListener('click', () => envoyerMessage(conversation, annonceId));
 }
 function afficherMessagesDeConversation(conversation, autreUtilisateurId) {
-    // On filtre les messages échangés avec cet interlocuteur précis
     const messagesFiltres = conversation.filter(msg => {
         const estExpediteur = msg.expediteur_id === CURRENT_USER_ID;
         const autreId = estExpediteur ? msg.destinataire_id : msg.expediteur_id;
