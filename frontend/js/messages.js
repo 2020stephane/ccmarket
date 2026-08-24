@@ -62,8 +62,7 @@ async function chargerMessages() {
     const messages = await getMessages();
     offres = messages.filter(msg => msg.type_annonce === "Offre");
     demandes = messages.filter(msg => msg.type_annonce === "Demande");
-console.log('offres = ',offres);
-console.log('demandes',demandes);
+
 } catch (error) {
     logError(error, "messages.js: échec du chargement des messages");
     const container = document.getElementById("convList");
@@ -145,7 +144,7 @@ function afficherFilConversation(annonceId) {
     const conversation = [...offres, ...demandes]
         .filter(msg => msg.annonce_id === annonceId)
         .sort((a, b) => new Date(a.date_envoi) - new Date(b.date_envoi));
-console.log('conversation =',conversation);
+
     const threadPanel = document.getElementById('threadPanel');
     threadPanel.innerHTML = '';
 
