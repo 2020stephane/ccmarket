@@ -524,7 +524,7 @@ export async function publierAnnonce(req, res) {
  */
 export async function getCategories(req, res) {
      try {
-          const [rows] = await db.execute( 'SELECT * FROM categories' );
+          const [rows] = await db.execute( 'SELECT * FROM categories ORDER BY categorie_id' );
           res.json(rows);
      }catch (error) {
           logError(error, "FONCTION: getCategories, MODULE: annoncesControllers.js");
