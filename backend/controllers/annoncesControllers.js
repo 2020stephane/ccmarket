@@ -15,6 +15,7 @@
 
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs/promises';
 
 import { logError } from "../tools/logger.js";
 import db from '../bdd/db.js';
@@ -200,6 +201,9 @@ export async function supprimerAnnonce(req, res) {
       if (!estProprietaire && !estAdmin) {
          return res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer cette annonce.' });
       }
+     const [photos] = await db.execute(
+          'SELECT photo_url FROM photos WHERE annonce_id = ?', [req.params.id]
+      );
 
       const [result] = await db.execute(
          'DELETE FROM annonces WHERE annonce_id = ?', [req.params.id]
@@ -208,8 +212,22 @@ export async function supprimerAnnonce(req, res) {
       if (result.affectedRows === 0) {
          return res.status(404).json({ message: 'Annonce introuvable' });
       }
-
-      res.json({ message: 'Annonce supprimée' });
+await Promise.all(
+         photos.map(async (photo) => {
+            if (!photo.photo_url) return;
+            const filePath = path.join(process.cwd(),'frontend', 'uploads', 'photos', photo.photo_url);
+console.log("filePath = ", filePath);
+            try {
+               await fs.unlink(filePath);
+            } catch (err) {
+               // Si le fichier n'existe pas déjà sur le disque (ENOENT), on ignore l'erreur
+               if (err.code !== 'ENOENT') {
+                  console.error(`Impossible de supprimer le fichier : ${filePath}`, err);
+               }
+            }
+         })
+      );
+      res.json({ message: 'Annonce supprimée',photo_url: photos });
    } catch (error) {
      logError(error, "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js");
       res.status(500).json({ message: 'Erreur serveur' });
@@ -475,8 +493,6 @@ export async function publierAnnonce(req, res) {
       if (!titre || !prix || !descriptif || !categorie) {
             return res.status(400).json({ message: 'Champs obligatoires manquants' });
       }
-
-      // ✅ On utilise l'utilisateur authentifié, pas une valeur envoyée par le client
       const userid = req.user.id;
       let image_nom = null;
       if (req.files && req.files.photo) {
