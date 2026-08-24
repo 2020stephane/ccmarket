@@ -18,12 +18,12 @@ export function boiteDialogue(dialog, id) {
 
   // Action de confirmation
   btnConfirmer.addEventListener("click", async () => {
-console.log('id_confirmer = ',id);
+
     const response = await fetch(`/api/annonces/supprimerannonce/${id}`, {
       method: "DELETE",
       credentials: "include"
     });
     dialog.close();
-    window.location.reload();
+//     window.location.reload();
   });
 }

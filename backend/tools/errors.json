@@ -11328,5 +11328,47 @@
     "extra": {
       "url": "http://localhost:3000/html/details.html"
     }
+  },
+  {
+    "source": "backend",
+    "date": "24/08/2026",
+    "heure": "11:47:18",
+    "timestamp": "2026-08-24T09:47:18.863Z",
+    "contexte": "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js",
+    "message": "tmp is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: tmp is not defined",
+      "at supprimerAnnonce (file:///~/backend/controllers/annoncesControllers.js:232:58)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "24/08/2026",
+    "heure": "11:50:38",
+    "timestamp": "2026-08-24T09:50:38.314Z",
+    "contexte": "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js",
+    "message": "tmp is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: tmp is not defined",
+      "at supprimerAnnonce (file:///~/backend/controllers/annoncesControllers.js:232:58)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "source": "backend",
+    "date": "24/08/2026",
+    "heure": "11:55:13",
+    "timestamp": "2026-08-24T09:55:13.658Z",
+    "contexte": "FONCTION: supprimerAnnonce, MODULE: annoncesControllers.js",
+    "message": "tmp is not defined",
+    "type": "ReferenceError",
+    "stack": [
+      "ReferenceError: tmp is not defined",
+      "at supprimerAnnonce (file:///~/backend/controllers/annoncesControllers.js:229:58)",
+      "at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
   }
 ]
