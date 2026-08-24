@@ -206,7 +206,7 @@ function afficherMessagesDeConversation(conversation, autreUtilisateurId) {
 
     const messagesPanel = document.getElementById('content-mess');
     messagesPanel.innerHTML = '';
-console.log('messagesFiltres = ',messagesFiltres);
+
     messagesFiltres.forEach(msg => {
         const estExpediteur = msg.expediteur_id === CURRENT_USER_ID;
 
