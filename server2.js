@@ -231,13 +231,13 @@ app.use('/api', (req, res) => {
 async function startServer() {
     await testDatabaseConnection();
 
-    cron.schedule('10 11 * * *', async () => {
-        try {
-            await lancerModeration();
-        } catch (err) {
-            console.error('❌ Échec de la tâche de modération planifiée :', err);
-        }
-    });
+//     cron.schedule('10 11 * * *', async () => {
+//         try {
+//             await lancerModeration();
+//         } catch (err) {
+//             console.error('❌ Échec de la tâche de modération planifiée :', err);
+//         }
+//     });
 
     const server = app.listen(PORT, () => {
         console.log(`✅ Serveur démarré sur : http://localhost:${PORT} [${NODE_ENV}]`);
