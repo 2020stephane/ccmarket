@@ -6,3 +6,9 @@ Chaque annnonce possede un titre,un descriptif,un prix,une catégorie et une ou 
 Chaque annonce est classé dans une categorie.
 Une annonce ne peut appartenir qu'a une seule catégorie.
 Un acheteur peut contacter un vendeur via la messagerie.
+
+CAMPING-CAR MARKET
+
+CAMPING-CAR MARKET est un site web de vente d'accessoires d'occasion entre particulier pour camping car.
+Les utilisateurs peuvent créer un compte,publier une annonce et ajouter des photos.
+Il est créé avec HTML, CSS, JS pour le front end et Node.js, Express et MySQL2 pour le back end.
