@@ -44,7 +44,7 @@ try {
      initEventAnnonce();
      initEventRecherche();
      initEventCategories();
-//  askGemini(`quel est ton nom?`);
+  // askGemini(`quel est ton nom?`);
 } catch (error) {
      logError(error,"Script principal, MODULE:index.js");
 }
